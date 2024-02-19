@@ -1,0 +1,33 @@
+{#
+    Компонент выпадающего списка
+
+    * Доступные переменные:
+    * name - название селекта. Выводится над селектом, если не пустая
+#}
+<div class="select">
+    @@if (context.name) {
+        <span class="select__name">@@name</span>
+    }
+    <input class="select__input" type="hidden" value="">
+
+    <div class="select__current disable">
+        <span class="select__current-text" data-default-text="@@if (context.itemName) { @@itemName  - (не выбрано) } @@if(!context.itemName) { не выбрано }">
+            @@if (context.stText) { @@stText }
+
+            @@if (!context.stText) { 
+                @@if (context.itemName) { @@itemName  - (не выбрано) } @@if(!context.itemName) { не выбрано }
+            }
+
+        </span>
+    </div>
+
+    <div class="select__list">
+        <div class="select__item select__item--default select__item--active">@@if (context.itemName) { @@itemName  - (не выбрано) } @@if(!context.itemName) { не выбрано }</div>
+        <div data-id="1" data-text="@@itemName  1" class="select__item">@@itemName  1</div>
+        <div data-id="2" data-text="@@itemName  2" class="select__item">@@itemName  2</div>
+        <div data-id="3" data-text="@@itemName  3" class="select__item">@@itemName  3</div>
+        <div data-id="4" data-text="@@itemName  4" class="select__item">@@itemName  4</div>
+        <div data-id="5" data-text="@@itemName  5" class="select__item">@@itemName  5</div>
+        <div data-id="6" data-text="@@itemName  6" class="select__item">@@itemName  6</div>
+    </div>
+</div>
