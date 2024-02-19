@@ -1,0 +1,28 @@
+{
+    "name": "ww/crmcore",
+    "description": "Ядро CRM системы",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "WWCrm\\Models\\": "src/Models",
+            "WWCrm\\Controllers\\": "src/Controllers"
+        },
+        "files": ["src/db.php", "src/migrations.php", "src/container.php"]
+    },
+    "authors": [
+        {
+            "name": "alex",
+            "email": "dok.go@yandex.ru"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require-dev": {
+        "symfony/var-dumper": "^7.0"
+    },
+    "require": {
+        "illuminate/database": "^10.44",
+        "twig/twig": "^3.8",
+        "php-di/php-di": "^7.0",
+        "izniburak/router": "^2.5"
+    }
+}

@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# Перенаправление на файл "page2.php" для всех запросов, содержащих слово "page2"
+RewriteCond %{REQUEST_URI} ^/api
+RewriteRule ^.*$ api.php
+
+# Перенаправление всех запросов на index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /index.php
+</IfModule>

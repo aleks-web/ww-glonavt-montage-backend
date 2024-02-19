@@ -1,0 +1,796 @@
+
+<!-- Start fancybox modal | Новый тип оборудования | Модуль объекты -->
+<div id="fmodal-new-type-equipment" class="fmodal fmodal-new-type-equipment" style="display: none;">
+    <div class="d-flex flex-column justify-content-center" style="height: 200px;">
+        <div class="fmodal__title">Новый тип оборудования</div>
+
+        <div class="fmodal__content">
+            <div class="fmodal__vertical">
+                @@include('../components/select.html', {
+                    "name": "",
+                    "stText": "Выберите тип оборудования",
+                    "itemName": "Тип"
+                })
+            </div>
+        </div>
+
+        <div class="fmodal__control-btns">
+            <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
+            <button class="fmodal__btn btn-good disable">Сохранить</button>
+        </div>
+    </div>
+</div>
+<!-- End fancybox modal | Новый тип оборудования | Модуль объекты -->
+
+<!-- Start fancybox modal | Новое устройство | Модуль объекты -->
+<div id="fmodal-new-device" class="fmodal fmodal-new-device" style="display: none;">
+    <div class="fmodal__title">Новое устройство</div>
+
+    <div class="fmodal__content">
+        <div class="d-flex justify-content-between gap-5">
+            <div class="fmodal__vertical">
+
+                @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Модель устройства"})
+
+                @@include('../components/input-text.html', {"name": "", "value": "", "stText": "ID"})
+
+                @@include('../components/input-text.html', {"name": "", "value": "", "stText": "СКЗИ"})
+
+                @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Поставщик"})
+
+
+                @@include('../components/standart-input-date.html', {
+                    "name": "",
+                    "pls": "Проверка"
+                })
+
+                @@include('../components/standart-input-date.html', {
+                    "name": "",
+                    "pls": "Дата активации"
+                })
+
+                @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Свидетельства"})
+            </div>
+            <div class="fmodal__vertical">
+                @@include('../components/input-text.html', {"name": "", "value": "", "stText": "WK"})
+                @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Пробег"})
+                @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Шины"})
+                @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Окружность колеса"})
+            </div>
+        </div>
+    </div>
+
+    <div class="fmodal__control-btns">
+        <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
+        <button class="fmodal__btn btn-good disable">Сохранить</button>
+    </div>
+</div>
+<!-- End fancybox modal | Новое устройство | Модуль объекты -->
+
+<!-- Start модалка добавление объекта -->
+<div id="modal-object-add" class="modal modal--small modal-object-add">
+    <svg data-modal-close class="modal__close"><use xlink:href="#svg-close"></use></svg>
+
+    <div class="modal__container">
+        <div class="modal__title">
+            Новый объект
+        </div>
+
+        <div class="d-flex justify-content-between gap-5">
+            <div class="d-flex flex-column gap-4 w-50">
+                
+                @@include('../components/select.html', {"name": "", "stText": "Выберите клиента", "itemName": "Клиент"})
+
+                @@include('../components/select.html', {"name": "", "stText": "Выберите тип объекта", "itemName": "Объект"})
+
+                @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Марка/Модель"})
+
+                @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Год выпуска"})
+
+                @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Цвет"})
+
+                <div class="d-flex flex-column gap-3">
+                    @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Гос№"})
+    
+                    <div class="checkbox">
+                        <input type="hidden" value="0">
+                        <span class="checkbox__field"></span>
+                        <span class="checkbox__label">Нет гос№</span>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column gap-3">
+                    @@include('../components/input-text.html', {"name": "", "value": "", "stText": "VIN"})
+    
+                    <div class="checkbox">
+                        <input type="hidden" value="0">
+                        <span class="checkbox__field"></span>
+                        <span class="checkbox__label">Нет VIN</span>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column gap-3">
+                    @@include('../components/select.html', {"name": "", "stText": "Документ о регистрации", "itemName": "Документ"})
+    
+                    <div class="checkbox">
+                        <input type="hidden" value="0">
+                        <span class="checkbox__field"></span>
+                        <span class="checkbox__label">Нет документа о регистрации</span>
+                    </div>
+                </div>
+
+                @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Почта"})
+
+            </div>
+
+            <div class="d-flex justify-content-start align-items-end flex-column w-50">
+
+                @@include('../components/photo-add.html', {"btn_name": "Добавить фото"})
+
+                <div class="files-add">
+                    <input class="files-add__input" type="file" multiple accept=".xlsx, .xls, .doc, .docx, .ppt, .pptx, .pdf">
+
+                    <span class="files-add__info">Перетащите файлы сюда или нажмите на +</span>
+
+                    <div class="files-add__view"></div>
+
+                    <div class="files-add__bottom">
+                        <svg class="files-add__btn"><use xlink:href="#svg-add"></use></svg>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+        <div style="display: flex;justify-content: flex-end;">
+            <button class="btn disable" style="font-weight: 700; width: max-content;">
+                Сохранить
+            </button>
+        </div>
+
+    </div>
+</div>
+<!-- End модалка добавление объекта -->
+
+
+
+<!-- Start Модалка просмотра объекта -->
+<div id="modal-object" class="modal modal-object">
+    <svg data-modal-close class="modal__close"><use xlink:href="#svg-close"></use></svg>
+
+    <div class="modal__container">
+
+        <!-- Start Шапка модалки -->
+        <div class="modal__header">
+            <div class="modal__header-left">
+                
+                <div class="modal__info">
+                    <div class="modal__info-img">
+                        <svg>
+                            <use xlink:href="#svg-photo-default"></use> 
+                         </svg>
+                    </div>
+
+                    <div class="modal__info-title">
+                        <span class="modal__info-title-h1">LADA 4x4 212140</span>
+                        <span class="modal__info-title-h1">Х117УМ72</span>
+                        <span class="modal__info-title-h2">ООО Альянс</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal__header-right tabs-outside-objects-control">
+                <div class="modal__header-group-btns tab-outside tab-outside--active" data-outside-id="1">
+                    <button class="modal__header-btn btn">Редактировать</button>
+                </div>
+                <div class="modal__header-group-btns tab-outside" data-outside-id="2">
+                    <button data-fancybox data-src="#fmodal-new-type-equipment" class="modal__header-btn btn">Добавить оборудование</button>
+                </div>
+                <div class="modal__header-group-btns tab-outside" data-outside-id="4">
+                    <button class="modal__header-btn btn">Загрузить</button>
+                </div>
+                <div class="modal__header-group-btns tab-outside" data-outside-id="5">
+                    <button class="modal__header-btn btn">Печать</button>
+                </div>
+                <div class="modal__header-group-btns tab-outside" data-outside-id="6">
+                    <button class="modal__header-btn btn">Печать</button>
+                </div>
+                <div class="modal__header-group-btns tab-outside" data-outside-id="7">
+                    <button class="modal__header-btn btn">Печать</button>
+                </div>
+            </div>
+        </div>
+        <!-- End Шапка модалки -->
+
+        <!-- Start Основное содержимое модалки -->
+        <div class="modal__main">
+
+            <div class="tabs" data-outside="objects-control">
+
+                <!-- Start tabs__header -->
+                <div class="tabs__header">
+                    <div data-id="1" class="tabs__tab tabs__tab--active">
+                        Информация
+                    </div>
+                    <div data-id="2" class="tabs__tab">
+                        Оборудование
+                    </div>
+                    <div data-id="3" class="tabs__tab">
+                        Акты
+                    </div>
+                    <div data-id="4" class="tabs__tab">
+                        Документы
+                    </div>
+                    <div data-id="5" class="tabs__tab">
+                        Истории заявок
+                    </div>
+                    <div data-id="6" class="tabs__tab">
+                        История действий
+                    </div>
+                    <div data-id="7" class="tabs__tab">
+                        История гос№
+                    </div>
+                </div>
+                <!-- End tabs__header -->
+
+                <!-- Start tabs__content -->
+                <div class="tabs__content">
+                    
+                    <!-- Start tab content 1 -->
+                    <div data-id="1" class="tabs__item tabs__item--active">
+                        
+                        <div class="modal-object__data-view" style="display:flex;flex-direction:column;gap:inherit;">
+                            <div class="block-info">
+                                <div class="block-info__title">Об объекте</div>
+
+                                <div class="block-info__content">
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Статус</span>
+                                        <span class="block-info__text-main">Есть заявка</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Год выпуска</span>
+                                        <span class="block-info__text-main">2023</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Клиент</span>
+                                        <span class="block-info__text-main">ООО Альянс</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Цвет</span>
+                                        <span class="block-info__text-main">Синий</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Марка/Модель</span>
+                                        <span class="block-info__text-main">LADA 4x4 212140</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">VIN</span>
+                                        <span class="block-info__text-main">XTA212140R24263232</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Гос№</span>
+                                        <span class="block-info__text-main">Х117УМ72</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Документ о регистрации</span>
+                                        <span class="block-info__text-main">164301107151515632</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="block-info">
+                                <div class="block-info__title">Добавление</div>
+                            
+                                <div class="block-info__content">
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Добавил</span>
+                                        <span class="block-info__text-main">Иванов И. И.</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Дата добавления</span>
+                                        <span class="block-info__text-main">12.10.2023</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="modal-object__data-edit" style="display:flex;flex-direction:column;gap:inherit;">
+                            <div class="block-info">
+                                <div class="block-info__title">Об объекте</div>
+                            
+                                    <div class="block-info__content">
+
+                                        <div class="block-info__item">
+                                            @@include('../components/input-text.html', {"name": "", "value": "Есть заявка", "stText": "Статус"})
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            @@include('../components/input-text.html', {"name": "", "value": "2023", "stText": "Год выпуска"})
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            @@include('../components/select.html', {"name": "", "stText": "Выберите клиента", "itemName": "Клиент"})
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            @@include('../components/input-text.html', {"name": "", "value": "Синий", "stText": "Цвет"})
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            @@include('../components/input-text.html', {"name": "", "value": "LADA 4x4 212140", "stText": "Марка/Модель"})
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            @@include('../components/input-text.html', {"name": "", "value": "XTA212140R24263232", "stText": "VIN"})
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            @@include('../components/input-text.html', {"name": "", "value": "Х117УМ72", "stText": "Гос№"})
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            @@include('../components/input-text.html', {"name": "", "value": "164301107151515632", "stText": "Документ о регистрации"})
+                                        </div>
+
+                                    </div>
+                            </div>
+
+                            <div class="block-info">
+                                <div class="block-info__title">Добавление</div>
+                            
+                                <div class="block-info__content">
+
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Добавил</span>
+                                        <span class="block-info__text-main">Иванов И. И.</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Дата добавления</span>
+                                        <span class="block-info__text-main">12.10.2023</span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- End tab content 1 -->
+
+                    <!-- Start tab content 2 -->
+                    <div data-id="2" class="tabs__item">
+
+                        <div class="tabs__tableContainer">
+                            <div class="tabs__tableTitle">Мобильные терминалы</div>
+
+                            <div class="tabs__table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="text-start">Статус</th>
+                                            <th class="text-start">Модель</th>
+                                            <th class="text-start">ID</th>
+                                            <th class="text-start">SIM1/SIM2</th>
+                                            <th class="text-start">Дата установки</th>
+                                            <th class="text-start">Расположение</th>
+                                        </tr>
+                                    </thead>
+        
+                                    <tbody>
+                                        <tr class="pointer">
+                                            <td class="text-start">Активный</td>
+                                            <td class="text-start">MT 855ENT</td>
+                                            <td class="text-start">669671</td>
+                                            <td class="text-start"><span>89111806607</span><br><span>89111806608</span></td>
+                                            <td class="text-start">12.10.2023</td>
+                                            <td class="text-start">Под рулевой колонкой</td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start">Активный</td>
+                                            <td class="text-start">MT 855ENT</td>
+                                            <td class="text-start">669671</td>
+                                            <td class="text-start"><span>89111806607</span><br><span>89111806608</span></td>
+                                            <td class="text-start">12.10.2023</td>
+                                            <td class="text-start">Под рулевой колонкой</td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start">Активный</td>
+                                            <td class="text-start">MT 855ENT</td>
+                                            <td class="text-start">669671</td>
+                                            <td class="text-start"><span>89111806607</span><br><span>89111806608</span></td>
+                                            <td class="text-start">12.10.2023</td>
+                                            <td class="text-start">Под рулевой колонкой</td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start">Активный</td>
+                                            <td class="text-start">MT 855ENT</td>
+                                            <td class="text-start">669671</td>
+                                            <td class="text-start"><span>89111806607</span><br><span>89111806608</span></td>
+                                            <td class="text-start">12.10.2023</td>
+                                            <td class="text-start">Под рулевой колонкой</td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start">Активный</td>
+                                            <td class="text-start">MT 855ENT</td>
+                                            <td class="text-start">669671</td>
+                                            <td class="text-start"><span>89111806607</span><br><span>89111806608</span></td>
+                                            <td class="text-start">12.10.2023</td>
+                                            <td class="text-start">Под рулевой колонкой</td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start">Активный</td>
+                                            <td class="text-start">MT 855ENT</td>
+                                            <td class="text-start">669671</td>
+                                            <td class="text-start"><span>89111806607</span><br><span>89111806608</span></td>
+                                            <td class="text-start">12.10.2023</td>
+                                            <td class="text-start">Под рулевой колонкой</td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start">Активный</td>
+                                            <td class="text-start">MT 855ENT</td>
+                                            <td class="text-start">669671</td>
+                                            <td class="text-start"><span>89111806607</span><br><span>89111806608</span></td>
+                                            <td class="text-start">12.10.2023</td>
+                                            <td class="text-start">Под рулевой колонкой</td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start">Активный</td>
+                                            <td class="text-start">MT 855ENT</td>
+                                            <td class="text-start">669671</td>
+                                            <td class="text-start"><span>89111806607</span><br><span>89111806608</span></td>
+                                            <td class="text-start">12.10.2023</td>
+                                            <td class="text-start">Под рулевой колонкой</td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start">Активный</td>
+                                            <td class="text-start">MT 855ENT</td>
+                                            <td class="text-start">669671</td>
+                                            <td class="text-start"><span>89111806607</span><br><span>89111806608</span></td>
+                                            <td class="text-start">12.10.2023</td>
+                                            <td class="text-start">Под рулевой колонкой</td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start">Активный</td>
+                                            <td class="text-start">MT 855ENT</td>
+                                            <td class="text-start">669671</td>
+                                            <td class="text-start"><span>89111806607</span><br><span>89111806608</span></td>
+                                            <td class="text-start">12.10.2023</td>
+                                            <td class="text-start">Под рулевой колонкой</td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start">Активный</td>
+                                            <td class="text-start">MT 855ENT</td>
+                                            <td class="text-start">669671</td>
+                                            <td class="text-start"><span>89111806607</span><br><span>89111806608</span></td>
+                                            <td class="text-start">12.10.2023</td>
+                                            <td class="text-start">Под рулевой колонкой</td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                    <tfoot>
+                                        <tr>
+                                            <th class="th-btn-add" colspan="7"><svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-add"></use></svg></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tabs__tableContainer">
+                            <div class="tabs__tableTitle">Дут</div>
+
+                            <div class="tabs__table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="text-start">Статус</th>
+                                            <th class="text-start">Модель</th>
+                                            <th class="text-start">ID</th>
+                                            <th class="text-start">Бак, л/примечание</th>
+                                            <th class="text-start">Дата установки</th>
+                                        </tr>
+                                    </thead>
+        
+                                    <tbody>
+                                        <tr class="pointer">
+                                            <td class="text-start">Активный</td>
+                                            <td class="text-start">MT 855ENT</td>
+                                            <td class="text-start">669671</td>
+                                            <td class="text-start">100</td>
+                                            <td class="text-start">12.10.2023</td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start">Активный</td>
+                                            <td class="text-start">MT 855ENT</td>
+                                            <td class="text-start">669671</td>
+                                            <td class="text-start">100</td>
+                                            <td class="text-start">12.10.2023</td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start">Активный</td>
+                                            <td class="text-start">MT 855ENT</td>
+                                            <td class="text-start">669671</td>
+                                            <td class="text-start">100</td>
+                                            <td class="text-start">12.10.2023</td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start">Активный</td>
+                                            <td class="text-start">MT 855ENT</td>
+                                            <td class="text-start">669671</td>
+                                            <td class="text-start">100</td>
+                                            <td class="text-start">12.10.2023</td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start">Активный</td>
+                                            <td class="text-start">MT 855ENT</td>
+                                            <td class="text-start">669671</td>
+                                            <td class="text-start">100</td>
+                                            <td class="text-start">12.10.2023</td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start">Активный</td>
+                                            <td class="text-start">MT 855ENT</td>
+                                            <td class="text-start">669671</td>
+                                            <td class="text-start">100</td>
+                                            <td class="text-start">12.10.2023</td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start">Активный</td>
+                                            <td class="text-start">MT 855ENT</td>
+                                            <td class="text-start">669671</td>
+                                            <td class="text-start">100</td>
+                                            <td class="text-start">12.10.2023</td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start">Активный</td>
+                                            <td class="text-start">MT 855ENT</td>
+                                            <td class="text-start">669671</td>
+                                            <td class="text-start">100</td>
+                                            <td class="text-start">12.10.2023</td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start">Активный</td>
+                                            <td class="text-start">MT 855ENT</td>
+                                            <td class="text-start">669671</td>
+                                            <td class="text-start">100</td>
+                                            <td class="text-start">12.10.2023</td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th class="th-btn-add" colspan="7"><svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-add"></use></svg></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- End tab content 2 -->
+
+                    <!-- Start tab content 3 -->
+                    <div data-id="3" class="tabs__item">
+
+                        <div class="tabs__tableContainer">
+                            <div class="tabs__table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="text-start">№ заявки</th>
+                                            <th class="text-start">Тип заявки</th>
+                                            <th class="text-start">Тип устройства</th>
+                                            <th class="text-start">Исполнители</th>
+                                            <th>Фотографии</th>
+                                            <th>Заказ-наряд</th>
+                                            <th>Просмотр акта</th>
+                                        </tr>
+                                    </thead>
+        
+                                    <tbody>
+                                        <tr data-fancybox data-src="#fmodal-ts-object-view" class="pointer">
+                                            <td class="text-start">12654</td>
+                                            <td class="text-start">Монтаж</td>
+                                            <td class="text-start">Тахограф</td>
+                                            <td class="text-start"><span>Иванов И. И.</span><br><span>Сидоров С. С.</span><br><span>Сергеев М. М.</span></td>
+                                            <td class="td-photos">
+                                                <div data-fancybox data-src="/assets/img/default/photo-1.jpg" style="background-image: url('/assets/img/default/photo-1.jpg');"></div>
+                                                <div data-fancybox data-src="/assets/img/default/photo-1.jpg" style="background-image: url('/assets/img/default/photo-1.jpg');"></div>
+                                                <div data-fancybox data-src="/assets/img/default/photo-1.jpg" style="background-image: url('/assets/img/default/photo-1.jpg');"></div>
+                                                <div data-fancybox data-src="/assets/img/default/photo-1.jpg" style="background-image: url('/assets/img/default/photo-1.jpg');"></div>
+                                                <div data-fancybox data-src="/assets/img/default/photo-1.jpg" style="background-image: url('/assets/img/default/photo-1.jpg');"></div>
+                                            </td>
+                                            <td class="text-center"><div class="d-flex justify-content-center"><button class="btn">Открыть</button></div></td>
+                                            <td class="text-center"><div class="d-flex justify-content-center"><button class="btn">Открыть</button></div></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- End tab content 3 -->
+
+                    <!-- Start tab content 4 -->
+                    <div data-id="4" class="tabs__item">
+                        <div class="tabs__tableContainer">
+                            <div class="tabs__table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="text-start">Имя</th>
+                                            <th class="text-start">Прикрепил</th>
+                                        </tr>
+                                    </thead>
+        
+                                    <tbody>
+                                        <tr data-fancybox data-src="#fmodal-ts-object-view" class="pointer">
+                                            <td class="text-start"><a href="#">Анкета.xlsx (123123123 байт)</a></td>
+                                            <td class="text-start">Лебедев Ю. И.</td>
+                                            <td class="td-btn-default text-end">
+                                                <svg><use xlink:href="#svg-del"></use></svg>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End tab content 4 -->
+
+                    <!-- Start tab content 5 -->
+                    <div data-id="5" class="tabs__item">
+
+                        <div class="tabs__tableContainer">
+                            <div class="tabs__table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="text-start">Заявка</th>
+                                            <th class="text-start">Создана</th>
+                                            <th class="text-start">Статус</th>
+                                            <th class="text-start">Инициатор</th>
+                                            <th class="text-start">Комментарий</th>
+                                        </tr>
+                                    </thead>
+        
+                                    <tbody>
+                                        <tr data-fancybox data-src="#fmodal-ts-object-view" class="pointer">
+                                            <td class="text-start">24730</td>
+                                            <td class="text-start">10.10.2023</td>
+                                            <td class="text-start">Выполнена</td>
+                                            <td class="text-start">Лебедев Ю. И.</td>
+                                            <td class="text-start" width="30%" style="padding-right: 1.5rem;">Коментарий абсолютно любой длинный и даже в две строчки</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- End tab content 5 -->
+
+                    <!-- Start tab content 6 -->
+                    <div data-id="6" class="tabs__item">
+                        <div class="tabs__tableContainer">
+                            <div class="tabs__table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="text-start">Событие</th>
+                                            <th class="text-start">Информация</th>
+                                            <th class="text-start">Инициатор</th>
+                                        </tr>
+                                    </thead>
+        
+                                    <tbody>
+                                        <tr data-fancybox data-src="#fmodal-ts-object-view" class="pointer">
+                                            <td class="text-start">Смена статуса</td>
+                                            <td class="text-start">Смена статуса</td>
+                                            <td class="text-start">Лебедев Ю. И.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End tab content 6 -->
+
+                    <!-- Start tab content 7 -->
+                    <div data-id="7" class="tabs__item">
+                        <div class="tabs__tableContainer">
+                            <div class="tabs__table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="text-start" width="15%">Дата смены</th>
+                                            <th class="text-start">Гос№</th>
+                                        </tr>
+                                    </thead>
+        
+                                    <tbody>
+                                        <tr data-fancybox data-src="#fmodal-ts-object-view" class="pointer">
+                                            <td class="text-start">20.10.2023</td>
+                                            <td class="text-start">Х117УМ72</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End tab content 7 -->
+
+                </div>
+                <!-- End tabs__content -->
+            </div>
+
+        </div>
+        <!-- End Основное содержимое модалки -->
+
+
+
+    </div>
+</div>
+<!-- End Модалка просмотра объекта -->
