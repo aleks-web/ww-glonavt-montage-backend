@@ -2,7 +2,7 @@
 RewriteEngine On
 
 # Перенаправление на файл "page2.php" для всех запросов, содержащих слово "page2"
-RewriteCond %{REQUEST_URI} ^/api
+RewriteCond %{REQUEST_URI} ^/api_v1/
 RewriteRule ^.*$ api.php
 
 # Перенаправление всех запросов на index.php

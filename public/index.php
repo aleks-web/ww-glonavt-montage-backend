@@ -16,7 +16,19 @@ $router = $WWAppContainer->get('Router');
 
 // Start Routes
 $router->get('/', 'Get');
+
+$router->get('/404', 'Get');
+
+$router->notFound(function(Request $request, Response $response) {
+    // $response->setStatusCode(Response::HTTP_NOT_FOUND);
+    // $response->setContent('Oops! Page not found!');
+    // return $response;
+
+    header('Location: ' . $request->server->get('REQUEST_SCHEME') . '://' . $request->server->get('HTTP_HOST') . '/404');
+});
 // End Routes
+
+
 
 $router->run();
 
