@@ -1,0 +1,59 @@
+.block-info {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    @include media-breakpoint-down(xl) {
+        gap: 20px;
+    }
+
+    &__title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--clr-6);
+    }
+
+    &__content {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        column-gap: 3rem;
+        row-gap: 2.2rem;
+
+        @include media-breakpoint-down(xl) {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    &__item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+
+    &__text {
+        &-secondary {
+            color: var(--clr-12);
+            width: max-content;
+        }
+        &-main {
+            color: var(--clr-6);
+            width: max-content;
+        }
+    }
+}
+
+
+/*
+
+<div class="block-info">
+    <div class="block-info__title">Заголовок</div>
+
+        <div class="block-info__content">
+            <div class="block-info__item">
+                <span class="block-info__text-secondary">Статус</span>
+                <span class="block-info__text-main">Активный</span>
+            </div>
+        </div>
+</div>
+
+*/

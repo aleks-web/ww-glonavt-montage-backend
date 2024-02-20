@@ -1,0 +1,4 @@
+.region-content {
+    padding: var(--regionContent-padding);
+    height: calc(100dvh - var(--header-height));
+}

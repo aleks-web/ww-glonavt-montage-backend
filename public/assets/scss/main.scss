@@ -1,0 +1,29 @@
+/*
+    Include bootstrap
+*/
+@import "bootstrap/export";
+
+/*
+    Include settings
+*/
+@import "settings/*.scss";
+
+/*
+    Include components
+*/
+@import "../components/*.scss";
+
+/*
+    Include regions
+*/
+@import "regions";
+
+/*
+    Include blocks
+*/
+@import "blocks/*.scss";
+
+/*
+    Include pages
+*/
+@import "pages/*.scss";

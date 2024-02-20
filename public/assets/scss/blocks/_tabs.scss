@@ -1,0 +1,234 @@
+.tabs {
+
+    --tab-gap-main: 45px; 
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--tab-gap-main);
+    height: 100%;
+
+    @include media-breakpoint-down(xl) {
+        --tab-gap-main: 25px;
+    }
+
+    &__header {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        min-height: 50px;
+        height: 50px;
+        max-height: 50px;
+
+        &::after {
+            position: absolute;
+            content: "";
+            width: 100%;
+            height: 5px;
+            display: block;
+            background-color: var(--clr-12);
+            bottom: 0;
+            border-radius: 5px;
+            z-index: -1;
+            transition: var(--speed);
+        }
+
+        &--one {
+            &::after {
+                content: unset;
+            }
+        }
+    }
+
+    &__control {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        &-search {
+            min-width: 400px;
+
+            @include media-breakpoint-down(xl) {
+                min-width: 300px;
+            }
+        }
+    }
+
+    &__content {
+        position: relative;
+        height: 100%;
+    }
+
+    &__tab {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--clr-12);
+        padding: 15px 0px;
+        cursor: pointer;
+
+        @include media-breakpoint-down(xxxl) {
+            font-size: 1.2rem;
+        }
+
+        @include media-breakpoint-down(xxl) {
+            font-size: 1.1rem;
+        }
+
+        @include media-breakpoint-down(xl) {
+            font-size: 1.3rem;
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: transparent;
+            border-radius: 5px;
+            width: 0;
+            transition: var(--speed);
+        }
+
+        &:first-child {
+            padding-left: 0;
+        }
+
+        &:last-child {
+            padding-right: 0;
+        }
+
+        &--active {
+            cursor: context-menu;
+            
+            &::after {
+                background: var(--clr-6);
+                width: 100%;
+            }
+        }
+    }
+
+    &__item {
+        display: none;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        flex-direction: column;
+        gap: 45px;
+        transition: var(--speed) all;
+
+        @include media-breakpoint-down(xl) {
+            gap: 30px;
+        }
+
+        &--active {
+            display: flex;
+        }
+
+        // Добавляем последнему элементу паддинг (если есть скрол, то элемент прижимается к краю экрана) | Проблема (не учитывается нижний паддинг модалки при скролле). Решение:
+        > *:last-child {
+            padding-bottom: var(--bigModal-padding-y);
+        }
+    }
+
+    &__table {
+        border: 1px solid var(--clr-10, transparent);
+        border-radius: 10px;
+        height: 100%;
+        overflow: hidden;
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+            background-color: transparent;
+            width: 3px;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--clr-11);
+            border-radius: 5px;
+        }
+
+        &Title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--clr-12);
+            height: 2rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        &Container {
+            overflow: hidden;
+        }
+
+        table {
+            --tableHeader-height: 54px;
+            --tableFooter-height: 54px;
+            --item-height: 60px;
+            --font-size: 1rem;
+        }
+    }
+}
+
+.tab-outside {
+    display: none !important;
+
+    &--active {
+        display: flex !important;
+    }
+}
+
+
+
+
+/*
+    data-outside="control|control2" - для внешнего изменения интерфейса в зависимости от вкладки. Скрывает открывает дополнительные элементы.
+
+    Пример:
+
+    <div class="tabs-outside-control">
+        <div class="tab-outside tab-outside--active" data-outside-id="1">
+            <button>Редактировать</button>
+            <button>В архив</button>
+        </div>
+        <div class="tab-outside" data-outside-id="2">
+            <button>Добавить</button>
+        </div>
+    </div>
+
+    <div class="tabs-outside-control2">
+        <div class="tab-outside tab-outside--active" data-outside-id="1">
+            <button>Редактировать</button>
+            <button>В архив</button>
+        </div>
+        <div class="tab-outside" data-outside-id="2">
+            <button>Добавить</button>
+        </div>
+    </div>
+
+
+    <div class="tabs" data-outside="control">
+        <div class="tabs__header">
+            <div data-id="1" class="tabs__tab tabs__tab--active">
+                Информация 1
+            </div>
+            <div data-id="2" class="tabs__tab">
+                Информация 2
+            </div>
+        </div>
+
+        <div class="tabs__content">
+            <div data-id="1" class="tabs__item tabs__item--active">
+                Информация 1
+            </div>
+            <div data-id="2" class="tabs__item">
+                Информация 2
+            </div>
+        </div>
+
+    </div>
+*/

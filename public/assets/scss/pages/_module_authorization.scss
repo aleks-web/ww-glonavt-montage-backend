@@ -1,0 +1,95 @@
+.module-authorization {
+    height: 100dvh;
+
+    // Start основной layout страницы
+    .region-authorization {
+        height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    // End основной layout страницы
+
+    // Start основная форма авторизации
+    .authorization-form {
+        &__container {
+            width: 510px;
+            margin: 0 auto;
+        }
+
+        &__form {
+            padding: 48px 50px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 3px 18px 0px rgba(0, 0, 0, 0.10);
+        }
+
+        &__logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        &__title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+            color: var(--clr-6);
+            margin-bottom: 30px;
+        }
+
+        &__desc {
+            text-align: center;
+            color: var(--clr-6);
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        &__inputs {
+            gap: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        &__footer {
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        &__btn {
+            text-transform: uppercase;
+        }
+
+        &__forget-pass {
+            color: var(--clr-6);
+            border-bottom: 1px solid var(--clr-6);
+        }
+
+        &__message {
+            margin-top: 20px;
+            text-align: center;
+
+            &.error {
+                color: var(--clr-9);
+            }
+        }
+    }
+    // End основная форма авторизации
+    
+    // Start footer авторизации (логотип)
+    .authorization-footer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        bottom: 5vh;
+        width: 100%;
+    }
+    // End footer авторизации (логотип)
+}

@@ -1,0 +1,38 @@
+* {
+    outline: unset;
+}
+
+ul,
+ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    text-decoration: unset;
+}
+
+input {
+    outline: none;
+    border: none;
+}
+
+button {
+    background: unset;
+    border: none;
+    outline: none;
+}
+
+/* Fancybox normalize */
+.fancybox-bg {
+    background-color: var(--clr-6) !important;
+}
+
+.fancybox-button svg path {
+    fill: var(--clr-11) !important;
+}
+
+.air-datepicker-global-container {
+    z-index: 99999 !important;
+}

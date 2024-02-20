@@ -4,10 +4,10 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "WWCrm\\Models\\": "src/Models",
-            "WWCrm\\Controllers\\": "src/Controllers"
+            "WWCrm\\Models\\": "app/Models",
+            "WWCrm\\Controllers\\": "app/Controllers"
         },
-        "files": ["src/db.php", "src/migrations.php", "src/container.php"]
+        "files": ["app/db.php", "app/migrations.php", "app/container.php"]
     },
     "authors": [
         {

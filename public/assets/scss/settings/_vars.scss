@@ -1,0 +1,109 @@
+/*
+    $grid-breakpoints: (
+        xs: 0,
+        sm: 576px,
+        md: 768px,
+        lg: 992px,
+        xl: 1280px,
+        xxl: 1366px,
+        xxxl: 1920px
+    );
+
+    @include media-breakpoint-down(sm) {
+        scss coding
+    }
+*/
+
+:root {
+    // Скорость быстрой анимации
+    --speed: 0.3s;
+
+    // html font-size
+    --html-font-size: 16px;
+
+    // Геттеры для bootstrap
+    --gutter: 30px;
+    --gutter-negative: -30px;
+
+    // Фон body
+    --body-bg: #F5F6F8;
+
+    // H1               // H2               // H3
+    --h1-sz: 50px;      --h2-sz: 36px;      --h3-sz: 26px;
+    --h1-lh: 65px;      --h2-lh: 50px;      --h3-lh: 39px;
+    // END H2           // END H2           // END H3
+
+    // Кнопки
+    --btn-bg: var(--root-clr);
+    --btn-bg-hov: var(--root-clr-2);
+
+    --btn-clr: #fff;
+    --btn-clr-hov: #fff;
+
+    --btn-radius: 3px;
+    // END Кнопки
+
+    // Ссылки
+    --link-clr: var(--black);
+    --link-clr-hov: var(--root-clr);
+    // END Ссылки
+    
+    // Главные цвета сайта
+    --clr-1: #2777B5;
+    --clr-2: #FFACA9;
+    --clr-3: #9CE98F;
+    --clr-4: #ECF4FF;
+    --clr-5: #A6A6A6;
+    --clr-6: #334D6E;
+    --clr-7: #245A9F;
+    --clr-8: #6EACDD;
+    --clr-9: #DA5955;
+    --clr-10: #C7C7C7;
+    --clr-11: #B0C4DF;
+    --clr-12: #9DA6B1;
+    --clr-13: #00C2FF;
+    --clr-14: #D96B68;
+    --clr-15: #68BC5A;
+    --clr-16: #FFF6E3;
+    // END Главные цвета сайта
+
+    // input border color
+    --border-clr-input: #C7C7C7;
+    // END input border color
+
+    // menu width
+    --menu-width: 290px;
+    // END menu width
+
+    // height header
+    --header-height: 90px;
+    --header-min-height: 55px;
+    --header-max-height: 90px;
+    // END height header
+
+    // Start region-content
+    --regionContent-padding: 50px;
+    // End region-content
+
+    // height control
+    --control-height: 60px;
+    --control-elements-height: 40px;
+    // END height control
+
+    // Start big modal padding
+    --bigModal-padding-y: 48px;
+    --bigModal-padding-x: 50px;
+    // End big modal padding
+
+
+    @include media-breakpoint-down(xl) {
+        --html-font-size: 14px;
+        --menu-width: 250px;
+        --header-height: 60px;
+
+        --bigModal-padding-y: 30px;
+        --bigModal-padding-x: 30px;
+
+        --regionContent-padding: 30px;
+    }
+}

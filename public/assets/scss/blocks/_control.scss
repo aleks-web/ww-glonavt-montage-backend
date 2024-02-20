@@ -1,0 +1,73 @@
+.control {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: var(--control-height);
+
+    &__container {
+        height: var(--control-elements-height);
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        gap: 1rem;
+    }
+
+    &__left {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 1rem;
+        width: 100%;
+
+        > * {
+            height: var(--control-elements-height);
+        }
+    }
+
+    &__right {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 1rem;
+    }
+
+    &__search {
+        width: 100%;
+
+        &--full {
+            max-width: 350px;
+
+            @include media-breakpoint-down(xl) {
+                max-width: 300px;
+            }
+        }
+    }
+
+    &__btn {
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+    &__search {
+        input {
+            background: transparent;
+        }
+    }
+
+    &__date {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+
+        .standart-input-date__name {
+            margin: 0;
+            font-size: 1rem;
+        }
+    }
+}
+
+// Высота для следующего блока, если есть есть .control в html
+.control ~ .content-table {
+    height: calc(100dvh - var(--regionContent-padding) * 2 - var(--control-height) - var(--header-height));
+}

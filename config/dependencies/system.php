@@ -23,7 +23,7 @@ return [
     'Router' => function (\Psr\Container\ContainerInterface $container) {
         return new \Buki\Router\Router([
             'paths' => [
-                'controllers' => realpath(dirname(dirname(__DIR__)) . '/src/Controllers'),
+                'controllers' => realpath(dirname(dirname(__DIR__)) . '/app/Controllers'),
             ],
             'namespaces' => [
                 'controllers' => 'WWCrm\Controllers',

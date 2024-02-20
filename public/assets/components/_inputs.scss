@@ -1,0 +1,529 @@
+// Start инпут блок пароль
+.input-block-password {
+    position: relative;
+    overflow: hidden;
+    border-radius: 5px;
+
+    input {
+        width: 100%;
+    }
+
+    &__icon {
+        position: absolute;
+        display: block;
+        background-image: url("/assets/img/icons/eye.svg");
+        background-repeat: no-repeat no-repeat;
+        width: 40px;
+        height: 100%;
+        top: 0;
+        right: 0;
+        background-position: center;
+        cursor: pointer;
+        transition: var(--speed);
+        opacity: 0.6;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}
+
+/*
+    <div class="input-block-password">
+        <input type="password" required placeholder="Введите пароль">
+        <span class="input-block-password__icon"></span>
+    </div>
+*/
+// End инпут блок пароль
+
+// Start инпут поиска
+.input-search {
+    position: relative;
+
+    input {
+        padding-left: 50px;
+
+        @include media-breakpoint-down(xl) {
+            padding-left: 40px;
+        }
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        display: block;
+        width: 25px;
+        height: 25px;
+        background: url('data:image/svg+xml,<svg id="svg-search" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z M20.9999 20.9999L16.6499 16.6499" stroke="%23B0C4DF" stroke-width="1.8"/></svg>');
+        top: 8px;
+        left: 20px;
+        background-repeat: no-repeat no-repeat;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-position: center;
+
+        @include media-breakpoint-down(xl) {
+            top: 10px;
+            left: 13px;
+            width: 20px;
+            height: 20px;
+        }
+    }
+}
+// End инпут поиска
+
+.input-text {
+    border: 1px solid var(--border-clr-input, #c7c7c7);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px 20px;
+
+    &__name {
+        font-size: 0.8rem;
+        width: max-content;
+        margin-bottom: 4px;
+        color: var(--clr-12);
+    }
+
+    input {
+        border: none !important;
+        padding: 0;
+    }
+
+    &__mes {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 6px;
+
+        &-text {
+        }
+
+        &-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            svg {
+                width: 15px;
+                height: 15px;
+            }
+        }
+    }
+
+    &.error {
+        background-color: #fff5f5;
+
+        input {
+            background-color: #fff5f5;
+        }
+    }
+
+    &.required {
+        border-color: var(--clr-13);
+    }
+}
+
+/*
+    <div class="input-text error">
+        <input type="text" placeholder="Введите ИНН">
+
+        <div class="input-text__mes text-danger">
+            <div class="input-text__mes-icon"><svg><use xlink:href="#svg-bt-exclamation"></use></svg></div>
+            <div class="input-text__mes-text">asdasdasdasd</div>
+        </div>
+    </div>
+
+*/
+
+// Start select input
+.select {
+    --item-height: 3.1rem;
+
+    position: relative;
+    border: 1px solid var(--border-clr-input, #c7c7c7);
+    border-radius: 5px;
+    padding: 10px 50px 10px 20px;
+    height: 38px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    cursor: pointer;
+
+    &:has(> .select__name) {
+        height: auto;
+    }
+
+    &:has(> .select-check__name) {
+        height: auto;
+    }
+
+    &--top {
+        .select__list {
+            top: unset;
+            bottom: 100%;
+        }
+    }
+
+    &__name {
+        color: var(--clr-12);
+        font-size: 0.8rem;
+        margin-bottom: 4px;
+        display: block;
+        width: max-content;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: url('data:image/svg+xml,<svg fill="%23B0C4DF" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/></svg>');
+        background-size: 100%;
+        background-repeat: no-repeat no-repeat;
+        background-position: center;
+        top: 0;
+        right: 12px;
+        height: 100%;
+        transition: var(--speed) all;
+    }
+
+    * {
+        transition: var(--speed) all;
+    }
+
+    &__current {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: var(--clr-6);
+        font-size: 1rem;
+        width: 100%;
+
+        &.disable {
+            color: var(--clr-12, #9da6b1);
+        }
+    }
+
+    &--active {
+        .select__list,
+        .select-check__list {
+            display: flex;
+        }
+
+        &::after {
+            transform: rotate(-180deg);
+        }
+    }
+
+    &__list {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        box-shadow: 4px 4px 8px 0px rgba(0, 0, 0, 0.2);
+        height: calc(3 * var(--item-height));
+        overflow-y: auto;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        z-index: 10;
+        background: #fff;
+        min-width: 100%;
+
+        &::-webkit-scrollbar {
+            background-color: transparent;
+            width: 3px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--clr-11);
+            border-radius: 5px;
+        }
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 0 21px;
+        min-height: var(--item-height);
+        font-size: 1rem;
+        color: var(--clr-6);
+        min-width: max-content;
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--clr-4);
+        }
+
+        &-field {
+            position: relative;
+            display: block;
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--clr-6);
+            border-radius: 4px;
+
+            &::before {
+                position: absolute;
+                content: "";
+                background-image: url("/assets/img/icons/checkbox.svg");
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-size: contain;
+                background-repeat: no-repeat no-repeat;
+                display: block;
+                transition: var(--speed);
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        &-label {
+        }
+
+        &--active {
+            background-color: var(--clr-4);
+
+            .select__item-field::before {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+    }
+}
+// End select input
+
+// Start input file
+.input-file {
+    --btn-size: 40px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+
+    &__current {
+        padding: 10px 20px;
+        display: block;
+        border: 1px solid var(--clr-10, #c7c7c7);
+        border-radius: 5px;
+
+        &.disable {
+            color: var(--clr-12, #9da6b1);
+        }
+    }
+
+    input {
+        border: unset;
+        padding: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        height: 100%;
+        width: 100%;
+        cursor: pointer;
+    }
+
+    &__btn {
+        position: relative;
+        color: var(--clr-1);
+        width: 50%;
+        min-width: max-content;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: var(--btn-size);
+        padding: 0;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    &__remove-file {
+        width: 20px;
+        height: 20px;
+        background: var(--clr-14);
+        background-repeat: no-repeat no-repeat;
+        background-image: url("data:image/svg+xml,%3Csvg id='svg-del' viewBox='0 0 21 22' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.5 5H3.5H19.5 M6.5 5V3C6.5 2.46957 6.71071 1.96086 7.08579 1.58579C7.46086 1.21071 7.96957 1 8.5 1H12.5C13.0304 1 13.5391 1.21071 13.9142 1.58579C14.2893 1.96086 14.5 2.46957 14.5 3V5M17.5 5V19C17.5 19.5304 17.2893 20.0391 16.9142 20.4142C16.5391 20.7893 16.0304 21 15.5 21H5.5C4.96957 21 4.46086 20.7893 4.08579 20.4142C3.71071 20.0391 3.5 19.5304 3.5 19V5H17.5Z M8.5 10V16 M12.5 10V16' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-size: 50%;
+        background-position: center;
+        border-radius: 5px;
+        height: var(--btn-size);
+        width: var(--btn-size);
+        transition: var(--speed) all;
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--clr-2);
+        }
+
+        &--hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+    }
+
+    &__link {
+        color: var(--clr-7);
+        border-bottom: 1px dashed var(--clr-7);
+    }
+
+    &__group-btns {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+}
+// End input file
+
+// Start date input
+.standart-input-date {
+    position: relative;
+    border: 1px solid var(--border-clr-input, #c7c7c7);
+    border-radius: 5px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+
+    &::after {
+        content: "";
+        position: absolute;
+        right: 10px;
+        display: block;
+        min-width: 20px;
+        min-height: 20px;
+        width: 20px;
+        height: 20px;
+        background: url('data:image/svg+xml,<svg id="svg-calendar" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M3 5.07704C3 4.22737 3.68879 3.53857 4.53846 3.53857H19.9231C20.7727 3.53857 21.4615 4.22737 21.4615 5.07704V20.4617C21.4615 21.3113 20.7727 22.0001 19.9231 22.0001H4.53846C3.68879 22.0001 3 21.3113 3 20.4617V5.07704ZM19.9231 5.07704H4.53846V20.4617H19.9231V5.07704Z" fill="%23B0C4DF"/><path d="M16.8464 2C17.2712 2 17.6156 2.3444 17.6156 2.76923V5.84615C17.6156 6.27099 17.2712 6.61538 16.8464 6.61538C16.4215 6.61538 16.0771 6.27099 16.0771 5.84615V2.76923C16.0771 2.3444 16.4215 2 16.8464 2Z" fill="%23B0C4DF"/><path d="M7.61542 2C8.04026 2 8.38465 2.3444 8.38465 2.76923V5.84615C8.38465 6.27099 8.04026 6.61538 7.61542 6.61538C7.19059 6.61538 6.84619 6.27099 6.84619 5.84615V2.76923C6.84619 2.3444 7.19059 2 7.61542 2Z" fill="%23B0C4DF"/><path d="M3 8.92304C3 8.4982 3.3444 8.15381 3.76923 8.15381H20.6923C21.1171 8.15381 21.4615 8.4982 21.4615 8.92304C21.4615 9.34787 21.1171 9.69227 20.6923 9.69227H3.76923C3.3444 9.69227 3 9.34787 3 8.92304Z" fill="%23B0C4DF"/></svg>');
+    }
+
+    &__name {
+        color: var(--clr-12);
+        font-size: 0.8rem;
+        margin-bottom: 4px;
+        display: block;
+        width: max-content;
+    }
+
+    &__current {
+        color: var(--clr-6);
+
+        &.disable {
+            color: var(--clr-12, #9da6b1);
+        }
+    }
+
+    input {
+        border: none !important;
+        border-radius: unset !important;
+        padding: 0;
+        background: transparent;
+        width: calc(100% - 20px);
+    }
+}
+// End date input
+
+// Start files input block
+.files-add {
+    max-width: 300px;
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 5px;
+    padding: 10px 20px;
+    border: 1px solid var(--clr-10);
+    color: var(--clr-12);
+    text-align: center;
+    gap: 1rem;
+
+    &__info {
+        color: var(--clr-12);
+        pointer-events: none;
+    }
+
+    &__view {
+        height: 100%;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+
+    &__bottom {
+        svg {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+    }
+
+    input {
+        position: absolute;
+        z-index: -1;
+        width: 0;
+        height: 0;
+        visibility: hidden;
+        opacity: 0;
+    }
+}
+
+// End files input block
+
+// Start images input block
+.photo-add {
+    position: relative;
+    max-width: 300px;
+    width: 100%;
+    cursor: pointer;
+
+    input {
+        position: absolute;
+        z-index: -1;
+        width: 0;
+        height: 0;
+        visibility: hidden;
+        opacity: 0;
+    }
+
+    &__preview {
+        background-color: var(--clr-4);
+        height: 300px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 15px;
+        overflow: hidden;
+
+        > div {
+            width: 100%;
+            height: 100%;
+        }
+
+        svg {
+            width: 200px;
+            height: 200px;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &__btn-add {
+        width: 100%;
+        margin-bottom: 25px;
+    }
+}
+// End images input block

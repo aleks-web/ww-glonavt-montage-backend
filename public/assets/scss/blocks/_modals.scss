@@ -1,0 +1,433 @@
+// Start основной класс модалки fancybox
+.fmodal {
+    border-radius: 10px;
+    cursor: unset !important;
+    min-width: 500px;
+
+    &__title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--clr-6);
+        margin-bottom: 1.5rem;
+        text-align: center;
+
+        &-h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--clr-6);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+    }
+
+    &__vertical {
+        display: flex;
+        flex-direction: column;
+        gap: 1.1rem;
+        min-width: 300px;
+    }
+
+    &__control-btns {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.8rem;
+        margin-top: 1.9rem;
+    }
+
+    &__btn {
+        font-weight: 700;
+    }
+
+    &::-webkit-scrollbar {
+        background-color: transparent;
+        width: 3px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--clr-11);
+        border-radius: 5px;
+    }
+
+    &__table {
+        border-radius: 10px;
+        border: 1px solid var(--clr-10, transparent);
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+
+        thead th:first-child,
+        tbody td:first-child {
+            padding-left: 20px;
+        }
+
+        thead th:last-child,
+        tbody td:last-child {
+            padding-right: 20px;
+        }
+
+        thead th {
+            padding: 10px;
+        }
+    }
+}
+// End основной класс модалки fancybox
+
+
+.fmodal__view-input {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    &-name {
+        color: var(--clr-12);
+        width: max-content;
+    }
+
+    &-text {
+        color: var(--clr-6);
+        width: max-content;
+    }
+}
+ul.fmodal__view-input-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+// End основной класс модалки fancybox
+
+
+
+.fmodal-moduleApplications-actView {
+    &__photos {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    &__photo {
+        overflow: hidden;
+        width: 210px;
+        height: 230px;
+        cursor: pointer;
+
+        &:hover {
+            img {
+                transform: scale(1.04);
+            }
+        }
+
+        img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            transition: var(--speed) all;
+        }
+    }
+}
+
+
+
+
+
+
+
+// Start модалка просмотра объекта ТС
+.fmodal-ts-object-view {
+
+    &__header {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
+    &__title {
+        display: flex;
+        flex-direction: column;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--clr-6);
+    }
+
+    &__link-transition {
+        svg {
+            width: 30px;
+            height: 30px;
+        }
+    }
+
+    &__item {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        color: var(--clr-6);
+        font-size: 1rem;
+    }
+
+    &__content {
+        display: flex;
+        gap: 40px;
+    }
+
+    &__left {
+        display: flex;
+        flex-direction: column;
+        gap: 1.6rem;
+    }
+
+    &__photo {
+        background-color: var(--clr-4);
+        height: 280px;
+        width: 280px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+
+        svg {
+            fill: #9DA6B1;
+        }
+    }
+
+    &__docs {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        &-block {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: 1px solid var(--clr-10);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
+
+}
+// End модалка просмотра объекта ТС
+
+
+
+// Start основной класс модалки
+.modal {
+
+    --modal-gap-main: 2rem;
+
+
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: calc(100% - var(--menu-width));
+    height: 100dvh;
+    background-color: #fff;
+    transform: translateX(200%);
+    z-index: 100;
+    transition: .3s;
+    box-shadow: -6px 0px 18px 0px rgba(31, 41, 52, 0.10);
+
+    @include media-breakpoint-down(xl) {
+        width: calc(100% - 66px);
+    }
+
+    &.open {
+        transform: translateX(0);
+    }
+
+    &--small {
+        width: calc(50%);
+
+        @include media-breakpoint-down(xl) {
+            width: calc(75%);
+        }
+    }
+
+    &__close {
+        position: absolute;
+        right: calc(100% + 20px);
+        top: 20px;
+        width: 50px;
+        height: 50px;
+        transition: var(--speed) all;
+        fill: #fff;
+        cursor: pointer;
+
+        @include media-breakpoint-down(xl) {
+            width: 40px;
+            height: 40px;
+            top: 15px;
+            right: calc(100% + 15px);
+        }
+
+        &:hover {
+            fill: var(--clr-2);
+        }
+    }
+
+    &__container {
+        padding: var(--bigModal-padding-y) var(--bigModal-padding-x);
+        display: flex;
+        flex-direction: column;
+        gap: var(--modal-gap-main);
+        height: 100%;
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+            background-color: transparent;
+            width: 3px;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--clr-11);
+            border-radius: 5px;
+        }
+    }
+
+    &__title {
+        position: relative;
+        font-size: 1.8rem;
+        color: var(--clr-6);
+        font-weight: 700;
+
+        &::after {
+            content: '';
+            height: 1px;
+            margin-top: 0.8rem;
+            margin-bottom: 0.8rem;
+            width: 100%;
+            display: block;
+            background-color: var(--clr-10);
+        }
+    }
+
+    &__main {
+        height: 100%;
+    }
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        &-group-btns {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+
+            @include media-breakpoint-down(xl) {
+                gap: 15px;
+            }
+        }
+
+        &-btn {
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+
+            @include media-breakpoint-down(xxl) {
+                font-size: 1rem;
+            }
+        }
+    }
+
+    &__info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        &-title {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            font-weight: bold;
+            font-size: 1.4rem;
+
+            &-h1 {
+                color: var(--clr-6);
+            }
+
+            &-h2 {
+                color: var(--clr-12);
+            }
+        }
+
+        &-img {
+            width: 6rem;
+            height: 6rem;
+            background-color: var(--clr-4);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:has(.modal__info-avatar) {
+                padding: 0.5rem;
+                background-color: transparent;
+
+                svg {
+                    display: none;
+                }
+
+                img {
+                    border-radius: 100%;
+                }
+            }
+
+            &:has(.modal__info-avatarDefault) {
+                padding: 0.5rem;
+                background-color: transparent;
+            }
+
+            img {
+                width: 100%;
+                height: 100%;
+            }
+
+            svg {
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+}
+// End основной класс модалки
+
+
+// Start модалка новый клиент | Микс с основным классмо модалки
+.modal-client-add {
+    .modal__container {
+        gap: 2.5rem;
+    }
+
+    .modal__title {
+        margin-bottom: -20px;
+    }
+}
+// End модалка новый клиент | Микс с основным классмо модалки
+
+
+
+
+// Start модалка выхода из системы
+.fmodal-logout {
+    border-radius: 10px;
+
+    &__title {
+        font-size: 1.1rem;
+        color: var(--clr-6);
+        font-weight: 700;
+        margin-bottom: 30px;
+    }
+
+    &__group-btns {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+    }
+
+    &__btn {
+        font-weight: 700;
+    }
+}
+// END модалка выхода из системы

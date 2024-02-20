@@ -1,0 +1,56 @@
+.ww-logo {
+    --animation-speed: var(--speed); // Скорость анимации задается глобальной переменной --speed
+    --color: var(--clr-5); // Цвет текста
+    --font-size: 1rem;
+    --img-opacity: 0.6;
+
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    max-width: max-content;
+
+    &:hover {
+        .ww-logo__desc::after {
+            width: 80%;
+            opacity: 1;
+        }
+
+        img {
+            opacity: 1;
+        }
+    }
+
+    img {
+        transition: var(--animation-speed);
+        opacity: var(--img-opacity);
+    }
+
+    &__desc {
+        font-size: var(--font-size);
+        display: flex;
+        flex-direction: column;
+        color: var(--color);
+
+        &::after {
+            content: '';
+            width: 0;
+            height: 1px;
+            display: block;
+            opacity: 0;
+            background-color: var(--color);
+            transition: var(--animation-speed) all;
+        }
+    }
+}
+
+// html
+/*
+    <a href="https://ww.net.ru" target="_blanck" class="ww-logo">
+        <img src="assets/img/ww_logo.svg" alt="logo">
+
+        <div class="ww-logo__desc">
+            <span>Разработано</span>
+            <span>В DIGITAL STUDIO WW</span>
+        </div>
+    </a>
+*/
