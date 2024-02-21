@@ -2,14 +2,33 @@
 
 namespace WWCrm\Controllers;
 
+use WWCrm\Models\Clients as Client;
+
 class ClientsController extends \WWCrm\Controllers\MainController {
 
     public function __invoke() {
-        $s = $this->WWCrmService->get('CurrentUser')->isAuterisation();
+        // $s = $this->WWCurrentUser->isAuterisation();
 
-        dump($s);
+        Client::create(
+            [
+                'name' => 'asdasd',
+                'status' => 1,
+                'inn' => 'asdasdasd',
+                'director_tel' => 'asdasd',
+                'director_fio' => 'asdasd',
+                'email' => 'asdaasdasd',
+                'legal_address' => 'asdasd',
+                'actual_address' => 'asdasd',
+                'bank_id' => 1,
+                'bic' => 'asdasd',
+                'checking_bill_num' => 'asdasd',
+                'correspondent_bill_num' => 'asdasd',
+                'okpo' => 'asdasd',
+                'okato' => 'asdasd'
+            ]
+        );
 
-        return $this->WWCrmService->get('View')->render('main.twig', [
+        return $this->WWCrmService->get('View')->render('clients.twig', [
             'title' => 'Клиенты',
         ]);
     }

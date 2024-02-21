@@ -1,7 +1,7 @@
 <IfModule mod_rewrite.c>
 RewriteEngine On
 
-# Перенаправление на файл "page2.php" для всех запросов, содержащих слово "page2"
+# Перенаправление на файл "api.php" для всех запросов, содержащих "/api_v1/"
 RewriteCond %{REQUEST_URI} ^/api_v1/
 RewriteRule ^.*$ api.php
 

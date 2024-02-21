@@ -9,9 +9,11 @@ use WWCrm\ServiceContainer;
 class MainController extends Controller {
 
     protected $WWCrmService;
+    protected $WWCurrentUser;
 
     public function __construct() {
         $this->WWCrmService = ServiceContainer::getInstance();
+        $this->WWCurrentUser = $this->WWCrmService->get('CurrentUser');
     }
 
     public function __invoke() {
