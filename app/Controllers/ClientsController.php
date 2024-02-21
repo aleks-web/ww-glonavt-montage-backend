@@ -23,8 +23,8 @@ class ClientsController extends \WWCrm\Controllers\MainController {
                 'bic' => 'asdasd',
                 'checking_bill_num' => 'asdasd',
                 'correspondent_bill_num' => 'asdasd',
-                'okpo' => 'asdasd',
-                'okato' => 'asdasd'
+                'okpo' => '',
+                'okato' => ''
             ]
         );
 

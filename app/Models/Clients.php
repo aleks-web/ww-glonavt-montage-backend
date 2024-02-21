@@ -23,6 +23,7 @@ class Clients extends Model {
     'manager_id'
   ];
 
+
   public function articles() {
     // return $this->hasMany('WWCrm\Models\Article', 'user_id', 'id');
   }

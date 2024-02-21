@@ -1,0 +1,14 @@
+{#
+    * name - Название. Выводится сверху
+    * pls - Плейсхолдер
+    * val - Значение
+#}
+<div class="input-text">
+    {# Start Если есть название, то выводим его #}
+    {% if name %}
+        <span class="input-text__name">@@name</span>
+    {% endif %}
+    {# End Если есть название, то выводим его #}
+
+    <input type="text" value="{{ val }}" placeholder="{% if pls %}{{ pls }}{% else %}Введите данные{% endif %}">
+</div>

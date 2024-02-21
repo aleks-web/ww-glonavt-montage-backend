@@ -17,7 +17,7 @@ class MainController extends Controller {
     }
 
     public function __invoke() {
-        return $this->WWCrmService->get('View')->render('main.twig', [
+        return $this->WWCrmService->get('View')->render('clients.twig', [
             'title' => 'test',
             'user' => [
                 'name' => 'Алексей',
