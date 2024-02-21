@@ -11,6 +11,7 @@ import browserSync from 'browser-sync';
 
 const folderApp = "public/assets";
 const folderDist = "public/assets";
+const proxyUrl = "crm-backend.ru";
 
 const dir = {
     // Дирректории приложения
@@ -34,18 +35,29 @@ export function sass() {
         .pipe(browserSync.stream())
 }
 
-// Слежка за файлами
+/*
+    Слежка за файлами
+*/
 export function watching() {
     gulp.watch([`${dir.appScss}/**/*.scss`, `${dir.appComponents}/*.scss`], sass);
-    gulp.watch([`${dir.appJs}/**/*.js`, `${dir.appComponents}/*.js`], js);
+    gulp.watch([`${dir.appJs}/**/*.js`, `${dir.appComponents}/*.js`]);
 }
 
-// За какой папкой следить
+/*
+    Для локальной разработки.
+
+    * Инструкция по использованию (локально):
+    * Связка OpenServer или Docker
+    * Когда запускается локальный сервер и локально доступен сайт (например по ссылке crm-backend.ru или localhost:9999), ссылку нужно указать в константу proxyUrl
+    * После этого нужно запустить команду gulp находясь в той же дирректории, что и файл gulpfile.js
+
+    * Инструкция по использованию (на рабочем сервере):
+    * Если crm уже лежит на сервере и работает, то командой gulp пользоваться не нужно
+    * Нужно просто ввести gulp sass для перекомпиляции стилей. И все. Либо gulp watching
+*/
 export function browsersync() {
     browserSync.init({
-        server: {
-            baseDir: folderDist,
-        }
+        proxy: proxyUrl
     });
 }
 

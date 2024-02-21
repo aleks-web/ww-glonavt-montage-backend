@@ -29,5 +29,12 @@ return [
                 'controllers' => 'WWCrm\Controllers',
             ]
         ]);
+    },
+    'CurrentUser' => function (\Psr\Container\ContainerInterface $container) {
+        return new \WWCrm\Services\CurrentUser();
+    },
+
+    'SymfonySession' => function () {
+        return new \Symfony\Component\HttpFoundation\Session\Session();
     }
 ];

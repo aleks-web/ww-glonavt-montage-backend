@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+    <head>
+        {% include 'blocks/head.twig' with {'title': 'Страница не найдена'} %}
+    </head>
+
+    <body style="display: flex;align-items: center;justify-content: center;align-items: center;height: 100dvh;flex-direction: column;font-weight: 700;gap: 2rem;">
+        <img style="width: 500px;" src="/assets/img/glonavt_logo.svg" alt="logo">
+
+        <div style="font-size: 16rem;color: var(--clr-6);">404</div>
+
+        <div style="font-size: 3rem;color: var(--clr-6);">Ошибка!</div>
+
+        <div style="font-weight: 400;font-size: 2rem;color: var(--clr-6);text-align: center;">К сожалению, запрашиваемая<br>Вами страница не найдена...</div>
+
+        <div style="font-size: 3rem;font-weight: 400;color: var(--clr-6);">Перейдите на <a href="/" style="color: var(--clr-7);text-decoration: underline;">главную страницу</a></div>
+    </body>
+</html>

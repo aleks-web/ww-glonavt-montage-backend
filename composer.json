@@ -5,7 +5,8 @@
     "autoload": {
         "psr-4": {
             "WWCrm\\Models\\": "app/Models",
-            "WWCrm\\Controllers\\": "app/Controllers"
+            "WWCrm\\Controllers\\": "app/Controllers",
+            "WWCrm\\Services\\": "app/Services"
         },
         "files": ["app/db.php", "app/migrations.php", "app/container.php"]
     },
@@ -23,6 +24,7 @@
         "illuminate/database": "^10.44",
         "twig/twig": "^3.8",
         "php-di/php-di": "^7.0",
-        "izniburak/router": "^2.5"
+        "izniburak/router": "^2.5",
+        "symfony/http-foundation": "^5.4"
     }
 }
