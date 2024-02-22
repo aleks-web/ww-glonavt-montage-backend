@@ -363,7 +363,8 @@ function get_formdata_by_components(wrapper_selector) {
 
 // Start Получение ошибок в инпутах компонентов внутри какой-то обертки
 function get_errors_components_by_wrapper(wrapper_selector) {
-    let null_inputs = {};
+    let null_inputs = [];
+
     $(get_classes_components_by_wrapper(wrapper_selector)).each(function (i, el) {
         let input = $(this).find("input");
 
@@ -372,13 +373,11 @@ function get_errors_components_by_wrapper(wrapper_selector) {
         }
 
         if (!input.val() && $(this).hasClass("required")) {
-            null_inputs[input.attr("name")] = {
-                name: input.attr("db_field"),
-                message: "Поле не заполнено",
-                jq_element: $(this),
-            };
+            null_inputs[input.attr("name")].push(input.attr("name"));
         }
     });
+
+    console.log(null_inputs);
 
     if (Object.keys(null_inputs).length > 0) {
         console.log(null_inputs);
@@ -391,8 +390,6 @@ function get_errors_components_by_wrapper(wrapper_selector) {
 
 // Start Обновление компонентов. Валидация
 function update_components_from_json(json) {
-    json.jq_element.forEach(function (i, e) {
-        console.log(i, e);
-    });
+    console.log(typeof json);
 }
 // End Обновление компонентов. Валидация
