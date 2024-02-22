@@ -44,11 +44,11 @@
 {# End Ошибка. Поле не заполнено #}
 
 {% if data.db_field_name != false %}
-<div class="select-wrapper">
+<div class="component-wrapper">
     {% if settings.input_messages_position == 'top' %}
         <div class="input-messages input-messages--top {% if is_error == false %}disable{% endif %} {% if is_error %}error{% endif %}">
             <span class="input-messages__icon"></span>
-            <span class="input-messages__text">Сообщение</span>
+            <span class="input-messages__text"></span>
         </div>
     {% endif %}
 
@@ -118,7 +118,7 @@
     {% if settings.input_messages_position == false or settings.input_messages_position == 'bottom' %}
         <div class="input-messages input-messages--bottom {% if is_error == false %}disable{% endif %} {% if is_error %}error{% endif %}">
             <span class="input-messages__icon"></span>
-            <span class="input-messages__text">Сообщение</span>
+            <span class="input-messages__text"></span>
         </div>
     {% endif %}
 </div>

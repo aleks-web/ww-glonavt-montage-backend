@@ -3,6 +3,8 @@
 namespace WWCrm\Controllers;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 use WWCrm\Models\Clients as Client;
 
 class ClientsController extends \WWCrm\Controllers\MainController {
@@ -15,14 +17,14 @@ class ClientsController extends \WWCrm\Controllers\MainController {
         ]);
     }
 
-    public function create(\Symfony\Component\HttpFoundation\Request $request, \Symfony\Component\HttpFoundation\Response $response) {
+    public function create(Request $request, Response $response) {
 
         // Получаем параметры с формы
         $params = $request->request->all();
 
         $client = Client::create($params);
 
-        $response_array['db_fiels'] = json_encode(Client::find($client->id));
+        $response_array['db_fields'] = Client::find($client->id);
         $response_array['status'] = 'succsess';
         $response_array['message'] = 'Клиент создан';
 

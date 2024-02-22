@@ -89,6 +89,21 @@ $(document).ready(function (e) {
 });
 // End скрипт для меню
 
+function xpost_fd(url, formData) {
+    $.ajax({
+        url: url,
+        method: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            if (response.status == "succsess") {
+                push(response.message ? response.message : "Успешный запрос", "succsess", 30000);
+            }
+        },
+    });
+}
+
 const API_V1_URLS = {
     clients: {
         create: "/api_v1/create",

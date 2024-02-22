@@ -18,24 +18,28 @@ $(document).ready(function (e) {
 
 // Start Добаввление клиента в базу данных
 $(document).ready(function (e) {
-    $(document).on("click", "#modal-client-add .js-client-add", function (e) {
+    $(document).on("click", "#modal-client-add .js-submitter", function (e) {
         let create_url = API_V1_URLS.clients.create; // API_V1_URLS - Смотрим в main.js
         let formData = get_formdata_by_components("#modal-client-add");
 
-        // Если есть заполненные поля
+        // Если есть заполненные поля, отправляем запрос
         if (formData) {
-            $.ajax({
-                url: create_url,
-                method: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                    if (response.status == "succsess") {
-                        push("Вы успешно добавили нового клиента", "succsess", 30000);
-                    }
-                },
-            });
+            if (!get_errors_components_by_wrapper("#modal-client-add")) {
+                // Если все поля введены корректно
+                xpost_fd(create_url, formData);
+            }
+        }
+    });
+
+    $(document).bind("keyup change", get_classes_components_by_wrapper("#modal-client-add"), function (e) {
+        let data; // Массив с полями, которые не прошли проверку
+
+        if ((data = get_errors_components_by_wrapper("#modal-client-add"))) {
+            $("#modal-client-add .js-submitter").addClass("disable");
+
+            update_components_from_json(data);
+        } else {
+            $("#modal-client-add .js-submitter").removeClass("disable");
         }
     });
 });

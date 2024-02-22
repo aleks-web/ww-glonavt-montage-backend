@@ -295,11 +295,17 @@
 
 
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); column-gap: 2.5rem; row-gap: 20px;">
-                    {% include 'components/input-text.twig' with {
-                        'data': {
-                            'pls': 'Наименование',
-                            'db_field_name': 'name'
-                        }}
+                    {% include 'components/input-text.twig' with
+                        {
+                            'data': {
+                                'pls': 'Наименование',
+                                'db_field_name': 'name'
+                            },
+                            'settings': {
+                                'required': true
+                            }
+                        
+                        }
                     %}
                     {% include 'components/input-text.twig' with {
                         'data': {
@@ -416,7 +422,7 @@
 
             <div class="d-flex flex-column justify-content-between">
                 <button class="btn disable" style="font-weight: 700;">Проверить</button>
-                <button class="btn js-client-add" style="font-weight: 700; width: max-content;">Сохранить</button>
+                <button class="btn js-submitter" style="font-weight: 700; width: max-content;">Сохранить</button>
             </div>
         </div>
 

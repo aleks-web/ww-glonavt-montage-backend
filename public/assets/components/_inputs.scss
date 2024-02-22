@@ -80,6 +80,7 @@
     flex-direction: column;
     justify-content: center;
     padding: 10px 20px;
+    cursor: text;
 
     &__name {
         font-size: 0.8rem;
@@ -115,16 +116,16 @@
         }
     }
 
-    &.error {
-        background-color: #fff5f5;
-
-        input {
-            background-color: #fff5f5;
-        }
-    }
-
     &.required {
         border-color: var(--clr-13);
+    }
+
+    &.error {
+        border-color: var(--clr-2);
+    }
+
+    &.succsess {
+        border-color: var(--clr-3);
     }
 }
 
@@ -538,52 +539,55 @@
 // End images input block
 
 // Start input-messages - сообщения об ошибках
-    .input-messages {
-        font-size: 0.9rem;
-        color: var(--clr-5);
-        display: flex;
-        align-items: center;
-        font-style: italic;
-        gap: 5px;
+.input-messages {
+    font-size: 0.9rem;
+    color: var(--clr-5);
+    display: flex;
+    align-items: center;
+    font-style: italic;
+    gap: 5px;
 
-        &--bottom {
-            margin-top: 4px;
-        }
+    &--bottom {
+        margin-top: 4px;
+    }
 
-        &--top {
-            margin-bottom: 4px;
-        }
+    &--top {
+        margin-bottom: 4px;
+    }
 
-        &.disable { // Отображается или нет
-            display: none;
-        }
+    &.disable {
+        // Отображается или нет
+        display: none;
+    }
 
-        &.error { // Ошибка
-            color: var(--clr-9);
-            font-style: normal;
+    &.error {
+        // Ошибка
+        color: var(--clr-9);
+        font-style: normal;
 
-            .input-messages__icon {
-                background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="%23DA5955" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/></svg>');
-            }
-        }
-        
-        &.success { // Успешно
-            color: var(--clr-3);
-            font-style: normal;
-
-            .input-messages__icon {
-                background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="%239CE98F" viewBox="0 0 16 16"><path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/></svg>');
-            }
-        }
-
-        &__icon {
-            background-repeat: no-repeat no-repeat;
-            background-size: 100% 100%;
-            background-position: left center;
-            background-image:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="%23ccc" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg>');
-            width: 13px;
-            height: 13px;
-            display: block;
+        .input-messages__icon {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="%23DA5955" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/></svg>');
         }
     }
+
+    &.success {
+        // Успешно
+        color: var(--clr-3);
+        font-style: normal;
+
+        .input-messages__icon {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="%239CE98F" viewBox="0 0 16 16"><path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/></svg>');
+        }
+    }
+
+    &__icon {
+        background-repeat: no-repeat no-repeat;
+        background-size: 100% 100%;
+        background-position: left center;
+        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="%23ccc" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg>');
+        width: 13px;
+        height: 13px;
+        display: block;
+    }
+}
 // End input-messages - сообщения об ошибках

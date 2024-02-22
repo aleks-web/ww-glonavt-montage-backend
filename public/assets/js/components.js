@@ -155,6 +155,18 @@ $(document).ready(function (e) {
     $(document).on("click", ".input-text", function (e) {
         $(this).find("input").focus();
     });
+
+    // Start валидация инпута - Выходит что не нужен функционал, т.к он дублируется
+    // $(document).on("keyup", ".input-text input", function (e) {
+    //     let block = $(this).parents(".input-text");
+
+    //     if (!$(this).val().length &&) {
+    //         block.addClass("error").removeClass("succsess");
+    //     } else {
+    //         block.addClass("succsess").removeClass("error");
+    //     }
+    // });
+    // End валидация инпута
 });
 // End input-text
 
@@ -307,12 +319,28 @@ $(document).ready(function (e) {
 });
 // End обнуление
 
+// Start Список компонентов с input
+const input_components = ["input-text", "select", "textarea"];
+// End Список компонентов input
+
+// Start Функция которая формирует классы для вложенного поиска. Передается обертка в которой ищутся компоненты и формируется вложенность
+function get_classes_components_by_wrapper(wrapper_selector) {
+    let find_classes = "";
+    input_components.forEach(function (el) {
+        find_classes = find_classes + wrapper_selector + " ." + el + ", ";
+    });
+    find_classes = find_classes.slice(0, -2);
+
+    return find_classes;
+}
+// End Функция которая формирует классы для вложенного поиска. Передается обертка в которой ищутся компоненты и формируется вложенность
+
 // Start Функция, которая получает объект formData учитывая все эти компоненты
 function get_formdata_by_components(wrapper_selector) {
     let formData = new FormData();
     let countFields = 0;
 
-    $(wrapper_selector + " .input-text, " + wrapper_selector + " .select, " + wrapper_selector + " .textarea").each(function (i, el) {
+    $(get_classes_components_by_wrapper(wrapper_selector)).each(function (i, el) {
         let input = $(this).find("input");
 
         if (!input.length) {
@@ -332,3 +360,39 @@ function get_formdata_by_components(wrapper_selector) {
     }
 }
 // End Функция, которая получает объект formData учитывая все эти компоненты
+
+// Start Получение ошибок в инпутах компонентов внутри какой-то обертки
+function get_errors_components_by_wrapper(wrapper_selector) {
+    let null_inputs = {};
+    $(get_classes_components_by_wrapper(wrapper_selector)).each(function (i, el) {
+        let input = $(this).find("input");
+
+        if (!input.length) {
+            input = $(this).find("textarea");
+        }
+
+        if (!input.val() && $(this).hasClass("required")) {
+            null_inputs[input.attr("name")] = {
+                name: input.attr("db_field"),
+                message: "Поле не заполнено",
+                jq_element: $(this),
+            };
+        }
+    });
+
+    if (Object.keys(null_inputs).length > 0) {
+        console.log(null_inputs);
+        return null_inputs;
+    } else {
+        return false;
+    }
+}
+// End Получение ошибок в инпутах компонентов внутри какой-то обертки
+
+// Start Обновление компонентов. Валидация
+function update_components_from_json(json) {
+    json.jq_element.forEach(function (i, e) {
+        console.log(i, e);
+    });
+}
+// End Обновление компонентов. Валидация
