@@ -13,10 +13,15 @@
     position: absolute;
     bottom: -200px;
     right: 10px;
+    z-index: 9999;
     transition: var(--speed) all;
-    
+
     &.error {
         background-color: var(--clr-2);
+    }
+
+    &.succsess {
+        background-color: var(--clr-3);
     }
 
     &.active {

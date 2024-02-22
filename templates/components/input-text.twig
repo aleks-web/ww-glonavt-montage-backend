@@ -1,7 +1,7 @@
 {#
     * data - массив со значениями
         * title - Название. Выводится сверху
-        * name_id - Имя поля
+        * db_field_name - Имя поля
         * pls - Плейсхолдер
         * val - Значение
     * settings
@@ -19,16 +19,16 @@
 {# End Если поле обязательное добавляем класс required #}
 
 
-{% if data.name_id == false %}
-    <div style="color: red;">Параметр "name_id" для компонента input-text не проброшен!</div>
+{% if data.db_field_name == false %}
+    <div style="color: red;">Параметр "db_field_name" для компонента input-text не проброшен!</div>
 {% else %}
-    <div data-name="{{ data.name_id }}" class="{{ classes }}">
+    <div data-name="{{ data.db_field_name }}" class="{{ classes }}">
         {# Start Если есть название, то выводим его #}
         {% if data.title %}
             <span class="input-text__name">{{ data.title }}</span>
         {% endif %}
         {# End Если есть название, то выводим его #}
 
-        <input type="text" name="{{ data.name_id }}" value="{{ data.val }}" placeholder="{% if data.pls %}{{ data.pls }}{% else %}Введите данные{% endif %}">
+        <input type="text" name="{{ data.db_field_name }}" value="{{ data.val }}" placeholder="{% if data.pls %}{{ data.pls }}{% else %}Введите данные{% endif %}">
     </div>
 {% endif %}

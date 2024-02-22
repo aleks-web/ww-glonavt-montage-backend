@@ -1,3 +1,22 @@
+// Start push
+function push(text, type, time = 3000) {
+    let push_block = $("#region-push ." + type);
+    let push_block_text = push_block.find(".push__text");
+
+    push_block.removeAttr("style");
+    push_block_text.text(text);
+    push_block.addClass("active");
+
+    setTimeout(() => {
+        push_block.fadeOut(400, () => {
+            push_block.removeClass("active");
+            push_block.removeAttr("style");
+            push_block_text.text("");
+        });
+    }, time);
+}
+// End push
+
 // Start чекбокс
 $(document).ready(function (e) {
     $(".checkbox").click(function (e) {

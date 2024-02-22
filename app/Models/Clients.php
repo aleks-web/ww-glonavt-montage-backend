@@ -14,7 +14,7 @@ class Clients extends Model {
     'email',
     'legal_address',
     'actual_address',
-    'bank_id',
+    'bank_name',
     'bic',
     'checking_bill_num',
     'correspondent_bill_num',
@@ -22,7 +22,6 @@ class Clients extends Model {
     'okato',
     'manager_id'
   ];
-
 
   public static function getFillableAttributes(): array {
     return (new static)->getFillable();

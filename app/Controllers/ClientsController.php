@@ -15,14 +15,21 @@ class ClientsController extends \WWCrm\Controllers\MainController {
         ]);
     }
 
-    public function create(\Symfony\Component\HttpFoundation\Request $request) {
+    public function create(\Symfony\Component\HttpFoundation\Request $request, \Symfony\Component\HttpFoundation\Response $response) {
 
         // Получаем параметры с формы
         $params = $request->request->all();
 
-        var_dump($params);
+        $client = Client::create($params);
 
-        // Client::create($params);
+        $response_array['db_fiels'] = json_encode(Client::find($client->id));
+        $response_array['status'] = 'succsess';
+        $response_array['message'] = 'Клиент создан';
+
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($response_array));
+
+        return $response;
     }
 
     

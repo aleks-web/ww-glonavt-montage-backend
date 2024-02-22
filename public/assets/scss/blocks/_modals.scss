@@ -71,7 +71,6 @@
 }
 // End основной класс модалки fancybox
 
-
 .fmodal__view-input {
     display: flex;
     flex-direction: column;
@@ -93,8 +92,6 @@ ul.fmodal__view-input-text {
     gap: 0.4rem;
 }
 // End основной класс модалки fancybox
-
-
 
 .fmodal-moduleApplications-actView {
     &__photos {
@@ -124,15 +121,8 @@ ul.fmodal__view-input-text {
     }
 }
 
-
-
-
-
-
-
 // Start модалка просмотра объекта ТС
 .fmodal-ts-object-view {
-
     &__header {
         display: flex;
         gap: 20px;
@@ -185,7 +175,7 @@ ul.fmodal__view-input-text {
         margin-bottom: 2rem;
 
         svg {
-            fill: #9DA6B1;
+            fill: #9da6b1;
         }
     }
 
@@ -203,17 +193,12 @@ ul.fmodal__view-input-text {
             gap: 10px;
         }
     }
-
 }
 // End модалка просмотра объекта ТС
 
-
-
 // Start основной класс модалки
 .modal {
-
     --modal-gap-main: 2rem;
-
 
     position: fixed;
     top: 0;
@@ -224,8 +209,8 @@ ul.fmodal__view-input-text {
     background-color: #fff;
     transform: translateX(200%);
     z-index: 100;
-    transition: .3s;
-    box-shadow: -6px 0px 18px 0px rgba(31, 41, 52, 0.10);
+    transition: 0.3s;
+    box-shadow: -6px 0px 18px 0px rgba(31, 41, 52, 0.1);
 
     @include media-breakpoint-down(xl) {
         width: calc(100% - 66px);
@@ -236,9 +221,9 @@ ul.fmodal__view-input-text {
     }
 
     &--small {
-        width: calc(50%);
+        width: calc(60%);
 
-        @include media-breakpoint-down(xl) {
+        @include media-breakpoint-down(xxl) {
             width: calc(75%);
         }
     }
@@ -290,7 +275,7 @@ ul.fmodal__view-input-text {
         font-weight: 700;
 
         &::after {
-            content: '';
+            content: "";
             height: 1px;
             margin-top: 0.8rem;
             margin-bottom: 0.8rem;
@@ -392,7 +377,6 @@ ul.fmodal__view-input-text {
 }
 // End основной класс модалки
 
-
 // Start модалка новый клиент | Микс с основным классмо модалки
 .modal-client-add {
     .modal__container {
@@ -404,9 +388,6 @@ ul.fmodal__view-input-text {
     }
 }
 // End модалка новый клиент | Микс с основным классмо модалки
-
-
-
 
 // Start модалка выхода из системы
 .fmodal-logout {

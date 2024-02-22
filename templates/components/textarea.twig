@@ -1,0 +1,38 @@
+{#
+    Компонент выпадающего списка. Настройки
+
+    * Доступные переменные:
+    * data - массив с содержимым
+        * db_field_name - Имя поля
+        * pls - Плейсхолдер
+        * val - Значение инпута. В атрибуте value. Может быть единым значением, может имень вид в виде массива : [1, 2, 3] 
+    
+    * required - обязательный ли инпут
+    * input_messages_position - расположение инпута в верху или внизу. Принимает либо top дибо bottom. По умолчанию bottom (но можно изменить на top)
+
+#}
+
+{% if data.db_field_name != false %}
+<div class="textarea-wrapper">
+
+    {% if settings.input_messages_position == 'top' %}
+        <div class="input-messages input-messages--top disable">
+            <span class="input-messages__icon"></span>
+            <span class="input-messages__text"></span>
+        </div>
+    {% endif %}
+
+    <div class="textarea {% if required %}required{% endif %}">
+        <textarea name="{{ data.db_field_name }}" cols="30" rows="8" placeholder="{{ data.pls }}" value="{{ data.val }}"></textarea>
+    </div>
+
+    {% if settings.input_messages_position == false or settings.input_messages_position == 'bottom' %}
+        <div class="input-messages input-messages--bottom disable">
+            <span class="input-messages__icon"></span>
+            <span class="input-messages__text"></span>
+        </div>
+    {% endif %}
+</div>
+{% else %}
+<div style="color: red;">Параметр "db_field_name" для компонента .textarea не проброшен!</div>
+{% endif %}
