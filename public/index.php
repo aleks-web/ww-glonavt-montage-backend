@@ -18,6 +18,7 @@ $router = $WWAppContainer->get('Router');
 $router->get('/', 'MainController'); // Главная страница. Обработка в __invoke методе
 
 $router->get('/clients', 'ClientsController'); // Клиенты
+$router->get('/applications', 'ApplicationsController'); // Клиенты
 
 $router->get('/404', 'MainController@notFound'); // Страница не найдена
 

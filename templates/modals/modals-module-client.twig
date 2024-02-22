@@ -276,25 +276,52 @@
         <div style="display: flex; column-gap: 2.5rem;">
             <div style="display: flex;flex-direction: column;gap: 30px;">
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); column-gap: 2.5rem; row-gap: 20px;">
-                    
-                    <div class="input-text required">
-                        <input type="text" placeholder="Введите ИНН">
-                    </div>
-                    <div class="input-text required">
-                        <input type="text" placeholder="Введите БИК">
-                    </div>
+
+                    {% include 'components/input-text.twig' with {
+                        'data': {
+                            'name_id': 'inn',
+                            'pls': 'Введите ИНН',
+                        }}
+                    %}
+
+                    {% include 'components/input-text.twig' with {
+                        'data': {
+                            'name_id': 'bic',
+                            'pls': 'Введите БИК',
+                        }}
+                    %}
 
                 </div>
 
 
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); column-gap: 2.5rem; row-gap: 20px;">
-                    @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Наименование"})
-                    @@include('../components/input-text.html', {"name": "", "value": "", "stText": "ФИО Руководителя"})
-                    @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Телефон руководителя"})
-                    @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Почта"})
+                    {% include 'components/input-text.twig' with {
+                        'data': {
+                            'pls': 'Наименование',
+                            'name_id': 'name'
+                        }}
+                    %}
+                    {% include 'components/input-text.twig' with {
+                        'data': {
+                            'pls': 'ФИО руководителя',
+                            'name_id': 'director_fio'
+                        }}
+                    %}
+                    {% include 'components/input-text.twig' with {
+                        'data': {
+                            'pls': 'Телефон руководителя',
+                            'name_id': 'director_tel'
+                        }}
+                    %}
+                    {% include 'components/input-text.twig' with {
+                        'data': {
+                            'pls': 'Почта',
+                            'name_id': 'email'
+                        }}
+                    %}
 
-                    <textarea cols="30" rows="8" placeholder="Фактические адрес"></textarea>
-                    <textarea cols="30" rows="8" placeholder="Юридический адрес"></textarea>
+                    <textarea name="actual_address" cols="30" rows="8" placeholder="Фактические адрес"></textarea>
+                    <textarea name="legal_address" cols="30" rows="8" placeholder="Юридический адрес"></textarea>
                 </div>
 
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); column-gap: 2.5rem;">
@@ -305,15 +332,54 @@
                         </div>
 
                         <div style="display: flex;flex-direction: column; gap: 20px;">
-                            @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Наименование банка"})
 
-                            @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Рассчётный счёт"})
+                            {% include 'components/select.twig' with
+                                {
+                                    'data': {
+                                        'name_id': 'bank_id',
+                                        'pls': 'Наименование банка',
+                                        'val': false,
+                                        'not_selected_text': 'Банк не выбран'
+                                    },
+                                    'items': [
+                                        {
+                                            'id': '1',
+                                            'text': 'Тинькофф',
+                                            'current_text': 'Тинькофф'
+                                        },
+                                        {
+                                            'id': '2',
+                                            'text': 'Сбербанк',
+                                            'current_text': 'Сбербанк'
+                                        }
+                                    ]
+                                }
+                            %}
 
-                            @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Корреспондентский счёт"})
-                            
-                            @@include('../components/input-text.html', {"name": "", "value": "", "stText": "ОКАТО"})
-
-                            @@include('../components/input-text.html', {"name": "", "value": "", "stText": "ОКПО"})
+                            {% include 'components/input-text.twig' with {
+                                'data': {
+                                    'name_id': 'checking_bill_num',
+                                    'pls': 'Рассчётный счёт',
+                                }}
+                            %}
+                            {% include 'components/input-text.twig' with {
+                                'data': {
+                                    'name_id': 'correspondent_bill_num',
+                                    'pls': 'Корреспондентский счёт',
+                                }}
+                            %}
+                            {% include 'components/input-text.twig' with {
+                                'data': {
+                                    'name_id': 'okato',
+                                    'pls': 'ОКАТО',
+                                }}
+                            %}
+                            {% include 'components/input-text.twig' with {
+                                'data': {
+                                    'pls': 'ОКПО',
+                                    'name_id': 'okpo',
+                                }}
+                            %}
 
                         </div>
                     </div>
@@ -324,13 +390,28 @@
                         </div>
 
                         <div style="display: flex;flex-direction: column; gap: 20px;">
-                            
-                            @@include('../components/select.html', {
-                                "name": "",
-                                "stText": "Менеджер",
-                                "itemName": "Менеджер"
-                            })
-
+                            {% include 'components/select.twig' with
+                                {
+                                    'data': {
+                                        'name_id': 'manager_id',
+                                        'pls': 'Корреспондентский счёт',
+                                        'val': false,
+                                        'not_selected_text': 'Не выбрано'
+                                    },
+                                    'items': [
+                                        {
+                                            'id': '1',
+                                            'text': 'Валерий',
+                                            'current_text': 'Валерий куррент'
+                                        },
+                                        {
+                                            'id': '1',
+                                            'text': 'Валерий',
+                                            'current_text': 'Валерий куррент'
+                                        }
+                                    ]
+                                }
+                            %}
                         </div>
                     </div>
                 </div>
@@ -338,7 +419,7 @@
 
             <div class="d-flex flex-column justify-content-between">
                 <button class="btn disable" style="font-weight: 700;">Проверить</button>
-                <button class="btn disable" style="font-weight: 700; width: max-content;">Сохранить</button>
+                <button class="btn js-client-add" style="font-weight: 700; width: max-content;">Сохранить</button>
             </div>
         </div>
 

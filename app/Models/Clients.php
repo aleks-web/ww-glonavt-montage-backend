@@ -24,7 +24,7 @@ class Clients extends Model {
   ];
 
 
-  public function articles() {
-    // return $this->hasMany('WWCrm\Models\Article', 'user_id', 'id');
+  public static function getFillableAttributes(): array {
+    return (new static)->getFillable();
   }
 }

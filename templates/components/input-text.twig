@@ -1,14 +1,34 @@
 {#
-    * name - Название. Выводится сверху
-    * pls - Плейсхолдер
-    * val - Значение
+    * data - массив со значениями
+        * title - Название. Выводится сверху
+        * name_id - Имя поля
+        * pls - Плейсхолдер
+        * val - Значение
+    * settings
+        * required - boolean значения. True или false - обязательное поле или нет
 #}
-<div class="input-text">
-    {# Start Если есть название, то выводим его #}
-    {% if name %}
-        <span class="input-text__name">@@name</span>
-    {% endif %}
-    {# End Если есть название, то выводим его #}
 
-    <input type="text" value="{{ val }}" placeholder="{% if pls %}{{ pls }}{% else %}Введите данные{% endif %}">
-</div>
+{# Start Формируем классы #}
+{% set classes = 'input-text' %}
+{# End Формируем классы #}
+
+{# Start Если поле обязательное добавляем класс required #}
+{% if settings.required %}
+    {% set classes =  classes ~ ' required' %}
+{% endif %}
+{# End Если поле обязательное добавляем класс required #}
+
+
+{% if data.name_id == false %}
+    <div style="color: red;">Параметр "name_id" для компонента input-text не проброшен!</div>
+{% else %}
+    <div data-name="{{ data.name_id }}" class="{{ classes }}">
+        {# Start Если есть название, то выводим его #}
+        {% if data.title %}
+            <span class="input-text__name">{{ data.title }}</span>
+        {% endif %}
+        {# End Если есть название, то выводим его #}
+
+        <input type="text" name="{{ data.name_id }}" value="{{ data.val }}" placeholder="{% if data.pls %}{{ data.pls }}{% else %}Введите данные{% endif %}">
+    </div>
+{% endif %}

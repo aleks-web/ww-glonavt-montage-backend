@@ -1,0 +1,72 @@
+{% extends "layout.twig" %}
+
+{% block control %}
+<div class="control">
+    <div class="control__container">
+        <div class="control__left">
+
+            <div class="control__search input-search" style="max-width: 375px;">
+                <input type="text" class="input-search__input" placeholder="Поиск по номеру заявки или клиенту">
+            </div>
+
+        </div>
+
+        <div class="control__right">
+            <button data-modal-application-add class="control__btn btn">Добавить</button>
+        </div>
+    </div>
+</div>
+{% endblock control %}
+
+{% block content %}
+<div class="content-table content-table--control">
+    <div class="content-table__container">
+
+        <table>
+            <thead>
+                <tr>
+                <th class="text-start">№ Заявки</th>
+                <th class="text-start">Клиент/ИНН</th>
+                <th class="text-start">Тип заявки</th>
+                <th class="text-start">Нас. пункт</th>
+                <th class="text-start">Гос№/<br>Марка/модель</th>
+                <th class="text-start">Контактное лицо</th>
+                
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr data-modal-application data-application-id="1" class="pointer">
+                    <td class="text-start">12677</td>
+                    <td class="text-start"><span>ООО Альянс</span><br><span class="text-secondary">ИНН: 123456789</span></td>
+                    <td class="text-start">Монтаж</td>
+                    <td class="text-start">Новосибирск</td>
+                    <td class="text-start"><span>Х117УМ72</span><br><span>LADA 4x4, 212140</span></td>
+                    <td class="text-start"><span>Петров С. И.</span><br><span>89224862623</span></td>
+                    <td class="td-btn-favorite">
+                        <button>
+                            <svg class="hover"><use xlink:href="#svg-star-hover"></use></svg>
+                            <svg class="default active"><use xlink:href="#svg-star"></use></svg>
+                        </button>
+                    </td>
+                </tr>
+                <tr data-modal-application data-application-id="1" class="pointer favorite">
+                    <td class="text-start">12677</td>
+                    <td class="text-start"><span>ООО Альянс</span><br><span class="text-secondary">ИНН: 123456789</span></td>
+                    <td class="text-start">Монтаж</td>
+                    <td class="text-start">Новосибирск</td>
+                    <td class="text-start"><span>Х117УМ72</span><br><span>LADA 4x4, 212140</span></td>
+                    <td class="text-start"><span>Петров С. И.</span><br><span>89224862623</span></td>
+                    <td class="td-btn-favorite">
+                        <button>
+                            <svg class="hover active"><use xlink:href="#svg-star-hover"></use></svg>
+                            <svg class="default"><use xlink:href="#svg-star"></use></svg>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+{% endblock content %}

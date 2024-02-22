@@ -1,33 +1,135 @@
 {#
-    Компонент выпадающего списка
+    Компонент выпадающего списка. Настройки
 
     * Доступные переменные:
-    * name - название селекта. Выводится над селектом, если не пустая
-#}
-<div class="select">
-    @@if (context.name) {
-        <span class="select__name">@@name</span>
-    }
-    <input class="select__input" type="hidden" value="">
+    * data - массив с содержимым
+        * title - название селекта. Выводится над селектом, если не пустая
+        * name_id - Имя поля
+        * val - значение инпута. В атрибуте value. Может быть единым значением, может имень вид в виде массива : [1, 2, 3]
+        * not_selected_text - стандартное значение. Значение по умолчанию. Если есть, то выводится первым в списке. Это пункт по типу "Не выбрано", но со своим текстом
+    
+    
+    * required - обязательный ли инпут
+    * input_messages_position - расположение инпута в верху или внизу. Принимает либо top дибо bottom. По умолчанию bottom (но можно изменить на top)
+    * checkbox - если true, то добавляет класс select__item--checkbox для item элементов
 
-    <div class="select__current disable">
-        <span class="select__current-text" data-default-text="@@if (context.itemName) { @@itemName  - (не выбрано) } @@if(!context.itemName) { не выбрано }">
-            @@if (context.stText) { @@stText }
-
-            @@if (!context.stText) { 
-                @@if (context.itemName) { @@itemName  - (не выбрано) } @@if(!context.itemName) { не выбрано }
+    
+    * items - массив со списком. Пример:
+    ------------------------------------
+        'items': {
+            0: {
+                'id': '1',
+                'text': 'Валерий',
+                'current_text': 'Валерий куррент',
+                'is_active': true
+            },
+            1: {
+                'id': '2',
+                'text': 'Валерий 2',
+                'current_text': 'Валерий 2 куррент',
+                'is_active': false
             }
+        }
 
-        </span>
+        * id - уникальный id. Когда выбираешь пункт, data-id записывается в input поле.
+           В дальнейшем с этого input, если нужно, форма берет значение и отправляет на сервер
+        * text - отображаемый текст в селекте ( в выпадающем списке )
+        * current_text - отображаемый текст, когда пункт выбран. Текст отображается, селект закрывается.
+        * is_active - активный ли пункт. Boolean значение
+    ------------------------------------
+#}
+
+{# Start Ошибка. Поле не заполнено #}
+{% set is_error = false %}
+{% if data.val == false and settings.required == true %}
+    {% set is_error = true %}
+{% endif %}
+{# End Ошибка. Поле не заполнено #}
+
+{% if data.name_id != false %}
+<div class="select-wrapper">
+    {% if settings.input_messages_position == 'top' %}
+        <div class="input-messages input-messages--top {% if is_error == false %}disable{% endif %} {% if is_error %}error{% endif %}">
+            <span class="input-messages__icon"></span>
+            <span class="input-messages__text">Сообщение</span>
+        </div>
+    {% endif %}
+
+    <div class="select {% if settings.required %}required{% endif %} {% if is_error %}error{% endif %}"> {# Могут быть еще классы success и error #}
+        {% if data.title %}
+            <span class="select__name">{{ data.title }}</span>
+        {% endif %}
+
+        <input class="select__input" name="{{ data.name_id }}" type="hidden" value="{% if data.val is iterable %}{{ data.val | json_encode() }}{% else %}{{ data.val }}{% endif %}">
+
+        <div class="select__current {% if data.val == false %}disable{% endif %}">
+            <span class="select__current-text" {% if data.not_selected_text %}data-default-text="{{ data.not_selected_text }}"{% endif %}>
+                
+                {# Start Если есть активный элемент или элементы #}
+                {% if data.val %}
+                    {% if data.val is iterable %} {# Если это массив #}
+                        
+                        {% set current_text = '' %}
+                        {% for item in items %} {# Проходимя циклом #}
+                            {% if item.id in data.val %} {# Вытаскиваем только активные элементы #}
+                                {% if item.current_text == false %} {# Если нет текста, то выведем обычный #}
+                                    {% set current = item.text %}
+                                {% else %}
+                                    {% set current = item.current_text %}
+                                {% endif %}
+
+                                {% set current = current ~ ', ' %} {# Добавляем запятую в конце #}
+
+                                {% set current_text = current_text ~ current %} {# Добавляем форматированный текст в основную строку #}
+                            {% endif %}
+                        {% endfor %}
+                        {{ current_text | trim(', ') }} {# Выводим текущий текст #}
+
+                    {% else %} {# Если не массив, а просто значение, то просто его выводим #}
+                        {{ data.val }}
+                    {% endif %}
+                {% else %} {# Если значение в input вообще не установлено #}
+                    {{ data.not_selected_text }}
+                {% endif %}
+                {# End Если есть активный элемент или элементы #}
+
+            </span>
+        </div>
+
+        <div class="select__list">
+            {# Start Если можно не выбирать ничего #}
+            {% if data.not_selected_text %}
+                <div class="select__item select__item--default {% if data.val == false %}select__item--active{% endif %}">{{ data.not_selected_text }}</div>
+            {% endif %}
+            {# End Если можно не выбирать ничего #}
+
+            {# Start Выводим список #}
+            {% for key, item in items %}
+                {% if settings.checkbox %}
+                    <div data-id="{{ item.id }}" data-text="{{ item.current_text }}" class="select__item select__item--checkbox {% if item.id in data.val %}select__item--active{% endif %}">
+                        <span class="select__item-field"></span>
+                        <span class="select__item-label">{{ item.text }}</span>
+                    </div>
+                {% else %}
+                    <div data-id="{{ item.id }}" data-text="{{ item.current_text }}" class="select__item {% if item.id == data.val %}select__item--active{% endif %}">{{ item.text }}</div>
+                {% endif %}
+            {% endfor %}
+            {# End Выводим список #}
+        </div>
     </div>
 
-    <div class="select__list">
-        <div class="select__item select__item--default select__item--active">@@if (context.itemName) { @@itemName  - (не выбрано) } @@if(!context.itemName) { не выбрано }</div>
-        <div data-id="1" data-text="@@itemName  1" class="select__item">@@itemName  1</div>
-        <div data-id="2" data-text="@@itemName  2" class="select__item">@@itemName  2</div>
-        <div data-id="3" data-text="@@itemName  3" class="select__item">@@itemName  3</div>
-        <div data-id="4" data-text="@@itemName  4" class="select__item">@@itemName  4</div>
-        <div data-id="5" data-text="@@itemName  5" class="select__item">@@itemName  5</div>
-        <div data-id="6" data-text="@@itemName  6" class="select__item">@@itemName  6</div>
-    </div>
+    {% if settings.input_messages_position == false or settings.input_messages_position == 'bottom' %}
+        <div class="input-messages input-messages--bottom {% if is_error == false %}disable{% endif %} {% if is_error %}error{% endif %}">
+            <span class="input-messages__icon"></span>
+            <span class="input-messages__text">Сообщение</span>
+        </div>
+    {% endif %}
 </div>
+{% else %}
+<div style="color: red;">Параметр "name_id" для компонента .select не проброшен!</div>
+{% endif %}
+
+
+{#
+    input-messages - сообщения об ошибках, успешном заполнении и тд.
+#}

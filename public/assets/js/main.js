@@ -100,3 +100,11 @@ $(document).ready(function (e) {
     });
 });
 // End скрипт для меню
+
+
+
+const API_V1_URLS = {
+    'clients': {
+        'create': '/api_v1/create'
+    }
+}

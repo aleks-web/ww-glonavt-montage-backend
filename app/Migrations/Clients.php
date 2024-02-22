@@ -15,14 +15,13 @@ if (!Manager::schema()->hasTable('clients')) {
 		$table->string('email', 50)->nullable()->comment('Email руководителя');
 		$table->string('legal_address', 355)->nullable()->comment('Юредический адрес');
 		$table->string('actual_address', 355)->nullable()->comment('Фактический адрес');
-		$table->unsignedBigInteger('bank_id')->nullable()->comment('Id банка');
+		$table->unsignedBigInteger('bank_id')->default(null)->comment('Id банка');
 		$table->string('bic', 20)->nullable()->comment('БИК банка');
 		$table->string('checking_bill_num', 100)->nullable()->comment('Номер рассчетного счета');
 		$table->string('correspondent_bill_num', 100)->nullable()->comment('Номер корреспондентского счета');
 		$table->string('okpo', 100)->nullable()->comment('Номер ОКПО');
 		$table->string('okato', 100)->nullable()->comment('Номер окато');
-		$table->integer('is_admin')->nullable()->comment('Админ ли пользователь');
-		$table->unsignedBigInteger('manager_id')->nullable()->comment('Ответственный менеджер. Id пользователя в системе');
+		$table->unsignedBigInteger('manager_id')->default(null)->comment('Ответственный менеджер. Id пользователя в системе');
 
         
 		$table->timestamps(); // Дата создания и дата обновления
