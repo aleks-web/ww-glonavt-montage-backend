@@ -1,0 +1,46 @@
+{#
+    table_rows - элементы таблицы
+    request_params - проброшенные параметры в POST запросе
+#}
+<div class="content-table content-table--control">
+    <div class="content-table__container">
+        <table>
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th class="text-start">Статус</th>
+                    <th class="text-start">Наименование/ИНН</th>
+                    <th>Кол-во объектов</th>
+                    <th>Заявки</th>
+                    <th>Менеджер</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for row in table_rows %}
+                    <tr data-modal-client data-client-id="{{ row.id }}" class="pointer" class="pointer">
+                        <td>{{ row.id }}</td>
+                        <td class="text-start">Активный</td>
+                        <td class="text-start">Наименование<br><span class="text-secondary">ИНН: 234234234</span></td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>4</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+{# Start Пагинация #}
+<div class="main-table-pagination" data-ajax-url="{{ request_params.ajax_url }}" data-current-page="{{ pagination.current_page }}">
+    {% if pagination.current_page > 1 %}
+        <button class="btn" data-page="{{ pagination.prev_page }}">Назад</button>
+    {% endif %}
+
+    {% if pagination.has_next_page %}
+        <button class="btn" data-page="{{ pagination.next_page }}">Дальше</button>
+    {% endif %}
+</div>
+{# End Пагинация #}

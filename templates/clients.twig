@@ -20,37 +20,14 @@
 
 {% block content %}
 
-<div class="content-table content-table--control">
-    <div class="content-table__container">
-
-        <table>
-            <thead>
-                <tr>
-                <th>Номер</th>
-                <th>Дата</th>
-                <th class="text-start">Тип/модель/гос№<br>объекта</th>
-                <th class="text-start">Клиент</th>
-                <th class="text-start">Адрес</th>
-                <th class="text-start">Телефон</th>
-                <th class="text-start">Пробег</th>
-                <th class="text-start">Причина</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr class="pointer">
-                    <td>1</td>
-                    <td>23.10.2023</td>
-                    <td class="text-start">Х664МА72 LADA 4x4, 212140<br>Легковой автомобиль</td>
-                    <td class="text-start">ООО Альянс</td>
-                    <td class="text-start">629008, Ямало-Ненецкий<br>Автономный округ....</td>
-                    <td class="text-start">89224544565</td>
-                    <td class="text-start">125286</td>
-                    <td class="text-start">Заявка №123456<br>от 23.10.2023</td>
-                </tr>
-            </tbody>
-        </table>
-
-    </div>
-</div>
 {% endblock content %}
+
+
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        xrender(API_V1_URLS.clients.render, 'region-main-table:main-table.twig');
+    });
+</script>
+{% endblock scripts %}

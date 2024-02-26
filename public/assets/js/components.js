@@ -319,12 +319,16 @@ $(document).ready(function (e) {
 });
 // End обнуление
 
+
+
 // Start Список компонентов с input
 const input_components = ["input-text", "select", "textarea"];
 // End Список компонентов input
 
+
+
 // Start Функция которая формирует классы для вложенного поиска. Передается обертка в которой ищутся компоненты и формируется вложенность
-function get_classes_components_by_wrapper(wrapper_selector) {
+function cpns_get_classes_by_wrapper(wrapper_selector) {
     let find_classes = "";
     input_components.forEach(function (el) {
         find_classes = find_classes + wrapper_selector + " ." + el + ", ";
@@ -335,12 +339,14 @@ function get_classes_components_by_wrapper(wrapper_selector) {
 }
 // End Функция которая формирует классы для вложенного поиска. Передается обертка в которой ищутся компоненты и формируется вложенность
 
+
+
 // Start Функция, которая получает объект formData учитывая все эти компоненты
-function get_formdata_by_components(wrapper_selector) {
+function cpns_get_formdata_by_wrapper(wrapper_selector) {
     let formData = new FormData();
     let countFields = 0;
 
-    $(get_classes_components_by_wrapper(wrapper_selector)).each(function (i, el) {
+    $(cpns_get_classes_by_wrapper(wrapper_selector)).each(function (i, el) {
         let input = $(this).find("input");
 
         if (!input.length) {
@@ -361,11 +367,13 @@ function get_formdata_by_components(wrapper_selector) {
 }
 // End Функция, которая получает объект formData учитывая все эти компоненты
 
-// Start Получение ошибок в инпутах компонентов внутри какой-то обертки
-function get_errors_components_by_wrapper(wrapper_selector) {
-    let null_inputs = [];
 
-    $(get_classes_components_by_wrapper(wrapper_selector)).each(function (i, el) {
+
+// Start Получение ошибок в инпутах компонентов внутри какой-то обертки
+function cpns_get_errors_by_wrapper(wrapper_selector) {
+    let null_inputs = {};
+
+    $(cpns_get_classes_by_wrapper(wrapper_selector)).each(function (i, el) {
         let input = $(this).find("input");
 
         if (!input.length) {
@@ -373,14 +381,17 @@ function get_errors_components_by_wrapper(wrapper_selector) {
         }
 
         if (!input.val() && $(this).hasClass("required")) {
-            null_inputs[input.attr("name")].push(input.attr("name"));
+            null_inputs[input.attr("name")] = {
+                name: input.attr("name"), // Название поля input
+                message: 'Поле не заполнено', // Сообщение об ошибке
+                message_type: 'error', // Тип сообщения
+                wrapper_selector: wrapper_selector, // Родительский селектор-обертка, в котором находятся все искомые компоненты
+                target: $(this) // Текущий компонент
+            }
         }
     });
 
-    console.log(null_inputs);
-
     if (Object.keys(null_inputs).length > 0) {
-        console.log(null_inputs);
         return null_inputs;
     } else {
         return false;
@@ -388,8 +399,64 @@ function get_errors_components_by_wrapper(wrapper_selector) {
 }
 // End Получение ошибок в инпутах компонентов внутри какой-то обертки
 
+
+
+
 // Start Обновление компонентов. Валидация
-function update_components_from_json(json) {
-    console.log(typeof json);
+function cpns_update_from_json(json, wrapper_selector) {
+
+    let components = $(cpns_get_classes_by_wrapper(wrapper_selector));
+
+    components.removeClass('error').addClass('success');
+
+    components.each(function() {
+        let block_wrapper = $(this).parents('.component-wrapper');
+
+        block_wrapper.find('.input-messages').removeClass('error').removeClass('success').addClass('disable');
+    });
+
+    for (let key in json) { // Начинаем перебирать объект и обновлять компоненты
+        let name = json[key]['name'];
+        let message = json[key]['message'];
+        let message_type = json[key]['message_type'];
+        let target = json[key]['target'];
+
+
+        if (target) {
+            let block_wrapper = target.parents('.component-wrapper'); // Получаем главную обертку компонента
+            let input_messages = block_wrapper.find('.input-messages'); // Получаем блок с сообщениями
+
+            input_messages.removeClass('disable').removeClass('error').removeClass('success').addClass(message_type).find('.input-messages__text').text(message);
+
+            target.removeClass('success');
+            target.addClass(message_type);
+        }
+    }
 }
 // End Обновление компонентов. Валидация
+
+
+
+// Start Функция сброса всех данных у компонентов
+function cpns_clear_by_wrapper(wrapper_selector) {
+    let cpns_classes = cpns_get_classes_by_wrapper(wrapper_selector);
+
+    $(cpns_classes).each(function () {
+        let input = $(this).find("input");
+
+        if (!input.length) {
+            input = $(this).find("textarea");
+        }
+
+        input.val('');
+
+        // Устанавливаем дефолтный текст если это селект
+        if ($(this).hasClass('select')) {
+            let current_text = $(this).find('.select__current-text');
+            current_text.text(current_text.data('default-text'));
+        }
+
+        $(this).removeClass('success').removeClass('error');
+    });
+}
+// End Функция сброса всех данных у компонентов

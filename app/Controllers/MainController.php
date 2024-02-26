@@ -18,16 +18,6 @@ class MainController extends Controller {
         $this->view = $this->WWCrmService->get('View');
     }
 
-    public function __invoke() {
-        return $this->WWCrmService->get('View')->render('clients.twig', [
-            'title' => 'test',
-            'user' => [
-                'name' => 'Алексей',
-                'surname' => 'Антропов'
-            ]
-        ]);
-    }
-
     /*
         Отправляем на 404 страницу, если не найдено
     */

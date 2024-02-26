@@ -73,6 +73,16 @@
 }
 // End инпут поиска
 
+
+.textarea {
+    &.success textarea {
+        border-color: var(--clr-3) !important;
+    }
+    &.error textarea {
+        border-color: var(--clr-2) !important;
+    }
+}
+
 .input-text {
     border: 1px solid var(--border-clr-input, #c7c7c7);
     border-radius: 5px;
@@ -124,7 +134,7 @@
         border-color: var(--clr-2);
     }
 
-    &.succsess {
+    &.success {
         border-color: var(--clr-3);
     }
 }

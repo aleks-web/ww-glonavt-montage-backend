@@ -20,27 +20,28 @@ $(document).ready(function (e) {
 $(document).ready(function (e) {
     $(document).on("click", "#modal-client-add .js-submitter", function (e) {
         let create_url = API_V1_URLS.clients.create; // API_V1_URLS - Смотрим в main.js
-        let formData = get_formdata_by_components("#modal-client-add");
+        let formData = cpns_get_formdata_by_wrapper("#modal-client-add");
 
-        // Если есть заполненные поля, отправляем запрос
-        if (formData) {
-            if (!get_errors_components_by_wrapper("#modal-client-add")) {
-                // Если все поля введены корректно
-                xpost_fd(create_url, formData);
-            }
+        // Если есть заполненные поля и нет ошибок, отправляем запрос
+        if (formData && !cpns_get_errors_by_wrapper("#modal-client-add")) {
+            // Отправка запроса
+            xpost_fd(create_url, formData).then(function(data) {
+                cpns_clear_by_wrapper('#modal-client-add');
+            });
         }
+
     });
 
-    $(document).bind("keyup change", get_classes_components_by_wrapper("#modal-client-add"), function (e) {
-        let data; // Массив с полями, которые не прошли проверку
+    $(document).bind("keyup change", cpns_get_classes_by_wrapper("#modal-client-add"), function (e) {
+        let data = cpns_get_errors_by_wrapper("#modal-client-add"); // Массив с полями, которые не прошли проверку
 
-        if ((data = get_errors_components_by_wrapper("#modal-client-add"))) {
+        if (data) {
             $("#modal-client-add .js-submitter").addClass("disable");
-
-            update_components_from_json(data);
         } else {
             $("#modal-client-add .js-submitter").removeClass("disable");
         }
+
+        cpns_update_from_json(data, '#modal-client-add');
     });
 });
 // End Добаввление клиента в базу данных

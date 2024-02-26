@@ -68,6 +68,6 @@
 }
 
 // Высота для следующего блока, если есть есть .control в html
-.control ~ .content-table {
+.control ~ #region-main-table {
     height: calc(100dvh - var(--regionContent-padding) * 2 - var(--control-height) - var(--header-height));
 }

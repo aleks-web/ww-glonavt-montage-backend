@@ -15,7 +15,8 @@ $router = $WWAppContainer->get('Router');
 
 
 // Start Routes
-$router->xpost(API_V1_URL . 'create', 'ClientsController@create'); // Главная страница. Обработка в __invoke методе
+$router->xpost(API_V1_URL . 'clients/create', 'ApiClientsController@create');
+$router->xpost(API_V1_URL . 'clients/render', 'ApiClientsController@render');
 
 
 $router->notFound(function(Request $request, Response $response) {
