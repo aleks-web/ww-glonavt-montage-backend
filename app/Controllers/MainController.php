@@ -5,6 +5,8 @@ namespace WWCrm\Controllers;
 use Buki\Router\Http\Controller;
 
 use WWCrm\ServiceContainer;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class MainController extends Controller {
 
@@ -16,6 +18,12 @@ class MainController extends Controller {
         $this->WWCrmService = ServiceContainer::getInstance();
         $this->WWCurrentUser = $this->WWCrmService->get('CurrentUser');
         $this->view = $this->WWCrmService->get('View');
+    }
+
+    public function __invoke(Request $request, Response $response) {
+        return $this->WWCrmService->get('View')->render('main.twig', [
+            'title' => 'Тестовый layout',
+        ]);
     }
 
     /*

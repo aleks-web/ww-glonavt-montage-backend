@@ -5,11 +5,11 @@ namespace WWCrm\Controllers;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ApplicationsController extends \WWCrm\Controllers\MainController {
+class WorkersController extends \WWCrm\Controllers\MainController {
 
     public function __invoke(Request $request, Response $response) {
-        return $this->view->render('applications.twig', [
-            'title' => 'Заявки',
+        return $this->view->render('workers.twig', [
+            'title' => 'Сотрудники',
         ]);
     }
 

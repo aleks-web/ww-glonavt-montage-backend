@@ -18,7 +18,10 @@ $router = $WWAppContainer->get('Router');
 $router->get('/', 'MainController'); // Главная страница. Обработка в __invoke методе
 
 $router->get('/clients', 'ClientsController'); // Клиенты
-$router->get('/applications', 'ApplicationsController'); // Клиенты
+$router->get('/applications', 'ApplicationsController'); // Заявки
+$router->get('/statistics', 'StatisticsController'); // Статистика
+$router->get('/objects', 'ObjectsController'); // Объекты
+$router->get('/workers', 'WorkersController'); // Сотрудники
 
 $router->get('/404', 'MainController@notFound'); // Страница не найдена
 

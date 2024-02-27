@@ -1,0 +1,179 @@
+{% extends "layout.twig" %}
+
+{% block control %}
+<div class="control">
+    <div class="control__container">
+        <div class="control__left">
+
+            <div class="control__search input-search" style="max-width: 370px;">
+                <input type="text" class="input-search__input" placeholder="Поиск по ФИО сотрудника">
+            </div>
+
+        </div>
+
+        <div class="control__right">
+            <button data-modal-worker-add class="control__btn btn">Добавить</button>
+        </div>
+    </div>
+</div>
+{% endblock control %}
+
+{% block content %}
+<div class="content-table">
+    <div class="content-table__container">
+
+        <table>
+            <thead>
+                <tr>
+                <th class="text-start" width="10%">Фото</th>
+                <th class="text-start">Сотрудник/Отдел</th>
+                <th class="text-start">Телефон</th>
+                <th class="text-start">Почта</th>
+                <th class="text-start">Дата/Время<br>авторизации</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr data-modal-worker data-worker-id="1" class="pointer">
+                    <td class="td-avatar">
+                        <svg><use xlink:href="#svg-user"></use></svg>
+                        <img src="/assets/img/default/avatar.png" alt="Аватар">
+                    </td>
+                    <td class="text-start">
+                        <span>Константинопольский Константин Константинович</span>
+                        <br>
+                        <span class="text-secondary">Руководитель</span>
+                    </td>
+                    <td class="text-start">89222314546</td>
+                    <td class="text-start">example@mail.ru</td>
+                    <td class="text-start">19.10.2023 15:21</td>
+                </tr>
+                <tr data-modal-worker data-worker-id="1" class="pointer">
+                    <td class="td-avatar">
+                        <svg><use xlink:href="#svg-user"></use></svg>
+                    </td>
+                    <td class="text-start">
+                        <span>Константинопольский Константин Константинович</span>
+                        <br>
+                        <span class="text-secondary">Руководитель</span>
+                    </td>
+                    <td class="text-start">89222314546</td>
+                    <td class="text-start">example@mail.ru</td>
+                    <td class="text-start">19.10.2023 15:21</td>
+                </tr>
+                <tr data-modal-worker data-worker-id="1" class="pointer">
+                    <td class="td-avatar">
+                        <svg><use xlink:href="#svg-user"></use></svg>
+                        <img src="/assets/img/default/avatar.png" alt="Аватар">
+                    </td>
+                    <td class="text-start">
+                        <span>Константинопольский Константин Константинович</span>
+                        <br>
+                        <span class="text-secondary">Руководитель</span>
+                    </td>
+                    <td class="text-start">89222314546</td>
+                    <td class="text-start">example@mail.ru</td>
+                    <td class="text-start">19.10.2023 15:21</td>
+                </tr>
+                <tr data-modal-worker data-worker-id="1" class="pointer">
+                    <td class="td-avatar">
+                        <svg><use xlink:href="#svg-user"></use></svg>
+                        <img src="/assets/img/default/avatar.png" alt="Аватар">
+                    </td>
+                    <td class="text-start">
+                        <span>Константинопольский Константин Константинович</span>
+                        <br>
+                        <span class="text-secondary">Руководитель</span>
+                    </td>
+                    <td class="text-start">89222314546</td>
+                    <td class="text-start">example@mail.ru</td>
+                    <td class="text-start">19.10.2023 15:21</td>
+                </tr>
+                <tr data-modal-worker data-worker-id="1" class="pointer">
+                    <td class="td-avatar">
+                        <svg><use xlink:href="#svg-user"></use></svg>
+                    </td>
+                    <td class="text-start">
+                        <span>Константинопольский Константин Константинович</span>
+                        <br>
+                        <span class="text-secondary">Руководитель</span>
+                    </td>
+                    <td class="text-start">89222314546</td>
+                    <td class="text-start">example@mail.ru</td>
+                    <td class="text-start">19.10.2023 15:21</td>
+                </tr>
+                <tr data-modal-worker data-worker-id="1" class="pointer">
+                    <td class="td-avatar">
+                        <svg><use xlink:href="#svg-user"></use></svg>
+                        <img src="/assets/img/default/avatar.png" alt="Аватар">
+                    </td>
+                    <td class="text-start">
+                        <span>Константинопольский Константин Константинович</span>
+                        <br>
+                        <span class="text-secondary">Руководитель</span>
+                    </td>
+                    <td class="text-start">89222314546</td>
+                    <td class="text-start">example@mail.ru</td>
+                    <td class="text-start">19.10.2023 15:21</td>
+                </tr>
+                <tr data-modal-worker data-worker-id="1" class="pointer">
+                    <td class="td-avatar">
+                        <svg><use xlink:href="#svg-user"></use></svg>
+                        <img src="/assets/img/default/avatar.png" alt="Аватар">
+                    </td>
+                    <td class="text-start">
+                        <span>Константинопольский Константин Константинович</span>
+                        <br>
+                        <span class="text-secondary">Руководитель</span>
+                    </td>
+                    <td class="text-start">89222314546</td>
+                    <td class="text-start">example@mail.ru</td>
+                    <td class="text-start">19.10.2023 15:21</td>
+                </tr>
+                <tr data-modal-worker data-worker-id="1" class="pointer">
+                    <td class="td-avatar">
+                        <svg><use xlink:href="#svg-user"></use></svg>
+                        <img src="/assets/img/default/avatar.png" alt="Аватар">
+                    </td>
+                    <td class="text-start">
+                        <span>Константинопольский Константин Константинович</span>
+                        <br>
+                        <span class="text-secondary">Руководитель</span>
+                    </td>
+                    <td class="text-start">89222314546</td>
+                    <td class="text-start">example@mail.ru</td>
+                    <td class="text-start">19.10.2023 15:21</td>
+                </tr>
+                <tr data-modal-worker data-worker-id="1" class="pointer">
+                    <td class="td-avatar">
+                        <svg><use xlink:href="#svg-user"></use></svg>
+                    </td>
+                    <td class="text-start">
+                        <span>Константинопольский Константин Константинович</span>
+                        <br>
+                        <span class="text-secondary">Руководитель</span>
+                    </td>
+                    <td class="text-start">89222314546</td>
+                    <td class="text-start">example@mail.ru</td>
+                    <td class="text-start">19.10.2023 15:21</td>
+                </tr>
+                <tr data-modal-worker data-worker-id="1" class="pointer">
+                    <td class="td-avatar">
+                        <svg><use xlink:href="#svg-user"></use></svg>
+                        <img src="/assets/img/default/avatar.png" alt="Аватар">
+                    </td>
+                    <td class="text-start">
+                        <span>Константинопольский Константин Константинович</span>
+                        <br>
+                        <span class="text-secondary">Руководитель</span>
+                    </td>
+                    <td class="text-start">89222314546</td>
+                    <td class="text-start">example@mail.ru</td>
+                    <td class="text-start">19.10.2023 15:21</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+{% endblock content %}

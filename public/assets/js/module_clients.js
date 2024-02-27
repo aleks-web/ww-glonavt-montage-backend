@@ -1,3 +1,4 @@
+// Start Модаки
 $(document).ready(function (e) {
     $(document).on("click", "[data-modal-client]", function (e) {
         let client_id = $(this).data("client-id");
@@ -15,8 +16,9 @@ $(document).ready(function (e) {
         $("#modal-client-add").addClass("open");
     });
 });
+// End Модаки
 
-// Start Добаввление клиента в базу данных
+// Start Добаввление клиента в базу данных | Модалка добавления нового пользователя
 $(document).ready(function (e) {
     $(document).on("click", "#modal-client-add .js-submitter", function (e) {
         let create_url = API_V1_URLS.clients.create; // API_V1_URLS - Смотрим в main.js
@@ -25,11 +27,12 @@ $(document).ready(function (e) {
         // Если есть заполненные поля и нет ошибок, отправляем запрос
         if (formData && !cpns_get_errors_by_wrapper("#modal-client-add")) {
             // Отправка запроса
-            xpost_fd(create_url, formData).then(function(data) {
-                cpns_clear_by_wrapper('#modal-client-add');
+            xpost_fd(create_url, formData).then(function (data) {
+                cpns_clear_by_wrapper("#modal-client-add");
+                xrender(API_V1_URLS.clients.render, "region-main-table:main-table.twig");
+                $("#modal-client-add [data-modal-close]").trigger("click");
             });
         }
-
     });
 
     $(document).bind("keyup change", cpns_get_classes_by_wrapper("#modal-client-add"), function (e) {
@@ -41,7 +44,7 @@ $(document).ready(function (e) {
             $("#modal-client-add .js-submitter").removeClass("disable");
         }
 
-        cpns_update_from_json(data, '#modal-client-add');
+        cpns_update_from_json(data, "#modal-client-add");
     });
 });
-// End Добаввление клиента в базу данных
+// End Добаввление клиента в базу данных | Модалка добавления нового пользователя
