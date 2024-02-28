@@ -5,6 +5,7 @@ include_once 'bootstrap.php';
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use WWCrm\Controllers\ApiClientsController;
 
 const API_V1_URL = '/api_v1/';
 
@@ -16,7 +17,8 @@ $router = $WWAppContainer->get('Router');
 
 // Start Routes
 $router->xpost(API_V1_URL . 'clients/create', 'ApiClientsController@create');
-$router->xpost(API_V1_URL . 'clients/render', 'ApiClientsController@render');
+
+$router->xpost(API_V1_URL . 'clients/render/:string', 'ApiClientsController@distributor');
 
 
 $router->notFound(function(Request $request, Response $response) {

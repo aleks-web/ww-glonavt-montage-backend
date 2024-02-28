@@ -25,9 +25,11 @@
 
 
 {% block scripts %}
+{# Start Подгружаем главную таблицу #}
 <script>
     $(document).ready(function() {
-        xrender(API_V1_URLS.clients.render, 'region-main-table:main-table.twig');
+        xrender_main_table_clients('region-main-table:main-table.twig', 1);
     });
 </script>
+{# End Подгружаем главную таблицу #}
 {% endblock scripts %}

@@ -5,21 +5,22 @@ namespace WWCrm\Controllers;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-use Illuminate\Pagination\Paginator;
-
-use WWCrm\Models\Clients;
+use WWCrm\Models\Organizations;
 
 class ApiClientsController extends \WWCrm\Controllers\MainController {
-
+    
+    /*
+        Создание организации
+    */
     public function create(Request $request, Response $response) {
 
         // Получаем параметры
         $params = $request->request->all();
 
         // Создаем пользователя
-        $client = Clients::create($params);
+        $client = Organizations::create($params);
 
-        $response_array['db_fields'] = Clients::find($client->id);
+        $response_array['db_fields'] = Organizations::find($client->id);
         $response_array['status'] = 'success';
         $response_array['message'] = 'Клиент создан';
         $response_array['request_params'] = $params;
@@ -30,22 +31,32 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
         return $response;
     }
 
+    // Выступает в качестве распределителя
+    public function distributor($twig_element, Request $request, Response $response) {
+        if ($twig_element == 'main-table') {
+            return $this->render_main_table($twig_element, $request, $response);
+        }
+    }
 
-    public function render(Request $request, Response $response) { // Рендер twig элементов
+
+
+
+
+    public function render_main_table($twig_element, Request $request, Response $response) { // Рендер twig элементов
         // Получаем параметры POST и сразу записываем их в массив с ответом
         $response_array['request_params'] = $request->request->all();
+        $twig_element = $twig_element . '.twig';
 
-
-        if (!empty($response_array['request_params']['twig_element'])) { // Если есть рендер элемент
+        if (!empty($twig_element)) { // Если есть рендер элемент
 
             // Start Данные для пагинации
             $current_page = !empty($response_array['request_params']['current_page']) ? (int) $response_array['request_params']['current_page'] : 1; // Текущая страница
             $per_page = 10; // Отображаемое количество на странице
             $offset = ($current_page - 1) * $per_page; // Offset для sql (пропуск выгрузки)
             $offset_next = $current_page * $per_page; // Offset для sql (пропуск выгрузки)
-            $count_clients = Clients::count(); // Количество элементов в таблице
-            $clients = Clients::offset($offset)->limit($per_page)->get();
-            $clients_next = Clients::offset($offset_next)->limit($per_page)->get();
+            $count_clients = Organizations::count(); // Количество элементов в таблице
+            $clients = Organizations::offset($offset)->limit($per_page)->get();
+            $clients_next = Organizations::offset($offset_next)->limit($per_page)->get();
 
             $response_array['pagination']['items_count'] = $count_clients;
             $response_array['pagination']['offset'] = $offset;
@@ -61,7 +72,7 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             $response_array['message'] = 'Элемент успешно отрендерился';
             $response_array['table_rows'] = $clients;
             
-            $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $response_array['request_params']['twig_element'], [
+            $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
                 'table_rows' => $response_array['table_rows'],
                 'pagination' => $response_array['pagination'],
                 'request_params' => $response_array['request_params']

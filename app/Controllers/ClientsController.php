@@ -5,7 +5,7 @@ namespace WWCrm\Controllers;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-use WWCrm\Models\Clients;
+use WWCrm\Models\Organizations;
 
 class ClientsController extends \WWCrm\Controllers\MainController {
 

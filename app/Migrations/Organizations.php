@@ -1,14 +1,14 @@
 <?php
 
 use Illuminate\Database\Capsule\Manager;
-use WWCrm\Models\Clients as Client;
+use WWCrm\Models\Organizations;
 
-if (!Manager::schema()->hasTable('clients')) {
+if (!Manager::schema()->hasTable('organizations')) {
 
-    Manager::schema()->create('clients', function ($table) {
+    Manager::schema()->create('organizations', function ($table) {
         $table->id();
         $table->string('name', 255)->nullable()->comment('Имя клиента');
-		$table->unsignedBigInteger('status')->nullable()->comment('Статус клиента');
+		$table->integer('status')->nullable()->comment('Статус клиента');
 		$table->string('inn', 150)->nullable()->comment('ИНН клиента');
 		$table->string('director_tel', 50)->nullable()->comment('Телефон руководителя');
 		$table->string('director_fio', 50)->nullable()->comment('ФИО руководителя');
@@ -30,26 +30,26 @@ if (!Manager::schema()->hasTable('clients')) {
 
 
 	$test_arr = [
-		// [
-		// 	'name' => 'Алексей',
-		// 	'status' => 1
-		// ],
-		// [
-		// 	'name' => 'Василий',
-		// 	'status' => 1
-		// ],
-		// [
-		// 	'name' => 'Мария',
-		// 	'status' => 1
-		// ],
-		// [
-		// 	'name' => 'Георгий',
-		// 	'status' => 1
-		// ]
+		[
+			'name' => 'Алексей',
+			'status' => 1
+		],
+		[
+			'name' => 'Василий',
+			'status' => 1
+		],
+		[
+			'name' => 'Мария',
+			'status' => 1
+		],
+		[
+			'name' => 'Георгий',
+			'status' => 1
+		]
 	];
 
 
 	foreach ($test_arr as $arr) {
-		Client::create($arr);
+		Organizations::create($arr);
 	}
 }

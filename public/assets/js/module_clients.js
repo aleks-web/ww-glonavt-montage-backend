@@ -18,6 +18,62 @@ $(document).ready(function (e) {
 });
 // End Модаки
 
+
+
+
+
+// Start функция, которая получает html разметку главной таблицы и вставляет ее
+function xrender_main_table_clients(wrapper_and_element, current_page = 1, control_panel_condition = false) {
+
+    // Разбиваем строку wrapper_and_element на обертку и twig элемент 
+    let position = wrapper_and_element.indexOf(':');
+    let wrapper = $('#' + wrapper_and_element.substring(0, position));
+    let twig_element = wrapper_and_element.substring(position);
+    twig_element = twig_element.substring(1);
+
+    twig_url = twig_element.indexOf('.');
+    twig_url = twig_element.substring(0, twig_url);
+    
+    let url = API_V1_URLS.clients.render + twig_url;
+
+    $.ajax({
+        url: url,
+        method: "POST",
+        data: {
+            twig_element: twig_element,
+            current_page: current_page, // Текущая страница, если есть
+            control_panel_condition: control_panel_condition
+        },
+        success: function (response) {
+            wrapper.removeClass('loading');
+
+            if (response.status == 'success') {
+                wrapper.html(response.render_response_html);
+            }
+
+            if (response.status == 'error') {
+                wrapper.html(`<div style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">${response.message}</div>`);
+            }
+
+            console.log(response);
+        },
+        beforeSend: function() {
+            wrapper.addClass('loading');
+        }
+    });
+}
+// Start функция, которая получает html разметку главной таблицы и вставляет ее
+
+
+
+// Start реализация пагинации для главной таблицы клиентов
+$(document).on('click', '.module-clients .main-table-pagination button', function() {
+    xrender_main_table_clients('region-main-table:main-table.twig', $(this).data('page'));
+});
+// End реализация пагинации для главной таблицы клиентов
+
+
+
 // Start Добаввление клиента в базу данных | Модалка добавления нового пользователя
 $(document).ready(function (e) {
     $(document).on("click", "#modal-client-add .js-submitter", function (e) {
@@ -29,7 +85,7 @@ $(document).ready(function (e) {
             // Отправка запроса
             xpost_fd(create_url, formData).then(function (data) {
                 cpns_clear_by_wrapper("#modal-client-add");
-                xrender(API_V1_URLS.clients.render, "region-main-table:main-table.twig");
+                xrender_main_table_clients("region-main-table:main-table.twig"); // Обновляем главную таблицу клиентов
                 $("#modal-client-add [data-modal-close]").trigger("click");
             });
         }

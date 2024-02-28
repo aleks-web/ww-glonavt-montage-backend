@@ -117,63 +117,14 @@ function xpost_fd(url, formData) {
 
 
 
-// Start функция, которая получает html разметку с сервера и вставляет ее
-function xrender(url, wrapper_and_element, current_page = 1) {
-    
-    // Разбиваем строку wrapper_and_element на обертку и twig элемент 
-    let position = wrapper_and_element.indexOf(':');
-    let wrapper = $('#' + wrapper_and_element.substring(0, position));
-    let twig_element = wrapper_and_element.substring(position);
-    twig_element = twig_element.substring(1);
 
-    $.ajax({
-        url: url,
-        method: "POST",
-        data: {
-            twig_element: twig_element,
-            ajax_url: url,
-            current_page: current_page, // Текущая страница, если есть
-            next_page: current_page + 1
-        },
-        success: function (response) {
-            wrapper.removeClass('loading');
-
-            if (response.status == 'success') {
-                wrapper.html(response.render_response_html);
-            }
-
-            if (response.status == 'error') {
-                wrapper.html(`<div style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">${response.message}</div>`);
-            }
-
-            console.log(response);
-        },
-        beforeSend: function() {
-            wrapper.addClass('loading');
-        }
-    });
-}
-// End функция, которая получает html разметку с сервера и вставляет ее
-
-
-
-
-
-// Start реализация пагинации для главной таблицы
-$(document).on('click', '.main-table-pagination button', function() {
-    let url = $(this).parents('.main-table-pagination').data('ajax-url');
-    let page = $(this).data('page');
-
-    xrender(url, 'region-main-table:main-table.twig', page);
-});
-// End реализация пагинации для главной таблицы
 
 
 // Start Глобально доступная константа. Содержит ссылки API
 const API_V1_URLS = {
     clients: {
-        create: "/api_v1/clients/create",
-        render: "/api_v1/clients/render"
+        create: "/api_v1/clients/create/",
+        render: "/api_v1/clients/render/"
     },
 };
 // End Глобально доступная константа. Содержит ссылки API

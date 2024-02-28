@@ -4,7 +4,7 @@ namespace WWCrm\Models;
 
 use \Illuminate\Database\Eloquent\Model;
 
-class Clients extends Model {
+class Organizations extends Model {
   protected $fillable = [
     'name',
     'status',
