@@ -1,0 +1,23 @@
+{#
+    Компонент поиска
+
+    data:
+        field_name - name
+        pls - плейсхолдер
+    cpns_styles - массив со стилями
+#}
+
+{# Start Делаем из массива стилей в строку #}
+{% set arr_styles = '' %}
+{% for selector, value in cpns_styles %}
+    {% set arr_styles = arr_styles ~ selector ~ ': ' ~ value ~ '; '%}
+{% endfor %}
+{# End Делаем из массива стилей в строку #}
+
+{% if data.field_name %}
+    <div class="control__search input-search" style="{{ arr_styles }}">
+        <input type="text" name="{{ data.field_name }}" class="input-search__input" placeholder="{{ data.pls }}">
+    </div>
+{% else %}
+    Не прокинут field_name в компонент
+{% endif %}

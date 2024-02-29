@@ -5,9 +5,17 @@
     <div class="control__container">
         <div class="control__left">
 
-            <div class="control__search input-search" style="max-width: 370px;">
-                <input type="text" class="input-search__input" placeholder="Поиск по наименованию или ИНН">
-            </div>
+            {%include 'components/control-search.twig' with
+                {
+                    data: {
+                        field_name: 'name_or_inn',
+                        pls: 'Поиск по наименованию или ИНН'
+                    },
+                    cpns_styles: {
+                        'max-width': '380px',
+                    }
+                }
+            %}
 
         </div>
 
@@ -28,7 +36,7 @@
 {# Start Подгружаем главную таблицу #}
 <script>
     $(document).ready(function() {
-        xrender_main_table_clients('region-main-table:main-table.twig', 1);
+        xrender_main_table_clients(1);
     });
 </script>
 {# End Подгружаем главную таблицу #}

@@ -53,24 +53,32 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             $current_page = !empty($response_array['request_params']['current_page']) ? (int) $response_array['request_params']['current_page'] : 1; // Текущая страница
             $per_page = 10; // Отображаемое количество на странице
             $offset = ($current_page - 1) * $per_page; // Offset для sql (пропуск выгрузки)
-            $offset_next = $current_page * $per_page; // Offset для sql (пропуск выгрузки)
-            $count_clients = Organizations::count(); // Количество элементов в таблице
-            $clients = Organizations::offset($offset)->limit($per_page)->get();
-            $clients_next = Organizations::offset($offset_next)->limit($per_page)->get();
+            $offset_next = $current_page * $per_page; // Offset для sql (пропуск для следующей страницы)
 
-            $response_array['pagination']['items_count'] = $count_clients;
+            // Говорим, что будем пропускать кол-во записей и выводить определенное
+            // Начальное построение запроса
+            $queryBuild = Organizations::offset($offset)->limit($per_page);
+            $queryBuildNext = Organizations::offset($offset_next)->limit($per_page);
+            
+            if ($condition = $response_array['request_params']['control_panel_condition']) {
+                $queryBuild->where('inn', 'like', '%' . $condition['name_or_inn'] . '%')
+                            ->orWhere('name', 'like', '%' . $condition['name_or_inn'] . '%');
+                $queryBuildNext->where('inn', 'like', '%' . $condition['name_or_inn'] . '%')
+                            ->orWhere('name', 'like', '%' . $condition['name_or_inn'] . '%');
+            }
+
             $response_array['pagination']['offset'] = $offset;
             $response_array['pagination']['per_page'] = $per_page;
             $response_array['pagination']['current_page'] = $current_page;
             $response_array['pagination']['next_page'] = $current_page + 1;
             $response_array['pagination']['prev_page'] = $current_page - 1;
-            $response_array['pagination']['has_next_page'] = count($clients_next) ? true : false; // Есть ли следующая страница
+            $response_array['pagination']['has_next_page'] = count($queryBuildNext->get()) ? true : false; // Есть ли следующая страница
             // End Данные для пагинации
 
 
             $response_array['status'] = 'success';
             $response_array['message'] = 'Элемент успешно отрендерился';
-            $response_array['table_rows'] = $clients;
+            $response_array['table_rows'] = $queryBuild->get();
             
             $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
                 'table_rows' => $response_array['table_rows'],

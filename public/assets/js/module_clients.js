@@ -18,22 +18,15 @@ $(document).ready(function (e) {
 });
 // End Модаки
 
-
-
-
-
 // Start функция, которая получает html разметку главной таблицы и вставляет ее
-function xrender_main_table_clients(wrapper_and_element, current_page = 1, control_panel_condition = false) {
+function xrender_main_table_clients(current_page = 1, control_panel_condition = null) {
+    // Разбиваем строку wrapper_and_element на обертку и twig элемент
+    let wrapper = $("#region-main-table");
+    let twig_element = "main-table.twig";
 
-    // Разбиваем строку wrapper_and_element на обертку и twig элемент 
-    let position = wrapper_and_element.indexOf(':');
-    let wrapper = $('#' + wrapper_and_element.substring(0, position));
-    let twig_element = wrapper_and_element.substring(position);
-    twig_element = twig_element.substring(1);
-
-    twig_url = twig_element.indexOf('.');
+    twig_url = twig_element.indexOf(".");
     twig_url = twig_element.substring(0, twig_url);
-    
+
     let url = API_V1_URLS.clients.render + twig_url;
 
     $.ajax({
@@ -42,37 +35,33 @@ function xrender_main_table_clients(wrapper_and_element, current_page = 1, contr
         data: {
             twig_element: twig_element,
             current_page: current_page, // Текущая страница, если есть
-            control_panel_condition: control_panel_condition
+            control_panel_condition: control_panel_condition,
         },
         success: function (response) {
-            wrapper.removeClass('loading');
+            wrapper.removeClass("loading");
 
-            if (response.status == 'success') {
+            if (response.status == "success") {
                 wrapper.html(response.render_response_html);
             }
 
-            if (response.status == 'error') {
+            if (response.status == "error") {
                 wrapper.html(`<div style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">${response.message}</div>`);
             }
 
             console.log(response);
         },
-        beforeSend: function() {
-            wrapper.addClass('loading');
-        }
+        beforeSend: function () {
+            wrapper.addClass("loading");
+        },
     });
 }
 // Start функция, которая получает html разметку главной таблицы и вставляет ее
 
-
-
 // Start реализация пагинации для главной таблицы клиентов
-$(document).on('click', '.module-clients .main-table-pagination button', function() {
-    xrender_main_table_clients('region-main-table:main-table.twig', $(this).data('page'));
+$(document).on("click", ".module-clients .main-table-pagination button", function () {
+    xrender_main_table_clients($(this).data("page"));
 });
 // End реализация пагинации для главной таблицы клиентов
-
-
 
 // Start Добаввление клиента в базу данных | Модалка добавления нового пользователя
 $(document).ready(function (e) {
@@ -104,3 +93,13 @@ $(document).ready(function (e) {
     });
 });
 // End Добаввление клиента в базу данных | Модалка добавления нового пользователя
+
+// Start фильтр поиска
+$(document).on("input", ".module-clients .input-search input", function (e) {
+    let val = $(this).val();
+
+    let current_page = $(".main-table-pagination").data("current-page");
+
+    xrender_main_table_clients(current_page + 1, { name_or_inn: val });
+});
+// End фильтр поиска
