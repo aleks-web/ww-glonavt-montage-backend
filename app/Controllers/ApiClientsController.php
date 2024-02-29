@@ -61,10 +61,10 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             $queryBuildNext = Organizations::offset($offset_next)->limit($per_page);
             
             if ($condition = $response_array['request_params']['control_panel_condition']) {
-                $queryBuild->where('inn', 'like', '%' . $condition['name_or_inn'] . '%')
-                            ->orWhere('name', 'like', '%' . $condition['name_or_inn'] . '%');
-                $queryBuildNext->where('inn', 'like', '%' . $condition['name_or_inn'] . '%')
-                            ->orWhere('name', 'like', '%' . $condition['name_or_inn'] . '%');
+                $queryBuild->where('inn', 'like', '%' . $condition['name'] . '%')
+                            ->orWhere('name', 'like', '%' . $condition['name'] . '%');
+                $queryBuildNext->where('inn', 'like', '%' . $condition['name'] . '%')
+                                ->orWhere('name', 'like', '%' . $condition['name'] . '%');
             }
 
             $response_array['pagination']['offset'] = $offset;

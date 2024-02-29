@@ -59,7 +59,9 @@ function xrender_main_table_clients(current_page = 1, control_panel_condition = 
 
 // Start реализация пагинации для главной таблицы клиентов
 $(document).on("click", ".module-clients .main-table-pagination button", function () {
-    xrender_main_table_clients($(this).data("page"));
+    let control_condition = $(".control .input-search input").val();
+
+    xrender_main_table_clients($(this).data("page"), { inn: control_condition, name: control_condition });
 });
 // End реализация пагинации для главной таблицы клиентов
 
@@ -100,6 +102,6 @@ $(document).on("input", ".module-clients .input-search input", function (e) {
 
     let current_page = $(".main-table-pagination").data("current-page");
 
-    xrender_main_table_clients(current_page + 1, { name_or_inn: val });
+    xrender_main_table_clients(1, { name: val, inn: val });
 });
 // End фильтр поиска
