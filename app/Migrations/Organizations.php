@@ -8,7 +8,7 @@ if (!Manager::schema()->hasTable('organizations')) {
     Manager::schema()->create('organizations', function ($table) {
         $table->id();
         $table->string('name', 255)->nullable()->comment('Имя организации');
-		$table->integer('status')->default(0)->comment('Статус организации');
+		$table->integer('status')->default(Organizations::STATUS_ACTIVE)->comment('Статус организации');
 		$table->string('inn', 150)->nullable()->comment('ИНН организации');
 		$table->string('email', 50)->nullable()->comment('Email руководителя');
 		$table->string('legal_address', 355)->nullable()->comment('Юредический адрес');

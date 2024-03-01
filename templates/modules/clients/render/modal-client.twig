@@ -1,7 +1,7 @@
 {#
     request_params - данные из запроса
     client - выгрузка из базы данных. Конкретный клиент
-    twig_data - данные для элементов
+    twig_components_data - данные для элементов
 #}
 
 {% set director_name = '' %}
@@ -203,7 +203,7 @@
                             
                                     <div class="block-info__content">
                                         <div class="block-info__item">
-                                            {% include 'components/select.twig' with twig_data.status %}
+                                            {% include 'components/select.twig' with twig_components_data.status %}
                                         </div>
 
                                         <div class="block-info__item">

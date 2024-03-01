@@ -48,22 +48,6 @@ class Organizations extends Model {
     ];
   }
 
-  public static function getTwigArrayStatuses() {
-    $array = [];
-    $array['data']['db_field_name'] = 'status'; // Устанавливаем поле
-    $array['data']['val'] = '10';
-    $array['data']['pls'] = '1sadas';
-    
-    
-
-    foreach (self::getArrayStatuses() as $key => $status) {
-      $array['items'][$key]['id'] = $key;
-      $array['items'][$key]['text'] = $status;
-    }
-
-    return $array;
-  }
-
   protected $fillable = [
     'name',
     'status',

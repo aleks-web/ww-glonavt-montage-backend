@@ -5,6 +5,9 @@ namespace WWCrm\Controllers;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+// Билдер компонента select. Формирует массив с данными, который нужно прокинуть
+use \WWCrm\Services\ComponentSelectBuilder;
+
 use WWCrm\Models\Organizations;
 
 class ApiClientsController extends \WWCrm\Controllers\MainController {
@@ -33,9 +36,11 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
 
     // Выступает в качестве распределителя
     public function distributor($twig_element, Request $request, Response $response) {
-        if ($twig_element == 'main-table') {
+        $twig_element = $twig_element . '.twig';
+
+        if ($twig_element == 'main-table.twig') {
             return $this->render_main_table($twig_element, $request, $response);
-        } else if($twig_element == 'modal-client') {
+        } else if($twig_element == 'modal-client.twig') {
             return $this->render_modal_client($twig_element, $request, $response);
         }
     }
@@ -44,7 +49,6 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
     public function render_main_table($twig_element, Request $request, Response $response) {
         // Получаем параметры POST и сразу записываем их в массив с ответом
         $response_array['request_params'] = $request->request->all();
-        $twig_element = $twig_element . '.twig';
 
         if (!empty($twig_element)) { // Если есть рендер элемент
 
@@ -101,32 +105,46 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
         // Получаем параметры POST и сразу записываем их в массив с ответом
         $response_array['request_params'] = $request->request->all();
         
-        $twig_element = $twig_element . '.twig';
-        $client_id = $response_array['request_params']['client_id'];
+        $client_id = $response_array['request_params']['client_id']; // Получаем id клиента из запроса
 
         if (!empty($twig_element) && !empty($client_id)) {
-            $response_array['unloading_database']['client'] = Organizations::find($client_id);
+            $clientOriginalObject = Organizations::find($client_id);
+
             $response_array['client'] = Organizations::find($client_id); // $response_array['client'] для основного проброса. Тут делаем что-то с данными. Например заменяем статус клиента на читаемый вид
             $response_array['client']['contacts_persons'] = $response_array['client']->contactsPersons; // Получаем контактных лиц из другой таблицы
 
             // Заменяем статус с цифры на читаемый вид
             $response_array['client']['status'] = Organizations::getStatusName($response_array['client']['status']);
+            
+            // Start Формируем и прокидываем настроенный компонент статуса с выпадающим списком
+            $StatusSelect = new ComponentSelectBuilder('status', true);
+            $StatusSelect->setVal((int) $clientOriginalObject['status']);
 
-            $response_array['twig_data']['status'] = Organizations::getTwigArrayStatuses();
+            foreach(Organizations::getArrayStatuses() as $status_id => $status_name) { // Добавляем выгруженные элементы селект
+                $StatusSelect->addIdItem($status_id)->addTextItem($status_name)->saveItem();
+            }
+
+            $response_array['twig_components_data']['status'] = $StatusSelect->toArray();
+            // End Формируем и прокидываем настроенный компонент статуса с выпадающим списком
 
             // Рендерим
             $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
                 'request_params' => $response_array['request_params'],
                 'client' => $response_array['client'],
-                'twig_data' => $response_array['twig_data']
+                'twig_components_data' => $response_array['twig_components_data']
             ]);
 
             $response_array['status'] = 'success';
         }
 
+
+
+
+        // Итоговые манипуляции
         $response->headers->set('Content-Type', 'application/json');
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
 
+        // Возвращаем ответ
         return $response;
     }
 }
