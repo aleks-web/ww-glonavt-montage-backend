@@ -1,0 +1,621 @@
+{#
+    request_params - данные из запроса
+    client - выгрузка из базы данных. Конкретный клиент
+    twig_data - данные для элементов
+#}
+
+{% set director_name = '' %}
+{% set director_tel = '' %}
+{% set is_foreach_contacts_persons = true %}
+
+{% if client.contacts_persons is iterable %}
+    {% for person in client.contacts_persons %}
+        {% if is_foreach_contacts_persons %}
+            {% set director_name = person.surname ~ ' ' ~ person.name ~ ' ' ~ person.patronymic %}
+            {% set director_name = director_name | trim %}
+
+            {% set director_tel = person.tel %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+<div id="modal-client" class="modal modal-client">
+    <svg data-modal-close class="modal__close"><use xlink:href="#svg-close"></use></svg>
+
+    <div class="modal__container">
+
+        {# Start Шапка модалки #}
+        <div class="modal__header">
+            <div class="modal__header-left">
+                
+                <div class="modal__info">
+                    <div class="modal__info-title">
+                        <span class="modal__info-title-h1">{{ client.name }}</span>
+                        <span class="modal__info-title-h2">ИНН: {{ client.inn }}</span>
+                    </div>
+                </div>
+
+            </div>
+
+            {# Start Кнопки управления #}
+            <div class="modal__header-right tabs-outside-control">
+                <div class="modal__header-group-btns tab-outside tab-outside--active" data-outside-id="1">
+                    <button class="modal__header-btn modal__header-btn-edit btn">Редактировать</button>
+                    <button class="modal__header-btn modal__header-btn-save btn-good" style="display: none;">Сохранить</button>
+                    <button class="modal__header-btn btn-bad">В архив</button>
+                </div>
+                <div class="modal__header-group-btns tab-outside" data-outside-id="2">
+                    <button data-fancybox data-src="#fmodal-new-contact-person" class="modal__header-btn btn">Добавить</button>
+                </div>
+                <div class="modal__header-group-btns tab-outside" data-outside-id="4">
+                    <button data-fancybox data-src="#fmodal-new-contract" class="modal__header-btn btn">Добавить договор</button>
+                </div>
+                <div class="modal__header-group-btns tab-outside" data-outside-id="5">
+                    <button data-fancybox data-src="#fmodal-new-bill" class="modal__header-btn btn">Добавить счет</button>
+                </div>
+                <div class="modal__header-group-btns tab-outside" data-outside-id="6">
+                    <button data-fancybox data-src="#fmodal-new-document" class="modal__header-btn btn">Добавить документ</button>
+                </div>
+                <div class="modal__header-group-btns tab-outside" data-outside-id="7">
+                    <button data-fancybox data-src="#fmodal-request-view" class="modal__header-btn btn">Добавить заявку</button>
+                </div>
+            </div>
+            {# End Кнопки управления #}
+        </div>
+        {# End Шапка модалки #}
+
+        {# Start Основное содержимое модалки #}
+        <div class="modal__main">
+
+            <div class="tabs" data-outside="control">
+
+                {# Start tabs__header #}
+                <div class="tabs__header">
+                    <div data-id="1" class="tabs__tab tabs__tab--active">
+                        Информация
+                    </div>
+                    <div data-id="2" class="tabs__tab">
+                        Контактные лица
+                    </div>
+                    <div data-id="3" class="tabs__tab">
+                        Объекты
+                    </div>
+                    <div data-id="4" class="tabs__tab">
+                        Договоры
+                    </div>
+                    <div data-id="5" class="tabs__tab">
+                        Счета
+                    </div>
+                    <div data-id="6" class="tabs__tab">
+                        Документы
+                    </div>
+                    <div data-id="7" class="tabs__tab">
+                        Заявки
+                    </div>
+                </div>
+                {# End tabs__header #}
+
+                {# Start tabs__header #}
+                <div class="tabs__content">
+                    
+                    {# Start tab content 1 #}
+                    <div data-id="1" class="tabs__item tabs__item--active">
+                        
+                        <div class="modal-client__data-view" style="display:flex;flex-direction:column;gap:inherit;">
+                            
+                            <div class="block-info">
+                                <div class="block-info__title">О компании</div>
+
+                                <div class="block-info__content">
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Статус</span>
+                                        <span class="block-info__text-main">{{ client.status | default('-') }}</span>
+                                    </div>
+
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Наименование</span>
+                                        <span class="block-info__text-main">{{ client.name | default('-') }}</span>
+                                    </div>
+
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">ИНН</span>
+                                        <span class="block-info__text-main">{{ client.inn | default('-') }}</span>
+                                    </div>
+
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Руководитель</span>
+                                        <span class="block-info__text-main">{{ director_name | default('-') }}</span>
+                                    </div>
+
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Телефон руководителя</span>
+                                        <a class="block-info__text-main" href="tel:{{ director_tel }}">{{ director_tel }}</a>
+                                    </div>
+
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Почта</span>
+
+                                        {% if client.email %}
+                                            <a class="block-info__text-main" href="mailto:{{ client.email }}">{{ client.email }}</a>
+                                        {% else %}
+                                            <span class="block-info__text-main">-</span>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Фактический адрес</span>
+                                        <span class="block-info__text-main">{{ client.actual_address | default('-') }}</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Юридический адрес</span>
+                                        <span class="block-info__text-main">{{ client.legal_address | default('-') }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+
+                            <div class="block-info">
+                                <div class="block-info__title">Банковские реквизиты</div>
+                            
+                                <div class="block-info__content">
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Наименование банка</span>
+                                        <span class="block-info__text-main">{{ client.bank_name | default('-') }}</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">БИК</span>
+                                        <span class="block-info__text-main">{{ client.bic | default('-') }}</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Рассчётный счёт</span>
+                                        <span class="block-info__text-main">{{ client.checking_bill_num | default('-') }}</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Корреспондентский счёт</span>
+                                        <span class="block-info__text-main">{{ client.correspondent_bill_num | default('-') }}</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">ОКПО</span>
+                                        <span class="block-info__text-main">{{ client.okpo | default('-') }}</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">ОКАТО</span>
+                                        <span class="block-info__text-main">{{ client.okato | default('-') }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="block-info">
+                                <div class="block-info__title">Ответственный менеджер</div>
+                            
+                                    <div class="block-info__content">
+                                        <div class="block-info__item">
+                                            <span class="block-info__text-secondary">Менеджер</span>
+                                            <span class="block-info__text-main">Петров С. И.</span>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-client__data-edit" style="display:none;flex-direction:column;gap:inherit;">
+                            <div class="block-info">
+                                <div class="block-info__title">О компании</div>
+                            
+                                    <div class="block-info__content">
+                                        <div class="block-info__item">
+                                            {% include 'components/select.twig' with twig_data.status %}
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            @@include('../components/input-text.html', {"name": "", "value": "Наименование", "stText": "Наименование"})
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            @@include('../components/input-text.html', {"name": "", "value": "ИНН", "stText": "ИНН"})
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            @@include('../components/input-text.html', {"name": "", "value": "Руководитель", "stText": "Руководитель"})
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            @@include('../components/input-text.html', {"name": "", "value": "Телефон руководителя", "stText": "Телефон руководителя"})
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            @@include('../components/input-text.html', {"name": "", "value": "Почта", "stText": "Почта"})
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            @@include('../components/input-text.html', {"name": "", "value": "Фактический адрес", "stText": "Фактический адрес"})
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            @@include('../components/input-text.html', {"name": "", "value": "Юридический адрес", "stText": "Юридический адрес"})
+                                        </div>
+
+                                    </div>
+                            </div>
+
+                            <div class="block-info">
+                                <div class="block-info__title">Банковские реквизиты</div>
+                            
+                                <div class="block-info__content">
+
+                                    <div class="block-info__item">
+                                        @@include('../components/input-text.html', {"name": "", "value": "ПАО “Тинькофф”", "stText": "Наименование банка"})
+                                    </div>
+
+                                    <div class="block-info__item">
+                                        @@include('../components/input-text.html', {"name": "", "value": "044525974", "stText": "БИК"})
+                                    </div>
+
+                                    <div class="block-info__item">
+                                        @@include('../components/input-text.html', {"name": "", "value": "408178119111111260000", "stText": "Рассчётный счёт"})
+                                    </div>
+
+                                    <div class="block-info__item">
+                                        @@include('../components/input-text.html', {"name": "", "value": "30101810145250000974", "stText": "Корреспондентский счёт"})
+                                    </div>
+
+                                    <div class="block-info__item">
+                                        @@include('../components/input-text.html', {"name": "", "value": "29290881", "stText": "ОКПО"})
+                                    </div>
+
+                                    <div class="block-info__item">
+                                        @@include('../components/input-text.html', {"name": "", "value": "", "stText": "ОКАТО"})
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="block-info">
+                                <div class="block-info__title">Ответственный менеджер</div>
+                            
+                                <div class="block-info__content">
+                                    @@include('../components/select.html', {"name": "", "stText": "Менеджер", "itemName": "Менеджер"})
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    {# End tab content 1 #}
+
+                    <!-- Start tab content 2 -->
+                    <div data-id="2" class="tabs__item">
+
+                        <div class="tabs__tableContainer">
+                            <div class="tabs__table">
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th class="text-start">ФИО<br>Должность</th>
+                                        <th class="text-start">Дата рождения</th>
+                                        <th class="text-start">Телефон/<br>Почта</th>
+                                        <th class="text-start">Инициатор/<br>Дата/Время</th>
+                                    </tr>
+                                    </thead>
+        
+                                    <tbody>
+                                        <tr class="pointer">
+                                            <td class="text-start"><span>Новин Фёдор Евгеньевич</span><br><span class="text-secondary">Директор</span></td>
+                                            <td class="text-start">22.02.1971</td>
+                                            <td class="text-start"><span>89324561232</span><br><span>example@mail.ru</span></td>
+                                            <td class="text-start"><span>Петров С. И.</span><br><span>10.10.23 в 13:46</span></td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-contact-person" class="hover"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                            <td class="td-btn-default">
+                                                <svg><use xlink:href="#svg-del"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start"><span>Новин Фёдор Евгеньевич</span><br><span class="text-secondary">Директор</span></td>
+                                            <td class="text-start">22.02.1971</td>
+                                            <td class="text-start"><span>89324561232</span><br><span>example@mail.ru</span></td>
+                                            <td class="text-start"><span>Петров С. И.</span><br><span>10.10.23 в 13:46</span></td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-contact-person" class="hover"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                            <td class="td-btn-default">
+                                                <svg><use xlink:href="#svg-del"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start"><span>Новин Фёдор Евгеньевич</span><br><span class="text-secondary">Директор</span></td>
+                                            <td class="text-start">22.02.1971</td>
+                                            <td class="text-start"><span>89324561232</span><br><span>example@mail.ru</span></td>
+                                            <td class="text-start"><span>Петров С. И.</span><br><span>10.10.23 в 13:46</span></td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-contact-person" class="hover"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                            <td class="td-btn-default">
+                                                <svg><use xlink:href="#svg-del"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start"><span>Новин Фёдор Евгеньевич</span><br><span class="text-secondary">Директор</span></td>
+                                            <td class="text-start">22.02.1971</td>
+                                            <td class="text-start"><span>89324561232</span><br><span>example@mail.ru</span></td>
+                                            <td class="text-start"><span>Петров С. И.</span><br><span>10.10.23 в 13:46</span></td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-contact-person" class="hover"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                            <td class="td-btn-default">
+                                                <svg><use xlink:href="#svg-del"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start"><span>Новин Фёдор Евгеньевич</span><br><span class="text-secondary">Директор</span></td>
+                                            <td class="text-start">22.02.1971</td>
+                                            <td class="text-start"><span>89324561232</span><br><span>example@mail.ru</span></td>
+                                            <td class="text-start"><span>Петров С. И.</span><br><span>10.10.23 в 13:46</span></td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-contact-person" class="hover"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                            <td class="td-btn-default">
+                                                <svg><use xlink:href="#svg-del"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start"><span>Новин Фёдор Евгеньевич</span><br><span class="text-secondary">Директор</span></td>
+                                            <td class="text-start">22.02.1971</td>
+                                            <td class="text-start"><span>89324561232</span><br><span>example@mail.ru</span></td>
+                                            <td class="text-start"><span>Петров С. И.</span><br><span>10.10.23 в 13:46</span></td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-contact-person" class="hover"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                            <td class="td-btn-default">
+                                                <svg><use xlink:href="#svg-del"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start"><span>Новин Фёдор Евгеньевич</span><br><span class="text-secondary">Директор</span></td>
+                                            <td class="text-start">22.02.1971</td>
+                                            <td class="text-start"><span>89324561232</span><br><span>example@mail.ru</span></td>
+                                            <td class="text-start"><span>Петров С. И.</span><br><span>10.10.23 в 13:46</span></td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-contact-person" class="hover"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                            <td class="td-btn-default">
+                                                <svg><use xlink:href="#svg-del"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start"><span>Новин Фёдор Евгеньевич</span><br><span class="text-secondary">Директор</span></td>
+                                            <td class="text-start">22.02.1971</td>
+                                            <td class="text-start"><span>89324561232</span><br><span>example@mail.ru</span></td>
+                                            <td class="text-start"><span>Петров С. И.</span><br><span>10.10.23 в 13:46</span></td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-contact-person" class="hover"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                            <td class="td-btn-default">
+                                                <svg><use xlink:href="#svg-del"></use></svg>
+                                            </td>
+                                        </tr>
+                                        <tr class="pointer">
+                                            <td class="text-start"><span>Новин Фёдор Евгеньевич</span><br><span class="text-secondary">Директор</span></td>
+                                            <td class="text-start">22.02.1971</td>
+                                            <td class="text-start"><span>89324561232</span><br><span>example@mail.ru</span></td>
+                                            <td class="text-start"><span>Петров С. И.</span><br><span>10.10.23 в 13:46</span></td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-contact-person" class="hover"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                            <td class="td-btn-default">
+                                                <svg><use xlink:href="#svg-del"></use></svg>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <!-- End tab content 2 -->
+
+                    <!-- Start tab content 3 -->
+                    <div data-id="3" class="tabs__item">
+
+                        <div class="tabs__control">
+                            <div class="tabs__control-left">
+                                <div class="tabs__control-search input-search">
+                                    <input type="text" placeholder="Поиск по номеру или марке/модели">
+                                </div>
+                            </div>
+
+                            <div class="tabs__control-right">
+                                <div class="tabs__control-count">Количество объеков: <span class="count">5</span></div>
+                            </div>
+                        </div>
+
+
+                        <div class="tabs__tableContainer">
+                            <div class="tabs__table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="text-start">Тип объекта</th>
+                                            <th class="text-start">Марка/Модель/<br>Номер</th>
+                                            <th>МТ</th>
+                                            <th>ДУТ</th>
+                                            <th>Тахограф</th>
+                                            <th>Другое оборудование</th>
+                                        </tr>
+                                    </thead>
+        
+                                    <tbody>
+                                        <tr data-fancybox data-src="#fmodal-ts-object-view" class="pointer">
+                                            <td class="text-start">Грузовой автомобиль</td>
+                                            <td class="text-start"><span>КАМАЗ, 4308-81</span><br><span>Х664МА72</span></td>
+                                            <td>3</td>
+                                            <td>3</td>
+                                            <td>3</td>
+                                            <td>3</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- End tab content 3 -->
+
+                    <!-- Start tab content 4 -->
+                    <div data-id="4" class="tabs__item">
+
+                        <div class="tabs__tableContainer">
+                            <div class="tabs__table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="text-start">П/п №</th>
+                                            <th class="text-start">Тип договора/<br>Статус</th>
+                                            <th>№ договора</th>
+                                            <th>Дата заключения</th>
+                                            <th>Срок действия</th>
+                                            <th>Ответственный</th>
+                                        </tr>
+                                    </thead>
+        
+                                    <tbody>
+                                        <tr class="pointer">
+                                            <td class="text-start">1</td>
+                                            <td class="text-start"><span>Договор аренды</span><br><span>Действующий</span></td>
+                                            <td>654321</td>
+                                            <td>31.12.2022</td>
+                                            <td>31.12.2022</td>
+                                            <td>Петров С. И.</td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-contract" class="hover"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                            <td class="td-btn-default">
+                                                <svg class="hover"><use xlink:href="#svg-del"></use></svg>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- End tab content 4 -->
+
+                    <!-- Start tab content 5 -->
+                    <div data-id="5" class="tabs__item">
+
+                        <div class="tabs__tableContainer">
+                            <div class="tabs__table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="text-start">Статус</th>
+                                            <th class="text-start">Счёт/<br>Сумма, руб</th>
+                                            <th class="text-start">Дата/Время<br>Инициатор</th>
+                                            <th class="text-start">Комментарий</th>
+                                        </tr>
+                                    </thead>
+        
+                                    <tbody>
+                                        <tr class="pointer">
+                                            <td class="text-start">Не оплачен</td>
+                                            <td class="text-start"><a href="#">№4345_от_05.10.2023.doc</a><br><span>50 000,00</span></td>
+                                            <td class="text-start"><span>05.10.23 в 14:08</span><br><span>Сидоров Ю. Р.</span></td>
+                                            <td class="text-start">Коментарий абсолютно любой длинный и даже в две строчки</td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-bill" class="hover"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                            <td class="td-btn-default">
+                                                <svg class="hover"><use xlink:href="#svg-del"></use></svg>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- End tab content 5 -->
+
+                    <!-- Start tab content 6 -->
+                    <div data-id="6" class="tabs__item">
+                        <div class="tabs__tableContainer">
+                            <div class="tabs__table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="text-start">Статус</th>
+                                            <th class="text-start">Тип</th>
+                                            <th class="text-start">Имя</th>
+                                            <th class="text-start">Дата заключения</th>
+                                            <th class="text-start">Срок действия</th>
+                                        </tr>
+                                    </thead>
+        
+                                    <tbody>
+                                        <tr class="pointer">
+                                            <td class="text-start">Не активный</td>
+                                            <td class="text-start">Договор</td>
+                                            <td class="text-start"><a href="#">Договор оказания_услуг.pdf</a></td>
+                                            <td class="text-start">31.12.2022</td>
+                                            <td class="text-start">31.12.2022</td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-document" class="hover"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                            <td class="td-btn-default">
+                                                <svg class="hover"><use xlink:href="#svg-del"></use></svg>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End tab content 6 -->
+
+                    <!-- Start tab content 7 -->
+                    <div data-id="7" class="tabs__item">
+
+                        <div class="tabs__tableContainer">
+                            <div class="tabs__table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="text-start">№ заявки</th>
+                                            <th class="text-start">Статус</th>
+                                            <th class="text-start">Тип заявки</th>
+                                            <th class="text-start">Исполнители</th>
+                                            <th class="text-start">Инициатор</th>
+                                        </tr>
+                                    </thead>
+        
+                                    <tbody>
+                                        <tr data-fancybox data-src="#fmodal-request-view" class="pointer">
+                                            <td class="text-start">12654</td>
+                                            <td class="text-start">В работе</td>
+                                            <td class="text-start">Монтаж</td>
+                                            <td class="text-start"><span>Иванов И. И.</span><br><span>Сидоров С. С.</span><br><span>Сергеев М. М.</span></td>
+                                            <td class="text-start">Петров С. И.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- End tab content 7 -->
+
+                </div>
+                {# End tabs__header #}
+            </div>
+
+        </div>
+        <!-- End Основное содержимое модалки -->
+
+
+
+    </div>
+</div>
+<!-- End Модалка просмотра клиента -->

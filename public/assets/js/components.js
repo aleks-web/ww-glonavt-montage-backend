@@ -48,52 +48,6 @@ $(document).ready(function (e) {
 });
 // End input type passs
 
-// Start компонент табов
-$(document).ready(function (e) {
-    $(document).on("click", ".tabs__tab", function (e) {
-        const tab_class = "tabs__tab";
-        const tab_class_active = "tabs__tab--active";
-        const tab_content_class = "tabs__item";
-        const tab_content_class_active = "tabs__item--active";
-        const tab_outside_class = "tab-outside";
-        const tab_outside_class_active = "tab-outside--active";
-
-        let tab_id = Number($(this).data("id"));
-        let parent = $(this).parents(".tabs");
-
-        let outside_names = parent.data("outside").split("|");
-
-        if (tab_id) {
-            let all_tabs = parent.find("." + tab_class);
-            let all_tabs_content = parent.find("." + tab_content_class);
-
-            all_tabs.removeClass(tab_class_active);
-            all_tabs_content.removeClass(tab_content_class_active);
-
-            $(this).addClass(tab_class_active);
-            parent.find("." + tab_content_class + '[data-id="' + tab_id + '"]').addClass(tab_content_class_active);
-
-            outside_names.forEach((element) => {
-                let outside_class_name = "tabs-outside-" + element;
-
-                $("." + outside_class_name).each(function (i, el) {
-                    let all_outside_tabs = $(el).find("." + tab_outside_class);
-                    all_outside_tabs.removeClass(tab_outside_class_active);
-
-                    let now_outside_tab = $(el).find("." + tab_outside_class + '[data-outside-id="' + tab_id + '"]');
-                    now_outside_tab.addClass(tab_outside_class_active);
-                });
-            });
-
-            let event = new Event("tabsClick", { bubbles: true });
-            document.dispatchEvent(event);
-        } else {
-            alert("Атрибут data-id пустой. Необходимо поставить id вкладки");
-        }
-    });
-});
-// End компонент табов
-
 // Start компонент добавление фото
 $(document).ready(function (e) {
     $(document).on("click", ".photo-add__btn-add, .photo-add__preview", function (e) {

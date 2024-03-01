@@ -13,6 +13,122 @@ function remove_body_bg() {
 }
 // End Функции для создания и удаления заднего фона
 
+
+
+
+
+// Start функция дебага
+function dd(message = 'dd - не задано сообщение для отображения в консоли', title = false) {
+    if (WWCrmConfig.debug) {
+        if (title) {
+            console.log(`%c${title}`, "color: green; font-size: 14px; font-weight: bold");
+        }
+
+        console.log(message);
+
+        console.log(`%c------`, "color: green;");
+    }
+};
+// End функция дебага
+
+
+
+
+// Start табы в модалках
+$(document).ready(function (e) {
+    $(document).on("click", ".tabs__tab", function (e) {
+        const tab_class = "tabs__tab";
+        const tab_class_active = "tabs__tab--active";
+        const tab_content_class = "tabs__item";
+        const tab_content_class_active = "tabs__item--active";
+        const tab_outside_class = "tab-outside";
+        const tab_outside_class_active = "tab-outside--active";
+
+        let tab_id = Number($(this).data("id"));
+        let parent = $(this).parents(".tabs"); // Обертка классов
+
+        let outside_names = parent.data("outside").split("|"); // Получаем массив через разделитель
+
+        if (tab_id) {
+            let all_tabs = parent.find("." + tab_class);
+            let all_tabs_content = parent.find("." + tab_content_class);
+
+            all_tabs.removeClass(tab_class_active); // Удаляем у всех табов активный класс
+            all_tabs_content.removeClass(tab_content_class_active); // Удаляем у всего содержимого активный класс
+
+            $(this).addClass(tab_class_active); // Делаем текущий таб, по которому кликнули активным
+            parent.find("." + tab_content_class + '[data-id="' + tab_id + '"]').addClass(tab_content_class_active); // Находим контент активного таба и показываем его
+
+            outside_names.forEach((element) => { // Меняем содержимое, которое находится вне табов
+                let outside_class_name = "tabs-outside-" + element; // Устанавливаем класс
+
+                $("." + outside_class_name).each(function (i, el) { // Ищем класс
+                    let all_outside_tabs = $(el).find("." + tab_outside_class); // Все табы
+                    all_outside_tabs.removeClass(tab_outside_class_active); // Удаляем у всех активный класс
+
+                    let now_outside_tab = $(el).find("." + tab_outside_class + '[data-outside-id="' + tab_id + '"]');
+                    now_outside_tab.addClass(tab_outside_class_active); // Отображаем таб
+                });
+            });
+
+            let event = new Event("tabsClick", { bubbles: true });
+            document.dispatchEvent(event); // Активируем событие tabsClick
+        } else {
+            alert("Атрибут data-id пустой. Необходимо поставить id вкладки");
+        }
+    });
+
+
+    $(document).on('click', '.modal .modal__header-btn-edit, .modal .modal__header-btn-save', function(e) {
+        let edit_class = 'modal__header-btn-edit';
+        let save_class = 'modal__header-btn-save';
+
+        let $parent_outside = $(this).parents('.tab-outside'); // outside
+        
+        let btn_edit = $parent_outside.find(`.${edit_class}`); // Edit btn
+        let btn_save = $parent_outside.find(`.${save_class}`); // Save btn
+
+        let $modal = $(this).parents('.modal');
+        let tab_active_id = $modal.find('.tabs__tab--active').data('id');
+
+        // Если клик по кнопке "Редактировать"
+        if ($(this).hasClass(edit_class)) {
+            $modal.find('.modal-client__data-view').css('display', 'none');
+            $modal.find('.modal-client__data-edit').css('display', 'flex');
+
+            // Смена кнопок
+            btn_edit.fadeOut(200, () => {
+                btn_save.fadeIn(200);
+            });
+
+        }
+
+        // Если клик по кнопке "Сохранить"
+        if ($(this).hasClass(save_class)) {
+            $modal.find('.modal-client__data-view').css('display', 'flex');
+            $modal.find('.modal-client__data-edit').css('display', 'none');
+
+            // Смена кнопок
+            btn_save.fadeOut(200, () => {
+                btn_edit.fadeIn(200);
+            });
+        }
+
+    });
+});
+// End табы в модалках
+
+
+
+
+
+
+
+
+
+
+
+
 // Start функция ресайза таблицы в модалке
 /*
     Пусути костыль, т.к версткой выкрутиться не получилось. Нужно просто тянуть таблицу, если она одна на все занимаемое пространство
@@ -68,6 +184,9 @@ $(document).ready(function (e) {
 });
 // End различные скрипты по работе с модалками
 
+
+
+
 // Start скрипт для меню
 $(document).ready(function (e) {
     $(document).on("click", ".menu__item-link", function (e) {
@@ -90,7 +209,14 @@ $(document).ready(function (e) {
 // End скрипт для меню
 
 
-// Start отправка запроса на сервер
+/*
+    Start отправка запроса на сервер
+
+    Расшифровка xpost_fd:
+        x - ajax,
+        post - метод POST,
+        fd - formData объект с содержимым формы
+*/
 function xpost_fd(url, formData) {
 
     return new Promise((resolve, reject) => {
@@ -117,8 +243,11 @@ function xpost_fd(url, formData) {
 
 
 
-
-
+// Start какие-то настрйоки
+const WWCrmConfig = {
+    debug: true
+}
+// End какие-то настрйоки
 
 // Start Глобально доступная константа. Содержит ссылки API
 const API_V1_URLS = {

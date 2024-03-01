@@ -11,7 +11,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>id</th>
+                        <th class="text-start" style="width: 6%;">id</th>
                         <!--th class="text-start">Статус</th-->
                         <th class="text-start">Наименование/ИНН</th>
                         <th>Кол-во объектов</th>
@@ -23,7 +23,7 @@
                 <tbody>
                     {% for row in table_rows %}
                         <tr data-modal-client data-client-id="{{ row.id }}" class="pointer" class="pointer">
-                            <td>{{ row.id }}</td>
+                            <td class="text-start">{{ row.id }}</td>
                             <!--td class="text-start">Активный</td-->
                             <td class="text-start">{{ row.name }}<br><span class="text-secondary">ИНН: {{ row.inn }}</span></td>
                             <td>2</td>

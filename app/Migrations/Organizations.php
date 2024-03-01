@@ -7,11 +7,9 @@ if (!Manager::schema()->hasTable('organizations')) {
 
     Manager::schema()->create('organizations', function ($table) {
         $table->id();
-        $table->string('name', 255)->nullable()->comment('Имя клиента');
-		$table->integer('status')->nullable()->comment('Статус клиента');
-		$table->string('inn', 150)->nullable()->comment('ИНН клиента');
-		$table->string('director_tel', 50)->nullable()->comment('Телефон руководителя');
-		$table->string('director_fio', 50)->nullable()->comment('ФИО руководителя');
+        $table->string('name', 255)->nullable()->comment('Имя организации');
+		$table->integer('status')->default(0)->comment('Статус организации');
+		$table->string('inn', 150)->nullable()->comment('ИНН организации');
 		$table->string('email', 50)->nullable()->comment('Email руководителя');
 		$table->string('legal_address', 355)->nullable()->comment('Юредический адрес');
 		$table->string('actual_address', 355)->nullable()->comment('Фактический адрес');
@@ -21,7 +19,7 @@ if (!Manager::schema()->hasTable('organizations')) {
 		$table->string('correspondent_bill_num', 100)->nullable()->comment('Номер корреспондентского счета');
 		$table->string('okpo', 100)->nullable()->comment('Номер ОКПО');
 		$table->string('okato', 100)->nullable()->comment('Номер окато');
-		$table->unsignedBigInteger('manager_id')->nullable()->comment('Ответственный менеджер. Id пользователя в системе');
+		$table->unsignedBigInteger('manager_id')->nullable()->default(null)->comment('Ответственный менеджер. Id пользователя в системе');
 
         
 		$table->timestamps(); // Дата создания и дата обновления
