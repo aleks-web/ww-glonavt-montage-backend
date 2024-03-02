@@ -2,17 +2,16 @@
     Компонент выпадающего списка. Настройки
 
     * Доступные переменные:
-    * data - массив с содержимым
-        * db_field_name - Имя поля
-        * pls - Плейсхолдер
-        * val - Значение инпута. В атрибуте value. Может быть единым значением, может имень вид в виде массива : [1, 2, 3] 
     
     * required - обязательный ли инпут
     * input_messages_position - расположение инпута в верху или внизу. Принимает либо top дибо bottom. По умолчанию bottom (но можно изменить на top)
+    * db_field_name - Имя поля
+    * pls - Плейсхолдер
+    * val - Значение textarea
 
 #}
 
-{% if data.db_field_name != false %}
+{% if settings.db_field_name != false %}
 <div class="component-wrapper">
 
     {% if settings.input_messages_position == 'top' %}
@@ -23,7 +22,7 @@
     {% endif %}
 
     <div class="textarea {% if required %}required{% endif %}">
-        <textarea name="{{ data.db_field_name }}" cols="30" rows="8" placeholder="{{ data.pls }}" value="{{ data.val }}"></textarea>
+        <textarea name="{{ settings.db_field_name }}" cols="30" rows="8" placeholder="{{ settings.pls }}" value="{{ settings.val }}"></textarea>
     </div>
 
     {% if settings.input_messages_position == false or settings.input_messages_position == 'bottom' %}

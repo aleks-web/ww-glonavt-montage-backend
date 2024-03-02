@@ -207,11 +207,23 @@
                                         </div>
 
                                         <div class="block-info__item">
-                                            @@include('../components/input-text.html', {"name": "", "value": "Наименование", "stText": "Наименование"})
+                                            {% include 'components/input-text.twig' with {
+                                                settings: {
+                                                    db_field_name: 'name',
+                                                    val: client.name,
+                                                    pls: 'Названию компании'
+                                                }
+                                            } %}
                                         </div>
 
                                         <div class="block-info__item">
-                                            @@include('../components/input-text.html', {"name": "", "value": "ИНН", "stText": "ИНН"})
+                                            {% include 'components/input-text.twig' with {
+                                                settings: {
+                                                    db_field_name: 'inn',
+                                                    val: client.inn,
+                                                    pls: 'ИНН'
+                                                }
+                                            } %}
                                         </div>
 
                                         <div class="block-info__item">
@@ -223,15 +235,33 @@
                                         </div>
 
                                         <div class="block-info__item">
-                                            @@include('../components/input-text.html', {"name": "", "value": "Почта", "stText": "Почта"})
+                                            {% include 'components/input-text.twig' with {
+                                                settings: {
+                                                    db_field_name: 'email',
+                                                    val: client.email,
+                                                    pls: 'Email'
+                                                }
+                                            } %}
                                         </div>
 
                                         <div class="block-info__item">
-                                            @@include('../components/input-text.html', {"name": "", "value": "Фактический адрес", "stText": "Фактический адрес"})
+                                            {% include 'components/input-text.twig' with {
+                                                settings: {
+                                                    db_field_name: 'actual_address',
+                                                    val: client.actual_address,
+                                                    pls: 'Фактический адрес'
+                                                }
+                                            } %}
                                         </div>
 
                                         <div class="block-info__item">
-                                            @@include('../components/input-text.html', {"name": "", "value": "Юридический адрес", "stText": "Юридический адрес"})
+                                            {% include 'components/input-text.twig' with {
+                                                settings: {
+                                                    db_field_name: 'legal_address',
+                                                    val: client.legal_address,
+                                                    pls: 'Юридический адрес'
+                                                }
+                                            } %}
                                         </div>
 
                                     </div>
@@ -243,27 +273,63 @@
                                 <div class="block-info__content">
 
                                     <div class="block-info__item">
-                                        @@include('../components/input-text.html', {"name": "", "value": "ПАО “Тинькофф”", "stText": "Наименование банка"})
+                                        {% include 'components/input-text.twig' with {
+                                            settings: {
+                                                db_field_name: 'bank_name',
+                                                val: client.bank_name,
+                                                pls: 'Название банка'
+                                            }
+                                        } %}
                                     </div>
 
                                     <div class="block-info__item">
-                                        @@include('../components/input-text.html', {"name": "", "value": "044525974", "stText": "БИК"})
+                                        {% include 'components/input-text.twig' with {
+                                            settings: {
+                                                db_field_name: 'bic',
+                                                val: client.bic,
+                                                pls: 'БИК банка'
+                                            }
+                                        } %}
                                     </div>
 
                                     <div class="block-info__item">
-                                        @@include('../components/input-text.html', {"name": "", "value": "408178119111111260000", "stText": "Рассчётный счёт"})
+                                        {% include 'components/input-text.twig' with {
+                                            settings: {
+                                                db_field_name: 'checking_bill_num',
+                                                val: client.checking_bill_num,
+                                                pls: 'Рассчётный счёт'
+                                            }
+                                        } %}
                                     </div>
 
                                     <div class="block-info__item">
-                                        @@include('../components/input-text.html', {"name": "", "value": "30101810145250000974", "stText": "Корреспондентский счёт"})
+                                        {% include 'components/input-text.twig' with {
+                                            settings: {
+                                                db_field_name: 'correspondent_bill_num',
+                                                val: client.correspondent_bill_num,
+                                                pls: 'Корреспондентский счёт'
+                                            }
+                                        } %}
                                     </div>
 
                                     <div class="block-info__item">
-                                        @@include('../components/input-text.html', {"name": "", "value": "29290881", "stText": "ОКПО"})
+                                        {% include 'components/input-text.twig' with {
+                                            settings: {
+                                                db_field_name: 'okpo',
+                                                val: client.okpo,
+                                                pls: 'ОКПО'
+                                            }
+                                        } %}
                                     </div>
 
                                     <div class="block-info__item">
-                                        @@include('../components/input-text.html', {"name": "", "value": "", "stText": "ОКАТО"})
+                                        {% include 'components/input-text.twig' with {
+                                            settings: {
+                                                db_field_name: 'okato',
+                                                val: client.okato,
+                                                pls: 'ОКАТО'
+                                            }
+                                        } %}
                                     </div>
 
                                 </div>

@@ -28,6 +28,12 @@ $router->get('/404', 'MainController@notFound'); // Страница не най
 $router->notFound(function(Request $request, Response $response) {
     header('Location: ' . $request->server->get('REQUEST_SCHEME') . '://' . $request->server->get('HTTP_HOST') . '/404');
 });
+
+$router->error(function(Request $request, Response $response) {
+    $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+    $response->setContent('Возникла ошибка. Возможно twig');
+    return $response;
+});
 // End Routes
 
 

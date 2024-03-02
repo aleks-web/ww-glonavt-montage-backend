@@ -278,14 +278,14 @@
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); column-gap: 2.5rem; row-gap: 20px;">
 
                     {% include 'components/input-text.twig' with {
-                        'data': {
+                        'settings': {
                             'db_field_name': 'inn',
                             'pls': 'Введите ИНН',
                         }}
                     %}
 
                     {% include 'components/input-text.twig' with {
-                        'data': {
+                        'settings': {
                             'db_field_name': 'bic',
                             'pls': 'Введите БИК',
                         }}
@@ -297,44 +297,42 @@
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); column-gap: 2.5rem; row-gap: 20px;">
                     {% include 'components/input-text.twig' with
                         {
-                            'data': {
-                                'pls': 'Наименование',
-                                'db_field_name': 'name'
-                            },
                             'settings': {
+                                'db_field_name': 'name',
+                                'pls': 'Наименование',
                                 'required': true
-                            }
+                            },
                         
                         }
                     %}
                     {% include 'components/input-text.twig' with {
-                        'data': {
+                        'settings': {
                             'pls': 'ФИО руководителя',
                             'db_field_name': 'director_fio'
                         }}
                     %}
                     {% include 'components/input-text.twig' with {
-                        'data': {
+                        'settings': {
                             'db_field_name': 'director_tel',
                             'pls': 'Телефон руководителя'
                         }}
                     %}
                     {% include 'components/input-text.twig' with {
-                        'data': {
+                        'settings': {
                             'db_field_name': 'email',
                             'pls': 'Почта'
                         }}
                     %}
 
                     {% include 'components/textarea.twig' with {
-                        'data': {
+                        'settings': {
                             'db_field_name': 'actual_address',
                             'pls': 'Фактические адрес',
                         }}
                     %}
 
                     {% include 'components/textarea.twig' with {
-                        'data': {
+                        'settings': {
                             'db_field_name': 'legal_address',
                             'pls': 'Юридический адрес',
                         }}
@@ -352,7 +350,7 @@
                         <div style="display: flex;flex-direction: column; gap: 20px;">
 
                             {% include 'components/input-text.twig' with {
-                                    'data': {
+                                    'settings': {
                                         'db_field_name': 'bank_name',
                                         'pls': 'Название банка'
                                     }
@@ -360,25 +358,25 @@
                             %}
 
                             {% include 'components/input-text.twig' with {
-                                'data': {
+                                'settings': {
                                     'db_field_name': 'checking_bill_num',
                                     'pls': 'Рассчётный счёт',
                                 }}
                             %}
                             {% include 'components/input-text.twig' with {
-                                'data': {
+                                'settings': {
                                     'db_field_name': 'correspondent_bill_num',
                                     'pls': 'Корреспондентский счёт',
                                 }}
                             %}
                             {% include 'components/input-text.twig' with {
-                                'data': {
+                                'settings': {
                                     'db_field_name': 'okato',
                                     'pls': 'ОКАТО',
                                 }}
                             %}
                             {% include 'components/input-text.twig' with {
-                                'data': {
+                                'settings': {
                                     'pls': 'ОКПО',
                                     'db_field_name': 'okpo',
                                 }}
@@ -395,13 +393,13 @@
                         <div style="display: flex;flex-direction: column; gap: 20px;">
                             {% include 'components/select.twig' with
                                 {
-                                    'data': {
-                                        'db_field_name': 'manager_id',
-                                        'pls': 'Корреспондентский счёт',
-                                        'val': false,
-                                        'not_selected_text': 'Не выбрано'
+                                    settings: {
+                                        db_field_name: 'manager_id',
+                                        pls: 'Корреспондентский счёт',
+                                        val: false,
+                                        not_selected_text: 'Не выбрано'
                                     },
-                                    'items': [
+                                    items: [
                                         {
                                             'id': '1',
                                             'text': 'Валерий',

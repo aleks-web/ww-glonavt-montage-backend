@@ -37,6 +37,13 @@ if (!Manager::schema()->hasTable('org_contacts_persons')) {
             'email' => 'dok.go@yandex.ru',
             'organization_id' => 1
         ],
+        [
+            'name' => 'Николай',
+            'surname' => 'Валерьевич',
+            'tel' => 89195798871,
+            'email' => 'dok.go@yandex.ru',
+            'organization_id' => 1
+        ],
 	];
 
 
