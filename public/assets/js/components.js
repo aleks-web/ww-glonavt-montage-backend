@@ -48,6 +48,12 @@ $(document).ready(function (e) {
 });
 // End input type passs
 
+
+
+
+
+
+
 // Start компонент добавление фото
 $(document).ready(function (e) {
     $(document).on("click", ".photo-add__btn-add, .photo-add__preview", function (e) {
@@ -71,6 +77,10 @@ $(document).ready(function (e) {
     });
 });
 // End компонент добавление фото
+
+
+
+
 
 // Start input files add block
 $(document).ready(function (e) {
@@ -104,23 +114,14 @@ $(document).ready(function (e) {
 });
 // End input files add block
 
+
+
+
 // Start input-text
 $(document).ready(function (e) {
     $(document).on("click", ".input-text", function (e) {
         $(this).find("input").focus();
     });
-
-    // Start валидация инпута - Выходит что не нужен функционал, т.к он дублируется
-    // $(document).on("keyup", ".input-text input", function (e) {
-    //     let block = $(this).parents(".input-text");
-
-    //     if (!$(this).val().length &&) {
-    //         block.addClass("error").removeClass("succsess");
-    //     } else {
-    //         block.addClass("succsess").removeClass("error");
-    //     }
-    // });
-    // End валидация инпута
 });
 // End input-text
 
@@ -276,7 +277,7 @@ $(document).ready(function (e) {
 
 
 // Start Список компонентов с input
-const input_components = ["input-text", "select", "textarea"];
+const input_components = ["input-text", "select", "textarea", "input-date"];
 // End Список компонентов input
 
 
@@ -414,3 +415,65 @@ function cpns_clear_by_wrapper(wrapper_selector) {
     });
 }
 // End Функция сброса всех данных у компонентов
+
+
+
+/*
+    Функция, которая валидирует форму при ее изменениях
+    Принимает 2 селектора. Контейнер формы и кнопку отправки
+    Если в форме содератся ошибки, то кнопка отправки - не работает
+
+    Работает с другими функциями
+*/
+function cpns_form_validate(form_wrapper, submitter) {
+    $(submitter).addClass('disable'); // По умолчанию делаем кнопку не активной
+
+    $(cpns_get_classes_by_wrapper(form_wrapper)).on('keyup change', function(e) {
+        let data = cpns_get_errors_by_wrapper(form_wrapper); // Функция получает ошибки компонентов внутри определенного контейнера
+
+        if (data) {
+            $(`${form_wrapper} ${submitter}`).addClass("disable");
+        } else {
+            $(`${form_wrapper} ${submitter}`).removeClass("disable");
+        }
+
+        cpns_update_from_json(data, form_wrapper); // Обновление компонентов
+    });
+}
+// End функция, которая валидирует форму при ее изменениях
+
+
+
+// Start функция инициализации компонентов
+window.cpns_init = function() {
+    // Start input-date
+    $(".input-date").each(function () {
+        const options = {
+            dateFormat: "yyyy-MM-dd",
+            timeFormat: "hh:mm",
+            buttons: ["clear"],
+            autoClose: true,
+        };
+
+        if ($(this).hasClass("air-start-today")) {
+            options.minDate = new Date();
+        }
+        if ($(this).hasClass("air-time")) {
+            options.timepicker = true;
+        }
+        if ($(this).hasClass("air-select-now")) {
+            options.selectedDates = [new Date()];
+        }
+        if ($(this).hasClass("air-top")) {
+            options.position = "top left";
+        }
+        if ($(this).hasClass("air-multi")) {
+            options.multipleDates = true;
+        }
+
+        new AirDatepicker($(this).find("input")[0], options);
+    });
+    // End input-date
+}
+// End функция инициализации компонентов
+cpns_init();

@@ -41,6 +41,9 @@ $(document).ready(function (e) {
 
 
 
+
+
+
 // Start функция, которая получает html разметку главной таблицы и вставляет ее
 function xrender_main_table_clients(current_page = 1, control_panel_condition = null) {
     // Разбиваем строку wrapper_and_element на обертку и twig элемент
@@ -81,6 +84,9 @@ function xrender_main_table_clients(current_page = 1, control_panel_condition = 
 // Start функция, которая получает html разметку главной таблицы и вставляет ее
 
 
+
+
+
 // Start пагинация и фильтр поиска
 $(document).ready(() => {
     // Start реализация пагинации для главной таблицы клиентов
@@ -101,6 +107,9 @@ $(document).ready(() => {
     // End фильтр поиска
 });
 // End пагинация и фильтр поиска
+
+
+
 
 
 
@@ -131,21 +140,8 @@ $(document).ready(function (e) {
         }
     });
 
-
-    // Start события изменения инпутов
-    $(cpns_get_classes_by_wrapper("#modal-client-add")).on('keyup change', function() {
-        console.log(cpns_get_classes_by_wrapper("#modal-client-add"));
-
-        let data = cpns_get_errors_by_wrapper("#modal-client-add"); // Массив с полями, которые не прошли проверку
-
-        if (data) {
-            $("#modal-client-add .js-submitter").addClass("disable");
-        } else {
-            $("#modal-client-add .js-submitter").removeClass("disable");
-        }
-
-        cpns_update_from_json(data, "#modal-client-add");
-    });
-    // End события изменения инпутов
+    // Start валидация формы
+    cpns_form_validate("#modal-client-add", ".js-submitter");
+    // End валидация формы
 });
 // End Добаввление клиента в базу данных | Модалка добавления нового пользователя

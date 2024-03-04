@@ -19,7 +19,7 @@
     {% endfor %}
 {% endif %}
 
-<div id="modal-client" class="modal modal-client">
+<div id="modal-client" class="modal modal-client" data-client-id="{{ client.id }}">
     <svg data-modal-close class="modal__close"><use xlink:href="#svg-close"></use></svg>
 
     <div class="modal__container">
@@ -45,7 +45,7 @@
                     <button class="modal__header-btn btn-bad">В архив</button>
                 </div>
                 <div class="modal__header-group-btns tab-outside" data-outside-id="2">
-                    <button data-fancybox data-src="#fmodal-new-contact-person" class="modal__header-btn btn">Добавить</button>
+                    <button onclick="load_fmodal_contacts_persons({{ client.id }})" class="modal__header-btn btn">Добавить</button>
                 </div>
                 <div class="modal__header-group-btns tab-outside" data-outside-id="4">
                     <button data-fancybox data-src="#fmodal-new-contract" class="modal__header-btn btn">Добавить договор</button>
@@ -74,7 +74,7 @@
                     <div data-id="1" class="tabs__tab tabs__tab--active">
                         Информация
                     </div>
-                    <div data-id="2" class="tabs__tab">
+                    <div data-id="2" onclick="load_tab_contacts_persons({{ client.id }})" id="modal-client-tab-contacts-persons" class="tabs__tab">
                         Контактные лица
                     </div>
                     <div data-id="3" class="tabs__tab">
@@ -350,137 +350,9 @@
                     </div>
                     {# End tab content 1 #}
 
-                    <!-- Start tab content 2 -->
-                    <div data-id="2" class="tabs__item">
-
-                        <div class="tabs__tableContainer">
-                            <div class="tabs__table">
-                                <table>
-                                    <thead>
-                                    <tr>
-                                        <th class="text-start">ФИО<br>Должность</th>
-                                        <th class="text-start">Дата рождения</th>
-                                        <th class="text-start">Телефон/<br>Почта</th>
-                                        <th class="text-start">Инициатор/<br>Дата/Время</th>
-                                    </tr>
-                                    </thead>
-        
-                                    <tbody>
-                                        <tr class="pointer">
-                                            <td class="text-start"><span>Новин Фёдор Евгеньевич</span><br><span class="text-secondary">Директор</span></td>
-                                            <td class="text-start">22.02.1971</td>
-                                            <td class="text-start"><span>89324561232</span><br><span>example@mail.ru</span></td>
-                                            <td class="text-start"><span>Петров С. И.</span><br><span>10.10.23 в 13:46</span></td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-contact-person" class="hover"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                            <td class="td-btn-default">
-                                                <svg><use xlink:href="#svg-del"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start"><span>Новин Фёдор Евгеньевич</span><br><span class="text-secondary">Директор</span></td>
-                                            <td class="text-start">22.02.1971</td>
-                                            <td class="text-start"><span>89324561232</span><br><span>example@mail.ru</span></td>
-                                            <td class="text-start"><span>Петров С. И.</span><br><span>10.10.23 в 13:46</span></td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-contact-person" class="hover"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                            <td class="td-btn-default">
-                                                <svg><use xlink:href="#svg-del"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start"><span>Новин Фёдор Евгеньевич</span><br><span class="text-secondary">Директор</span></td>
-                                            <td class="text-start">22.02.1971</td>
-                                            <td class="text-start"><span>89324561232</span><br><span>example@mail.ru</span></td>
-                                            <td class="text-start"><span>Петров С. И.</span><br><span>10.10.23 в 13:46</span></td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-contact-person" class="hover"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                            <td class="td-btn-default">
-                                                <svg><use xlink:href="#svg-del"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start"><span>Новин Фёдор Евгеньевич</span><br><span class="text-secondary">Директор</span></td>
-                                            <td class="text-start">22.02.1971</td>
-                                            <td class="text-start"><span>89324561232</span><br><span>example@mail.ru</span></td>
-                                            <td class="text-start"><span>Петров С. И.</span><br><span>10.10.23 в 13:46</span></td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-contact-person" class="hover"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                            <td class="td-btn-default">
-                                                <svg><use xlink:href="#svg-del"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start"><span>Новин Фёдор Евгеньевич</span><br><span class="text-secondary">Директор</span></td>
-                                            <td class="text-start">22.02.1971</td>
-                                            <td class="text-start"><span>89324561232</span><br><span>example@mail.ru</span></td>
-                                            <td class="text-start"><span>Петров С. И.</span><br><span>10.10.23 в 13:46</span></td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-contact-person" class="hover"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                            <td class="td-btn-default">
-                                                <svg><use xlink:href="#svg-del"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start"><span>Новин Фёдор Евгеньевич</span><br><span class="text-secondary">Директор</span></td>
-                                            <td class="text-start">22.02.1971</td>
-                                            <td class="text-start"><span>89324561232</span><br><span>example@mail.ru</span></td>
-                                            <td class="text-start"><span>Петров С. И.</span><br><span>10.10.23 в 13:46</span></td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-contact-person" class="hover"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                            <td class="td-btn-default">
-                                                <svg><use xlink:href="#svg-del"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start"><span>Новин Фёдор Евгеньевич</span><br><span class="text-secondary">Директор</span></td>
-                                            <td class="text-start">22.02.1971</td>
-                                            <td class="text-start"><span>89324561232</span><br><span>example@mail.ru</span></td>
-                                            <td class="text-start"><span>Петров С. И.</span><br><span>10.10.23 в 13:46</span></td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-contact-person" class="hover"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                            <td class="td-btn-default">
-                                                <svg><use xlink:href="#svg-del"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start"><span>Новин Фёдор Евгеньевич</span><br><span class="text-secondary">Директор</span></td>
-                                            <td class="text-start">22.02.1971</td>
-                                            <td class="text-start"><span>89324561232</span><br><span>example@mail.ru</span></td>
-                                            <td class="text-start"><span>Петров С. И.</span><br><span>10.10.23 в 13:46</span></td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-contact-person" class="hover"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                            <td class="td-btn-default">
-                                                <svg><use xlink:href="#svg-del"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start"><span>Новин Фёдор Евгеньевич</span><br><span class="text-secondary">Директор</span></td>
-                                            <td class="text-start">22.02.1971</td>
-                                            <td class="text-start"><span>89324561232</span><br><span>example@mail.ru</span></td>
-                                            <td class="text-start"><span>Петров С. И.</span><br><span>10.10.23 в 13:46</span></td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-contact-person" class="hover"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                            <td class="td-btn-default">
-                                                <svg><use xlink:href="#svg-del"></use></svg>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    <!-- End tab content 2 -->
+                    {# Start tab content | ajax подгрузка 2 #}
+                    <div data-id="2" id="modal-client-tab-contacts-persons-content" class="tabs__item"></div>
+                    {# End tab content 2 | ajax подгрузка #}
 
                     <!-- Start tab content 3 -->
                     <div data-id="3" class="tabs__item">
@@ -685,3 +557,81 @@
     </div>
 </div>
 <!-- End Модалка просмотра клиента -->
+
+
+{# Start fancybox modal | Новое контактное лицо | Модуль клиенты #}
+<div id="fmodal-new-contact-person-wrapper"></div>
+{# End fancybox modal | Новое контактное лицо | Модуль клиенты #}
+
+
+<script>
+// Start функция загрузки модалки "Новое контактное лицо"
+    function load_fmodal_contacts_persons(client_id) { // Должны передать id клиента, для которого нужно загрузить модалку
+
+        $wrapper = $('#fmodal-new-contact-person-wrapper');
+
+        let url = API_V1_URLS.clients.render + 'fmodal-new-contact-person'; // API_V1_URLS - Смотрим в main.js
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: {
+                client_id: client_id, // Передаем id клиента
+            },
+            success: function (response) {
+                if (response.status == "success") {
+                    $wrapper.html(response.render_response_html);
+                    cpns_form_validate("#fmodal-new-contact-person", '.js-submitter'); // Валидируем форму добавления конт.лица
+                    
+                    cpns_init();
+
+                    $.fancybox.open({
+                        src: '#fmodal-new-contact-person',
+                        type: 'inline'
+                    });
+
+                    dd(response, `Render fmodal-new-contact-person.twig ${url}`);
+                }
+
+                if (response.status == "error") {
+                    console.log(response);
+                    $wrapper.html(`<div style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">${response.message}</div>`);
+                }
+            }
+        });
+    }
+// End функция загрузки модалки "Новое контактное лицо"
+</script>
+
+
+<script>
+// Start функция загрузки таба контактниые лица
+    function load_tab_contacts_persons (client_id) {
+        $wrapper = $('#modal-client-tab-contacts-persons-content');
+
+        let url = API_V1_URLS.clients.render + 'tab-content-contacts-persons'; // API_V1_URLS - Смотрим в main.js
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: {
+                client_id: client_id, // Передаем id клиента
+            },
+            success: function (response) {
+                $wrapper.removeClass("loading");
+
+                if (response.status == "success") {
+                    $wrapper.html(response.render_response_html);
+                    resizeTableModal(); // Ресайзим под размеры. Костыль
+
+                    dd(response, `Render tab-content-contacts-persons.twig ${url}`);
+                }
+
+                if (response.status == "error") {
+                    $wrapper.html(`<div style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">${response.message}</div>`);
+                }
+            }
+        });
+    }
+// End функция загрузки таба контактниые лица
+</script>

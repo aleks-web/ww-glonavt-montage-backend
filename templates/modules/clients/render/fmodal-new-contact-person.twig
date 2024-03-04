@@ -1,0 +1,106 @@
+{#
+    request_params - параметры запроса
+    client - клиент
+#}
+<div id="fmodal-new-contact-person" class="fmodal fmodal-new-contact-person" data-client-id="{{ client.id }}" style="display: none;">
+    <div class="fmodal__title">Новое контактное лицо</div>
+
+        <div class="fmodal__content">
+
+            <div class="fmodal__vertical">
+                {% include 'components/input-text.twig' with {
+                    settings: {
+                        db_field_name: 'name',
+                        required: true,
+                        pls: 'Имя'
+                    }
+                } %}
+
+                {% include 'components/input-text.twig' with {
+                    settings: {
+                        db_field_name: 'surname',
+                        pls: 'Фамилия'
+                    }
+                } %}
+
+                {% include 'components/input-text.twig' with {
+                    settings: {
+                        db_field_name: 'patronymic',
+                        pls: 'Отчество'
+                    }
+                } %}
+
+                {% include 'components/input-text.twig' with {
+                    settings: {
+                        db_field_name: 'post',
+                        pls: 'Должность'
+                    }
+                } %}
+
+                {% include 'components/input-date.twig' with {
+                    settings: {
+                        db_field_name: 'birth',
+                        pls: 'Дата рождения'
+                    }
+                } %}
+
+                {% include 'components/input-text.twig' with {
+                    settings: {
+                        db_field_name: 'tel',
+                        pls: 'Телефон'
+                    }
+                } %}
+
+                {% include 'components/input-text.twig' with {
+                    settings: {
+                        db_field_name: 'email',
+                        pls: 'Почта'
+                    }
+                } %}
+
+            </div>
+            
+        </div>
+
+        <div class="fmodal__control-btns">
+            <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
+            <button class="fmodal__btn btn-good js-submitter" onclick="tab_modal_create_new_contact_person()">Сохранить</button>
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+
+function tab_modal_create_new_contact_person() {
+    let modal_wrapper_components = '#fmodal-new-contact-person';
+
+    let create_url = API_V1_URLS.clients.create_contact_person; // API_V1_URLS - Смотрим в main.js
+    let formData = cpns_get_formdata_by_wrapper(modal_wrapper_components);
+
+    // Если есть заполненные поля и нет ошибок, отправляем запрос
+    if (formData && !cpns_get_errors_by_wrapper(modal_wrapper_components)) {
+        formData.append('organization_id', $(modal_wrapper_components).data('client-id'));
+
+        // Отправка запроса
+        $.ajax({
+            url: create_url,
+            method: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.status == "success") {
+                    push(response.message ? response.message : "Успешный запрос", "success", 2000);
+                    load_tab_contacts_persons($(modal_wrapper_components).data('client-id'));
+                    console.log(response);
+                }
+                else {
+                    console.log(response);
+                }
+            },
+        });
+    }
+}
+</script>

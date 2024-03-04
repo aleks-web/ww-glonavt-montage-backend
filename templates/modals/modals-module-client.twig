@@ -1,36 +1,3 @@
-
-<!-- Start fancybox modal | Новое контактное лицо | Модуль клиенты -->
-<div id="fmodal-new-contact-person" class="fmodal fmodal-new-contact-person" style="display: none;">
-    <div class="fmodal__title">Новое контактное лицо</div>
-
-    <div class="fmodal__content">
-
-        <div class="fmodal__vertical">
-            <div class="input-text">
-                <input type="text" placeholder="ФИО">
-            </div>
-
-            @@include('../components/select.html', {"name": "", "stText": "Выберите должность", "itemName": "Должность"})
-
-            @@include('../components/standart-input-date.html', {"name": "", "pls": "Выберите дату"})
-    
-            @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Телефон"})
-    
-            @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Почта"})
-        </div>
-        
-    </div>
-
-    <div class="fmodal__control-btns">
-        <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
-        <button class="fmodal__btn btn-good disable">Сохранить</button>
-    </div>
-
-
-</div>
-<!-- End fancybox modal | Новое контактное лицо | Модуль клиенты -->
-
-
 <!-- Start fancybox modal | Просмотр тс | Модуль клиенты -->
 <div id="fmodal-ts-object-view" class="fmodal fmodal-ts-object-view" style="display: none;">
     
@@ -264,7 +231,14 @@
 
 
 
-<!-- Start модалка добавление клиента -->
+
+
+
+
+
+
+
+<!-- Start модалка добавление клиента | Модуль клиенты -->
 <div id="modal-client-add" class="modal modal--small modal-client-add">
     <svg data-modal-close class="modal__close"><use xlink:href="#svg-close"></use></svg>
 
@@ -426,7 +400,7 @@
 
     </div>
 </div>
-<!-- End модалка добавление клиента -->
+<!-- End модалка добавление клиента | Модуль клиенты -->
 
 <!-- Start Модалка просмотра клиента | Модуль клиенты -->
 <div id="region-modal-client"></div>

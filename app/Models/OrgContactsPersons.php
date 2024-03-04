@@ -12,7 +12,9 @@ class OrgContactsPersons extends Model {
     'surname',
     'patronymic',
     'tel',
-    'email'
+    'email',
+    'birth',
+    'user_add_id'
   ];
 
   public static function getFillableAttributes(): array {

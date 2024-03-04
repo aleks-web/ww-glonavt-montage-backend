@@ -253,6 +253,7 @@ const WWCrmConfig = {
 const API_V1_URLS = {
     clients: {
         create: "/api_v1/clients/create/",
+        create_contact_person: "/api_v1/clients/contacts-persons/create/",
         render: "/api_v1/clients/render/"
     },
 };

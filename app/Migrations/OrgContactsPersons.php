@@ -13,14 +13,15 @@ if (!Manager::schema()->hasTable('org_contacts_persons')) {
         $table->string('patronymic', 60)->default('')->comment('Отчество контактного лица');
 		$table->string('tel', 15)->nullable()->comment('Телефон контактного лица');
         $table->string('email', 50)->nullable()->comment('Email контактного лица');
+        $table->date('birth')->nullable()->comment('День рождения контактного лица');
+        $table->unsignedBigInteger('user_add_id')->nullable()->comment('Кто добавил');
 
         // Внешние ключи:
 		$table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
+        $table->foreign('user_add_id')->references('id')->on('users')->onDelete('set null'); // Ставим null для user_add_id, если запись удаляется
         
 		$table->timestamps(); // Дата создания и дата обновления
 	});
-
-
 
 	$test_arr = [
 		[
@@ -28,21 +29,24 @@ if (!Manager::schema()->hasTable('org_contacts_persons')) {
             'surname' => 'Кузнецов',
             'tel' => 89195798871,
             'email' => 'dok.go@yandex.ru',
-            'organization_id' => 1
+            'organization_id' => 1,
+            'user_add_id' => 1
         ],
         [
             'name' => 'Валентин',
             'surname' => 'Кузнецов',
             'tel' => 89195798871,
             'email' => 'dok.go@yandex.ru',
-            'organization_id' => 1
+            'organization_id' => 1,
+            'user_add_id' => 1
         ],
         [
             'name' => 'Николай',
             'surname' => 'Валерьевич',
             'tel' => 89195798871,
             'email' => 'dok.go@yandex.ru',
-            'organization_id' => 1
+            'organization_id' => 1,
+            'user_add_id' => 1
         ],
 	];
 

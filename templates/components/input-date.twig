@@ -1,0 +1,46 @@
+{#
+    Компонент даты
+
+    * Доступные переменные:
+    
+    settings - массив с настройками
+        * title - заголовок (не обязательно)
+        * db_field_name - Имя поля (если компонент записывает данные в БД, то db_field_name равно названию поля из базы данных)
+        * val - значение инпута в атрибуте value. Может быть единым значением, может имень вид в виде массива : [1, 2, 3]
+        * not_selected_text - пункт меню "Не выбрано". Если не проброшен, то не выводится, если задан, то выводится с заданным текстом
+        * required - обязательный ли инпут
+        * input_messages_position - расположение сообщений об ошибках и прочее. Либо bottom (по умолчанию, но можно изменить здесь) либо top
+    ------------------------------------
+#}
+
+{% if settings.db_field_name == false %}
+    <div style="color: red;">Параметр "db_field_name" для компонента input-date не проброшен!</div>
+{% else %}
+    <div class="component-wrapper">
+        {# Start Сообщения об ошибках и пр #}
+        {% if settings.input_messages_position == 'top' %}
+            <div class="input-messages input-messages--top disable">
+                <span class="input-messages__icon"></span>
+                <span class="input-messages__text"></span>
+            </div>
+        {% endif %}
+        {# End Сообщения об ошибках и пр #}
+
+        <div class="input-date">
+            {% if settings.title %}
+                <span class="input-date__name">{{ settings.title }}</span>
+            {% endif %}
+
+            <input type="text"  name="{{ settings.db_field_name }}" placeholder="{{ settings.pls | default('Выберите дату') }}" />
+        </div>
+
+        {# Start Сообщения об ошибках и пр #}
+        {% if settings.input_messages_position == 'bottom' or settings.input_messages_position == false %}
+            <div class="input-messages input-messages--bottom disable">
+                <span class="input-messages__icon"></span>
+                <span class="input-messages__text"></span>
+            </div>
+        {% endif %}
+        {# End Сообщения об ошибках и пр #}
+    </div>
+{% endif %}

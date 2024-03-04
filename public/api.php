@@ -5,7 +5,6 @@ include_once 'bootstrap.php';
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use WWCrm\Controllers\ApiClientsController;
 
 const API_V1_URL = '/api_v1/';
 
@@ -18,6 +17,21 @@ $router = $WWAppContainer->get('Router');
 // Start Routes
 $router->xpost(API_V1_URL . 'clients/create', 'ApiClientsController@create');
 
+
+/*
+    Роут создания контактного лица
+*/
+$router->xpost(API_V1_URL . 'clients/contacts-persons/create', 'ApiClientsController@create_contacts_person');
+
+
+
+
+/*
+    Роут рендеринга.
+    :string - принимает название шаблона twig и далее прокидывается в контроллер.
+    Контроллер рендерит и отдает ответ.
+    Метод distributor - распределяет, на какой метод рендеринга отправить запрос
+*/
 $router->xpost(API_V1_URL . 'clients/render/:string', 'ApiClientsController@distributor');
 
 

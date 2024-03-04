@@ -2,13 +2,29 @@
 
 namespace WWCrm\Controllers;
 
+/* 
+    Компоненты Symfony запрос и ответ
+    https://symfony.ru/doc/current/components/http_foundation.html
+*/
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-// Билдер компонента select. Формирует массив с данными, который нужно прокинуть
-use \WWCrm\Services\ComponentSelectBuilder;
+/* 
+    ComponentSelectBuilder - Билдер компонента select
+    Формирует массив с данными, который нужно прокинуть
+    ООП обертка
+*/
+use WWCrm\Services\ComponentSelectBuilder;
 
+
+
+/*
+    Модели - 1 модель работает с 1 таблицей в БД
+    Расширяют класс Model от Laravel
+*/
 use WWCrm\Models\Organizations;
+use WWCrm\Models\OrgContactsPersons;
+use WWCrm\Models\Users;
 
 class ApiClientsController extends \WWCrm\Controllers\MainController {
     
@@ -23,7 +39,7 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
         // Создаем пользователя
         $client = Organizations::create($params);
 
-        $response_array['db_fields'] = Organizations::find($client->id);
+        $response_array['client'] = Organizations::find($client->id);
         $response_array['status'] = 'success';
         $response_array['message'] = 'Клиент создан';
         $response_array['request_params'] = $params;
@@ -34,6 +50,30 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
         return $response;
     }
 
+    /*
+        Создание контактного лица организации
+    */
+    public function create_contacts_person(Request $request, Response $response) {
+        
+        // Получаем параметры
+        $params = $request->request->all();
+
+        // Создаем контактное лицо
+        $contact_person = OrgContactsPersons::create($params);
+
+        // Формируем ответ
+        $response_array['contact_person'] = $contact_person;
+        $response_array['status'] = 'success';
+        $response_array['message'] = 'Контактное лицо создано';
+        $response_array['request_params'] = $params;
+
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+        return $response;
+        
+    }
+
     // Выступает в качестве распределителя
     public function distributor($twig_element, Request $request, Response $response) {
         $twig_element = $twig_element . '.twig';
@@ -42,10 +82,18 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             return $this->render_main_table($twig_element, $request, $response);
         } else if($twig_element == 'modal-client.twig') {
             return $this->render_modal_client($twig_element, $request, $response);
+        } else if ($twig_element == 'tab-content-contacts-persons.twig') {
+            return $this->render_tab_contacts_persons($twig_element, $request, $response);
+        } else if($twig_element == 'fmodal-new-contact-person.twig') {
+            return $this->render_fmodal_new_contact_person($twig_element, $request, $response);
+        } else {
+            return 'Распределитель рендер запросов. Возврат пустого ответа';
         }
     }
 
-
+    /*
+        Рендер главной таблицы
+    */
     public function render_main_table($twig_element, Request $request, Response $response) {
         // Получаем параметры POST и сразу записываем их в массив с ответом
         $response_array['request_params'] = $request->request->all();
@@ -101,6 +149,9 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
         return $response;
     }
     
+    /*
+        Рендер модалки просмотра клиента
+    */
     public function render_modal_client($twig_element, Request $request, Response $response) {
         // Получаем параметры POST и сразу записываем их в массив с ответом
         $response_array['request_params'] = $request->request->all();
@@ -139,6 +190,62 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
 
 
 
+
+        // Итоговые манипуляции
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+        // Возвращаем ответ
+        return $response;
+    }
+
+    /*
+        Рендер вкладки "Контактные лица". В модалке просмотра клиента
+    */
+    public function render_tab_contacts_persons($twig_element, Request $request, Response $response) {
+        // Получаем параметры POST и сразу записываем их в массив с ответом
+        $response_array['request_params'] = $request->request->all();
+        $response_array['client'] = Organizations::find($response_array['request_params']['client_id']);
+        $response_array['client']['contacts_persons'] = $response_array['client']->contactsPersons()->get();
+        
+        // Добавляем юзеров в массив | Инициаторы
+        foreach ($response_array['client']['contacts_persons'] as $key => $person) {
+            $id = $person['user_add_id'];
+
+            $response_array['client']['contacts_persons'][$key]['user_add'] = Users::find($id);
+        }
+
+        // Рендерим
+        $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
+            'request_params' => $response_array['request_params'],
+            'client' => $response_array['client']
+        ]);
+
+        $response_array['status'] = 'success';
+
+        // Итоговые манипуляции
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+        // Возвращаем ответ
+        return $response;
+    }
+
+    /*
+        Рендер модалки "Новое контактное лицо"
+    */
+    public function render_fmodal_new_contact_person($twig_element, Request $request, Response $response) {
+        // Получаем параметры POST и сразу записываем их в массив с ответом
+        $response_array['request_params'] = $request->request->all();
+        $response_array['client'] = Organizations::find($response_array['request_params']['client_id']);
+
+        // Рендерим
+        $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
+            'request_params' => $response_array['request_params'],
+            'client' => $response_array['client']
+        ]);
+
+        $response_array['status'] = 'success';
 
         // Итоговые манипуляции
         $response->headers->set('Content-Type', 'application/json');
