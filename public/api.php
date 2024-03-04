@@ -23,6 +23,16 @@ $router->xpost(API_V1_URL . 'clients/create', 'ApiClientsController@create');
 */
 $router->xpost(API_V1_URL . 'clients/contacts-persons/create', 'ApiClientsController@create_contacts_person');
 
+/*
+    Роут обновления контактного лица
+*/
+$router->xpost(API_V1_URL . 'clients/contacts-persons/update', 'ApiClientsController@update_contacts_person');
+
+/*
+    Роут удаления контактного лица
+*/
+$router->xpost(API_V1_URL . 'clients/contacts-persons/remove', 'ApiClientsController@remove_contacts_person');
+
 
 
 

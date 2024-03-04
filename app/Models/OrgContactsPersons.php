@@ -14,6 +14,7 @@ class OrgContactsPersons extends Model {
     'tel',
     'email',
     'birth',
+    'post',
     'user_add_id'
   ];
 

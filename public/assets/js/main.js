@@ -13,12 +13,8 @@ function remove_body_bg() {
 }
 // End Функции для создания и удаления заднего фона
 
-
-
-
-
 // Start функция дебага
-function dd(message = 'dd - не задано сообщение для отображения в консоли', title = false) {
+function dd(message = "dd - не задано сообщение для отображения в консоли", title = false) {
     if (WWCrmConfig.debug) {
         if (title) {
             console.log(`%c${title}`, "color: green; font-size: 14px; font-weight: bold");
@@ -28,11 +24,8 @@ function dd(message = 'dd - не задано сообщение для отоб
 
         console.log(`%c------`, "color: green;");
     }
-};
+}
 // End функция дебага
-
-
-
 
 // Start табы в модалках
 $(document).ready(function (e) {
@@ -59,10 +52,12 @@ $(document).ready(function (e) {
             $(this).addClass(tab_class_active); // Делаем текущий таб, по которому кликнули активным
             parent.find("." + tab_content_class + '[data-id="' + tab_id + '"]').addClass(tab_content_class_active); // Находим контент активного таба и показываем его
 
-            outside_names.forEach((element) => { // Меняем содержимое, которое находится вне табов
+            outside_names.forEach((element) => {
+                // Меняем содержимое, которое находится вне табов
                 let outside_class_name = "tabs-outside-" + element; // Устанавливаем класс
 
-                $("." + outside_class_name).each(function (i, el) { // Ищем класс
+                $("." + outside_class_name).each(function (i, el) {
+                    // Ищем класс
                     let all_outside_tabs = $(el).find("." + tab_outside_class); // Все табы
                     all_outside_tabs.removeClass(tab_outside_class_active); // Удаляем у всех активный класс
 
@@ -78,56 +73,42 @@ $(document).ready(function (e) {
         }
     });
 
+    $(document).on("click", ".modal .modal__header-btn-edit, .modal .modal__header-btn-save", function (e) {
+        let edit_class = "modal__header-btn-edit";
+        let save_class = "modal__header-btn-save";
 
-    $(document).on('click', '.modal .modal__header-btn-edit, .modal .modal__header-btn-save', function(e) {
-        let edit_class = 'modal__header-btn-edit';
-        let save_class = 'modal__header-btn-save';
+        let $parent_outside = $(this).parents(".tab-outside"); // outside
 
-        let $parent_outside = $(this).parents('.tab-outside'); // outside
-        
         let btn_edit = $parent_outside.find(`.${edit_class}`); // Edit btn
         let btn_save = $parent_outside.find(`.${save_class}`); // Save btn
 
-        let $modal = $(this).parents('.modal');
-        let tab_active_id = $modal.find('.tabs__tab--active').data('id');
+        let $modal = $(this).parents(".modal");
+        let tab_active_id = $modal.find(".tabs__tab--active").data("id");
 
         // Если клик по кнопке "Редактировать"
         if ($(this).hasClass(edit_class)) {
-            $modal.find('.modal-client__data-view').css('display', 'none');
-            $modal.find('.modal-client__data-edit').css('display', 'flex');
+            $modal.find(".modal-client__data-view").css("display", "none");
+            $modal.find(".modal-client__data-edit").css("display", "flex");
 
             // Смена кнопок
             btn_edit.fadeOut(200, () => {
                 btn_save.fadeIn(200);
             });
-
         }
 
         // Если клик по кнопке "Сохранить"
         if ($(this).hasClass(save_class)) {
-            $modal.find('.modal-client__data-view').css('display', 'flex');
-            $modal.find('.modal-client__data-edit').css('display', 'none');
+            $modal.find(".modal-client__data-view").css("display", "flex");
+            $modal.find(".modal-client__data-edit").css("display", "none");
 
             // Смена кнопок
             btn_save.fadeOut(200, () => {
                 btn_edit.fadeIn(200);
             });
         }
-
     });
 });
 // End табы в модалках
-
-
-
-
-
-
-
-
-
-
-
 
 // Start функция ресайза таблицы в модалке
 /*
@@ -184,9 +165,6 @@ $(document).ready(function (e) {
 });
 // End различные скрипты по работе с модалками
 
-
-
-
 // Start скрипт для меню
 $(document).ready(function (e) {
     $(document).on("click", ".menu__item-link", function (e) {
@@ -208,7 +186,6 @@ $(document).ready(function (e) {
 });
 // End скрипт для меню
 
-
 /*
     Start отправка запроса на сервер
 
@@ -218,7 +195,6 @@ $(document).ready(function (e) {
         fd - formData объект с содержимым формы
 */
 function xpost_fd(url, formData) {
-
     return new Promise((resolve, reject) => {
         $.ajax({
             url: url,
@@ -230,8 +206,7 @@ function xpost_fd(url, formData) {
                 if (response.status == "success") {
                     push(response.message ? response.message : "Успешный запрос", "success", 2000);
                     resolve(response);
-                }
-                else {
+                } else {
                     reject(response);
                     console.log(response);
                 }
@@ -241,12 +216,10 @@ function xpost_fd(url, formData) {
 }
 // End отправка запроса на сервер
 
-
-
 // Start какие-то настрйоки
 const WWCrmConfig = {
-    debug: true
-}
+    debug: true,
+};
 // End какие-то настрйоки
 
 // Start Глобально доступная константа. Содержит ссылки API
@@ -254,7 +227,9 @@ const API_V1_URLS = {
     clients: {
         create: "/api_v1/clients/create/",
         create_contact_person: "/api_v1/clients/contacts-persons/create/",
-        render: "/api_v1/clients/render/"
+        update_contact_person: "/api_v1/clients/contacts-persons/update/",
+        remove_contact_person: "/api_v1/clients/contacts-persons/remove/",
+        render: "/api_v1/clients/render/",
     },
 };
 // End Глобально доступная константа. Содержит ссылки API

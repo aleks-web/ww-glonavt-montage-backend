@@ -74,6 +74,58 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
         
     }
 
+    /*
+        Обновление контактного лица организации
+    */
+    public function update_contacts_person(Request $request, Response $response) {
+        
+        // Получаем параметры
+        $params = $request->request->all();
+        $response_array['request_params'] = $params;
+        $id = $params['id'];
+        unset($params['id']);
+
+        // Создаем контактное лицо
+        $contact_person = OrgContactsPersons::find($id)->update($params);
+        $contact_person = OrgContactsPersons::find($id);
+
+        // Формируем ответ
+        $response_array['contact_person'] = $contact_person;
+        $response_array['status'] = 'success';
+        $response_array['message'] = 'Контактное лицо обновлено';
+
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+        return $response;
+        
+    }
+
+    /*
+        Удаление контактного лица организации
+    */
+    public function remove_contacts_person(Request $request, Response $response) {
+        
+        // Получаем параметры
+        $params = $request->request->all();
+        $response_array['request_params'] = $params;
+
+        // Создаем контактное лицо
+        OrgContactsPersons::find($params['person_id'])->delete();
+
+        // Формируем ответ
+        $response_array['status'] = 'success';
+        $response_array['message'] = 'Контактное лицо удалено';
+
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+        return $response;
+        
+    }
+
+
+
     // Выступает в качестве распределителя
     public function distributor($twig_element, Request $request, Response $response) {
         $twig_element = $twig_element . '.twig';
@@ -86,7 +138,10 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             return $this->render_tab_contacts_persons($twig_element, $request, $response);
         } else if($twig_element == 'fmodal-new-contact-person.twig') {
             return $this->render_fmodal_new_contact_person($twig_element, $request, $response);
-        } else {
+        } else if ($twig_element == 'fmodal-contact-person-update.twig'){
+            return $this->render_fmodal_contact_person_update($twig_element, $request, $response);
+        }
+        else {
             return 'Распределитель рендер запросов. Возврат пустого ответа';
         }
     }
@@ -243,6 +298,30 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
         $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
             'request_params' => $response_array['request_params'],
             'client' => $response_array['client']
+        ]);
+
+        $response_array['status'] = 'success';
+
+        // Итоговые манипуляции
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+        // Возвращаем ответ
+        return $response;
+    }
+
+    /*
+        Рендер модалки "Новое контактное лицо - обновление"
+    */
+    public function render_fmodal_contact_person_update($twig_element, Request $request, Response $response) {
+        // Получаем параметры POST и сразу записываем их в массив с ответом
+        $response_array['request_params'] = $request->request->all();
+        $response_array['person'] = OrgContactsPersons::find($response_array['request_params']['person_id']);
+
+        // Рендерим
+        $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
+            'request_params' => $response_array['request_params'],
+            'person' => $response_array['person'] // Прокидываем персону
         ]);
 
         $response_array['status'] = 'success';

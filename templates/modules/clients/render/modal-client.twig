@@ -559,16 +559,11 @@
 <!-- End Модалка просмотра клиента -->
 
 
-{# Start fancybox modal | Новое контактное лицо | Модуль клиенты #}
-<div id="fmodal-new-contact-person-wrapper"></div>
-{# End fancybox modal | Новое контактное лицо | Модуль клиенты #}
-
-
 <script>
 // Start функция загрузки модалки "Новое контактное лицо"
     function load_fmodal_contacts_persons(client_id) { // Должны передать id клиента, для которого нужно загрузить модалку
 
-        $wrapper = $('#fmodal-new-contact-person-wrapper');
+        $wrapper = $('#fmodal-contact-person-wrapper');
 
         let url = API_V1_URLS.clients.render + 'fmodal-new-contact-person'; // API_V1_URLS - Смотрим в main.js
 

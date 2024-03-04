@@ -48,12 +48,6 @@ $(document).ready(function (e) {
 });
 // End input type passs
 
-
-
-
-
-
-
 // Start компонент добавление фото
 $(document).ready(function (e) {
     $(document).on("click", ".photo-add__btn-add, .photo-add__preview", function (e) {
@@ -77,10 +71,6 @@ $(document).ready(function (e) {
     });
 });
 // End компонент добавление фото
-
-
-
-
 
 // Start input files add block
 $(document).ready(function (e) {
@@ -113,9 +103,6 @@ $(document).ready(function (e) {
     });
 });
 // End input files add block
-
-
-
 
 // Start input-text
 $(document).ready(function (e) {
@@ -274,13 +261,9 @@ $(document).ready(function (e) {
 });
 // End обнуление
 
-
-
 // Start Список компонентов с input
 const input_components = ["input-text", "select", "textarea", "input-date"];
 // End Список компонентов input
-
-
 
 // Start Функция которая формирует классы для вложенного поиска. Передается обертка в которой ищутся компоненты и формируется вложенность
 function cpns_get_classes_by_wrapper(wrapper_selector) {
@@ -293,8 +276,6 @@ function cpns_get_classes_by_wrapper(wrapper_selector) {
     return find_classes;
 }
 // End Функция которая формирует классы для вложенного поиска. Передается обертка в которой ищутся компоненты и формируется вложенность
-
-
 
 // Start Функция, которая получает объект formData учитывая все эти компоненты
 function cpns_get_formdata_by_wrapper(wrapper_selector) {
@@ -322,8 +303,6 @@ function cpns_get_formdata_by_wrapper(wrapper_selector) {
 }
 // End Функция, которая получает объект formData учитывая все эти компоненты
 
-
-
 // Start Получение ошибок в инпутах компонентов внутри какой-то обертки
 function cpns_get_errors_by_wrapper(wrapper_selector) {
     let null_inputs = {};
@@ -338,11 +317,11 @@ function cpns_get_errors_by_wrapper(wrapper_selector) {
         if (!input.val() && $(this).hasClass("required")) {
             null_inputs[input.attr("name")] = {
                 name: input.attr("name"), // Название поля input
-                message: 'Поле не заполнено', // Сообщение об ошибке
-                message_type: 'error', // Тип сообщения
+                message: "Поле не заполнено", // Сообщение об ошибке
+                message_type: "error", // Тип сообщения
                 wrapper_selector: wrapper_selector, // Родительский селектор-обертка, в котором находятся все искомые компоненты
-                target: $(this) // Текущий компонент
-            }
+                target: $(this), // Текущий компонент
+            };
         }
     });
 
@@ -354,43 +333,37 @@ function cpns_get_errors_by_wrapper(wrapper_selector) {
 }
 // End Получение ошибок в инпутах компонентов внутри какой-то обертки
 
-
-
-
 // Start Обновление компонентов. Валидация
 function cpns_update_from_json(json, wrapper_selector) {
-
     let components = $(cpns_get_classes_by_wrapper(wrapper_selector));
 
-    components.removeClass('error').addClass('success');
+    components.removeClass("error").addClass("success");
 
-    components.each(function() {
-        let block_wrapper = $(this).parents('.component-wrapper');
+    components.each(function () {
+        let block_wrapper = $(this).parents(".component-wrapper");
 
-        block_wrapper.find('.input-messages').removeClass('error').removeClass('success').addClass('disable');
+        block_wrapper.find(".input-messages").removeClass("error").removeClass("success").addClass("disable");
     });
 
-    for (let key in json) { // Начинаем перебирать объект и обновлять компоненты
-        let name = json[key]['name'];
-        let message = json[key]['message'];
-        let message_type = json[key]['message_type'];
-        let target = json[key]['target'];
-
+    for (let key in json) {
+        // Начинаем перебирать объект и обновлять компоненты
+        let name = json[key]["name"];
+        let message = json[key]["message"];
+        let message_type = json[key]["message_type"];
+        let target = json[key]["target"];
 
         if (target) {
-            let block_wrapper = target.parents('.component-wrapper'); // Получаем главную обертку компонента
-            let input_messages = block_wrapper.find('.input-messages'); // Получаем блок с сообщениями
+            let block_wrapper = target.parents(".component-wrapper"); // Получаем главную обертку компонента
+            let input_messages = block_wrapper.find(".input-messages"); // Получаем блок с сообщениями
 
-            input_messages.removeClass('disable').removeClass('error').removeClass('success').addClass(message_type).find('.input-messages__text').text(message);
+            input_messages.removeClass("disable").removeClass("error").removeClass("success").addClass(message_type).find(".input-messages__text").text(message);
 
-            target.removeClass('success');
+            target.removeClass("success");
             target.addClass(message_type);
         }
     }
 }
 // End Обновление компонентов. Валидация
-
-
 
 // Start Функция сброса всех данных у компонентов
 function cpns_clear_by_wrapper(wrapper_selector) {
@@ -403,20 +376,18 @@ function cpns_clear_by_wrapper(wrapper_selector) {
             input = $(this).find("textarea");
         }
 
-        input.val('');
+        input.val("");
 
         // Устанавливаем дефолтный текст если это селект
-        if ($(this).hasClass('select')) {
-            let current_text = $(this).find('.select__current-text');
-            current_text.text(current_text.data('default-text'));
+        if ($(this).hasClass("select")) {
+            let current_text = $(this).find(".select__current-text");
+            current_text.text(current_text.data("default-text"));
         }
 
-        $(this).removeClass('success').removeClass('error');
+        $(this).removeClass("success").removeClass("error");
     });
 }
 // End Функция сброса всех данных у компонентов
-
-
 
 /*
     Функция, которая валидирует форму при ее изменениях
@@ -426,9 +397,7 @@ function cpns_clear_by_wrapper(wrapper_selector) {
     Работает с другими функциями
 */
 function cpns_form_validate(form_wrapper, submitter) {
-    $(submitter).addClass('disable'); // По умолчанию делаем кнопку не активной
-
-    $(cpns_get_classes_by_wrapper(form_wrapper)).on('keyup change', function(e) {
+    $(cpns_get_classes_by_wrapper(form_wrapper)).on("keyup change", function (e) {
         let data = cpns_get_errors_by_wrapper(form_wrapper); // Функция получает ошибки компонентов внутри определенного контейнера
 
         if (data) {
@@ -442,10 +411,8 @@ function cpns_form_validate(form_wrapper, submitter) {
 }
 // End функция, которая валидирует форму при ее изменениях
 
-
-
 // Start функция инициализации компонентов
-window.cpns_init = function() {
+window.cpns_init = function () {
     // Start input-date
     $(".input-date").each(function () {
         const options = {
@@ -474,6 +441,6 @@ window.cpns_init = function() {
         new AirDatepicker($(this).find("input")[0], options);
     });
     // End input-date
-}
+};
 // End функция инициализации компонентов
 cpns_init();
