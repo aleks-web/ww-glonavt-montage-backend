@@ -71,6 +71,7 @@
     </div>
 </div>
 
+{# Start Функция, которая добавляет контактную персону #}
 <script>
     function tab_modal_create_new_contact_person(client_id) {
         let modal_wrapper_components = '#fmodal-new-contact-person';
@@ -92,7 +93,7 @@
                 success: function (response) {
                     if (response.status == "success") {
                         push(response.message ? response.message : "Успешное создание контактного лица", "success", 2000);
-                        load_tab_contacts_persons(client_id); // Обновляем контактных персон
+                        load_tab_contacts_persons(client_id, true); // Обновляем контактных персон
                         $.fancybox.close();
                         $('#fmodal-contact-person-wrapper').html('');
                     }
@@ -104,3 +105,4 @@
         }
     }
 </script>
+{# End Функция, которая добавляет контактную персону #}

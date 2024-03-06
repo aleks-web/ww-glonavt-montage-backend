@@ -9,7 +9,7 @@
 
 
     <!-- Start body -->
-    <body class="module-clients">
+    <body class="module-{% block module_name %}default{% endblock module_name %}">
         <div class="layout">
             
             <!-- Start include menu -->
@@ -97,7 +97,6 @@
         </div>
 
         {% include 'blocks/footer.twig' %}
-
 
         {% block scripts %}
         {% endblock scripts %}

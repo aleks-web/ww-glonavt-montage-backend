@@ -70,7 +70,17 @@ class Organizations extends Model {
     return (new static)->getFillable();
   }
 
+  /*
+    Получает контактных персон
+  */
   public function contactsPersons() {
-      return $this->hasMany('\WWCrm\Models\OrgContactsPersons', 'organization_id', 'id');
+    return $this->hasMany('\WWCrm\Models\OrgContactsPersons', 'organization_id', 'id');
+  }
+
+  /*
+    Получает объекты
+  */
+  public function objects() {
+    return $this->hasMany('\WWCrm\Models\Objects', 'organization_id', 'id');
   }
 }

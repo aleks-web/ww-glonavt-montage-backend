@@ -1,0 +1,52 @@
+{#
+    table_rows - элементы таблицы
+    request_params - проброшенные параметры в POST запросе
+    pagination - массив с данными о пагинации
+#}
+
+<div class="content-table content-table--control">
+    <div class="content-table__container">
+
+        {% if table_rows | length > 0 %}
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 6%;">ID</th>
+                        <th class="text-start">Тип объекта</th>
+                        <th class="text-start">Марка, модель/<br>Клиент</th>
+                        <th>Гос№</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for row in table_rows %}
+                        <tr data-modal-object data-object-id="{{ row.id }}" class="pointer">
+                            <td>{{ row.id }}</td>
+                            <td class="text-start"><span style="color: red;">Передвижная ДЭС</span></td>
+                            <td class="text-start"><span>{{ row.brand | default('Марка: -') }}, {{ row.model | default('Модель: -') }}</span><br><span class="text-secondary">{{ row.organization.name | default('Организация: не определена') }}</span></td>
+                            <td>{{ row.gnum | default('-') }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %} {# Если клиентов нет #}
+            <div style="display: flex; gap: 10px; align-items: center; flex-direction: column; justify-content: center; height: 100%;font-size: 2rem;">
+                <span style="font-size: 3rem;">🙁</span>
+                <span>Клиентов нет!</span>
+                <button data-modal-client-add class="btn">Добавить ногого</button>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{# Start Пагинация #}
+<div class="main-table-pagination" data-current-page="{{ pagination.current_page }}">
+    {% if pagination.current_page > 1 %}
+        <button class="btn" data-page="{{ pagination.prev_page }}">Назад</button>
+    {% endif %}
+
+    {% if pagination.has_next_page %}
+        <button class="btn" data-page="{{ pagination.next_page }}">Дальше</button>
+    {% endif %}
+</div>
+{# End Пагинация #}

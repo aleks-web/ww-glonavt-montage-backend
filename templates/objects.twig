@@ -1,4 +1,5 @@
 {% extends "layout.twig" %}
+{% block module_name %}objects{% endblock module_name %}
 
 {% block control %}
 <div class="control">
@@ -30,145 +31,14 @@
 {% endblock control %}
 
 {% block content %}
-<div class="content-table content-table--control">
-    <div class="content-table__container">
-
-        <table>
-            <thead>
-                <tr>
-                <th class="text-start">Тип объекта</th>
-                <th class="text-start">Марка,модель/<br>Клиент</th>
-                <th>Гос№</th>
-                <th>Обслуживание</th>
-                <th class="text-start">ID</th>
-                <th class="text-start">SN</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr data-modal-object data-object-id="1" class="pointer">
-                    <td class="text-start">Передвижная ДЭС</td>
-                    <td class="text-start"><span>УРАЛ, 4320-0911-40</span><br><span class="text-secondary">ОАО Камчатка</span></td>
-                    <td>Н163ОТ72</td>
-                    <td>до 23.12.2024</td>
-                    <td class="text-start">123456</td>
-                    <td class="text-start">123456</td>
-                </tr>
-                <tr data-modal-object data-object-id="1" class="pointer">
-                    <td class="text-start">Передвижная ДЭС</td>
-                    <td class="text-start"><span>УРАЛ, 4320-0911-40</span><br><span class="text-secondary">ОАО Камчатка</span></td>
-                    <td>Н163ОТ72</td>
-                    <td>до 23.12.2024</td>
-                    <td class="text-start">123456</td>
-                    <td class="text-start">123456</td>
-                </tr>
-                <tr data-modal-object data-object-id="1" class="pointer">
-                    <td class="text-start">Передвижная ДЭС</td>
-                    <td class="text-start"><span>УРАЛ, 4320-0911-40</span><br><span class="text-secondary">ОАО Камчатка</span></td>
-                    <td>Н163ОТ72</td>
-                    <td>до 23.12.2024</td>
-                    <td class="text-start">123456</td>
-                    <td class="text-start">123456</td>
-                </tr>
-                <tr data-modal-object data-object-id="1" class="pointer">
-                    <td class="text-start">Передвижная ДЭС</td>
-                    <td class="text-start"><span>УРАЛ, 4320-0911-40</span><br><span class="text-secondary">ОАО Камчатка</span></td>
-                    <td>Н163ОТ72</td>
-                    <td>до 23.12.2024</td>
-                    <td class="text-start">123456</td>
-                    <td class="text-start">123456</td>
-                </tr>
-                <tr data-modal-object data-object-id="1" class="pointer">
-                    <td class="text-start">Передвижная ДЭС</td>
-                    <td class="text-start"><span>УРАЛ, 4320-0911-40</span><br><span class="text-secondary">ОАО Камчатка</span></td>
-                    <td>Н163ОТ72</td>
-                    <td>до 23.12.2024</td>
-                    <td class="text-start">123456</td>
-                    <td class="text-start">123456</td>
-                </tr>
-                <tr data-modal-object data-object-id="1" class="pointer">
-                    <td class="text-start">Передвижная ДЭС</td>
-                    <td class="text-start"><span>УРАЛ, 4320-0911-40</span><br><span class="text-secondary">ОАО Камчатка</span></td>
-                    <td>Н163ОТ72</td>
-                    <td>до 23.12.2024</td>
-                    <td class="text-start">123456</td>
-                    <td class="text-start">123456</td>
-                </tr>
-                <tr data-modal-object data-object-id="1" class="pointer">
-                    <td class="text-start">Передвижная ДЭС</td>
-                    <td class="text-start"><span>УРАЛ, 4320-0911-40</span><br><span class="text-secondary">ОАО Камчатка</span></td>
-                    <td>Н163ОТ72</td>
-                    <td>до 23.12.2024</td>
-                    <td class="text-start">123456</td>
-                    <td class="text-start">123456</td>
-                </tr>
-                <tr data-modal-object data-object-id="1" class="pointer">
-                    <td class="text-start">Передвижная ДЭС</td>
-                    <td class="text-start"><span>УРАЛ, 4320-0911-40</span><br><span class="text-secondary">ОАО Камчатка</span></td>
-                    <td>Н163ОТ72</td>
-                    <td>до 23.12.2024</td>
-                    <td class="text-start">123456</td>
-                    <td class="text-start">123456</td>
-                </tr>
-                <tr data-modal-object data-object-id="1" class="pointer">
-                    <td class="text-start">Передвижная ДЭС</td>
-                    <td class="text-start"><span>УРАЛ, 4320-0911-40</span><br><span class="text-secondary">ОАО Камчатка</span></td>
-                    <td>Н163ОТ72</td>
-                    <td>до 23.12.2024</td>
-                    <td class="text-start">123456</td>
-                    <td class="text-start">123456</td>
-                </tr>
-                <tr data-modal-object data-object-id="1" class="pointer">
-                    <td class="text-start">Передвижная ДЭС</td>
-                    <td class="text-start"><span>УРАЛ, 4320-0911-40</span><br><span class="text-secondary">ОАО Камчатка</span></td>
-                    <td>Н163ОТ72</td>
-                    <td>до 23.12.2024</td>
-                    <td class="text-start">123456</td>
-                    <td class="text-start">123456</td>
-                </tr>
-                <tr data-modal-object data-object-id="1" class="pointer">
-                    <td class="text-start">Передвижная ДЭС</td>
-                    <td class="text-start"><span>УРАЛ, 4320-0911-40</span><br><span class="text-secondary">ОАО Камчатка</span></td>
-                    <td>Н163ОТ72</td>
-                    <td>до 23.12.2024</td>
-                    <td class="text-start">123456</td>
-                    <td class="text-start">123456</td>
-                </tr>
-                <tr data-modal-object data-object-id="1" class="pointer">
-                    <td class="text-start">Передвижная ДЭС</td>
-                    <td class="text-start"><span>УРАЛ, 4320-0911-40</span><br><span class="text-secondary">ОАО Камчатка</span></td>
-                    <td>Н163ОТ72</td>
-                    <td>до 23.12.2024</td>
-                    <td class="text-start">123456</td>
-                    <td class="text-start">123456</td>
-                </tr>
-                <tr data-modal-object data-object-id="1" class="pointer">
-                    <td class="text-start">Передвижная ДЭС</td>
-                    <td class="text-start"><span>УРАЛ, 4320-0911-40</span><br><span class="text-secondary">ОАО Камчатка</span></td>
-                    <td>Н163ОТ72</td>
-                    <td>до 23.12.2024</td>
-                    <td class="text-start">123456</td>
-                    <td class="text-start">123456</td>
-                </tr>
-                <tr data-modal-object data-object-id="1" class="pointer">
-                    <td class="text-start">Передвижная ДЭС</td>
-                    <td class="text-start"><span>УРАЛ, 4320-0911-40</span><br><span class="text-secondary">ОАО Камчатка</span></td>
-                    <td>Н163ОТ72</td>
-                    <td>до 23.12.2024</td>
-                    <td class="text-start">123456</td>
-                    <td class="text-start">123456</td>
-                </tr>
-                <tr data-modal-object data-object-id="1" class="pointer">
-                    <td class="text-start">Передвижная ДЭС</td>
-                    <td class="text-start"><span>УРАЛ, 4320-0911-40</span><br><span class="text-secondary">ОАО Камчатка</span></td>
-                    <td>Н163ОТ72</td>
-                    <td>до 23.12.2024</td>
-                    <td class="text-start">123456</td>
-                    <td class="text-start">123456</td>
-                </tr>
-            </tbody>
-        </table>
-
-    </div>
-</div>
 {% endblock content %}
+
+{% block scripts %}
+{# Start Подгружаем главную таблицу #}
+<script>
+    $(document).ready(function() {
+        xrender_main_table_objects(1);
+    });
+</script>
+{# End Подгружаем главную таблицу #}
+{% endblock scripts %}

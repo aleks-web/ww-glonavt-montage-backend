@@ -113,6 +113,7 @@
     }
 
     &__item {
+        position: relative;
         display: none;
         top: 0;
         left: 0;
@@ -128,6 +129,23 @@
 
         &--active {
             display: flex;
+        }
+
+        &.loading {
+            &::before {
+                content: "";
+                position: absolute;
+                top: calc(50% - 50px);
+                left: calc(50% - 50px);
+                z-index: 10;
+                border: 16px solid #f3f3f3;
+                border-top: 16px solid var(--clr-1);
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                animation: spin 2s linear infinite;
+                transition: var(--speed) all;
+            }
         }
 
         // Добавляем последнему элементу паддинг (если есть скрол, то элемент прижимается к краю экрана) | Проблема (не учитывается нижний паддинг модалки при скролле). Решение:

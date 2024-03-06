@@ -99,7 +99,7 @@
                     console.log(response);
                     if (response.status == "success") {
                         push(response.message ? response.message : "Успешное обновление контактного лица", "success", 2000);
-                        load_tab_contacts_persons({{ person.organization_id }});
+                        load_tab_contacts_persons({{ person.organization_id }}, true);
                         $.fancybox.close();
                         $('#fmodal-contact-person-wrapper').html('');
                     }

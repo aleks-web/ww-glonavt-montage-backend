@@ -23,6 +23,7 @@ use WWCrm\Services\ComponentSelectBuilder;
     Расширяют класс Model от Laravel
 */
 use WWCrm\Models\Organizations;
+use WWCrm\Models\Objects;
 use WWCrm\Models\OrgContactsPersons;
 use WWCrm\Models\Users;
 
@@ -43,6 +44,27 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
         $response_array['status'] = 'success';
         $response_array['message'] = 'Клиент создан';
         $response_array['request_params'] = $params;
+
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+        return $response;
+    }
+
+    /*
+        Обновление организации
+    */
+    public function update(Request $request, Response $response) {
+
+        // Получаем параметры
+        $params = $request->request->all();
+        $response_array['request_params'] = $params;
+
+        // Обновляем оргонизацию
+        $client = Organizations::find($params['id'])->update($params);
+
+        $response_array['status'] = 'success';
+        $response_array['message'] = 'Данные клиента обновлены';
 
         $response->headers->set('Content-Type', 'application/json');
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
@@ -138,10 +160,11 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             return $this->render_tab_contacts_persons($twig_element, $request, $response);
         } else if($twig_element == 'fmodal-new-contact-person.twig') {
             return $this->render_fmodal_new_contact_person($twig_element, $request, $response);
-        } else if ($twig_element == 'fmodal-contact-person-update.twig'){
+        } else if ($twig_element == 'fmodal-contact-person-update.twig') {
             return $this->render_fmodal_contact_person_update($twig_element, $request, $response);
-        }
-        else {
+        } else if ($twig_element == 'tab-content-objects.twig') {
+            return $this->render_tab_objects($twig_element, $request, $response);
+        } else {
             return 'Распределитель рендер запросов. Возврат пустого ответа';
         }
     }
@@ -216,11 +239,16 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
         if (!empty($twig_element) && !empty($client_id)) {
             $clientOriginalObject = Organizations::find($client_id);
 
+            // Statuses
+            $response_array['client_statuses']['STATUS_NULL'] = Organizations::STATUS_NULL;
+            $response_array['client_statuses']['STATUS_ACTIVE'] = Organizations::STATUS_ACTIVE;
+            $response_array['client_statuses']['STATUS_ARCHIVE'] = Organizations::STATUS_ARCHIVE;
+
             $response_array['client'] = Organizations::find($client_id); // $response_array['client'] для основного проброса. Тут делаем что-то с данными. Например заменяем статус клиента на читаемый вид
             $response_array['client']['contacts_persons'] = $response_array['client']->contactsPersons; // Получаем контактных лиц из другой таблицы
 
             // Заменяем статус с цифры на читаемый вид
-            $response_array['client']['status'] = Organizations::getStatusName($response_array['client']['status']);
+            $response_array['client']['status_name'] = Organizations::getStatusName($response_array['client']['status']);
             
             // Start Формируем и прокидываем настроенный компонент статуса с выпадающим списком
             $StatusSelect = new ComponentSelectBuilder('status', true);
@@ -231,13 +259,21 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             }
 
             $response_array['twig_components_data']['status'] = $StatusSelect->toArray();
+
+            // Настройки модалки
+            $response_array['modal_settings'] = [
+                'is_open' => $response_array['request_params']['is_open'],
+            ];
+
             // End Формируем и прокидываем настроенный компонент статуса с выпадающим списком
 
             // Рендерим
             $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
                 'request_params' => $response_array['request_params'],
                 'client' => $response_array['client'],
-                'twig_components_data' => $response_array['twig_components_data']
+                'client_statuses' => $response_array['client_statuses'],
+                'twig_components_data' => $response_array['twig_components_data'],
+                'modal_settings' => (bool) $response_array['modal_settings']
             ]);
 
             $response_array['status'] = 'success';
@@ -287,17 +323,32 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
     }
 
     /*
-        Рендер модалки "Новое контактное лицо"
+        Рендер вкладки "Объекты". В модалке просмотра клиента
     */
-    public function render_fmodal_new_contact_person($twig_element, Request $request, Response $response) {
+    public function render_tab_objects($twig_element, Request $request, Response $response) {
         // Получаем параметры POST и сразу записываем их в массив с ответом
         $response_array['request_params'] = $request->request->all();
-        $response_array['client'] = Organizations::find($response_array['request_params']['client_id']);
+        $client_id = $response_array['request_params']['client_id'];
+
+        $response_array['client'] = Organizations::find($client_id);
+        $response_array['settings'] = [];
+
+        if (empty($response_array['request_params']['condition_filtres'])) { // Если нет запроса на фильтрацию
+            $response_array['objects'] = $response_array['client']->objects; // Получаем объекты
+        } else { // Если есть то фильтруем
+            $response_array['objects'] = Objects::where('organization_id', $client_id)
+                                         ->where('gnum', 'like', '%' . $response_array['request_params']['condition_filtres'] . '%')
+                                         ->orWhere('brand', 'like', '%' . $response_array['request_params']['condition_filtres'] . '%')
+                                         ->orWhere('model', 'like', '%' . $response_array['request_params']['condition_filtres'] . '%')
+                                         ->get();
+            $response_array['settings']['is_filtres'] = true;
+        }
 
         // Рендерим
         $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
             'request_params' => $response_array['request_params'],
-            'client' => $response_array['client']
+            'objects' => $response_array['objects'],
+            'settings' => $response_array['settings']
         ]);
 
         $response_array['status'] = 'success';
@@ -310,27 +361,54 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
         return $response;
     }
 
-    /*
-        Рендер модалки "Новое контактное лицо - обновление"
-    */
-    public function render_fmodal_contact_person_update($twig_element, Request $request, Response $response) {
-        // Получаем параметры POST и сразу записываем их в массив с ответом
-        $response_array['request_params'] = $request->request->all();
-        $response_array['person'] = OrgContactsPersons::find($response_array['request_params']['person_id']);
 
-        // Рендерим
-        $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
-            'request_params' => $response_array['request_params'],
-            'person' => $response_array['person'] // Прокидываем персону
-        ]);
+    /*--- Start Модалка fmodal Новое контактное лицо */
+        /*
+            Рендер модалки "Новое контактное лицо - добавление"
+        */
+        public function render_fmodal_new_contact_person($twig_element, Request $request, Response $response) {
+            // Получаем параметры POST и сразу записываем их в массив с ответом
+            $response_array['request_params'] = $request->request->all();
+            $response_array['client'] = Organizations::find($response_array['request_params']['client_id']);
 
-        $response_array['status'] = 'success';
+            // Рендерим
+            $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
+                'request_params' => $response_array['request_params'],
+                'client' => $response_array['client']
+            ]);
 
-        // Итоговые манипуляции
-        $response->headers->set('Content-Type', 'application/json');
-        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+            $response_array['status'] = 'success';
 
-        // Возвращаем ответ
-        return $response;
-    }
+            // Итоговые манипуляции
+            $response->headers->set('Content-Type', 'application/json');
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+            // Возвращаем ответ
+            return $response;
+        }
+
+        /*
+            Рендер модалки "Новое контактное лицо - обновление"
+        */
+        public function render_fmodal_contact_person_update($twig_element, Request $request, Response $response) {
+            // Получаем параметры POST и сразу записываем их в массив с ответом
+            $response_array['request_params'] = $request->request->all();
+            $response_array['person'] = OrgContactsPersons::find($response_array['request_params']['person_id']);
+
+            // Рендерим
+            $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
+                'request_params' => $response_array['request_params'],
+                'person' => $response_array['person'] // Прокидываем персону
+            ]);
+
+            $response_array['status'] = 'success';
+
+            // Итоговые манипуляции
+            $response->headers->set('Content-Type', 'application/json');
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+            // Возвращаем ответ
+            return $response;
+        }
+    /*--- End Модалка fmodal Новое контактное лицо */
 }

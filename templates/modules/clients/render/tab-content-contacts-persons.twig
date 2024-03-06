@@ -45,8 +45,8 @@
     {% endif %}
 {% endif %}
 
+{# Start функция загрузки модалки "Новое контактное лицо - обновление" #}
 <script>
-// Start функция загрузки модалки "Новое контактное лицо - обновление"
     function load_fmodal_contacts_persons_update(person_id) { // Должны передать id клиента, для которого нужно загрузить модалку
 
         $wrapper = $('#fmodal-contact-person-wrapper');
@@ -84,10 +84,10 @@
             }
         });
     }
-// End функция загрузки модалки "Новое контактное лицо"
 </script>
+{# End функция загрузки модалки "Новое контактное лицо - обновление" #}
 
-
+{# Start Функция которая удаляет контактную персону #}
 <script>
     function tab_modal_contact_persone_del(person_id) {
         let url = API_V1_URLS.clients.remove_contact_person; // API_V1_URLS - Смотрим в main.js
@@ -100,7 +100,7 @@
             },
             success: function (response) {
                 if (response.status == "success") {
-                    load_tab_contacts_persons({{ client.id }});
+                    load_tab_contacts_persons({{ client.id }}, true);
                     push(response.message ? response.message : "Контактное лицо удалено", "success", 1000);
                     dd(response, `Remove contact person ${url}`);
                 }
@@ -113,3 +113,4 @@
         });
     }
 </script>
+{# End Функция которая удаляет контактную персону #}

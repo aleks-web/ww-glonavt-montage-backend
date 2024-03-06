@@ -13,6 +13,8 @@ function remove_body_bg() {
 }
 // End Функции для создания и удаления заднего фона
 
+
+
 // Start функция дебага
 function dd(message = "dd - не задано сообщение для отображения в консоли", title = false) {
     if (WWCrmConfig.debug) {
@@ -26,6 +28,8 @@ function dd(message = "dd - не задано сообщение для отоб
     }
 }
 // End функция дебага
+
+
 
 // Start табы в модалках
 $(document).ready(function (e) {
@@ -83,12 +87,11 @@ $(document).ready(function (e) {
         let btn_save = $parent_outside.find(`.${save_class}`); // Save btn
 
         let $modal = $(this).parents(".modal");
-        let tab_active_id = $modal.find(".tabs__tab--active").data("id");
 
         // Если клик по кнопке "Редактировать"
         if ($(this).hasClass(edit_class)) {
-            $modal.find(".modal-client__data-view").css("display", "none");
-            $modal.find(".modal-client__data-edit").css("display", "flex");
+            $modal.find(".tabs__item--active .view").css("display", "none");
+            $modal.find(".tabs__item--active .edit").css("display", "flex");
 
             // Смена кнопок
             btn_edit.fadeOut(200, () => {
@@ -98,8 +101,8 @@ $(document).ready(function (e) {
 
         // Если клик по кнопке "Сохранить"
         if ($(this).hasClass(save_class)) {
-            $modal.find(".modal-client__data-view").css("display", "flex");
-            $modal.find(".modal-client__data-edit").css("display", "none");
+            $modal.find(".tabs__item--active .view").css("display", "flex");
+            $modal.find(".tabs__item--active .edit").css("display", "none");
 
             // Смена кнопок
             btn_save.fadeOut(200, () => {
@@ -141,6 +144,8 @@ function resizeTableModal() {
 }
 // End функция ресайза таблицы в модалке
 
+
+
 // Start различные скрипты по работе с модалками
 $(document).ready(function (e) {
     // Start закрытие модального окна
@@ -151,7 +156,10 @@ $(document).ready(function (e) {
     */
     $(document).on("click", "[data-modal-close]", function (e) {
         $(this).parents(".modal").removeClass("open");
-        remove_body_bg();
+
+        if ($('body').find('.modal.open').length <= 0) {
+            remove_body_bg();
+        }
     });
     // End закрытие модального окна
 
@@ -164,6 +172,9 @@ $(document).ready(function (e) {
     });
 });
 // End различные скрипты по работе с модалками
+
+
+
 
 // Start скрипт для меню
 $(document).ready(function (e) {
@@ -226,10 +237,14 @@ const WWCrmConfig = {
 const API_V1_URLS = {
     clients: {
         create: "/api_v1/clients/create/",
+        update: "/api_v1/clients/update/",
         create_contact_person: "/api_v1/clients/contacts-persons/create/",
         update_contact_person: "/api_v1/clients/contacts-persons/update/",
         remove_contact_person: "/api_v1/clients/contacts-persons/remove/",
         render: "/api_v1/clients/render/",
     },
+    objects: {
+        render: "/api_v1/objects/render/",
+    }
 };
 // End Глобально доступная константа. Содержит ссылки API

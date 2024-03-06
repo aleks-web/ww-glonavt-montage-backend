@@ -411,36 +411,44 @@ function cpns_form_validate(form_wrapper, submitter) {
 }
 // End функция, которая валидирует форму при ее изменениях
 
+
 // Start функция инициализации компонентов
-window.cpns_init = function () {
-    // Start input-date
-    $(".input-date").each(function () {
-        const options = {
-            dateFormat: "yyyy-MM-dd",
-            timeFormat: "hh:mm",
-            buttons: ["clear"],
-            autoClose: true,
-        };
-
-        if ($(this).hasClass("air-start-today")) {
-            options.minDate = new Date();
-        }
-        if ($(this).hasClass("air-time")) {
-            options.timepicker = true;
-        }
-        if ($(this).hasClass("air-select-now")) {
-            options.selectedDates = [new Date()];
-        }
-        if ($(this).hasClass("air-top")) {
-            options.position = "top left";
-        }
-        if ($(this).hasClass("air-multi")) {
-            options.multipleDates = true;
-        }
-
-        new AirDatepicker($(this).find("input")[0], options);
-    });
-    // End input-date
-};
+$(document).ready(function() {
+    window.cpns_init = function () {
+        // Start input-date
+        $(".input-date").each(function () {
+            const options = {
+                dateFormat: "yyyy-MM-dd",
+                timeFormat: "hh:mm",
+                buttons: ["clear"],
+                autoClose: true,
+            };
+    
+            if ($(this).hasClass("air-start-today")) {
+                options.minDate = new Date();
+            }
+            if ($(this).hasClass("air-time")) {
+                options.timepicker = true;
+            }
+            if ($(this).hasClass("air-select-now")) {
+                options.selectedDates = [new Date()];
+            }
+            if ($(this).hasClass("air-top")) {
+                options.position = "top left";
+            }
+            if ($(this).hasClass("air-multi")) {
+                options.multipleDates = true;
+            }
+            if ($(this).hasClass("air-only-years")) {
+                options.view = 'years';
+                options.minView = 'years';
+                options.dateFormat = "yyyy";
+            }
+    
+            new AirDatepicker($(this).find("input")[0], options);
+        });
+        // End input-date
+    };
+    cpns_init();
+});
 // End функция инициализации компонентов
-cpns_init();

@@ -5,32 +5,7 @@ $(document).ready(function (e) {
 
         if (client_id) {
 
-            $.ajax({
-                url: API_V1_URLS.clients.render + 'modal-client',
-                method: "POST",
-                data: {
-                    twig_element: 'modal-client.twig',
-                    client_id: client_id
-                },
-                success: function (response) {
-        
-                    if (response.status == "success") {
-                        add_body_bg();
-
-                        $('#region-modal-client').html(response.render_response_html);
-
-                        setTimeout(() => { // Без таймаута анимация открытия модалки страдает
-                            $("#modal-client").addClass("open");
-                        }, 1);
-                    }
-        
-                    if (response.status == "error") {
-                        wrapper.html(`<div style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">${response.message}</div>`);
-                    }
-        
-                    dd(response, `Render modal-client.twig ${API_V1_URLS.clients.render + 'modal-client'}`);
-                }
-            });
+            open_modal_client(client_id);
 
         } else {
             alert("Не задан id клиента в атрибуте data-client-id");
@@ -40,9 +15,48 @@ $(document).ready(function (e) {
 // End Подгрузка модального окна клиента и его открытие | Модуль клиенты
 
 
+// Start Функция загрузки модального окна клиенты | Модуль клиенты
+function open_modal_client(client_id) {
+    
+    load_modal_client(client_id).then(() => {
+        add_body_bg();
 
+        setTimeout(() => { // Без таймаута анимация открытия модалки страдает
+            $("#modal-client").addClass("open");
+        }, 10);
+    });
+}
+// End Функция загрузки модального окна клиенты | Модуль клиенты
 
-
+// Start функция вставляет разметку модального окна клиента | Модуль клиенты
+function load_modal_client(client_id, is_open = false) {
+    return new Promise(function(resolve, reject) {
+        $.ajax({
+            url: API_V1_URLS.clients.render + 'modal-client',
+            method: "POST",
+            data: {
+                twig_element: 'modal-client.twig',
+                client_id: client_id,
+                is_open: is_open
+            },
+            success: function (response) {
+    
+                if (response.status == "success") {
+                    $('#region-modal-client').html(response.render_response_html);
+                    dd(response, `Render modal-client.twig ${API_V1_URLS.clients.render + 'modal-client'}`);
+                    resolve(response);
+                }
+    
+                if (response.status == "error") {
+                    dd(response, `Render modal-client.twig ${API_V1_URLS.clients.render + 'modal-client'}`);
+                    reject(response);
+                }
+    
+            }
+        });
+    });
+}
+// End функция вставляет разметку модального окна клиента | Модуль клиенты
 
 // Start функция, которая получает html разметку главной таблицы и вставляет ее
 function xrender_main_table_clients(current_page = 1, control_panel_condition = null) {
@@ -81,13 +95,13 @@ function xrender_main_table_clients(current_page = 1, control_panel_condition = 
         },
     });
 }
-// Start функция, которая получает html разметку главной таблицы и вставляет ее
+// End функция, которая получает html разметку главной таблицы и вставляет ее
 
 
 
 
 
-// Start пагинация и фильтр поиска
+// Start пагинация и фильтр поиска | Модуль клиенты
 $(document).ready(() => {
     // Start реализация пагинации для главной таблицы клиентов
     $(document).on("click", ".module-clients .main-table-pagination button", function () {
@@ -106,7 +120,7 @@ $(document).ready(() => {
     });
     // End фильтр поиска
 });
-// End пагинация и фильтр поиска
+// End пагинация и фильтр поиска | Модуль клиенты
 
 
 

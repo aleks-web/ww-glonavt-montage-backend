@@ -2,6 +2,9 @@
     request_params - данные из запроса
     client - выгрузка из базы данных. Конкретный клиент
     twig_components_data - данные для элементов
+    client_statuses - массив со статусами клиента
+    modal_settings - настройки модалки
+        is_open - открытая
 #}
 
 {% set director_name = '' %}
@@ -19,7 +22,7 @@
     {% endfor %}
 {% endif %}
 
-<div id="modal-client" class="modal modal-client" data-client-id="{{ client.id }}">
+<div id="modal-client" class="modal modal-client {% if modal_settings.is_open %}open{% endif %}" data-client-id="{{ client.id }}">
     <svg data-modal-close class="modal__close"><use xlink:href="#svg-close"></use></svg>
 
     <div class="modal__container">
@@ -42,7 +45,10 @@
                 <div class="modal__header-group-btns tab-outside tab-outside--active" data-outside-id="1">
                     <button class="modal__header-btn modal__header-btn-edit btn">Редактировать</button>
                     <button class="modal__header-btn modal__header-btn-save btn-good" style="display: none;">Сохранить</button>
-                    <button class="modal__header-btn btn-bad">В архив</button>
+
+                    {% if client.status != client_statuses.STATUS_ARCHIVE %}
+                        <button class="modal__header-btn btn-bad" onclick="chenge_client_status({{ client.id }}, {{ client_statuses.STATUS_ARCHIVE }})">В архив</button>
+                    {% endif %}
                 </div>
                 <div class="modal__header-group-btns tab-outside" data-outside-id="2">
                     <button onclick="load_fmodal_contacts_persons({{ client.id }})" class="modal__header-btn btn">Добавить</button>
@@ -77,7 +83,7 @@
                     <div data-id="2" onclick="load_tab_contacts_persons({{ client.id }})" id="modal-client-tab-contacts-persons" class="tabs__tab">
                         Контактные лица
                     </div>
-                    <div data-id="3" class="tabs__tab">
+                    <div data-id="3" onclick="load_tab_objects({{ client.id }})" class="tabs__tab">
                         Объекты
                     </div>
                     <div data-id="4" class="tabs__tab">
@@ -101,7 +107,7 @@
                     {# Start tab content 1 #}
                     <div data-id="1" class="tabs__item tabs__item--active">
                         
-                        <div class="modal-client__data-view" style="display:flex;flex-direction:column;gap:inherit;">
+                        <div class="modal-client__data-view view" style="display:flex;flex-direction:column;gap:inherit;">
                             
                             <div class="block-info">
                                 <div class="block-info__title">О компании</div>
@@ -109,7 +115,7 @@
                                 <div class="block-info__content">
                                     <div class="block-info__item">
                                         <span class="block-info__text-secondary">Статус</span>
-                                        <span class="block-info__text-main">{{ client.status | default('-') }}</span>
+                                        <span class="block-info__text-main">{{ client.status_name | default('-') }}</span>
                                     </div>
 
                                     <div class="block-info__item">
@@ -197,7 +203,7 @@
                             </div>
                         </div>
 
-                        <div class="modal-client__data-edit" style="display:none;flex-direction:column;gap:inherit;">
+                        <div class="modal-client__data-edit edit" style="display:none;flex-direction:column;gap:inherit;">
                             <div class="block-info">
                                 <div class="block-info__title">О компании</div>
                             
@@ -355,50 +361,7 @@
                     {# End tab content 2 | ajax подгрузка #}
 
                     <!-- Start tab content 3 -->
-                    <div data-id="3" class="tabs__item">
-
-                        <div class="tabs__control">
-                            <div class="tabs__control-left">
-                                <div class="tabs__control-search input-search">
-                                    <input type="text" placeholder="Поиск по номеру или марке/модели">
-                                </div>
-                            </div>
-
-                            <div class="tabs__control-right">
-                                <div class="tabs__control-count">Количество объеков: <span class="count">5</span></div>
-                            </div>
-                        </div>
-
-
-                        <div class="tabs__tableContainer">
-                            <div class="tabs__table">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th class="text-start">Тип объекта</th>
-                                            <th class="text-start">Марка/Модель/<br>Номер</th>
-                                            <th>МТ</th>
-                                            <th>ДУТ</th>
-                                            <th>Тахограф</th>
-                                            <th>Другое оборудование</th>
-                                        </tr>
-                                    </thead>
-        
-                                    <tbody>
-                                        <tr data-fancybox data-src="#fmodal-ts-object-view" class="pointer">
-                                            <td class="text-start">Грузовой автомобиль</td>
-                                            <td class="text-start"><span>КАМАЗ, 4308-81</span><br><span>Х664МА72</span></td>
-                                            <td>3</td>
-                                            <td>3</td>
-                                            <td>3</td>
-                                            <td>3</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                    </div>
+                    <div data-id="3" id="modal-client-tab-objects-content" class="tabs__item"></div>
                     <!-- End tab content 3 -->
 
                     <!-- Start tab content 4 -->
@@ -559,53 +522,84 @@
 <!-- End Модалка просмотра клиента -->
 
 
+
+{#
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+#}
+
+{#
+    -----------   Ajax скрипты для работы с модалкой    -----------
+#}
+
+{# Start функция загрузки модалки "Новое контактное лицо" #}
 <script>
-// Start функция загрузки модалки "Новое контактное лицо"
-    function load_fmodal_contacts_persons(client_id) { // Должны передать id клиента, для которого нужно загрузить модалку
+function load_fmodal_contacts_persons(client_id) { // Должны передать id клиента, для которого нужно загрузить модалку
 
-        $wrapper = $('#fmodal-contact-person-wrapper');
+    $wrapper = $('#fmodal-contact-person-wrapper');
 
-        let url = API_V1_URLS.clients.render + 'fmodal-new-contact-person'; // API_V1_URLS - Смотрим в main.js
+    let url = API_V1_URLS.clients.render + 'fmodal-new-contact-person'; // API_V1_URLS - Смотрим в main.js
 
-        $.ajax({
-            url: url,
-            method: "POST",
-            data: {
-                client_id: client_id, // Передаем id клиента
-            },
-            success: function (response) {
-                if (response.status == "success") {
-                    $wrapper.html(response.render_response_html);
-                    cpns_form_validate("#fmodal-new-contact-person", '.js-submitter'); // Валидируем форму добавления конт.лица
-                    
-                    cpns_init();
+    $.ajax({
+        url: url,
+        method: "POST",
+        data: {
+            client_id: client_id, // Передаем id клиента
+        },
+        success: function (response) {
+            if (response.status == "success") {
+                $wrapper.html(response.render_response_html);
+                cpns_form_validate("#fmodal-new-contact-person", '.js-submitter'); // Валидируем форму добавления конт.лица
+                
+                cpns_init();
 
-                    $.fancybox.open({
-                        src: '#fmodal-new-contact-person',
-                        type: 'inline'
-                    });
+                $.fancybox.open({
+                    src: '#fmodal-new-contact-person',
+                    type: 'inline'
+                });
 
-                    dd(response, `Render fmodal-new-contact-person.twig ${url}`);
-                }
-
-                if (response.status == "error") {
-                    console.log(response);
-                    $wrapper.html(`<div style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">${response.message}</div>`);
-                }
+                dd(response, `Render fmodal-new-contact-person.twig ${url}`);
             }
-        });
-    }
-// End функция загрузки модалки "Новое контактное лицо"
+
+            if (response.status == "error") {
+                console.log(response);
+                $wrapper.html(`<div style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">${response.message}</div>`);
+            }
+        }
+    });
+}
 </script>
+{# End функция загрузки модалки "Новое контактное лицо" #}
 
-
+{#  Start функция загрузки таба контактниые лица #}
 <script>
-// Start функция загрузки таба контактниые лица
-    function load_tab_contacts_persons (client_id) {
-        $wrapper = $('#modal-client-tab-contacts-persons-content');
+function load_tab_contacts_persons (client_id, is_reload = false) {
+    $wrapper = $('#modal-client-tab-contacts-persons-content');
 
-        let url = API_V1_URLS.clients.render + 'tab-content-contacts-persons'; // API_V1_URLS - Смотрим в main.js
+    let url = API_V1_URLS.clients.render + 'tab-content-contacts-persons'; // API_V1_URLS - Смотрим в main.js
 
+    if (!$wrapper.hasClass('loaded') && !is_reload) { // Если вкладка не загружена
+        go_ajax();
+    }
+
+    if (is_reload) {
+        go_ajax();
+    }
+
+    function go_ajax() {
         $.ajax({
             url: url,
             method: "POST",
@@ -616,7 +610,9 @@
                 $wrapper.removeClass("loading");
 
                 if (response.status == "success") {
+                    $wrapper.removeClass('loading');
                     $wrapper.html(response.render_response_html);
+                    $wrapper.addClass('loaded');
                     resizeTableModal(); // Ресайзим под размеры. Костыль
 
                     dd(response, `Render tab-content-contacts-persons.twig ${url}`);
@@ -625,8 +621,99 @@
                 if (response.status == "error") {
                     $wrapper.html(`<div style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">${response.message}</div>`);
                 }
+            },
+            beforeSend: function(s) {
+                $wrapper.addClass('loading');
             }
         });
     }
-// End функция загрузки таба контактниые лица
+}
 </script>
+{#  End функция загрузки таба контактниые лица #}
+
+{# Start функция загрузки таба объекты #}
+<script>
+function load_tab_objects (client_id, is_reload = false, condition_filtres = false) {
+    $wrapper = $('#modal-client-tab-objects-content');
+
+    if (!$wrapper.hasClass('loaded') && !is_reload) { // Если вкладка не загружена
+        go_ajax();
+    }
+
+    if (is_reload) {
+        go_ajax();
+    }
+
+
+    function go_ajax() {
+        let url = API_V1_URLS.clients.render + 'tab-content-objects'; // API_V1_URLS - Смотрим в main.js
+
+        let data = {client_id: client_id};
+
+        if (condition_filtres) {
+            data.condition_filtres = condition_filtres;
+        }
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: data,
+            success: function (response) {
+                $wrapper.removeClass("loading");
+
+                if (response.status == "success") {
+                    $wrapper.removeClass('loading');
+                    $wrapper.html(response.render_response_html);
+                    $wrapper.addClass('loaded');
+                    resizeTableModal(); // Ресайзим под размеры. Костыль
+
+                    dd(response, `Render tab-content-objects.twig ${url}`);
+                }
+
+                if (response.status == "error") {
+                    $wrapper.html(`<div style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">${response.message}</div>`);
+                }
+            },
+            beforeSend: function(s) {
+                $wrapper.addClass('loading');
+            }
+        });
+    }
+}
+</script>
+{# End функция загрузки таба объекты #}
+
+{# Start изменяет статус клиента #}
+<script>
+    function chenge_client_status(client_id, status) {
+        let formData = new FormData();
+
+        formData.append('id', client_id);
+        formData.append('status', status);
+
+        console.log(API_V1_URLS.clients.update);
+
+        $.ajax({
+        url: API_V1_URLS.clients.update,
+        method: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+
+            if (response.status == "success") {
+                load_modal_client(client_id).then(() => {
+                    $('#modal-client').addClass('open');
+                });
+            }
+
+            if (response.status == "error") {
+                wrapper.html(`<div style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">${response.message}</div>`);
+            }
+
+            dd(response, `Render modal-client.twig ${API_V1_URLS.clients.render + 'modal-client'}`);
+        }
+    });
+    }
+</script>
+{# End изменяет статус клиента #}

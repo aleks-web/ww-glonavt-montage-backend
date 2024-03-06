@@ -16,6 +16,7 @@ $router = $WWAppContainer->get('Router');
 
 // Start Routes
 $router->xpost(API_V1_URL . 'clients/create', 'ApiClientsController@create');
+$router->xpost(API_V1_URL . 'clients/update', 'ApiClientsController@update');
 
 
 /*
@@ -43,6 +44,7 @@ $router->xpost(API_V1_URL . 'clients/contacts-persons/remove', 'ApiClientsContro
     Метод distributor - распределяет, на какой метод рендеринга отправить запрос
 */
 $router->xpost(API_V1_URL . 'clients/render/:string', 'ApiClientsController@distributor');
+$router->xpost(API_V1_URL . 'objects/render/:string', 'ApiObjectsController@distributor');
 
 
 $router->notFound(function(Request $request, Response $response) {
