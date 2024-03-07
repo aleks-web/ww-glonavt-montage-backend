@@ -685,35 +685,35 @@ function load_tab_objects (client_id, is_reload = false, condition_filtres = fal
 
 {# Start изменяет статус клиента #}
 <script>
-    function chenge_client_status(client_id, status) {
-        let formData = new FormData();
+function chenge_client_status(client_id, status) {
+    let formData = new FormData();
 
-        formData.append('id', client_id);
-        formData.append('status', status);
+    formData.append('id', client_id);
+    formData.append('status', status);
 
-        console.log(API_V1_URLS.clients.update);
+    console.log(API_V1_URLS.clients.update);
 
-        $.ajax({
-        url: API_V1_URLS.clients.update,
-        method: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (response) {
+    $.ajax({
+    url: API_V1_URLS.clients.update,
+    method: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response) {
 
-            if (response.status == "success") {
-                load_modal_client(client_id).then(() => {
-                    $('#modal-client').addClass('open');
-                });
-            }
-
-            if (response.status == "error") {
-                wrapper.html(`<div style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">${response.message}</div>`);
-            }
-
-            dd(response, `Render modal-client.twig ${API_V1_URLS.clients.render + 'modal-client'}`);
+        if (response.status == "success") {
+            load_modal_client(client_id).then(() => {
+                $('#modal-client').addClass('open');
+            });
         }
-    });
+
+        if (response.status == "error") {
+            wrapper.html(`<div style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">${response.message}</div>`);
+        }
+
+        dd(response, `Render modal-client.twig ${API_V1_URLS.clients.render + 'modal-client'}`);
     }
+    });
+}
 </script>
 {# End изменяет статус клиента #}

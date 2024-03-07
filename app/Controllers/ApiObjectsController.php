@@ -23,8 +23,7 @@ use WWCrm\Services\ComponentSelectBuilder;
     Расширяют класс Model от Laravel
 */
 use WWCrm\Models\Organizations;
-use WWCrm\Models\OrgContactsPersons;
-use WWCrm\Models\Users;
+use WWCrm\Models\BookEquipment;
 use WWCrm\Models\Objects;
 
 class ApiObjectsController extends \WWCrm\Controllers\MainController {
@@ -41,8 +40,9 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
             return $this->render_modal_object($twig_element, $request, $response);
         } else if ($twig_element == 'modal-object-add.twig') {
             return $this->render_modal_objects_add($twig_element, $request, $response);
-        }
-        else {
+        } else if ($twig_element == 'fmodal-new-type-equipment.twig') {
+            return $this->render_fmodal_new_type_equipment($twig_element, $request, $response);
+        } else {
             return 'Распределитель рендер запросов. Возврат пустого ответа';
         }
     }
@@ -173,6 +173,38 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         $response_array['render_response_html'] = $this->view->render('modules/objects/render/' . $twig_element, [
             'request_params' => $response_array['request_params'],
             // 'twig_components_data' => $response_array['twig_components_data']
+        ]);
+
+        $response_array['status'] = 'success';
+
+        // Итоговые манипуляции
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+        // Возвращаем ответ
+        return $response;
+    }
+
+    /*
+        Рендер модалки "Новое оборудование"
+    */
+    public function render_fmodal_new_type_equipment($twig_element, Request $request, Response $response) {
+        // Получаем параметры POST и сразу записываем их в массив с ответом
+        $response_array['request_params'] = $request->request->all();
+
+        $book_equipments = BookEquipment::where(['status' => BookEquipment::STATUS_ACTIVE])->get();
+        $response_array['book_equipment'] = $book_equipments;
+
+        $equipmentsBuilder = new ComponentSelectBuilder('equipment_id', true);
+        foreach($book_equipments as $key => $equipment) {
+            $equipmentsBuilder->addIdItem($equipment['id'])->addTextItem($equipment['name'])->saveItem();
+        }
+        $response_array['twig_components_data']['equipments'] = $equipmentsBuilder->toArray();
+
+        // Рендерим
+        $response_array['render_response_html'] = $this->view->render('modules/objects/render/' . $twig_element, [
+            'request_params' => $response_array['request_params'],
+            'twig_components_data' => $response_array['twig_components_data']['equipments']
         ]);
 
         $response_array['status'] = 'success';

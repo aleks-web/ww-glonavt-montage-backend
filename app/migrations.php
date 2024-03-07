@@ -11,3 +11,6 @@ include_once __DIR__ . '/Migrations/Users.php'; // Пользователи crm
 include_once __DIR__ . '/Migrations/Organizations.php'; // Организации / Клиенты
 include_once __DIR__ . '/Migrations/OrgContactsPersons.php'; // Контактные персоны
 include_once __DIR__ . '/Migrations/Objects.php'; // Объекты
+
+
+include_once __DIR__ . '/Migrations/BookEquipment.php'; // Справочник оборудования

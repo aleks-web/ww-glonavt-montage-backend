@@ -38,7 +38,7 @@
                     <button class="modal__header-btn modal__header-btn-save btn-good" style="display: none;">Сохранить</button>
                 </div>
                 <div class="modal__header-group-btns tab-outside" data-outside-id="2">
-                    <button data-fancybox data-src="#fmodal-new-type-equipment" class="modal__header-btn btn">Добавить оборудование</button>
+                    <button onclick="load_fmodal_new_type_equipment({{ object.id }})" class="modal__header-btn btn">Добавить оборудование</button>
                 </div>
                 <div class="modal__header-group-btns tab-outside" data-outside-id="4">
                     <button class="modal__header-btn btn">Загрузить</button>
@@ -680,3 +680,48 @@
 
     </div>
 </div>
+
+
+{# Start регион подгрузки fmodal нового типа оборудования #}
+<div id="fmodal-new-type-equipment-wrapper"></div>
+{# End регион подгрузки fmodal нового типа оборудования #}
+
+
+{# Start добавление нового типа оборудования #}
+<script>
+function load_fmodal_new_type_equipment(object_id) {
+
+    $region_wrapper = $('#fmodal-new-type-equipment-wrapper');
+
+    let url = API_V1_URLS.objects.render + 'fmodal-new-type-equipment'; // API_V1_URLS - Смотрим в main.js
+
+    dd('test');
+
+    $.ajax({
+        url: url,
+        method: "POST",
+        data: {
+            object_id: object_id, // Передаем id объекта
+        },
+        success: function (response) {
+            if (response.status == "success") {
+                $region_wrapper.html(response.render_response_html);
+                cpns_form_validate("#fmodal-new-type-equipment", '.js-submitter'); // Валидируем форму добавления конт.лица
+                cpns_init();
+
+                $.fancybox.open({
+                    src: '#fmodal-new-type-equipment',
+                    type: 'inline'
+                });
+
+                dd(response, `Render fmodal-new-type-equipment.twig ${url}`);
+            }
+
+            if (response.status == "error") {
+                console.log(response);
+            }
+        }
+    });
+}
+</script>
+{# End добавление нового типа оборудования #}
