@@ -11,6 +11,7 @@
         * required - обязательный ли инпут
         * input_messages_position - расположение сообщений об ошибках и прочее. Либо bottom (по умолчанию, но можно изменить здесь) либо top
         * checkbox - если true, то добавляет класс select__item--checkbox для item элементов и можно выбирать сразу несколько элементов
+        * position - позиция выпадающего списка. top - сверху
 
     
     * items - массив со списком. Пример:
@@ -50,7 +51,7 @@
         </div>
     {% endif %}
 
-    <div class="select {% if settings.required %}required{% endif %} {% if is_error %}error{% endif %}"> {# Могут быть еще классы success и error #}
+    <div class="select {% if settings.required %}required{% endif %} {% if is_error %}error{% endif %} {% if settings.position == 'top' %}select--top{% endif %}"> {# Могут быть еще классы success и error #}
         {% if settings.title %}
             <span class="select__name">{{ settings.title }}</span>
         {% endif %}

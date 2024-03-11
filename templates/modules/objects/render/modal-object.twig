@@ -66,7 +66,7 @@
                     <div data-id="1" class="tabs__tab tabs__tab--active">
                         Информация
                     </div>
-                    <div data-id="2" class="tabs__tab">
+                    <div data-id="2" class="tabs__tab" onclick="load_tab_equipments({{ object.id }})">
                         Оборудование
                     </div>
                     <div data-id="3" class="tabs__tab">
@@ -90,7 +90,7 @@
                 <!-- Start tabs__content -->
                 <div class="tabs__content">
                     
-                    <!-- Start tab content 1 -->
+                    {# Start Основное содержимое #}
                     <div data-id="1" class="tabs__item tabs__item--active">
 
                         <div class="modal-object__data-view view" style="display:flex;flex-direction:column;gap:inherit;">
@@ -247,278 +247,11 @@
                         </div>
 
                     </div>
-                    <!-- End tab content 1 -->
+                    {# End Основное содержимое #}
 
-                    <!-- Start tab content 2 -->
-                    <div data-id="2" class="tabs__item">
-
-                        <div class="tabs__tableContainer">
-                            <div class="tabs__tableTitle">Мобильные терминалы</div>
-
-                            <div class="tabs__table">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th class="text-start">Статус</th>
-                                            <th class="text-start">Модель</th>
-                                            <th class="text-start">ID</th>
-                                            <th class="text-start">SIM1/SIM2</th>
-                                            <th class="text-start">Дата установки</th>
-                                            <th class="text-start">Расположение</th>
-                                        </tr>
-                                    </thead>
-        
-                                    <tbody>
-                                        <tr class="pointer">
-                                            <td class="text-start">Активный</td>
-                                            <td class="text-start">MT 855ENT</td>
-                                            <td class="text-start">669671</td>
-                                            <td class="text-start"><span>89111806607</span><br><span>89111806608</span></td>
-                                            <td class="text-start">12.10.2023</td>
-                                            <td class="text-start">Под рулевой колонкой</td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start">Активный</td>
-                                            <td class="text-start">MT 855ENT</td>
-                                            <td class="text-start">669671</td>
-                                            <td class="text-start"><span>89111806607</span><br><span>89111806608</span></td>
-                                            <td class="text-start">12.10.2023</td>
-                                            <td class="text-start">Под рулевой колонкой</td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start">Активный</td>
-                                            <td class="text-start">MT 855ENT</td>
-                                            <td class="text-start">669671</td>
-                                            <td class="text-start"><span>89111806607</span><br><span>89111806608</span></td>
-                                            <td class="text-start">12.10.2023</td>
-                                            <td class="text-start">Под рулевой колонкой</td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start">Активный</td>
-                                            <td class="text-start">MT 855ENT</td>
-                                            <td class="text-start">669671</td>
-                                            <td class="text-start"><span>89111806607</span><br><span>89111806608</span></td>
-                                            <td class="text-start">12.10.2023</td>
-                                            <td class="text-start">Под рулевой колонкой</td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start">Активный</td>
-                                            <td class="text-start">MT 855ENT</td>
-                                            <td class="text-start">669671</td>
-                                            <td class="text-start"><span>89111806607</span><br><span>89111806608</span></td>
-                                            <td class="text-start">12.10.2023</td>
-                                            <td class="text-start">Под рулевой колонкой</td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start">Активный</td>
-                                            <td class="text-start">MT 855ENT</td>
-                                            <td class="text-start">669671</td>
-                                            <td class="text-start"><span>89111806607</span><br><span>89111806608</span></td>
-                                            <td class="text-start">12.10.2023</td>
-                                            <td class="text-start">Под рулевой колонкой</td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start">Активный</td>
-                                            <td class="text-start">MT 855ENT</td>
-                                            <td class="text-start">669671</td>
-                                            <td class="text-start"><span>89111806607</span><br><span>89111806608</span></td>
-                                            <td class="text-start">12.10.2023</td>
-                                            <td class="text-start">Под рулевой колонкой</td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start">Активный</td>
-                                            <td class="text-start">MT 855ENT</td>
-                                            <td class="text-start">669671</td>
-                                            <td class="text-start"><span>89111806607</span><br><span>89111806608</span></td>
-                                            <td class="text-start">12.10.2023</td>
-                                            <td class="text-start">Под рулевой колонкой</td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start">Активный</td>
-                                            <td class="text-start">MT 855ENT</td>
-                                            <td class="text-start">669671</td>
-                                            <td class="text-start"><span>89111806607</span><br><span>89111806608</span></td>
-                                            <td class="text-start">12.10.2023</td>
-                                            <td class="text-start">Под рулевой колонкой</td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start">Активный</td>
-                                            <td class="text-start">MT 855ENT</td>
-                                            <td class="text-start">669671</td>
-                                            <td class="text-start"><span>89111806607</span><br><span>89111806608</span></td>
-                                            <td class="text-start">12.10.2023</td>
-                                            <td class="text-start">Под рулевой колонкой</td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start">Активный</td>
-                                            <td class="text-start">MT 855ENT</td>
-                                            <td class="text-start">669671</td>
-                                            <td class="text-start"><span>89111806607</span><br><span>89111806608</span></td>
-                                            <td class="text-start">12.10.2023</td>
-                                            <td class="text-start">Под рулевой колонкой</td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-
-                                    <tfoot>
-                                        <tr>
-                                            <th class="th-btn-add" colspan="7"><svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-add"></use></svg></th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="tabs__tableContainer">
-                            <div class="tabs__tableTitle">Дут</div>
-
-                            <div class="tabs__table">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th class="text-start">Статус</th>
-                                            <th class="text-start">Модель</th>
-                                            <th class="text-start">ID</th>
-                                            <th class="text-start">Бак, л/примечание</th>
-                                            <th class="text-start">Дата установки</th>
-                                        </tr>
-                                    </thead>
-        
-                                    <tbody>
-                                        <tr class="pointer">
-                                            <td class="text-start">Активный</td>
-                                            <td class="text-start">MT 855ENT</td>
-                                            <td class="text-start">669671</td>
-                                            <td class="text-start">100</td>
-                                            <td class="text-start">12.10.2023</td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start">Активный</td>
-                                            <td class="text-start">MT 855ENT</td>
-                                            <td class="text-start">669671</td>
-                                            <td class="text-start">100</td>
-                                            <td class="text-start">12.10.2023</td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start">Активный</td>
-                                            <td class="text-start">MT 855ENT</td>
-                                            <td class="text-start">669671</td>
-                                            <td class="text-start">100</td>
-                                            <td class="text-start">12.10.2023</td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start">Активный</td>
-                                            <td class="text-start">MT 855ENT</td>
-                                            <td class="text-start">669671</td>
-                                            <td class="text-start">100</td>
-                                            <td class="text-start">12.10.2023</td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start">Активный</td>
-                                            <td class="text-start">MT 855ENT</td>
-                                            <td class="text-start">669671</td>
-                                            <td class="text-start">100</td>
-                                            <td class="text-start">12.10.2023</td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start">Активный</td>
-                                            <td class="text-start">MT 855ENT</td>
-                                            <td class="text-start">669671</td>
-                                            <td class="text-start">100</td>
-                                            <td class="text-start">12.10.2023</td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start">Активный</td>
-                                            <td class="text-start">MT 855ENT</td>
-                                            <td class="text-start">669671</td>
-                                            <td class="text-start">100</td>
-                                            <td class="text-start">12.10.2023</td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start">Активный</td>
-                                            <td class="text-start">MT 855ENT</td>
-                                            <td class="text-start">669671</td>
-                                            <td class="text-start">100</td>
-                                            <td class="text-start">12.10.2023</td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                        </tr>
-                                        <tr class="pointer">
-                                            <td class="text-start">Активный</td>
-                                            <td class="text-start">MT 855ENT</td>
-                                            <td class="text-start">669671</td>
-                                            <td class="text-start">100</td>
-                                            <td class="text-start">12.10.2023</td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th class="th-btn-add" colspan="7"><svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-add"></use></svg></th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- End tab content 2 -->
+                    {# Start оборудование #}
+                    <div data-id="2" class="tabs__item" id="modal-object-tab-equipment-content"></div>
+                    {# End оборудование #}
 
                     <!-- Start tab content 3 -->
                     <div data-id="3" class="tabs__item">
@@ -687,6 +420,31 @@
 {# End регион подгрузки fmodal нового типа оборудования #}
 
 
+
+
+{#
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+#}
+
+{#
+    -----------   Ajax скрипты для работы с модалкой    -----------
+#}
+
+
 {# Start добавление нового типа оборудования #}
 <script>
 function load_fmodal_new_type_equipment(object_id) {
@@ -725,3 +483,49 @@ function load_fmodal_new_type_equipment(object_id) {
 }
 </script>
 {# End добавление нового типа оборудования #}
+
+
+{# Start подгрузка таба "Оборудование" #}
+<script>
+function load_tab_equipments (object_id) {
+    $wrapper = $('#modal-object-tab-equipment-content');
+
+    if (!$wrapper.hasClass('loaded')) { // Если вкладка не загружена
+        go_ajax();
+    }
+
+    go_ajax();
+
+    function go_ajax() {
+        let url = API_V1_URLS.objects.render + 'tab-content-equipments'; // API_V1_URLS - Смотрим в main.js
+
+        let data = {object_id: object_id};
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: data,
+            success: function (response) {
+                $wrapper.removeClass("loading");
+
+                if (response.status == "success") {
+                    $wrapper.removeClass('loading');
+                    $wrapper.html(response.render_response_html);
+                    $wrapper.addClass('loaded');
+                    resizeTableModal(); // Ресайзим под размеры. Костыль
+
+                    dd(response, `Render tab-content-equipments.twig ${url}`);
+                }
+
+                if (response.status == "error") {
+                    $wrapper.html(`<div style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">${response.message}</div>`);
+                }
+            },
+            beforeSend: function(s) {
+                $wrapper.addClass('loading');
+            }
+        });
+    }
+}
+</script>
+{# End подгрузка таба "Оборудование" #}

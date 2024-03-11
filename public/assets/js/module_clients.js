@@ -15,6 +15,7 @@ $(document).ready(function (e) {
 // End Подгрузка модального окна клиента и его открытие | Модуль клиенты
 
 
+
 // Start Функция загрузки модального окна клиенты | Модуль клиенты
 function open_modal_client(client_id) {
     
@@ -27,6 +28,8 @@ function open_modal_client(client_id) {
     });
 }
 // End Функция загрузки модального окна клиенты | Модуль клиенты
+
+
 
 // Start функция вставляет разметку модального окна клиента | Модуль клиенты
 function load_modal_client(client_id, is_open = false) {
@@ -57,6 +60,8 @@ function load_modal_client(client_id, is_open = false) {
     });
 }
 // End функция вставляет разметку модального окна клиента | Модуль клиенты
+
+
 
 // Start функция, которая получает html разметку главной таблицы и вставляет ее
 function xrender_main_table_clients(current_page = 1, control_panel_condition = null) {

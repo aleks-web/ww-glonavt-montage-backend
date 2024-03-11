@@ -15,25 +15,15 @@ $router = $WWAppContainer->get('Router');
 
 
 // Start Routes
+
+/*
+    Роуты модуля "Клиенты"
+*/
 $router->xpost(API_V1_URL . 'clients/create', 'ApiClientsController@create');
 $router->xpost(API_V1_URL . 'clients/update', 'ApiClientsController@update');
-
-
-/*
-    Роут создания контактного лица
-*/
-$router->xpost(API_V1_URL . 'clients/contacts-persons/create', 'ApiClientsController@create_contacts_person');
-
-/*
-    Роут обновления контактного лица
-*/
-$router->xpost(API_V1_URL . 'clients/contacts-persons/update', 'ApiClientsController@update_contacts_person');
-
-/*
-    Роут удаления контактного лица
-*/
-$router->xpost(API_V1_URL . 'clients/contacts-persons/remove', 'ApiClientsController@remove_contacts_person');
-
+$router->xpost(API_V1_URL . 'clients/contacts-persons/create', 'ApiClientsController@create_contacts_person'); // Роут создания контактного лица
+$router->xpost(API_V1_URL . 'clients/contacts-persons/update', 'ApiClientsController@update_contacts_person'); // Роут обновления контактного лица
+$router->xpost(API_V1_URL . 'clients/contacts-persons/remove', 'ApiClientsController@remove_contacts_person'); // Роут удаления контактного лица
 
 
 
@@ -45,6 +35,11 @@ $router->xpost(API_V1_URL . 'clients/contacts-persons/remove', 'ApiClientsContro
 */
 $router->xpost(API_V1_URL . 'clients/render/:string', 'ApiClientsController@distributor');
 $router->xpost(API_V1_URL . 'objects/render/:string', 'ApiObjectsController@distributor');
+
+
+// Books
+$router->xpost(API_V1_URL . 'book-equipment/render/:string', 'ApiBookEquipmentsController@distributor'); // Рендер оборудования
+$router->xpost(API_V1_URL . 'book-equipment/update', 'ApiBookEquipmentsController@update'); // Обновление оборудования
 
 
 $router->notFound(function(Request $request, Response $response) {

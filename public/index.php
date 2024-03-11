@@ -23,6 +23,9 @@ $router->get('/statistics', 'StatisticsController'); // Статистика
 $router->get('/objects', 'ObjectsController'); // Объекты
 $router->get('/workers', 'WorkersController'); // Сотрудники
 
+// Справочники
+$router->get('/book-equipment', 'BookEquipmentsController'); // Оборудование
+
 $router->get('/404', 'MainController@notFound'); // Страница не найдена
 
 $router->notFound(function(Request $request, Response $response) {

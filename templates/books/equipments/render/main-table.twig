@@ -1,0 +1,67 @@
+{#
+    request_params - параметры запроса
+    equipments - массив оборудования
+    equipments.objects - массив с объектами. Объекты, которые используют данный справочник
+    equipments_statuses - статусы для записей справочника
+#}
+<div class="content-table">
+    <div class="content-table__container">
+
+        <table>
+            <thead>
+                <tr>
+                    <th class="text-center" width="10%">№ п/п</th>
+                    <th class="text-start" style="margin-left: 10px">Тип устройства</th>
+                    <th class="text-center" style="margin-left: 10px">Статус</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for equipment in equipments %}
+                    {% if equipment.status != equipments_statuses.STATUS_DELETED %}
+                        <tr>
+                            <td class="text-center">{{ equipment.id }}</td>
+                            <td class="text-start">{{ equipment.name }}</td>
+                            <td class="text-center">{{ equipment.status }}</td>
+                            
+                            <td class="td-btn-default">
+                                <svg class="hover"><use xlink:href="#svg-edit"></use></svg>
+                            </td>
+                            <td class="td-btn-default">
+                                <svg class="hover" onclick="delete_equipment({{ equipment.id }})"><use xlink:href="#svg-del"></use></svg>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+{# Start удаление оборудования #}
+<script>
+function delete_equipment(id) {
+    let formData = new FormData();
+
+    formData.append('id', id);
+    formData.append('status', {{ equipments_statuses.STATUS_DELETED }});
+
+    $.ajax({
+        url: API_V1_URLS.book_equipments.update,
+        method: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+
+            if (response.status == "success") {
+                xrender_main_table_book_equipments(1);
+            }
+
+            dd(response, `Оборудование удалено из справочника ${API_V1_URLS.book_equipments.update}`);
+        }
+    });
+}
+</script>
+{# End удаление оборудования #}

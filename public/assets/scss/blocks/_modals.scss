@@ -68,6 +68,43 @@
             padding: 10px;
         }
     }
+
+    &__add-table {
+
+        &-line {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        &-field {
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .input-text,
+            .select {
+                height: 38px;
+            }
+        }
+
+        .component-wrapper {
+            width: 100%;
+        }
+
+        &-btn {
+            font-weight: bold;
+            width: max-content;
+        }
+
+        svg {
+            width: 27px;
+            height: 27px;
+            cursor: pointer;
+        }
+    }
 }
 // End основной класс модалки fancybox
 

@@ -23,7 +23,8 @@ use WWCrm\Services\ComponentSelectBuilder;
     Расширяют класс Model от Laravel
 */
 use WWCrm\Models\Organizations;
-use WWCrm\Models\BookEquipment;
+use WWCrm\Models\BookEquipments;
+use WWCrm\Models\ObjEquipments;
 use WWCrm\Models\Objects;
 
 class ApiObjectsController extends \WWCrm\Controllers\MainController {
@@ -42,7 +43,10 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
             return $this->render_modal_objects_add($twig_element, $request, $response);
         } else if ($twig_element == 'fmodal-new-type-equipment.twig') {
             return $this->render_fmodal_new_type_equipment($twig_element, $request, $response);
-        } else {
+        } else if ($twig_element == 'tab-content-equipments.twig') {
+            return $this->tab_content_equipments($twig_element, $request, $response);
+        }
+        else {
             return 'Распределитель рендер запросов. Возврат пустого ответа';
         }
     }
@@ -192,7 +196,7 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         // Получаем параметры POST и сразу записываем их в массив с ответом
         $response_array['request_params'] = $request->request->all();
 
-        $book_equipments = BookEquipment::where(['status' => BookEquipment::STATUS_ACTIVE])->get();
+        $book_equipments = BookEquipments::where(['status' => BookEquipments::STATUS_ACTIVE])->get();
         $response_array['book_equipment'] = $book_equipments;
 
         $equipmentsBuilder = new ComponentSelectBuilder('equipment_id', true);
@@ -210,6 +214,36 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         $response_array['status'] = 'success';
 
         // Итоговые манипуляции
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+        // Возвращаем ответ
+        return $response;
+    }
+
+    /*
+        Рендер таба "Оборудование"
+    */
+    public function tab_content_equipments($twig_element, Request $request, Response $response) {
+        // Получаем параметры POST и сразу записываем их в массив с ответом
+        $response_array['request_params'] = $request->request->all();
+
+        // Получаем оборудование
+        $response_array['equipments'] = \WWCrm\Models\ObjEquipments::where(['object_id' => $response_array['request_params']['object_id']])->get();
+        foreach ($response_array['equipments'] as $key => $equipment) {
+            $response_array['equipments'][$key]['name'] = $equipment->getBookEquipments['name'];
+            $response_array['equipments'][$key]['field_properties_data'] = json_decode($response_array['equipments'][$key]['field_properties_data']);
+            $response_array['equipments'][$key]['field_properties'] = json_decode($equipment->getBookEquipments['field_properties']);
+        }
+
+        // Рендерим
+        $response_array['render_response_html'] = $this->view->render('modules/objects/render/' . $twig_element, [
+            'request_params' => $response_array['request_params'],
+            'equipments' => $response_array['equipments']
+        ]);
+
+        // Итоговые манипуляции
+        $response_array['status'] = 'success';
         $response->headers->set('Content-Type', 'application/json');
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
 

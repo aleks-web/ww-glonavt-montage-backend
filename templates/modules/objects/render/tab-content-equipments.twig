@@ -1,0 +1,48 @@
+{#
+    request_params - Параметры запроса
+    equipments - Оборудование
+#}
+
+{% for equipment in equipments %}
+
+<div class="tabs__tableContainer">
+    <div class="tabs__tableTitle">{{ equipment.name }}</div>
+
+    <div class="tabs__table">
+        <table>
+            <thead>
+                <tr>
+                    {% for field in equipment.field_properties %}
+                        <th class="text-start">{{ field.name }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for field_data in equipment.field_properties_data %}
+
+                    <tr class="pointer">
+
+                        {% for tt in field_data %}
+                            {% for field in equipment.field_properties %}
+
+                                {% if field.db_field_name == tt.db_field_name %}
+                                    <td class="text-start">{{ tt.val }}</td>
+                                {% endif %}
+                                
+                            {% endfor %}
+                        {% endfor %}
+                    </tr>
+
+                {% endfor %}
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <th class="th-btn-add" colspan="7"><svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-add"></use></svg></th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+{% endfor %}

@@ -39,6 +39,9 @@ $(document).ready(function (e) {
 
 });
 
+
+
+
 // Start Функция загрузки модального окна объекты | Модуль объекты
 function load_modal_object(object_id) {
     $.ajax({

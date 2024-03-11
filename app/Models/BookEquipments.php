@@ -4,7 +4,7 @@ namespace WWCrm\Models;
 
 use \Illuminate\Database\Eloquent\Model;
 
-class BookEquipment extends Model {
+class BookEquipments extends Model {
 
   /*
     Статус означающий, что запись удалена
@@ -29,6 +29,16 @@ class BookEquipment extends Model {
     }
   }
 
+  /*
+    Получить все статусы в виде массива
+  */
+  public static function getArrayStatuses() {
+    return [
+      self::STATUS_DELETED => self::getStatusName(self::STATUS_DELETED),
+      self::STATUS_ACTIVE => self::getStatusName(self::STATUS_ACTIVE)
+    ];
+  }
+
   // Разрешенные для записи поля
   protected $fillable = [
     'status',
@@ -41,7 +51,8 @@ class BookEquipment extends Model {
     return (new static)->getFillable();
   }
 
-  public function userAdded() {
-    return $this->belongsTo(Users::class, 'user_add_id', 'id');
+  // Кто добавил
+  public function objects() {
+    return $this->hasMany('\WWCrm\Models\ObjEquipments', 'equipment_id', 'id');
   }
 }

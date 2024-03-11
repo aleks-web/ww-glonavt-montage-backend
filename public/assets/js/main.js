@@ -245,6 +245,10 @@ const API_V1_URLS = {
     },
     objects: {
         render: "/api_v1/objects/render/",
+    },
+    book_equipments: {
+        update: "/api_v1/book-equipment/update/",
+        render: "/api_v1/book-equipment/render/"
     }
 };
 // End Глобально доступная константа. Содержит ссылки API
