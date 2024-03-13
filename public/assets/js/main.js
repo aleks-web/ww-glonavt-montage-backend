@@ -13,8 +13,6 @@ function remove_body_bg() {
 }
 // End Функции для создания и удаления заднего фона
 
-
-
 // Start функция дебага
 function dd(message = "dd - не задано сообщение для отображения в консоли", title = false) {
     if (WWCrmConfig.debug) {
@@ -28,8 +26,6 @@ function dd(message = "dd - не задано сообщение для отоб
     }
 }
 // End функция дебага
-
-
 
 // Start табы в модалках
 $(document).ready(function (e) {
@@ -126,15 +122,21 @@ function resizeTableModal() {
             let headerHeight = $(this).find(".modal__header").outerHeight(); // Высота шапки модалки
             let tabsHeight = $(this).find(".tabs__header").outerHeight(); // Высота шапки табов
             let tabsControl = $(this).find(".tabs__item--active .tabs__control").outerHeight(); // Высота контрольной панели
-            let tableTitle = $(this).find(".tabs__item--active .tabs__tableTitle").outerHeight(); // Высота контрольной панели
+            let tableTitle = $(this).find(".tabs__item--active .tabs__tableTitle").outerHeight(); // Высота тайтла
 
             let css = `calc(100dvh - calc(${tabsHeight}px + ${headerHeight}px + calc(var(--bigModal-padding-y) * 2) + var(--modal-gap-main) + var(--tab-gap-main)))`;
             if (tabsControl) {
+                // Если есть контрольная панель
                 css = `calc(100dvh - calc(${tabsControl}px + ${tabsHeight}px + ${headerHeight}px + calc(var(--bigModal-padding-y) * 2) + var(--modal-gap-main) + calc(var(--tab-gap-main) * 2)))`;
             }
 
             $(this).find(".tabs__item--active .tabs__tableContainer").css("height", css);
             $(this).find(".tabs__item--active .tabs__table").css("height", `calc(100% - ${tableTitle}px)`);
+
+            // Если это таб "Оборудование в модуле объекты"
+            if ($(this).find(".tabs__item--active").attr("id") == "modal-object-tab-equipment-content") {
+                $(this).find(".tabs__item--active .tabs__table").css("height", "auto");
+            }
         }
 
         if ($(this).find(".tabs__item--active > *").not(".tabs__control").length == 1) {
@@ -143,8 +145,6 @@ function resizeTableModal() {
     });
 }
 // End функция ресайза таблицы в модалке
-
-
 
 // Start различные скрипты по работе с модалками
 $(document).ready(function (e) {
@@ -157,7 +157,7 @@ $(document).ready(function (e) {
     $(document).on("click", "[data-modal-close]", function (e) {
         $(this).parents(".modal").removeClass("open");
 
-        if ($('body').find('.modal.open').length <= 0) {
+        if ($("body").find(".modal.open").length <= 0) {
             remove_body_bg();
         }
     });
@@ -172,9 +172,6 @@ $(document).ready(function (e) {
     });
 });
 // End различные скрипты по работе с модалками
-
-
-
 
 // Start скрипт для меню
 $(document).ready(function (e) {
@@ -248,7 +245,7 @@ const API_V1_URLS = {
     book_equipments: {
         create: "/api_v1/book-equipment/create/",
         update: "/api_v1/book-equipment/update/",
-        render: "/api_v1/book-equipment/render/"
-    }
+        render: "/api_v1/book-equipment/render/",
+    },
 };
 // End Глобально доступная константа. Содержит ссылки API
