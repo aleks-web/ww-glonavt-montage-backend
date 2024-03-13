@@ -70,23 +70,43 @@
     }
 
     &__add-table {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
 
         &-line {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: space-between;
             gap: 20px;
         }
 
-        &-field {
-            height: 38px;
+        &-field,
+        &-del,
+        &-rowNum {
+            min-height: 38px;
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 100%;
 
             .input-text,
             .select {
                 height: 38px;
+            }
+        }
+
+        &-rowNum {
+            width: auto;
+        }
+
+        &-del {
+            width: auto;
+
+            svg {
+                width: 25px;
+                height: 25px;
+                cursor: pointer;
             }
         }
 
@@ -98,12 +118,14 @@
             font-weight: bold;
             width: max-content;
         }
+    }
 
-        svg {
-            width: 27px;
-            height: 27px;
-            cursor: pointer;
-        }
+    hr { // Разделители
+        display: block;
+        width: 100%;
+        background-color: var(--clr-10);
+        height: 1px;
+        border: none;
     }
 }
 // End основной класс модалки fancybox

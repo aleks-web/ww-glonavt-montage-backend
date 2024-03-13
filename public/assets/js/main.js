@@ -215,11 +215,9 @@ function xpost_fd(url, formData) {
             contentType: false,
             success: function (response) {
                 if (response.status == "success") {
-                    push(response.message ? response.message : "Успешный запрос", "success", 2000);
                     resolve(response);
                 } else {
                     reject(response);
-                    console.log(response);
                 }
             },
         });
@@ -244,9 +242,11 @@ const API_V1_URLS = {
         render: "/api_v1/clients/render/",
     },
     objects: {
+        add_new_type_equipment: "/api_v1/objects/add-new-type-equipment/",
         render: "/api_v1/objects/render/",
     },
     book_equipments: {
+        create: "/api_v1/book-equipment/create/",
         update: "/api_v1/book-equipment/update/",
         render: "/api_v1/book-equipment/render/"
     }

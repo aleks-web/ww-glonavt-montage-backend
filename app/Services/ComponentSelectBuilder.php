@@ -21,6 +21,7 @@ final class ComponentSelectBuilder {
     protected string|array $val = '';
     protected array $items = [];
     protected array $boofer_item = []; // Текущий item
+    protected string $default_text = '';
 
     public function __construct($db_field_name, $required = false) {
         $this->db_field_name = $db_field_name;
@@ -123,6 +124,20 @@ final class ComponentSelectBuilder {
     }
 
     /*
+        Метод устанавливает значение дефолтного текста
+    */
+    public function setDefaultText(string $text) : void {
+        $this->default_text = $text;
+    }
+
+    /*
+        Метод возвращает значение дефолтного текста
+    */
+    public function getDefaultText() : string {
+        return $this->default_text;
+    }
+
+    /*
         Метод возвращает настроенный массив для компонента .select
     */
     public function toArray() {
@@ -130,6 +145,7 @@ final class ComponentSelectBuilder {
         $settings['db_field_name'] = $this->getDbFieldName();
         $settings['val'] = $this->getVal();
         $settings['title'] = $this->getTitle();
+        $settings['not_selected_text'] = $this->getDefaultText() ?: null; // Устанавливаем дефолтное значение
 
         $select_array['settings'] = $settings;
         $select_array['items'] = $this->getItems();

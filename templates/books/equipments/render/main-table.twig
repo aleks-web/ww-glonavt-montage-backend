@@ -1,40 +1,60 @@
 {#
     request_params - параметры запроса
     equipments - массив оборудования
-    equipments.objects - массив с объектами. Объекты, которые используют данный справочник
+    equipments.{key}.objects - массив с объектами. Объекты, которые используют данный справочник
     equipments_statuses - статусы для записей справочника
 #}
+
+{% set count_active_equipment = 0 %}
+{% for equipment in equipments %}
+    {% if equipment.status == equipments_statuses.STATUS_ACTIVE %}
+        {% set count_active_equipment = count_active_equipment + 1 %}
+    {% endif %}
+{% endfor %}
+
 <div class="content-table">
     <div class="content-table__container">
 
-        <table>
-            <thead>
-                <tr>
-                    <th class="text-center" width="10%">№ п/п</th>
-                    <th class="text-start" style="margin-left: 10px">Тип устройства</th>
-                    <th class="text-center" style="margin-left: 10px">Статус</th>
-                </tr>
-            </thead>
+        {% if count_active_equipment > 0 %}
+            <table>
+                <thead>
+                    <tr>
+                        <th class="text-center" width="10%">№ п/п</th>
+                        <th class="text-start" style="margin-left: 10px">Тип устройства</th>
+                        <th class="text-center" style="margin-left: 10px">Статус</th>
+                    </tr>
+                </thead>
 
-            <tbody>
-                {% for equipment in equipments %}
-                    {% if equipment.status != equipments_statuses.STATUS_DELETED %}
-                        <tr>
-                            <td class="text-center">{{ equipment.id }}</td>
-                            <td class="text-start">{{ equipment.name }}</td>
-                            <td class="text-center">{{ equipment.status }}</td>
-                            
-                            <td class="td-btn-default">
-                                <svg class="hover"><use xlink:href="#svg-edit"></use></svg>
-                            </td>
-                            <td class="td-btn-default">
-                                <svg class="hover" onclick="delete_equipment({{ equipment.id }})"><use xlink:href="#svg-del"></use></svg>
-                            </td>
-                        </tr>
-                    {% endif %}
-                {% endfor %}
-            </tbody>
-        </table>
+                <tbody>
+                    {% for equipment in equipments %}
+                        {% if equipment.status != equipments_statuses.STATUS_DELETED %}
+                            <tr>
+                                <td class="text-center">{{ equipment.id }}</td>
+                                <td class="text-start">{{ equipment.name }}</td>
+                                <td class="text-center">{{ equipment.status }}</td>
+                                
+                                <td class="td-btn-default">
+                                    <svg class="hover"><use xlink:href="#svg-edit"></use></svg>
+                                </td>
+                                <td class="td-btn-default">
+                                    <svg class="hover" onclick="delete_equipment({{ equipment.id }})"><use xlink:href="#svg-del"></use></svg>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div style="display: flex; gap: 10px; align-items: center; flex-direction: column; justify-content: center; height: 100%;font-size: 2rem;">
+                <span style="font-size: 3rem;">🙁</span>
+                {% if request_params.control_panel_condition != '' %}
+                    <span>Такого оборудования не нашлось</span>
+                {% else %}
+                    <span>Оборудования нет!</span>
+                {% endif %}
+                <button data-fancybox data-src="#fmodal-book-new-type-equipment"" class="btn">Добавить оборудование</button>
+            </div>
+        {% endif %}
 
     </div>
 </div>

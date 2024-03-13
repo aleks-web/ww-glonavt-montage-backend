@@ -8,7 +8,7 @@
     
             {% include 'components/input-text.twig' with {
                 settings: {
-                    db_field_name: 'name',
+                    db_field_name: 'name_equipment',
                     required: true,
                     pls: 'Название типа оборудования'
                 }
@@ -16,15 +16,16 @@
 
             <hr>
 
-            <div class="fmodal__add-table">
-                <div class="fmodal__add-table-line" data-line="0">
+            <div class="fmodal__add-table" data-count="1">
+                <div class="fmodal__add-table-line" data-id="1">
+                    <div class="fmodal__add-table-rowNum">1</div>
 
                     <div class="fmodal__add-table-field">
                         {% include 'components/input-text.twig' with {
                             settings: {
-                                db_field_name: 'name_0',
+                                db_field_name: 'name_1',
                                 required: true,
-                                pls: 'Название поля'
+                                pls: 'Название параметра'
                             }
                         } %}
                     </div>
@@ -32,7 +33,7 @@
                     <div class="fmodal__add-table-field">
                         {% include 'components/select.twig' with {
                             settings: {
-                                db_field_name: 'type_0',
+                                db_field_name: 'type_1',
                                 required: true,
                                 pls: 'Тип поля',
                                 val: 'input-text',
@@ -51,8 +52,8 @@
                         } %}
                     </div>
 
-                    <div class="fmodal__add-table-field">
-                        <svg class="hover"><use xlink:href="#svg-del"></use></svg>
+                    <div class="fmodal__add-table-del">
+                        <svg><use xlink:href="#svg-del"></use></svg>
                     </div>
                 </div>
             </div>
@@ -67,7 +68,7 @@
 
     <div class="fmodal__control-btns">
         <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
-        <button class="fmodal__btn btn-good disable">Сохранить</button>
+        <button class="fmodal__btn btn-good js-submitter disable">Сохранить</button>
     </div>
 
 

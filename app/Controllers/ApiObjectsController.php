@@ -30,6 +30,38 @@ use WWCrm\Models\Objects;
 class ApiObjectsController extends \WWCrm\Controllers\MainController {
 
     /*
+        Добавляет новое оборудование из справочника.
+        Добавляется не в родную, а служебную (смежную) таблицу. Модель - ObjEquipments
+    */
+    public function add_new_equipment(Request $request, Response $response) {
+        // Получаем параметры POST и сразу записываем их в массив с ответом
+        $response_array['request_params'] = $request->request->all();
+        $object_id = $response_array['request_params']['object_id'];
+        $equipment_id = $response_array['request_params']['equipment_id'];
+
+        $hasEquipment = ObjEquipments::where('object_id', '=', $object_id)->where('equipment_id', '=', $equipment_id)->get();
+
+        if (count($hasEquipment) <= 0) {
+            ObjEquipments::create($response_array['request_params']);
+            $response_array['status'] = 'success';
+            $response_array['test'] = $hasEquipment;
+            $response_array['message'] = 'Успешное добавление оборудования к объекту ' . $response_array['request_params']['object_id'];
+        
+            $response->headers->set('Content-Type', 'application/json');
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+            return $response;
+        } else {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'Данное оборудование уже добавлено';
+            $response_array['test'] = $hasEquipment;
+            $response->headers->set('Content-Type', 'application/json');
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+            return $response;
+        }
+
+    }
+
+    /*
         Выступает в качестве распределителя
     */
     public function distributor($twig_element, Request $request, Response $response) {
@@ -200,6 +232,7 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         $response_array['book_equipment'] = $book_equipments;
 
         $equipmentsBuilder = new ComponentSelectBuilder('equipment_id', true);
+        $equipmentsBuilder->setDefaultText('Не выбрано');
         foreach($book_equipments as $key => $equipment) {
             $equipmentsBuilder->addIdItem($equipment['id'])->addTextItem($equipment['name'])->saveItem();
         }
@@ -208,7 +241,7 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         // Рендерим
         $response_array['render_response_html'] = $this->view->render('modules/objects/render/' . $twig_element, [
             'request_params' => $response_array['request_params'],
-            'twig_components_data' => $response_array['twig_components_data']['equipments']
+            'twig_components_data' => $response_array['twig_components_data']
         ]);
 
         $response_array['status'] = 'success';
@@ -229,21 +262,22 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         $response_array['request_params'] = $request->request->all();
 
         // Получаем оборудование
-        $response_array['equipments'] = \WWCrm\Models\ObjEquipments::where(['object_id' => $response_array['request_params']['object_id']])->get();
-        foreach ($response_array['equipments'] as $key => $equipment) {
-            $response_array['equipments'][$key]['name'] = $equipment->getBookEquipments['name'];
-            $response_array['equipments'][$key]['field_properties_data'] = json_decode($response_array['equipments'][$key]['field_properties_data']);
-            $response_array['equipments'][$key]['field_properties'] = json_decode($equipment->getBookEquipments['field_properties']);
-        }
+        // $response_array['equipments'] = \WWCrm\Models\ObjEquipments::where(['object_id' => $response_array['request_params']['object_id']])->get();
+        // foreach ($response_array['equipments'] as $key => $equipment) {
+        //     $response_array['equipments'][$key]['name'] = $equipment->getBookEquipments['name'];
+        //     $response_array['equipments'][$key]['field_properties_data'] = json_decode($response_array['equipments'][$key]['field_properties_data']);
+        //     $response_array['equipments'][$key]['field_properties'] = json_decode($equipment->getBookEquipments['field_properties']);
+        // }
 
         // Рендерим
         $response_array['render_response_html'] = $this->view->render('modules/objects/render/' . $twig_element, [
             'request_params' => $response_array['request_params'],
-            'equipments' => $response_array['equipments']
+            //'equipments' => $response_array['equipments']
         ]);
 
         // Итоговые манипуляции
         $response_array['status'] = 'success';
+        $response_array['message'] = 'ApiObjectsController';
         $response->headers->set('Content-Type', 'application/json');
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
 

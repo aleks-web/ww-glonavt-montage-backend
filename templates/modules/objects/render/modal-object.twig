@@ -453,8 +453,6 @@ function load_fmodal_new_type_equipment(object_id) {
 
     let url = API_V1_URLS.objects.render + 'fmodal-new-type-equipment'; // API_V1_URLS - Смотрим в main.js
 
-    dd('test');
-
     $.ajax({
         url: url,
         method: "POST",
@@ -464,8 +462,6 @@ function load_fmodal_new_type_equipment(object_id) {
         success: function (response) {
             if (response.status == "success") {
                 $region_wrapper.html(response.render_response_html);
-                cpns_form_validate("#fmodal-new-type-equipment", '.js-submitter'); // Валидируем форму добавления конт.лица
-                cpns_init();
 
                 $.fancybox.open({
                     src: '#fmodal-new-type-equipment',
@@ -493,8 +489,6 @@ function load_tab_equipments (object_id) {
     if (!$wrapper.hasClass('loaded')) { // Если вкладка не загружена
         go_ajax();
     }
-
-    go_ajax();
 
     function go_ajax() {
         let url = API_V1_URLS.objects.render + 'tab-content-equipments'; // API_V1_URLS - Смотрим в main.js

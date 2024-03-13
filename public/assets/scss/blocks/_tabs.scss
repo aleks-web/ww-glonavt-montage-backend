@@ -103,7 +103,9 @@
         }
 
         &--active {
+            pointer-events: none;
             cursor: context-menu;
+
             
             &::after {
                 background: var(--clr-6);

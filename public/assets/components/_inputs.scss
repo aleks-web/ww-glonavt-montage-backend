@@ -159,11 +159,10 @@
     border: 1px solid var(--border-clr-input, #c7c7c7);
     border-radius: 5px;
     padding: 10px 50px 10px 20px;
-    height: 38px;
+    min-height: 38px;
     display: flex;
     justify-content: center;
     flex-direction: column;
-    cursor: pointer;
 
     &:has(> .select__name) {
         height: auto;
@@ -246,7 +245,7 @@
         top: 100%;
         left: 0;
         box-shadow: 4px 4px 8px 0px rgba(0, 0, 0, 0.2);
-        height: calc(3 * var(--item-height));
+        max-height: calc(3 * var(--item-height));
         overflow-y: auto;
         border-bottom-left-radius: 5px;
         border-bottom-right-radius: 5px;

@@ -13,12 +13,12 @@ $(document).ready(function (e) {
 // End чекбокс
 
 // Start push
-function push(text, type, time = 3000) {
+function push(text, type, time = 1000) {
     let push_block = $("#region-push .push");
     let push_block_text = push_block.find(".push__text");
 
     push_block.removeAttr("style");
-    push_block.removeClass("error").removeClass("succsess");
+    push_block.removeClass("error").removeClass("success");
 
     push_block.addClass(type);
     push_block_text.text(text);
@@ -28,6 +28,7 @@ function push(text, type, time = 3000) {
         push_block.fadeOut(400, () => {
             push_block.removeClass("active");
             push_block_text.text("");
+            push_block.removeClass("error").removeClass("success");
         });
     }, time);
 }
@@ -133,7 +134,7 @@ $(document).ready(function (e) {
         }
     });
 
-    $(document).on("click", "." + select_class + " ." + item_class, function (e) {
+    $(document).on("click", "." + select_class + " ." + item_class, function (e) { // При клике на item
         let parent = $(this).parents("." + select_class);
         let input = parent.find("." + select_input);
         let input_val = [];
@@ -157,6 +158,7 @@ $(document).ready(function (e) {
             });
 
             input.val(JSON.stringify(input_val)); // Записываем выбранные данные в input в формате JSON
+            input.trigger('input'); // Вызываем событие input
 
             if (!item_text.length) {
                 item_text.push(view_current_text.data("default-text"));
@@ -168,6 +170,8 @@ $(document).ready(function (e) {
             view_current_text.text(item_text.join(", "));
         } else if (!hasCheckboxItem && !hasDefaultItem) {
             input.val(item_id);
+            input.trigger('input'); // Вызываем событие input
+
             $(this)
                 .siblings("." + item_class)
                 .removeClass(item_class_active);
@@ -188,6 +192,8 @@ $(document).ready(function (e) {
             }
 
             input.val("");
+            input.trigger('input'); // Вызываем событие input
+            
             parent.find("." + item_class).removeClass(item_class_active);
             view_current_text.text(default_current_text);
             view_current.addClass("disable");
@@ -221,21 +227,6 @@ $(document).on("change", '.input-file input[type="file"]', function (e) {
         current_text.addClass("disable");
     });
 });
-
-/*
-    <div class="input-file">
-        <span class="input-file__current disable">Файл</span>
-
-        <div class="input-file__group-btns">
-            <div class="input-file__btn btn">
-                <input type="file">
-                <span class="input-file__btn-text">Выберите файл</span>
-            </div>
-
-            <button class="input-file__remove-file input-file__remove-file--hide"></button>
-        </div>
-    </div>
-*/
 // End input file
 
 $(document).ready(function (e) {
@@ -251,15 +242,11 @@ $(document).ready(function (e) {
             select__currentText: $(e.target).hasClass("select__current-text"),
             select__current: $(e.target).hasClass("select__current"),
         };
-
-        // console.log(select_classes.select__currentText);
-
-        // if (!select_classes.select && !select_classes.select__name && !select_classes.select__currentText && !select_classes.select__current) {
-        //     $('.select').removeClass('select--active');
-        // }
     });
 });
 // End обнуление
+
+
 
 // Start Список компонентов с input
 const input_components = ["input-text", "select", "textarea", "input-date"];
@@ -376,7 +363,17 @@ function cpns_clear_by_wrapper(wrapper_selector) {
             input = $(this).find("textarea");
         }
 
-        input.val("");
+        // Сброс для селекта
+        if ($(this).hasClass('select') && $(this).find('.select__current-text').data('default-text')) {
+            input.val("");
+        }
+
+        // Сброс для текста и даты
+        if ($(this).hasClass('input-text') || $(this).hasClass('input-date')) {
+            input.val("");
+        }
+
+        cpns_rebuild(); // Перестроить компоненты после сброса
 
         // Устанавливаем дефолтный текст если это селект
         if ($(this).hasClass("select")) {
@@ -396,8 +393,9 @@ function cpns_clear_by_wrapper(wrapper_selector) {
 
     Работает с другими функциями
 */
-function cpns_form_validate(form_wrapper, submitter) {
-    $(cpns_get_classes_by_wrapper(form_wrapper)).on("keyup change", function (e) {
+function cpns_form_validate(form_wrapper, submitter, moment = false) {
+    
+    function validate() {
         let data = cpns_get_errors_by_wrapper(form_wrapper); // Функция получает ошибки компонентов внутри определенного контейнера
 
         if (data) {
@@ -407,9 +405,17 @@ function cpns_form_validate(form_wrapper, submitter) {
         }
 
         cpns_update_from_json(data, form_wrapper); // Обновление компонентов
-    });
+    }
+    
+    $(cpns_get_classes_by_wrapper(form_wrapper)).on("input keyup change", validate);
+
+    if (moment) {
+        validate();
+    }
 }
 // End функция, которая валидирует форму при ее изменениях
+
+
 
 
 // Start функция инициализации компонентов
@@ -449,6 +455,20 @@ $(document).ready(function() {
         });
         // End input-date
     };
+
+    window.cpns_rebuild = function () { // Восстановить компоненты, перестроить
+        $(".select").each(function () { // Для селектов
+            /*
+                Если есть дефолтный пункт меню и значение инпута не задано, то сбрасываем все активные пункты и ставим в стандартное положение
+            */
+            if ($(this).find('.select__current-text').data('default-text') && !$(this).find('input').val()) {
+                $(this).find('.select__list .select__item').removeClass('select__item--active');
+                $(this).find('.select__list .select__item--default').addClass('select__item--active');
+                $(this).find('.select__current').addClass('disable');
+            }
+        });
+    }
+    cpns_rebuild();
     cpns_init();
 });
 // End функция инициализации компонентов

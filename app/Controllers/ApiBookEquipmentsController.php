@@ -41,6 +41,61 @@ class ApiBookEquipmentsController extends \WWCrm\Controllers\MainController {
 
     }
 
+    public function create(Request $request, Response $response) {
+        // Получаем параметры
+        $params = $request->request->all();
+        $response_array['request_params'] = $params;
+
+        $response->headers->set('Content-Type', 'application/json');
+
+        if (!$response_array['request_params']['name']) {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'Вы не ввели название оборудования';
+
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+            return $response;
+        }
+
+        if (!$response_array['request_params']['name_1']) {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'Вы не создали ни одного параметра';
+            
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+            return $response;
+        }
+
+        $book_fields['name'] = $response_array['request_params']['name'];
+        $book_fields['status'] = BookEquipments::STATUS_ACTIVE;
+        $book_fields['field_properties'] = [];
+
+        for ($i = 1; isset($response_array['request_params']['name_' . $i]); $i++) {
+            if(isset($response_array['request_params']['name_' . $i]) && isset($response_array['request_params']['type_' . $i])) { // Если не пусто, то
+                $book_fields['field_properties'][$i]['db_field_name'] = mb_strtolower(str_replace(' ', '_', $this->translit($response_array['request_params']['name_' . $i])));
+                $book_fields['field_properties'][$i]['pls'] = $response_array['request_params']['name_' . $i];
+                $book_fields['field_properties'][$i]['type'] = $response_array['request_params']['type_' . $i];
+                $i++;
+            } else {
+                $response_array['status'] = 'error';
+                $response_array['message'] = 'В одной из строк таблицы пустое значение';
+
+                $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+                return $response;
+            }
+        }
+
+        $book_fields['field_properties'] = array_values($book_fields['field_properties']);
+        $book_fields['field_properties'] = json_encode($book_fields['field_properties'], JSON_UNESCAPED_UNICODE);
+
+        BookEquipments::create($book_fields);
+
+        $response_array['status'] = 'success';
+        $response_array['message'] = 'Оборудование успешно добавлено';
+        $response_array['db_array'] = $book_fields;
+
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+        return $response;
+    }
+
     // Выступает в качестве распределителя
     public function distributor($twig_element, Request $request, Response $response) {
         $twig_element = $twig_element . '.twig';
@@ -80,7 +135,6 @@ class ApiBookEquipmentsController extends \WWCrm\Controllers\MainController {
         ]);
 
         $response_array['status'] = 'success';
-        $response_array['cond'] = $condition;
         $response->headers->set('Content-Type', 'application/json');
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
 

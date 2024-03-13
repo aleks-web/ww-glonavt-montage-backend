@@ -25,6 +25,10 @@ $router->xpost(API_V1_URL . 'clients/contacts-persons/create', 'ApiClientsContro
 $router->xpost(API_V1_URL . 'clients/contacts-persons/update', 'ApiClientsController@update_contacts_person'); // Роут обновления контактного лица
 $router->xpost(API_V1_URL . 'clients/contacts-persons/remove', 'ApiClientsController@remove_contacts_person'); // Роут удаления контактного лица
 
+/*
+    Роуты модуля "Объекты"
+*/
+$router->xpost(API_V1_URL . 'objects/add-new-type-equipment', 'ApiObjectsController@add_new_equipment');
 
 
 /*
@@ -40,6 +44,7 @@ $router->xpost(API_V1_URL . 'objects/render/:string', 'ApiObjectsController@dist
 // Books
 $router->xpost(API_V1_URL . 'book-equipment/render/:string', 'ApiBookEquipmentsController@distributor'); // Рендер оборудования
 $router->xpost(API_V1_URL . 'book-equipment/update', 'ApiBookEquipmentsController@update'); // Обновление оборудования
+$router->xpost(API_V1_URL . 'book-equipment/create', 'ApiBookEquipmentsController@create'); // Добавление нового типа оборудования
 
 
 $router->notFound(function(Request $request, Response $response) {

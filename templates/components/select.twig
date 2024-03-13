@@ -36,22 +36,22 @@
 #}
 
 {# Start Ошибка. Поле не заполнено #}
-{% set is_error = false %}
+{% set is_null = false %}
 {% if settings.val == false and settings.required == true %}
-    {% set is_error = true %}
+    {% set is_null = true %}
 {% endif %}
 {# End Ошибка. Поле не заполнено #}
 
 {% if settings.db_field_name != false %}
 <div class="component-wrapper">
     {% if settings.input_messages_position == 'top' %}
-        <div class="input-messages input-messages--top {% if is_error == false %}disable{% endif %} {% if is_error %}error{% endif %}">
+        <div class="input-messages input-messages--top {% if is_null == false %}disable{% endif %} {% if is_null %}error{% endif %}">
             <span class="input-messages__icon"></span>
-            <span class="input-messages__text"></span>
+            <span class="input-messages__text">{% if is_null %}Поле не заполнено{% endif %}</span>
         </div>
     {% endif %}
 
-    <div class="select {% if settings.required %}required{% endif %} {% if is_error %}error{% endif %} {% if settings.position == 'top' %}select--top{% endif %}"> {# Могут быть еще классы success и error #}
+    <div class="select {% if settings.required %}required{% endif %} {% if is_null %}error{% endif %} {% if settings.position == 'top' %}select--top{% endif %}"> {# Могут быть еще классы success и error #}
         {% if settings.title %}
             <span class="select__name">{{ settings.title }}</span>
         {% endif %}
@@ -119,9 +119,9 @@
     </div>
 
     {% if settings.input_messages_position == false or settings.input_messages_position == 'bottom' %}
-        <div class="input-messages input-messages--bottom {% if is_error == false %}disable{% endif %} {% if is_error %}error{% endif %}">
+        <div class="input-messages input-messages--bottom {% if is_null == false %}disable{% endif %} {% if is_null %}error{% endif %}">
             <span class="input-messages__icon"></span>
-            <span class="input-messages__text"></span>
+            <span class="input-messages__text">{% if is_null %}Поле не заполнено{% endif %}</span>
         </div>
     {% endif %}
 </div>
