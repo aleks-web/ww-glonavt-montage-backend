@@ -1,49 +1,6 @@
-<!-- Start fancybox modal | Новое устройство | Модуль объекты -->
-<div id="fmodal-new-device" class="fmodal fmodal-new-device" style="display: none;">
-    <div class="fmodal__title">Новое устройство</div>
-
-    <div class="fmodal__content">
-        <div class="d-flex justify-content-between gap-5">
-            <div class="fmodal__vertical">
-
-                @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Модель устройства"})
-
-                @@include('../components/input-text.html', {"name": "", "value": "", "stText": "ID"})
-
-                @@include('../components/input-text.html', {"name": "", "value": "", "stText": "СКЗИ"})
-
-                @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Поставщик"})
-
-
-                @@include('../components/standart-input-date.html', {
-                    "name": "",
-                    "pls": "Проверка"
-                })
-
-                @@include('../components/standart-input-date.html', {
-                    "name": "",
-                    "pls": "Дата активации"
-                })
-
-                @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Свидетельства"})
-            </div>
-            <div class="fmodal__vertical">
-                @@include('../components/input-text.html', {"name": "", "value": "", "stText": "WK"})
-                @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Пробег"})
-                @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Шины"})
-                @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Окружность колеса"})
-            </div>
-        </div>
-    </div>
-
-    <div class="fmodal__control-btns">
-        <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
-        <button class="fmodal__btn btn-good disable">Сохранить</button>
-    </div>
-</div>
-<!-- End fancybox modal | Новое устройство | Модуль объекты -->
-
-
+<!-- Start регион подгрузки модального окна для добавления нового оборудования -->
+<div id="fmodal-new-device-wrapper"></div>
+<!-- End регион подгрузки модального окна для добавления нового оборудования -->
 
 <!-- Start регион подгрузки модального окна для добавления объекта -->
 <div id="region-modal-object-add"></div>

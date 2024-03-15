@@ -109,6 +109,9 @@ $(document).ready(function (e) {
 });
 // End табы в модалках
 
+
+
+
 // Start функция ресайза таблицы в модалке
 /*
     Пусути костыль, т.к версткой выкрутиться не получилось. Нужно просто тянуть таблицу, если она одна на все занимаемое пространство
@@ -134,9 +137,9 @@ function resizeTableModal() {
             $(this).find(".tabs__item--active .tabs__table").css("height", `calc(100% - ${tableTitle}px)`);
 
             // Если это таб "Оборудование в модуле объекты"
-            if ($(this).find(".tabs__item--active").attr("id") == "modal-object-tab-equipment-content") {
-                $(this).find(".tabs__item--active .tabs__table").css("height", "auto");
-            }
+            // if ($(this).find(".tabs__item--active").attr("id") == "modal-object-tab-equipment-content") {
+            //     $(this).find(".tabs__item--active .tabs__table").css("height", "auto");
+            // }
         }
 
         if ($(this).find(".tabs__item--active > *").not(".tabs__control").length == 1) {
@@ -240,6 +243,7 @@ const API_V1_URLS = {
     },
     objects: {
         add_new_type_equipment: "/api_v1/objects/add-new-type-equipment/",
+        add_new_device: "/api_v1/objects/add-new-device/",
         render: "/api_v1/objects/render/",
     },
     book_equipments: {

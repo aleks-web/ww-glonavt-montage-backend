@@ -1,0 +1,68 @@
+{#
+    request_params - параметры запроса
+    equipment - оборудование для которого добавляются девайсы
+    equipment.field_properties - шаблон полей, которые нужно отобразить
+#}
+
+<div id="fmodal-new-device" class="fmodal fmodal-new-device" style="display: none;">
+    <div class="fmodal__title">Новое устройство для <br> {{ equipment.name }}</div>
+
+    <div class="fmodal__content">
+        <div class="d-flex justify-content-between gap-5">
+            <div class="fmodal__vertical">
+
+                {# Start подключение компонентов по данным разметки из field_properties #}
+                {% for eq in equipment.field_properties %}
+
+                    {% include 'components/' ~ eq.type ~ '.twig' with {
+                        settings: {
+                            db_field_name: eq.db_field_name,
+                            pls: eq.pls,
+                        }
+                    } %}
+
+                {% endfor %}
+                {# End подключение компонентов по данным разметки из field_properties #}
+
+            </div>
+        </div>
+    </div>
+
+    <div class="fmodal__control-btns">
+        <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
+        <button class="fmodal__btn btn-good disable js-submitter">Сохранить</button>
+    </div>
+</div>
+
+{# Start скрипт инициализации формы #}
+<script>
+    cpns_form_validate('#fmodal-new-device', '.js-submitter', true);
+</script>
+{# End скрипт инициализации формы #}
+
+{# Start ajax добавление нового девайса для оборудования #}
+<script>
+    $('#fmodal-new-device .js-submitter').click(function(e) {
+        
+        let formData = new FormData();
+
+        formData.append('object_id', {{ request_params.object_id }});
+        formData.append('equipment_id', {{ request_params.equipment_id }});
+
+        $('#fmodal-new-device .fmodal__vertical .component-wrapper input').each(function(i, e) {
+            formData.append($(e).attr('name'), $(e).val());
+        });
+
+        xpost_fd(API_V1_URLS.objects.add_new_device, formData).then(response => {
+            push(response.message, 'success');
+            dd(response, 'Добавление нового девайса к объекту ' + API_V1_URLS.objects.add_new_type_equipment);
+            load_tab_equipments({{ request_params.object_id }}, true);
+            $.fancybox.close();
+        }, response => {
+            push(response.message, 'error');
+            dd(response, 'Неудачное добавление нового типа оборудования к объекту ' + API_V1_URLS.objects.add_new_type_equipment);
+        });
+        
+    });
+</script>
+{# End ajax добавление нового девайса для оборудования #}

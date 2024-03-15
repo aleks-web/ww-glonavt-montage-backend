@@ -22,6 +22,7 @@
 </div>
 {# End fancybox modal | Новый тип оборудования | Модуль объекты #}
 
+{# Start добавление оборудования ajax #}
 <script>
     cpns_form_validate("#fmodal-new-type-equipment", '.js-submitter'); // Валидируем модалку
 
@@ -34,9 +35,13 @@
         xpost_fd(API_V1_URLS.objects.add_new_type_equipment, formData).then(response => {
             push(response.message, 'success');
             dd(response, 'Добавление нового типа оборудования к объекту ' + API_V1_URLS.objects.add_new_type_equipment);
+            load_tab_equipments({{ request_params.object_id }}, true);
+
+            $.fancybox.close();
         }, response => {
             push(response.message, 'error');
             dd(response, 'Неудачное добавление нового типа оборудования к объекту ' + API_V1_URLS.objects.add_new_type_equipment);
         });
     });
 </script>
+{# End добавление оборудования ajax #}

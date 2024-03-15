@@ -28,7 +28,8 @@ $router->xpost(API_V1_URL . 'clients/contacts-persons/remove', 'ApiClientsContro
 /*
     Роуты модуля "Объекты"
 */
-$router->xpost(API_V1_URL . 'objects/add-new-type-equipment', 'ApiObjectsController@add_new_equipment');
+$router->xpost(API_V1_URL . 'objects/add-new-type-equipment', 'ApiObjectsController@add_new_equipment'); // Добавление оборудования
+$router->xpost(API_V1_URL . 'objects/add-new-device', 'ApiObjectsController@add_new_device'); // Добавление девайса
 
 
 /*

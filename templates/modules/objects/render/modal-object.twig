@@ -483,10 +483,14 @@ function load_fmodal_new_type_equipment(object_id) {
 
 {# Start подгрузка таба "Оборудование" #}
 <script>
-function load_tab_equipments (object_id) {
+function load_tab_equipments (object_id, is_reload = false) {
     $wrapper = $('#modal-object-tab-equipment-content');
 
-    if (!$wrapper.hasClass('loaded')) { // Если вкладка не загружена
+    if (!$wrapper.hasClass('loaded') && !is_reload) { // Если вкладка не загружена
+        go_ajax();
+    }
+
+    if (is_reload) {
         go_ajax();
     }
 

@@ -62,6 +62,28 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
     }
 
     /*
+        Добавляет новый девайс для объекта
+    */
+    public function add_new_device(Request $request, Response $response) {
+        // Получаем параметры POST и сразу записываем их в массив с ответом
+        $response_array['request_params'] = $request->request->all();
+
+        $object_id = $response_array['request_params']['object_id'];
+        $equipment_id = $response_array['request_params']['equipment_id'];
+
+        $test = ObjEquipments::where(['object_id' => $object_id])->where(['equipment_id' => $equipment_id])->get();
+
+        $response_array['status'] = 'success';
+        $response_array['message'] = 'Оборудование успешно добавлено';
+        $response_array['test'] = $test;
+
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+        return $response;
+    }
+
+    /*
         Выступает в качестве распределителя
     */
     public function distributor($twig_element, Request $request, Response $response) {
@@ -77,8 +99,9 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
             return $this->render_fmodal_new_type_equipment($twig_element, $request, $response);
         } else if ($twig_element == 'tab-content-equipments.twig') {
             return $this->tab_content_equipments($twig_element, $request, $response);
-        }
-        else {
+        } else if($twig_element == 'fmodal-new-device.twig') {
+            return $this->render_fmodal_new_device($twig_element, $request, $response);
+        } else {
             return 'Распределитель рендер запросов. Возврат пустого ответа';
         }
     }
@@ -284,6 +307,32 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         // Итоговые манипуляции
         $response_array['status'] = 'success';
         $response_array['message'] = 'ApiObjectsController';
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+        // Возвращаем ответ
+        return $response;
+    }
+
+    /*
+        Рендер модального окна "Добавить девайс"
+    */
+    public function render_fmodal_new_device($twig_element, Request $request, Response $response) {
+        // Получаем параметры POST и сразу записываем их в массив с ответом
+        $response_array['request_params'] = $request->request->all();
+
+        $response_array['request_params']['equipment'] = BookEquipments::find($response_array['request_params']['equipment_id']); // Получаем оборудование
+        $response_array['request_params']['equipment']['field_properties'] = json_decode($response_array['request_params']['equipment']['field_properties']); // Конвертируем в обычный массив
+
+        // Рендерим
+        $response_array['render_response_html'] = $this->view->render('modules/objects/render/' . $twig_element, [
+            'request_params' => $response_array['request_params'],
+            'equipment' => $response_array['request_params']['equipment']
+        ]);
+
+        $response_array['status'] = 'success';
+
+        // Итоговые манипуляции
         $response->headers->set('Content-Type', 'application/json');
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
 

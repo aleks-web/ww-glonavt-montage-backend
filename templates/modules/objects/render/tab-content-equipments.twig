@@ -18,7 +18,6 @@
                 </thead>
 
                 <tbody>
-                    <tr class="pointer"><td class="text-start">Tecn</td></tr>
                     {% for field_data in equipment.field_properties_data %}
 
                         <tr class="pointer">
@@ -39,10 +38,47 @@
 
                 <tfoot>
                     <tr>
-                        <th class="th-btn-add" colspan="7"><svg data-fancybox data-src="#fmodal-new-device"><use xlink:href="#svg-add"></use></svg></th>
+                        <th class="th-btn-add" colspan="7">
+                            <svg onclick="load_fmodal_new_device({{ equipment.id }})">
+                                <use xlink:href="#svg-add"></use>
+                            </svg>
+                        </th>
                     </tr>
                 </tfoot>
             </table>
         </div>
     </div>
 {% endfor %}
+
+<script>
+    function load_fmodal_new_device(equipment_id) {
+        $region_wrapper = $('#fmodal-new-device-wrapper');
+
+        let url = API_V1_URLS.objects.render + 'fmodal-new-device'; // API_V1_URLS - Смотрим в main.js
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: {
+                equipment_id: equipment_id, // Передаем id объекта
+                object_id: {{ request_params.object_id }}
+            },
+            success: function (response) {
+                if (response.status == "success") {
+                    $region_wrapper.html(response.render_response_html);
+
+                    $.fancybox.open({
+                        src: '#fmodal-new-device',
+                        type: 'inline'
+                    });
+
+                    dd(response, `Render fmodal-new-device.twig ${url}`);
+                }
+
+                if (response.status == "error") {
+                    console.log(response);
+                }
+            }
+        });
+    }
+</script>
