@@ -49,9 +49,15 @@
         formData.append('object_id', {{ request_params.object_id }});
         formData.append('equipment_id', {{ request_params.equipment_id }});
 
+        let obj = [];
         $('#fmodal-new-device .fmodal__vertical .component-wrapper input').each(function(i, e) {
-            formData.append($(e).attr('name'), $(e).val());
+            o = {
+                db_field_name: $(e).attr('name'),
+                val: $(e).val()
+            }
+            obj[i] = o;
         });
+        formData.append('fields_data', JSON.stringify(obj));
 
         xpost_fd(API_V1_URLS.objects.add_new_device, formData).then(response => {
             push(response.message, 'success');

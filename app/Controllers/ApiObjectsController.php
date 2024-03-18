@@ -68,14 +68,27 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         // Получаем параметры POST и сразу записываем их в массив с ответом
         $response_array['request_params'] = $request->request->all();
 
+        // Получаем id
         $object_id = $response_array['request_params']['object_id'];
         $equipment_id = $response_array['request_params']['equipment_id'];
+        $fields_data = json_decode($response_array['request_params']['fields_data']); // Поля
 
-        $test = ObjEquipments::where(['object_id' => $object_id])->where(['equipment_id' => $equipment_id])->get();
+        $ObjEquipment = ObjEquipments::where(['object_id' => $object_id])->where(['equipment_id' => $equipment_id])->first();
+
+        
+        $new_fields_data = $ObjEquipment['field_properties_data'];
+        $new_fields_data = $new_fields_data ? json_decode($new_fields_data) : [];
+        array_push($new_fields_data, $fields_data);
+
+
+        $new_fields_data = json_encode($new_fields_data, JSON_UNESCAPED_UNICODE);
+        $ObjEquipment->update(['field_properties_data' => $new_fields_data]);
 
         $response_array['status'] = 'success';
         $response_array['message'] = 'Оборудование успешно добавлено';
-        $response_array['test'] = $test;
+        $response_array['obj_equipment'] = $ObjEquipment;
+        $response_array['fd'] = $fields_data;
+        $response_array['fd2'] = $new_fields_data;
 
         $response->headers->set('Content-Type', 'application/json');
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
@@ -321,13 +334,13 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         // Получаем параметры POST и сразу записываем их в массив с ответом
         $response_array['request_params'] = $request->request->all();
 
-        $response_array['request_params']['equipment'] = BookEquipments::find($response_array['request_params']['equipment_id']); // Получаем оборудование
-        $response_array['request_params']['equipment']['field_properties'] = json_decode($response_array['request_params']['equipment']['field_properties']); // Конвертируем в обычный массив
+        $response_array['equipment'] = BookEquipments::find((int) $response_array['request_params']['equipment_id']); // Получаем оборудование
+        $response_array['equipment']['field_properties'] = json_decode($response_array['equipment']['field_properties']); // Конвертируем в обычный массив
 
         // Рендерим
         $response_array['render_response_html'] = $this->view->render('modules/objects/render/' . $twig_element, [
             'request_params' => $response_array['request_params'],
-            'equipment' => $response_array['request_params']['equipment']
+            'equipment' => $response_array['equipment']
         ]);
 
         $response_array['status'] = 'success';

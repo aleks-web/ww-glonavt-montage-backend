@@ -39,7 +39,7 @@
                 <tfoot>
                     <tr>
                         <th class="th-btn-add" colspan="7">
-                            <svg onclick="load_fmodal_new_device({{ equipment.id }})">
+                            <svg onclick="load_fmodal_new_device({{ equipment.equipment_id }}, {{ request_params.object_id }})">
                                 <use xlink:href="#svg-add"></use>
                             </svg>
                         </th>
@@ -51,7 +51,7 @@
 {% endfor %}
 
 <script>
-    function load_fmodal_new_device(equipment_id) {
+    function load_fmodal_new_device(equipment_id, object_id) {
         $region_wrapper = $('#fmodal-new-device-wrapper');
 
         let url = API_V1_URLS.objects.render + 'fmodal-new-device'; // API_V1_URLS - Смотрим в main.js
@@ -61,7 +61,7 @@
             method: "POST",
             data: {
                 equipment_id: equipment_id, // Передаем id объекта
-                object_id: {{ request_params.object_id }}
+                object_id: object_id
             },
             success: function (response) {
                 if (response.status == "success") {
