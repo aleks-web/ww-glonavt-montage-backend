@@ -14,7 +14,7 @@
                 {# Start подключение компонентов по данным разметки из field_properties #}
                 {% for eq in equipment.field_properties %}
 
-                    {% include 'components/' ~ eq.type ~ '.twig' with {
+                    {% include 'components/' ~ eq.input_type ~ '.twig' with {
                         settings: {
                             db_field_name: eq.db_field_name,
                             pls: eq.pls,

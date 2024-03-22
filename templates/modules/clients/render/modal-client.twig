@@ -9,7 +9,7 @@
 
 {% set director_name = '' %}
 {% set director_tel = '' %}
-{% set is_foreach_contacts_persons = true %}
+{% set is_foreach_contacts_persons = true %} {# Цикл будет работать, пока не найдет нужное контактное лицо #}
 
 {% if client.contacts_persons is iterable %}
     {% for person in client.contacts_persons %}
@@ -18,6 +18,7 @@
             {% set director_name = director_name | trim %}
 
             {% set director_tel = person.tel %}
+            {% set is_foreach_contacts_persons = false %}
         {% endif %}
     {% endfor %}
 {% endif %}
@@ -562,9 +563,6 @@ function load_fmodal_contacts_persons(client_id) { // Должны переда�
         success: function (response) {
             if (response.status == "success") {
                 $wrapper.html(response.render_response_html);
-                cpns_form_validate("#fmodal-new-contact-person", '.js-submitter'); // Валидируем форму добавления конт.лица
-                
-                cpns_init();
 
                 $.fancybox.open({
                     src: '#fmodal-new-contact-person',

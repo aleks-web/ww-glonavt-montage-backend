@@ -23,7 +23,7 @@
                     <div class="fmodal__add-table-field">
                         {% include 'components/input-text.twig' with {
                             settings: {
-                                db_field_name: 'name_1',
+                                db_field_name: 'pls_1',
                                 required: true,
                                 pls: 'Название параметра'
                             }
@@ -31,9 +31,19 @@
                     </div>
 
                     <div class="fmodal__add-table-field">
+                        {% include 'components/input-text.twig' with {
+                            settings: {
+                                db_field_name: 'table_name_1',
+                                required: true,
+                                pls: 'Заголовок в таблице'
+                            }
+                        } %}
+                    </div>
+
+                    <div class="fmodal__add-table-field">
                         {% include 'components/select.twig' with {
                             settings: {
-                                db_field_name: 'type_1',
+                                db_field_name: 'input_type_1',
                                 required: true,
                                 pls: 'Тип поля',
                                 val: 'input-text',

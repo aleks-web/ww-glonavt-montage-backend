@@ -12,7 +12,7 @@
                 <thead>
                     <tr>
                         {% for field in equipment.field_properties %}
-                            <th class="text-start">{{ field.name }}</th>
+                            <th class="text-start">{{ field.table_name }}</th>
                         {% endfor %}
                     </tr>
                 </thead>
@@ -26,7 +26,7 @@
                                 {% for field in equipment.field_properties %}
 
                                     {% if field.db_field_name == tt.db_field_name %}
-                                        <td class="text-start">{{ tt.val }}</td>
+                                        <td class="text-start">{{ tt.val | default('-') }}</td>
                                     {% endif %}
                                     
                                 {% endfor %}

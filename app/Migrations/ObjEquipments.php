@@ -8,7 +8,7 @@ if (!Manager::schema()->hasTable('obj_equipments')) {
     Manager::schema()->create('obj_equipments', function ($table) {
         $table->id();
 		$table->unsignedBigInteger('object_id')->comment('ID объекта');
-        $table->unsignedBigInteger('equipment_id')->nullable()->unique()->comment('ID позиции из справочника');
+        $table->unsignedBigInteger('equipment_id')->nullable()->comment('ID позиции из справочника');
         $table->json('field_properties_data')->nullable()->comment('Характеристики полей оборудования - заполнение по шаблону');
         $table->timestamps(); // Дата создания и дата обновления
 

@@ -10,7 +10,7 @@ if (!Manager::schema()->hasTable('organizations')) {
         $table->string('name', 255)->nullable()->comment('Имя организации');
 		$table->integer('status')->default(Organizations::STATUS_ACTIVE)->comment('Статус организации');
 		$table->string('inn', 150)->nullable()->comment('ИНН организации');
-		$table->string('email', 50)->nullable()->comment('Email руководителя');
+		$table->string('email', 50)->nullable()->comment('Email');
 		$table->string('legal_address', 355)->nullable()->comment('Юредический адрес');
 		$table->string('actual_address', 355)->nullable()->comment('Фактический адрес');
 		$table->string('bank_name', 255)->nullable()->comment('Название банка');

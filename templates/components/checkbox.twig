@@ -1,0 +1,42 @@
+{#
+    Компонент чекбокса
+
+    * settings
+        * input_messages_position - расположение инпута в верху или внизу. Принимает либо top дибо bottom. По умолчанию bottom (но можно изменить на top)
+        * db_field_name - Имя поля
+        * label - Отображаемый текст
+        * checked - boolean - активный чекбокс или нет
+        * disable - boolean - выключить или не выключить чекбокс
+#}
+
+{% if settings.db_field_name == false or settings.label == false %}
+    <div style="color: red;">Параметр "db_field_name" для компонента checkbox не проброшен!<br>Либо обязательный параметр "label" пуст!</div>
+{% else %}
+    <div class="component-wrapper">
+        {# Start Сообщения об ошибках #}
+        {% if settings.input_messages_position == 'top' %}
+            <div class="input-messages input-messages--top disable">
+                <span class="input-messages__icon"></span>
+                <span class="input-messages__text"></span>
+            </div>
+        {% endif %}
+        {# End Сообщения об ошибках #}
+    
+        {# Start Тело компонента #}
+        <div class="checkbox {% if settings.checked %}active{% endif %} {% if settings.disable %}disable{% endif %}">
+            <input type="hidden" name="{{ settings.db_field_name }}" value="{% if settings.checked %}1{% else %}0{% endif %}">
+            <span class="checkbox__field"></span>
+            <span class="checkbox__label">{{ settings.label | default('Название чекбокса не задано!') }}</span>
+        </div>
+        {# End Тело компонента #}
+
+        {# Start Сообщения об ошибках #}
+        {% if settings.input_messages_position == 'bottom' or settings.input_messages_position == false %}
+            <div class="input-messages input-messages--bottom disable">
+                <span class="input-messages__icon"></span>
+                <span class="input-messages__text"></span>
+            </div>
+        {% endif %}
+        {# End Сообщения об ошибках #}
+    </div>
+{% endif %}

@@ -48,7 +48,8 @@ class ApiBookEquipmentsController extends \WWCrm\Controllers\MainController {
 
         $response->headers->set('Content-Type', 'application/json');
 
-        if (!$response_array['request_params']['name']) {
+        // Если не заполнено поле имя оборудования, то возвращаем ошибку
+        if (empty($response_array['request_params']['name'])) {
             $response_array['status'] = 'error';
             $response_array['message'] = 'Вы не ввели название оборудования';
 
@@ -56,32 +57,32 @@ class ApiBookEquipmentsController extends \WWCrm\Controllers\MainController {
             return $response;
         }
 
-        if (!$response_array['request_params']['name_1']) {
+        // Проверка на первый параметр
+        if (empty($response_array['request_params']['pls_1']) || empty($response_array['request_params']['table_name_1']) || empty($response_array['request_params']['input_type_1'])) {
             $response_array['status'] = 'error';
-            $response_array['message'] = 'Вы не создали ни одного параметра';
+            $response_array['message'] = 'Вы не создали ни одного параметр. Либо не верные передаваемые параметры';
             
             $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
             return $response;
         }
 
-        $book_fields['name'] = $response_array['request_params']['name'];
-        $book_fields['status'] = BookEquipments::STATUS_ACTIVE;
+
+
+        $book_fields['name'] = $response_array['request_params']['name']; // Записываем название параметра
+        $book_fields['status'] = BookEquipments::STATUS_ACTIVE; // Задаем активный статус по умолчанию
         $book_fields['field_properties'] = [];
 
-        for ($i = 1; isset($response_array['request_params']['name_' . $i]); $i++) {
-            if(isset($response_array['request_params']['name_' . $i]) && isset($response_array['request_params']['type_' . $i])) { // Если не пусто, то
-                $book_fields['field_properties'][$i]['db_field_name'] = mb_strtolower(str_replace(' ', '_', $this->translit($response_array['request_params']['name_' . $i])));
-                $book_fields['field_properties'][$i]['pls'] = $response_array['request_params']['name_' . $i];
-                $book_fields['field_properties'][$i]['type'] = $response_array['request_params']['type_' . $i];
-                $i++;
-            } else {
-                $response_array['status'] = 'error';
-                $response_array['message'] = 'В одной из строк таблицы пустое значение';
+        $i = 1;
+        while(!empty($response_array['request_params']['pls_' . $i]) && !empty($response_array['request_params']['table_name_' . $i]) && !empty($response_array['request_params']['input_type_' . $i])) {
+            $book_fields['field_properties'][$i]['db_field_name'] = $this->getSlug($response_array['request_params']['table_name_' . $i]);
 
-                $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
-                return $response;
-            }
+            $book_fields['field_properties'][$i]['pls'] = $response_array['request_params']['pls_' . $i]; // Записываем название имени
+            $book_fields['field_properties'][$i]['table_name'] = $response_array['request_params']['table_name_' . $i]; // Записываем название имени
+            $book_fields['field_properties'][$i]['input_type'] = $response_array['request_params']['input_type_' . $i]; // Записываем тип инпута
+
+            $i++;
         }
+
 
         $book_fields['field_properties'] = array_values($book_fields['field_properties']);
         $book_fields['field_properties'] = json_encode($book_fields['field_properties'], JSON_UNESCAPED_UNICODE);
@@ -90,7 +91,7 @@ class ApiBookEquipmentsController extends \WWCrm\Controllers\MainController {
 
         $response_array['status'] = 'success';
         $response_array['message'] = 'Оборудование успешно добавлено';
-        $response_array['db_array'] = $book_fields;
+        $response_array['field_properties'] = $book_fields['field_properties'];
 
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
         return $response;

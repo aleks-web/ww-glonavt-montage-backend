@@ -15,6 +15,7 @@ class OrgContactsPersons extends Model {
     'email',
     'birth',
     'post',
+    'is_director',
     'user_add_id'
   ];
 

@@ -7,6 +7,7 @@
         <div class="tabs__tableContainer">
             <div class="tabs__table">
                 <table>
+                    
                     <thead>
                         <tr>
                             <th class="text-start">ФИО<br>Должность</th>
@@ -17,25 +18,24 @@
                     </thead>
 
                     <tbody>
-                    
-                                {% for person in client.contacts_persons %}
-                                    <tr>
-                                        <td class="text-start"><span>{{ person.surname ~ ' ' ~ person.name ~ ' ' ~ person.patronymic }}</span><br><span class="text-secondary">{{ person.post | default('Должность не заполнена') }}</span></td>
-                                        <td class="text-start">{{ person.birth | default('-') }}</td>
-                                        <td class="text-start"><span>{{ person.tel | default('Телефон не задан') }}</span><br><span>{{ person.email | default('Email не задан') }}</span></td>
-                                        <td class="text-start">
-                                            <span>{% if person.user_add != false %}{{ person.user_add.surname }} {{ person.user_add.name }} {{ person.user_add.patronymic }}{% else %}Инициатор не определен{% endif %}</span>
-                                            <br>
-                                            <span>{{ person.created_at | date('Y.m.d') }} в {{ person.created_at | date('H:m') }}</span>
-                                        </td>
-                                        <td class="td-btn-default">
-                                            <svg onclick="load_fmodal_contacts_persons_update({{ person.id }})" class="hover"><use xlink:href="#svg-edit"></use></svg>
-                                        </td>
-                                        <td class="td-btn-default">
-                                            <svg onclick="tab_modal_contact_persone_del({{ person.id }})"><use xlink:href="#svg-del"></use></svg>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
+                        {% for person in client.contacts_persons %}
+                            <tr>
+                                <td class="text-start"><span>{{ person.surname ~ ' ' ~ person.name ~ ' ' ~ person.patronymic }}</span><br><span class="text-secondary">{{ person.post | default('Должность не заполнена') }}</span></td>
+                                <td class="text-start">{{ person.birth | default('-') }}</td>
+                                <td class="text-start"><span>{{ person.tel | default('Телефон не задан') }}</span><br><span>{{ person.email | default('Email не задан') }}</span></td>
+                                <td class="text-start">
+                                    <span>{% if person.user_add != false %}{{ person.user_add.surname }} {{ person.user_add.name }} {{ person.user_add.patronymic }}{% else %}Инициатор не определен{% endif %}</span>
+                                    <br>
+                                    <span>{{ person.created_at | date('Y.m.d') }} в {{ person.created_at | date('H:m') }}</span>
+                                </td>
+                                <td class="td-btn-default">
+                                    <svg onclick="load_fmodal_contacts_persons_update({{ person.id }})" class="hover"><use xlink:href="#svg-edit"></use></svg>
+                                </td>
+                                <td class="td-btn-default">
+                                    <svg onclick="tab_modal_contact_persone_del({{ person.id }})"><use xlink:href="#svg-del"></use></svg>
+                                </td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

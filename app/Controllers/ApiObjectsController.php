@@ -71,14 +71,36 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         // Получаем id
         $object_id = $response_array['request_params']['object_id'];
         $equipment_id = $response_array['request_params']['equipment_id'];
-        $fields_data = json_decode($response_array['request_params']['fields_data']); // Поля
+        $fields_data = json_decode($response_array['request_params']['fields_data']); // Данные с полей с девайсом
+
+
+        /*
+            Проверка на заполнение
+            Хотя бы что-то должно быть заполнено
+        */
+        $fields_data_empty = true;
+        foreach ($fields_data as $data) {
+            if (!empty($data->val)) {
+                $fields_data_empty = false;
+            }
+        }
+
+        if ($fields_data_empty) {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'Вы не заполнили ни одного поля';
+    
+            $response->headers->set('Content-Type', 'application/json');
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+    
+            return $response;
+        }
+        // End проверка на заполнение
 
         $ObjEquipment = ObjEquipments::where(['object_id' => $object_id])->where(['equipment_id' => $equipment_id])->first();
-
         
         $new_fields_data = $ObjEquipment['field_properties_data'];
-        $new_fields_data = $new_fields_data ? json_decode($new_fields_data) : [];
-        array_push($new_fields_data, $fields_data);
+        $new_fields_data = $new_fields_data ? json_decode($new_fields_data) : []; // Если пусто, то создаем массив, иначе просто декодируем его
+        array_push($new_fields_data, $fields_data); // Пушим в массив запрос с данными дейвайса
 
 
         $new_fields_data = json_encode($new_fields_data, JSON_UNESCAPED_UNICODE);
@@ -87,8 +109,6 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         $response_array['status'] = 'success';
         $response_array['message'] = 'Оборудование успешно добавлено';
         $response_array['obj_equipment'] = $ObjEquipment;
-        $response_array['fd'] = $fields_data;
-        $response_array['fd2'] = $new_fields_data;
 
         $response->headers->set('Content-Type', 'application/json');
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
@@ -111,7 +131,7 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         } else if ($twig_element == 'fmodal-new-type-equipment.twig') {
             return $this->render_fmodal_new_type_equipment($twig_element, $request, $response);
         } else if ($twig_element == 'tab-content-equipments.twig') {
-            return $this->tab_content_equipments($twig_element, $request, $response);
+            return $this->render_tab_content_equipments($twig_element, $request, $response);
         } else if($twig_element == 'fmodal-new-device.twig') {
             return $this->render_fmodal_new_device($twig_element, $request, $response);
         } else {
@@ -293,20 +313,25 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
     /*
         Рендер таба "Оборудование"
     */
-    public function tab_content_equipments($twig_element, Request $request, Response $response) {
+    public function render_tab_content_equipments($twig_element, Request $request, Response $response) {
         // Получаем параметры POST и сразу записываем их в массив с ответом
         $response_array['request_params'] = $request->request->all();
 
         // Получаем оборудование
-        $response_array['equipments'] = ObjEquipments::where(['object_id' => $response_array['request_params']['object_id']])->get();
+        $response_array['equipments'] = ObjEquipments::where(['object_id' => $response_array['request_params']['object_id']])->get(); // Получаем все оборудование для объекта
         foreach ($response_array['equipments'] as $key => $equipment) {
-            $response_array['equipments'][$key]['name'] = $equipment->getBookEquipments['name'];
+            
+            if(!empty($equipment['equipment_id'])) {
+                $response_array['equipments'][$key]['name'] = $equipment->getBookEquipments['name']; // Получаем имя оборудования
+            }
 
             if(!empty($response_array['equipments'][$key]['field_properties_data'])) {
                 $response_array['equipments'][$key]['field_properties_data'] = json_decode($response_array['equipments'][$key]['field_properties_data']);
             }
 
-            $response_array['equipments'][$key]['field_properties'] = json_decode($equipment->getBookEquipments['field_properties']);
+            if(!empty($equipment['equipment_id'])) {
+                $response_array['equipments'][$key]['field_properties'] = json_decode($equipment->getBookEquipments['field_properties']); // Записываем шаблон полей для ответа
+            }
         }
 
         
@@ -318,6 +343,7 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         ]);
 
         // Итоговые манипуляции
+        $response_array['ttt'] = $response_array['equipments'];
         $response_array['status'] = 'success';
         $response_array['message'] = 'ApiObjectsController';
         $response->headers->set('Content-Type', 'application/json');
@@ -334,7 +360,7 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         // Получаем параметры POST и сразу записываем их в массив с ответом
         $response_array['request_params'] = $request->request->all();
 
-        $response_array['equipment'] = BookEquipments::find((int) $response_array['request_params']['equipment_id']); // Получаем оборудование
+        $response_array['equipment'] = BookEquipments::find($response_array['request_params']['equipment_id']); // Получаем оборудование
         $response_array['equipment']['field_properties'] = json_decode($response_array['equipment']['field_properties']); // Конвертируем в обычный массив
 
         // Рендерим

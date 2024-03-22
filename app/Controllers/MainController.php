@@ -47,6 +47,10 @@ class MainController extends Controller {
         return strtr($text, $converter);
     }
 
+    public function getSlug(string | int $text, string $separator = '_') : string {
+        return str_replace(' ', $separator, $this->translit($text));
+    }
+
     /*
         Отправляем на 404 страницу, если не найдено
     */

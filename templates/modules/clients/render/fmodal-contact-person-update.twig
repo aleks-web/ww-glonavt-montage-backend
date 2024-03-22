@@ -1,9 +1,20 @@
 {#
     request_params - параметры запроса
     person - персона
+    contacts_persons - контактные персоны
 #}
+
+{# Start Проверяем есть ли директор среди других контактных лиц #}
+{% set has_director = false %}
+{% for person in contacts_persons %}
+    {% if person.is_director == 1 %}
+        {% set has_director = true %}
+    {% endif %}
+{% endfor %}
+{# End Проверяем есть ли директор среди других контактных лиц #}
+
 <div id="fmodal-contact-person-update" class="fmodal fmodal-contact-person-update" style="display: none;">
-    <div class="fmodal__title">Новое контактное лицо</div>
+    <div class="fmodal__title">Обноввление контактного лица</div>
 
         <div class="fmodal__content">
 
@@ -62,6 +73,15 @@
                         db_field_name: 'email',
                         pls: 'Почта',
                         val: person.email
+                    }
+                } %}
+
+                {% include 'components/checkbox.twig' with {
+                    settings: {
+                        db_field_name: 'is_director',
+                        label: 'Этот человек является руководителем',
+                        checked: person.is_director,
+                        disable: has_director
                     }
                 } %}
 

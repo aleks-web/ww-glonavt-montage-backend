@@ -34,8 +34,6 @@
         let wrapper = $("#region-main-table");
         let url = API_V1_URLS.book_equipments.render + 'main-table';
 
-        console.log($('.module-book-equipment .input-search input').val());
-
         $.ajax({
             url: url,
             method: "POST",

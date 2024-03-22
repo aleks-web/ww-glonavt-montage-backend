@@ -15,6 +15,7 @@ if (!Manager::schema()->hasTable('org_contacts_persons')) {
         $table->string('email', 50)->nullable()->comment('Email контактного лица');
         $table->date('birth')->nullable()->comment('День рождения контактного лица');
         $table->string('post', 100)->nullable()->comment('Должность контактного лица');
+        $table->tinyInteger('is_director')->default(0)->comment('Является ли контактное лицо директором');
         $table->unsignedBigInteger('user_add_id')->nullable()->comment('Кто добавил');
 
         // Внешние ключи:

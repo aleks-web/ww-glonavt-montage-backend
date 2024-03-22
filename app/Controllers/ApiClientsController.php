@@ -369,12 +369,14 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
         public function render_fmodal_new_contact_person($twig_element, Request $request, Response $response) {
             // Получаем параметры POST и сразу записываем их в массив с ответом
             $response_array['request_params'] = $request->request->all();
-            $response_array['client'] = Organizations::find($response_array['request_params']['client_id']);
+            $response_array['client'] = Organizations::find($response_array['request_params']['client_id']); // Получаем клиента
+            $response_array['contacts_persons'] = $response_array['client']->contactsPersons;
 
             // Рендерим
             $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
                 'request_params' => $response_array['request_params'],
-                'client' => $response_array['client']
+                'client' => $response_array['client'],
+                'contacts_persons' => $response_array['contacts_persons']
             ]);
 
             $response_array['status'] = 'success';
@@ -394,11 +396,14 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             // Получаем параметры POST и сразу записываем их в массив с ответом
             $response_array['request_params'] = $request->request->all();
             $response_array['person'] = OrgContactsPersons::find($response_array['request_params']['person_id']);
+            $response_array['client'] = Organizations::find($response_array['person']['organization_id']);
+            $response_array['contacts_persons'] = $response_array['client']->contactsPersons;
 
             // Рендерим
             $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
                 'request_params' => $response_array['request_params'],
-                'person' => $response_array['person'] // Прокидываем персону
+                'person' => $response_array['person'], // Прокидываем персону
+                'contacts_persons' => $response_array['contacts_persons']
             ]);
 
             $response_array['status'] = 'success';

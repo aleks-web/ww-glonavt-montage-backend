@@ -9,6 +9,18 @@
         pointer-events: none;
     }
 
+    &.disable {
+        pointer-events: none;
+
+        .checkbox__field {
+            border-color: var(--clr-10);
+        }
+
+        .checkbox__label {
+            color: var(--clr-10);
+        }
+    }
+
     &__label {
         font-size: var(--font-size, 1rem);
         color: var(--clr-6);
@@ -44,6 +56,12 @@
     .checkbox__field:before {
         opacity: 1;
         visibility: visible;
+    }
+}
+
+.checkbox.active.disable {
+    .checkbox__field:before {
+        opacity: 0.3;
     }
 }
 

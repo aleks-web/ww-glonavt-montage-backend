@@ -1,17 +1,3 @@
-// Start чекбокс
-$(document).ready(function (e) {
-    $(".checkbox").click(function (e) {
-        $(this).toggleClass("active");
-
-        if ($(this).hasClass("active")) {
-            $(this).find("input").val(1);
-        } else {
-            $(this).find("input").val(0);
-        }
-    });
-});
-// End чекбокс
-
 // Start push
 function push(text, type, time = 1000) {
     let push_block = $("#region-push .push");
@@ -249,7 +235,7 @@ $(document).ready(function (e) {
 
 
 // Start Список компонентов с input
-const input_components = ["input-text", "select", "textarea", "input-date"];
+const input_components = ["input-text", "select", "textarea", "input-date", "checkbox"];
 // End Список компонентов input
 
 // Start Функция которая формирует классы для вложенного поиска. Передается обертка в которой ищутся компоненты и формируется вложенность
@@ -454,6 +440,18 @@ $(document).ready(function() {
             new AirDatepicker($(this).find("input")[0], options);
         });
         // End input-date
+
+        // Start чекбокс
+        $(".checkbox").click(function (e) {
+            $(this).toggleClass("active");
+
+            if ($(this).hasClass("active")) {
+                $(this).find("input").val(1);
+            } else {
+                $(this).find("input").val(0);
+            }
+        });
+        // End чекбокс
     };
 
     window.cpns_rebuild = function () { // Восстановить компоненты, перестроить
