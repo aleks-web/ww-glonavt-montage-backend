@@ -13,7 +13,12 @@ function remove_body_bg() {
 }
 // End Функции для создания и удаления заднего фона
 
-// Start функция дебага
+
+
+/*
+    Start функции дебага
+    Desc: Различне функции для дебага
+*/
 function dd(message = "dd - не задано сообщение для отображения в консоли", title = false) {
     if (WWCrmConfig.debug) {
         if (title) {
@@ -25,9 +30,30 @@ function dd(message = "dd - не задано сообщение для отоб
         console.log(`%c------`, "color: green;");
     }
 }
-// End функция дебага
 
-// Start табы в модалках
+function dd_render_success(response, twig_element, url_request) {
+    if (WWCrmConfig.debug) {
+        console.log(`%c----------- RENDER START -----------`, "color: green;");
+
+        if (twig_element) {
+            console.log(`%cTWIG ELEMENT:`, "color: green; font-size: 14px; font-weight: bold");
+            console.log(`${twig_element}`);
+        }
+        if (url_request) {
+            console.log(`%cURL REQUEST:`, "color: green; font-size: 14px; font-weight: bold");
+            console.log(`${url_request}`);
+        }
+
+        console.log(`%cRESPONSE:`, "color: green; font-size: 14px; font-weight: bold");
+        console.log(response);
+        console.log(`%c----------- RENDER END -----------\n\n\n\n`, "color: green;");
+    }
+};
+// End функции дебага
+
+/*
+    Start табы в модалках
+*/
 $(document).ready(function (e) {
     $(document).on("click", ".tabs__tab", function (e) {
         const tab_class = "tabs__tab";
@@ -112,9 +138,11 @@ $(document).ready(function (e) {
 
 
 
-// Start функция ресайза таблицы в модалке
 /*
-    Пусути костыль, т.к версткой выкрутиться не получилось. Нужно просто тянуть таблицу, если она одна на все занимаемое пространство
+    Start функция ресайза таблицы в модалке
+    
+    По своей сути костыль, т.к версткой выкрутиться не получилось. Менеджер хотел правки как по дизайну.
+    Нужно просто тянуть таблицу по высоте, если она одна на все занимаемое пространство
     Скрипт отрабатывает в модалках с классом .modal в табах.
 */
 function resizeTableModal() {
@@ -160,7 +188,7 @@ $(document).ready(function (e) {
     $(document).on("click", "[data-modal-close]", function (e) {
         $(this).parents(".modal").removeClass("open");
 
-        if ($("body").find(".modal.open").length <= 0) {
+        if ($("body").find(".modal.open").length <= 0) { // Если больше нет открытых модалок
             remove_body_bg();
         }
     });
@@ -197,6 +225,7 @@ $(document).ready(function (e) {
 });
 // End скрипт для меню
 
+
 /*
     Start отправка запроса на сервер
 
@@ -224,32 +253,3 @@ function xpost_fd(url, formData) {
     });
 }
 // End отправка запроса на сервер
-
-// Start какие-то настрйоки
-const WWCrmConfig = {
-    debug: true,
-};
-// End какие-то настрйоки
-
-// Start Глобально доступная константа. Содержит ссылки API
-const API_V1_URLS = {
-    clients: {
-        create: "/api_v1/clients/create/",
-        update: "/api_v1/clients/update/",
-        create_contact_person: "/api_v1/clients/contacts-persons/create/",
-        update_contact_person: "/api_v1/clients/contacts-persons/update/",
-        remove_contact_person: "/api_v1/clients/contacts-persons/remove/",
-        render: "/api_v1/clients/render/",
-    },
-    objects: {
-        add_new_type_equipment: "/api_v1/objects/add-new-type-equipment/",
-        add_new_device: "/api_v1/objects/add-new-device/",
-        render: "/api_v1/objects/render/",
-    },
-    book_equipments: {
-        create: "/api_v1/book-equipment/create/",
-        update: "/api_v1/book-equipment/update/",
-        render: "/api_v1/book-equipment/render/",
-    },
-};
-// End Глобально доступная константа. Содержит ссылки API

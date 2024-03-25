@@ -12,8 +12,10 @@ $(document).ready(function (e) {
 
     // Start функция рендера и открытия модалки "Добавление объекта"
     $(document).on('click', '[data-modal-object-add]', function (e) {
+        let url = API_V1_URLS.objects.render + 'modal-object-add';
+
         $.ajax({
-            url: API_V1_URLS.objects.render + 'modal-object-add',
+            url: url,
             method: "POST",
             data: {
                 twig_element: 'modal-object-add.twig',
@@ -30,7 +32,11 @@ $(document).ready(function (e) {
                         $("#modal-object-add").addClass("open");
                     }, 10);
 
-                    dd(response, `Render modal-object-add.twig ${API_V1_URLS.clients.render + 'modal-object-add'}`);
+                    dd_render_success(
+                        response,
+                        'modules/objects/render/modal-object-add.twig',
+                        url
+                    );
                 }
             }
         });
@@ -44,8 +50,10 @@ $(document).ready(function (e) {
 
 // Start Функция загрузки модального окна объекты | Модуль объекты
 function load_modal_object(object_id) {
+    let url = API_V1_URLS.objects.render + 'modal-object';
+
     $.ajax({
-        url: API_V1_URLS.objects.render + 'modal-object',
+        url: url,
         method: "POST",
         data: {
             twig_element: 'modal-object.twig',
@@ -67,7 +75,11 @@ function load_modal_object(object_id) {
                 wrapper.html(`<div style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">${response.message}</div>`);
             }
 
-            dd(response, `Render modal-object.twig ${API_V1_URLS.clients.render + 'modal-object'}`);
+            dd_render_success(
+                response,
+                'modules/objects/render/modal-object.twig',
+                url
+            );
         }
     });
 }
@@ -127,7 +139,11 @@ function xrender_main_table_objects(current_page = 1, control_panel_condition = 
                 wrapper.html(`<div style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">${response.message}</div>`);
             }
 
-            dd(response, `Render main-table.twig ${url}`);
+            dd_render_success(
+                response,
+                'modules/objects/render/' + twig_element,
+                url
+            );
         },
         beforeSend: function () {
             wrapper.addClass("loading");

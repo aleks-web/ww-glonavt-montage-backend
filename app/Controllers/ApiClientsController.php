@@ -170,7 +170,8 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
     }
 
     /*
-        Рендер главной таблицы
+        TWIG: modules/clients/render/main-table.twig
+        Desc: Рендер главной таблицы
     */
     public function render_main_table($twig_element, Request $request, Response $response) {
         // Получаем параметры POST и сразу записываем их в массив с ответом
@@ -208,6 +209,10 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             $response_array['status'] = 'success';
             $response_array['message'] = 'Элемент успешно отрендерился';
             $response_array['table_rows'] = $queryBuild->get();
+
+            foreach ($response_array['table_rows'] as $client) {
+                $client->objects; // Получаем объекты. При обращении к свойству, каждая запись table_rows автоматически дополнится записями объектов
+            }
             
             $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
                 'table_rows' => $response_array['table_rows'],
@@ -228,7 +233,8 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
     }
     
     /*
-        Рендер модалки просмотра клиента
+        TWIG: modules/clients/render/modal-client.twig
+        Desc: Рендер модалки просмотра клиента
     */
     public function render_modal_client($twig_element, Request $request, Response $response) {
         // Получаем параметры POST и сразу записываем их в массив с ответом
@@ -290,76 +296,79 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
         return $response;
     }
 
-    /*
-        Рендер вкладки "Контактные лица". В модалке просмотра клиента
-    */
-    public function render_tab_contacts_persons($twig_element, Request $request, Response $response) {
-        // Получаем параметры POST и сразу записываем их в массив с ответом
-        $response_array['request_params'] = $request->request->all();
-        $response_array['client'] = Organizations::find($response_array['request_params']['client_id']);
-        $response_array['client']['contacts_persons'] = $response_array['client']->contactsPersons()->get();
-        
-        // Добавляем юзеров в массив | Инициаторы
-        foreach ($response_array['client']['contacts_persons'] as $key => $person) {
-            $id = $person['user_add_id'];
 
-            $response_array['client']['contacts_persons'][$key]['user_add'] = Users::find($id);
+    /*--- Start рендер вкладок в модалке "Просмотр клиента" */
+        /*
+            Рендер вкладки "Контактные лица". В модалке просмотра клиента
+        */
+        public function render_tab_contacts_persons($twig_element, Request $request, Response $response) {
+            // Получаем параметры POST и сразу записываем их в массив с ответом
+            $response_array['request_params'] = $request->request->all();
+            $response_array['client'] = Organizations::find($response_array['request_params']['client_id']);
+            $response_array['client']['contacts_persons'] = $response_array['client']->contactsPersons()->get();
+            
+            // Добавляем юзеров в массив | Инициаторы
+            foreach ($response_array['client']['contacts_persons'] as $key => $person) {
+                $id = $person['user_add_id'];
+
+                $response_array['client']['contacts_persons'][$key]['user_add'] = Users::find($id);
+            }
+
+            // Рендерим
+            $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
+                'request_params' => $response_array['request_params'],
+                'client' => $response_array['client']
+            ]);
+
+            $response_array['status'] = 'success';
+
+            // Итоговые манипуляции
+            $response->headers->set('Content-Type', 'application/json');
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+            // Возвращаем ответ
+            return $response;
         }
 
-        // Рендерим
-        $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
-            'request_params' => $response_array['request_params'],
-            'client' => $response_array['client']
-        ]);
+        /*
+            Рендер вкладки "Объекты". В модалке просмотра клиента
+        */
+        public function render_tab_objects($twig_element, Request $request, Response $response) {
+            // Получаем параметры POST и сразу записываем их в массив с ответом
+            $response_array['request_params'] = $request->request->all();
+            $client_id = $response_array['request_params']['client_id'];
 
-        $response_array['status'] = 'success';
+            $response_array['client'] = Organizations::find($client_id);
+            $response_array['settings'] = [];
 
-        // Итоговые манипуляции
-        $response->headers->set('Content-Type', 'application/json');
-        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+            if (empty($response_array['request_params']['condition_filtres'])) { // Если нет запроса на фильтрацию
+                $response_array['objects'] = $response_array['client']->objects; // Получаем объекты
+            } else { // Если есть то фильтруем
+                $response_array['objects'] = Objects::where('organization_id', $client_id)
+                                            ->where('gnum', 'like', '%' . $response_array['request_params']['condition_filtres'] . '%')
+                                            ->orWhere('brand', 'like', '%' . $response_array['request_params']['condition_filtres'] . '%')
+                                            ->orWhere('model', 'like', '%' . $response_array['request_params']['condition_filtres'] . '%')
+                                            ->get();
+                $response_array['settings']['is_filtres'] = true;
+            }
 
-        // Возвращаем ответ
-        return $response;
-    }
+            // Рендерим
+            $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
+                'request_params' => $response_array['request_params'],
+                'objects' => $response_array['objects'],
+                'settings' => $response_array['settings']
+            ]);
 
-    /*
-        Рендер вкладки "Объекты". В модалке просмотра клиента
-    */
-    public function render_tab_objects($twig_element, Request $request, Response $response) {
-        // Получаем параметры POST и сразу записываем их в массив с ответом
-        $response_array['request_params'] = $request->request->all();
-        $client_id = $response_array['request_params']['client_id'];
+            $response_array['status'] = 'success';
 
-        $response_array['client'] = Organizations::find($client_id);
-        $response_array['settings'] = [];
+            // Итоговые манипуляции
+            $response->headers->set('Content-Type', 'application/json');
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
 
-        if (empty($response_array['request_params']['condition_filtres'])) { // Если нет запроса на фильтрацию
-            $response_array['objects'] = $response_array['client']->objects; // Получаем объекты
-        } else { // Если есть то фильтруем
-            $response_array['objects'] = Objects::where('organization_id', $client_id)
-                                         ->where('gnum', 'like', '%' . $response_array['request_params']['condition_filtres'] . '%')
-                                         ->orWhere('brand', 'like', '%' . $response_array['request_params']['condition_filtres'] . '%')
-                                         ->orWhere('model', 'like', '%' . $response_array['request_params']['condition_filtres'] . '%')
-                                         ->get();
-            $response_array['settings']['is_filtres'] = true;
+            // Возвращаем ответ
+            return $response;
         }
-
-        // Рендерим
-        $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
-            'request_params' => $response_array['request_params'],
-            'objects' => $response_array['objects'],
-            'settings' => $response_array['settings']
-        ]);
-
-        $response_array['status'] = 'success';
-
-        // Итоговые манипуляции
-        $response->headers->set('Content-Type', 'application/json');
-        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
-
-        // Возвращаем ответ
-        return $response;
-    }
+    /*--- End рендер вкладок в модалке "Просмотр клиента" */
 
 
     /*--- Start Модалка fmodal Новое контактное лицо */

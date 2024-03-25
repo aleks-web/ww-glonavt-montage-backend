@@ -1,6 +1,7 @@
 {#
-    table_rows - элементы таблицы
     request_params - проброшенные параметры в POST запросе
+    table_rows - элементы таблицы
+    table_rows.{client_index}.objects - объекты определенного клиента
     pagination - массив с данными о пагинации
 #}
 
@@ -12,7 +13,7 @@
                 <thead>
                     <tr>
                         <th class="text-start" style="width: 6%;">id</th>
-                        <!--th class="text-start">Статус</th-->
+                        <th class="text-start">Статус</th>
                         <th class="text-start">Наименование/ИНН</th>
                         <th>Кол-во объектов</th>
                         <th>Заявки</th>
@@ -24,11 +25,11 @@
                     {% for row in table_rows %}
                         <tr data-modal-client data-client-id="{{ row.id }}" class="pointer" class="pointer">
                             <td class="text-start">{{ row.id }}</td>
-                            <!--td class="text-start">Активный</td-->
+                            <td style="color: red" class="text-start">натянуть</td>
                             <td class="text-start">{{ row.name }}<br><span class="text-secondary">ИНН: {{ row.inn }}</span></td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
+                            <td>{{ row.objects | length }}</td>
+                            <td style="color: red">натянуть</td>
+                            <td style="color: red">натянуть</td>
                         </tr>
                     {% endfor %}
                 </tbody>

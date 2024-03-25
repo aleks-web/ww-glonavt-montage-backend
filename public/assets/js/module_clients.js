@@ -34,8 +34,10 @@ function open_modal_client(client_id) {
 // Start функция вставляет разметку модального окна клиента | Модуль клиенты
 function load_modal_client(client_id, is_open = false) {
     return new Promise(function(resolve, reject) {
+        let url = API_V1_URLS.clients.render + 'modal-client';
+    
         $.ajax({
-            url: API_V1_URLS.clients.render + 'modal-client',
+            url: url,
             method: "POST",
             data: {
                 twig_element: 'modal-client.twig',
@@ -46,7 +48,13 @@ function load_modal_client(client_id, is_open = false) {
     
                 if (response.status == "success") {
                     $('#region-modal-client').html(response.render_response_html);
-                    dd(response, `Render modal-client.twig ${API_V1_URLS.clients.render + 'modal-client'}`);
+                    
+                    dd_render_success(
+                        response,
+                        'modules/clients/render/modal-client.twig',
+                        url
+                    );
+
                     resolve(response);
                 }
     
@@ -93,7 +101,11 @@ function xrender_main_table_clients(current_page = 1, control_panel_condition = 
                 wrapper.html(`<div style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">${response.message}</div>`);
             }
 
-            dd(response, `Render main-table.twig ${url}`);
+            dd_render_success(
+                response,
+                'modules/clients/render/' + twig_element,
+                url
+            );
         },
         beforeSend: function () {
             wrapper.addClass("loading");

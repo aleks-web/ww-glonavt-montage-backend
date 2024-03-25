@@ -1,4 +1,7 @@
-// Start push
+/*
+    Start push
+    Desc: push уведомление на экран
+*/
 function push(text, type, time = 1000) {
     let push_block = $("#region-push .push");
     let push_block_text = push_block.find(".push__text");
@@ -20,7 +23,11 @@ function push(text, type, time = 1000) {
 }
 // End push
 
-// Start input type passs
+
+/*
+    Start input-password
+    Desc: Компонент ввода пароля
+*/
 $(document).ready(function (e) {
     $(".input-block-password__icon").click(function (e) {
         let parent = $(this).parents(".input-block-password");
@@ -33,9 +40,13 @@ $(document).ready(function (e) {
         }
     });
 });
-// End input type passs
+// End input-password
 
-// Start компонент добавление фото
+
+/*
+    Start компонент добавление фото
+    Desc: Компонент добавления фото
+*/
 $(document).ready(function (e) {
     $(document).on("click", ".photo-add__btn-add, .photo-add__preview", function (e) {
         if (!$(this).find("img").length) {
@@ -59,7 +70,12 @@ $(document).ready(function (e) {
 });
 // End компонент добавление фото
 
-// Start input files add block
+
+
+/*
+    Start input-files
+    Desc: Компонент файла
+*/
 $(document).ready(function (e) {
     $(document).on("click", ".files-add__btn", function (e) {
         let parent = $(this).parents(".files-add");
@@ -89,9 +105,14 @@ $(document).ready(function (e) {
         }
     });
 });
-// End input files add block
+// End input-files
 
-// Start input-text
+
+
+/*
+    Start input-text
+    Desc: Компонент текстового инпута
+*/
 $(document).ready(function (e) {
     $(document).on("click", ".input-text", function (e) {
         $(this).find("input").focus();
@@ -99,7 +120,12 @@ $(document).ready(function (e) {
 });
 // End input-text
 
-// Start select block input
+
+
+/*
+    Start select
+    Desc: Компонент селекта (выпадающий список)
+*/
 $(document).ready(function (e) {
     const select_class = "select";
     const select_class_active = "select--active";
@@ -188,9 +214,14 @@ $(document).ready(function (e) {
         }
     });
 });
-// End select block input
+// End select
 
-// Start input file
+
+
+/*
+    Start input-file
+    Desc: Компонент загрузки файлов
+*/
 $(document).on("change", '.input-file input[type="file"]', function (e) {
     const parent = $(this).parents(".input-file");
     const current_text = parent.find(".input-file__current");
@@ -213,26 +244,16 @@ $(document).on("change", '.input-file input[type="file"]', function (e) {
         current_text.addClass("disable");
     });
 });
-// End input file
-
-$(document).ready(function (e) {
-    push("Тестовое сообщение", "error", 3000);
-});
-
-// Start обнуление
-$(document).ready(function (e) {
-    $(document).on("click", function (e) {
-        const select_classes = {
-            select: $(e.target).hasClass("select"),
-            select__name: $(e.target).hasClass("select__name"),
-            select__currentText: $(e.target).hasClass("select__current-text"),
-            select__current: $(e.target).hasClass("select__current"),
-        };
-    });
-});
-// End обнуление
+// End input-file
 
 
+
+
+
+
+/*
+    ----------------------- ФУНКЦИИ ДЛЯ РАБОТЫ С КОМПОНЕНТАМИ -----------------------
+*/
 
 // Start Список компонентов с input
 const input_components = ["input-text", "select", "textarea", "input-date", "checkbox"];
@@ -337,6 +358,8 @@ function cpns_update_from_json(json, wrapper_selector) {
     }
 }
 // End Обновление компонентов. Валидация
+
+
 
 // Start Функция сброса всех данных у компонентов
 function cpns_clear_by_wrapper(wrapper_selector) {
