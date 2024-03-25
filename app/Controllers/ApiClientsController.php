@@ -246,9 +246,11 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             $clientOriginalObject = Organizations::find($client_id);
 
             // Statuses
-            $response_array['client_statuses']['STATUS_NULL'] = Organizations::STATUS_NULL;
-            $response_array['client_statuses']['STATUS_ACTIVE'] = Organizations::STATUS_ACTIVE;
-            $response_array['client_statuses']['STATUS_ARCHIVE'] = Organizations::STATUS_ARCHIVE;
+            $response_array['client_statuses'] = [
+                'STATUS_NULL' => Organizations::STATUS_NULL,
+                'STATUS_ACTIVE' => Organizations::STATUS_ACTIVE,
+                'STATUS_ARCHIVE' => Organizations::STATUS_ARCHIVE,
+            ];
 
             $response_array['client'] = Organizations::find($client_id); // $response_array['client'] для основного проброса. Тут делаем что-то с данными. Например заменяем статус клиента на читаемый вид
             $response_array['client']['contacts_persons'] = $response_array['client']->contactsPersons; // Получаем контактных лиц из другой таблицы
@@ -271,6 +273,9 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
                 'is_open' => $response_array['request_params']['is_open'],
             ];
 
+            // Задаем директора
+            $response_array['director'] = OrgContactsPersons::where([['organization_id', '=' , $client_id], ['post_id', '=', OrgContactsPersons::POST_STATUS_DIRECTOR]])->first();
+
             // End Формируем и прокидываем настроенный компонент статуса с выпадающим списком
 
             // Рендерим
@@ -279,7 +284,8 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
                 'client' => $response_array['client'],
                 'client_statuses' => $response_array['client_statuses'],
                 'twig_components_data' => $response_array['twig_components_data'],
-                'modal_settings' => (bool) $response_array['modal_settings']
+                'modal_settings' => $response_array['modal_settings'],
+                'director' => $response_array['director']
             ]);
 
             $response_array['status'] = 'success';
@@ -381,11 +387,17 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             $response_array['client'] = Organizations::find($response_array['request_params']['client_id']); // Получаем клиента
             $response_array['contacts_persons'] = $response_array['client']->contactsPersons;
 
+            $response_array['contacts_person_posts'] = [
+                'POST_STATUS_DIRECTOR' => OrgContactsPersons::POST_STATUS_DIRECTOR,
+                'POST_STATUS_DEFAULT' => OrgContactsPersons::POST_STATUS_DEFAULT
+            ];
+
             // Рендерим
             $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
                 'request_params' => $response_array['request_params'],
                 'client' => $response_array['client'],
-                'contacts_persons' => $response_array['contacts_persons']
+                'contacts_persons' => $response_array['contacts_persons'],
+                'contacts_person_posts' => $response_array['contacts_person_posts']
             ]);
 
             $response_array['status'] = 'success';
@@ -407,12 +419,18 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             $response_array['person'] = OrgContactsPersons::find($response_array['request_params']['person_id']);
             $response_array['client'] = Organizations::find($response_array['person']['organization_id']);
             $response_array['contacts_persons'] = $response_array['client']->contactsPersons;
+            
+            $response_array['contacts_person_posts'] = [
+                'POST_STATUS_DIRECTOR' => OrgContactsPersons::POST_STATUS_DIRECTOR,
+                'POST_STATUS_DEFAULT' => OrgContactsPersons::POST_STATUS_DEFAULT
+            ];
 
             // Рендерим
             $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
                 'request_params' => $response_array['request_params'],
                 'person' => $response_array['person'], // Прокидываем персону
-                'contacts_persons' => $response_array['contacts_persons']
+                'contacts_persons' => $response_array['contacts_persons'],
+                'contacts_person_posts' => $response_array['contacts_person_posts']
             ]);
 
             $response_array['status'] = 'success';

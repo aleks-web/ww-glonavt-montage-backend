@@ -1,14 +1,24 @@
 {#
     request_params - параметры запроса
-    person - персона
+    client - клиент
     contacts_persons - контактные персоны
+    contacts_person_posts - Массив. id должностей
+    person - персона
 #}
 
 {# Start Проверяем есть ли директор среди других контактных лиц #}
 {% set has_director = false %}
-{% for person in contacts_persons %}
-    {% if person.is_director == 1 %}
+{% for pers in contacts_persons %}
+    {% if pers.post_id == contacts_person_posts.POST_STATUS_DIRECTOR %}
         {% set has_director = true %}
+    {% endif %}
+{% endfor %}
+
+{% for pers in contacts_persons %}
+    {% if person.id == pers.id %}
+        {% if pers.post_id == contacts_person_posts.POST_STATUS_DIRECTOR %}
+            {% set has_director = false %}
+        {% endif %}
     {% endif %}
 {% endfor %}
 {# End Проверяем есть ли директор среди других контактных лиц #}
@@ -76,14 +86,34 @@
                     }
                 } %}
 
+                {% set is_hide = false %}
+
+                {# Start определяем, можно ли активировать активность галочки #}
+                {% if person.is_director == contacts_person_posts.POST_STATUS_DIRECTOR %}
+                    {% set is_hide = false %}                 
+                {% endif %}
+
+                {% if person.post_id == contacts_person_posts.POST_STATUS_DIRECTOR and has_director == false %}
+                    {% set is_hide = false %}                 
+                {% endif %}
+
+                {% if person.post_id != contacts_person_posts.POST_STATUS_DIRECTOR and has_director %}
+                    {% set is_hide = true %}                 
+                {% endif %}
+                {# End определяем, можно ли активировать активность галочки #}
+
                 {% include 'components/checkbox.twig' with {
                     settings: {
-                        db_field_name: 'is_director',
+                        db_field_name: 'post_id',
                         label: 'Этот человек является руководителем',
-                        checked: person.is_director,
-                        disable: has_director
+                        checked: person.post_id,
+                        disable: is_hide
                     }
                 } %}
+
+                {% if is_hide %}
+                    <p style="margin-top: -13px; font-size: 0.8rem; color: var(--clr-14);">Директор уже задан</p>
+                {% endif %}
 
             </div>
             

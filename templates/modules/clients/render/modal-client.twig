@@ -5,23 +5,8 @@
     client_statuses - массив со статусами клиента
     modal_settings - настройки модалки
         is_open - открытая
+    director - массив с данными о директоре
 #}
-
-{% set director_name = '' %}
-{% set director_tel = '' %}
-{% set is_foreach_contacts_persons = true %} {# Цикл будет работать, пока не найдет нужное контактное лицо #}
-
-{% if client.contacts_persons is iterable %}
-    {% for person in client.contacts_persons %}
-        {% if is_foreach_contacts_persons %}
-            {% set director_name = person.surname ~ ' ' ~ person.name ~ ' ' ~ person.patronymic %}
-            {% set director_name = director_name | trim %}
-
-            {% set director_tel = person.tel %}
-            {% set is_foreach_contacts_persons = false %}
-        {% endif %}
-    {% endfor %}
-{% endif %}
 
 <div id="modal-client" class="modal modal-client {% if modal_settings.is_open %}open{% endif %}" data-client-id="{{ client.id }}">
     <svg data-modal-close class="modal__close"><use xlink:href="#svg-close"></use></svg>
@@ -130,16 +115,6 @@
                                     </div>
 
                                     <div class="block-info__item">
-                                        <span class="block-info__text-secondary">Руководитель</span>
-                                        <span class="block-info__text-main">{{ director_name | default('-') }}</span>
-                                    </div>
-
-                                    <div class="block-info__item">
-                                        <span class="block-info__text-secondary">Телефон руководителя</span>
-                                        <a class="block-info__text-main" href="tel:{{ director_tel }}">{{ director_tel }}</a>
-                                    </div>
-
-                                    <div class="block-info__item">
                                         <span class="block-info__text-secondary">Почта</span>
 
                                         {% if client.email %}
@@ -159,7 +134,6 @@
                                     </div>
                                 </div>
                             </div>
-                            
 
                             <div class="block-info">
                                 <div class="block-info__title">Банковские реквизиты</div>
@@ -190,6 +164,35 @@
                                         <span class="block-info__text-main">{{ client.okato | default('-') }}</span>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="block-info">
+                                <div class="block-info__title">Руководитель</div>
+
+                                    {% if director %}
+                                        <div class="block-info__content">
+                                            <div class="block-info__item">
+                                                <span class="block-info__text-secondary">ФИО руководителя</span>
+
+                                                {% if director.name %}
+                                                    {% set director_name = director.surname ~ ' ' ~ director.name ~ ' ' ~ director.patronymic %}
+                                                    <span class="block-info__text-main">{{ director_name | trim }}</span>
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="block-info__item">
+                                                <span class="block-info__text-secondary">Телефон руководителя</span>
+
+                                                {% if director.tel %}
+                                                    <a class="block-info__text-main" href="tel:{{ director.tel }}">{{ director.tel }}</a>
+                                                {% else %}
+                                                    <span class="block-info__text-main">Телефон не задан</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <p style="color: var(--clr-5);">Руководитель не задан.<br>При необходимости его можно задать во вкладке "Контактные лица".</p>
+                                    {% endif %}
                             </div>
 
                             <div class="block-info">
@@ -231,14 +234,6 @@
                                                     pls: 'ИНН'
                                                 }
                                             } %}
-                                        </div>
-
-                                        <div class="block-info__item">
-                                            @@include('../components/input-text.html', {"name": "", "value": "Руководитель", "stText": "Руководитель"})
-                                        </div>
-
-                                        <div class="block-info__item">
-                                            @@include('../components/input-text.html', {"name": "", "value": "Телефон руководителя", "stText": "Телефон руководителя"})
                                         </div>
 
                                         <div class="block-info__item">
@@ -342,6 +337,36 @@
                                 </div>
                             </div>
 
+                            <div class="block-info">
+                                <div class="block-info__title">Руководитель</div>
+
+                                    {% if director %}
+                                        <div class="block-info__content">
+                                            <div class="block-info__item">
+                                                <span class="block-info__text-secondary">ФИО руководителя</span>
+
+                                                {% if director.name %}
+                                                    {% set director_name = director.surname ~ ' ' ~ director.name ~ ' ' ~ director.patronymic %}
+                                                    <span class="block-info__text-main">{{ director_name | trim }}</span>
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="block-info__item">
+                                                <span class="block-info__text-secondary">Телефон руководителя</span>
+
+                                                {% if director.tel %}
+                                                    <a class="block-info__text-main" href="tel:{{ director.tel }}">{{ director.tel }}</a>
+                                                {% else %}
+                                                    <span class="block-info__text-main">Телефон не задан</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                        <p style="color: var(--clr-5);margin-bottom: -15px; margin-top: -15px;">Для редактирования руководителя компании, перейдите во вкладку "Контактные лица"</p>
+                                    {% else %}
+                                        <p style="color: var(--clr-5);">Руководитель не задан.<br>При необходимости его можно задать во вкладке "Контактные лица".</p>
+                                    {% endif %}
+                            </div>
 
                             <div class="block-info">
                                 <div class="block-info__title">Ответственный менеджер</div>

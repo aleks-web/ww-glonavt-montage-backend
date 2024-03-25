@@ -34,7 +34,7 @@ final class CreateOrgContactsPersonsTable extends AbstractMigration
             `email` VARCHAR(50) DEFAULT NULL COMMENT 'Email контактного лица',
             `birth` DATE DEFAULT NULL COMMENT 'День рождения контактного лица',
             `post` VARCHAR(100) DEFAULT NULL COMMENT 'Должность контактного лица',
-            `is_director` TINYINT(4) NOT NULL DEFAULT '{$default_status}' COMMENT 'Является ли контактное лицо директором',
+            `post_id` TINYINT(4) NOT NULL DEFAULT '{$default_status}' COMMENT 'id должности. Берется из модельки таблицы',
             `user_add_id` BIGINT(20) UNSIGNED DEFAULT NULL COMMENT 'Кто добавил',
             `created_at` TIMESTAMP NULL DEFAULT NULL,
             `updated_at` TIMESTAMP NULL DEFAULT NULL,
@@ -54,7 +54,7 @@ final class CreateOrgContactsPersonsTable extends AbstractMigration
           ";
           $this->execute($sql_alert);
 
-          $seed = "INSERT INTO `org_contacts_persons` (`id`, `organization_id`, `name`, `surname`, `patronymic`, `tel`, `email`, `birth`, `post`, `is_director`, `user_add_id`, `created_at`, `updated_at`) VALUES (1, 1, 'Игорь', 'Кузнецов', '', '89195798871', 'dok.go@yandex.ru', NULL, NULL, 0, 1, '2024-03-25 08:22:58', '2024-03-25 08:22:58')";
+          $seed = "INSERT INTO `org_contacts_persons` (`id`, `organization_id`, `name`, `surname`, `patronymic`, `tel`, `email`, `birth`, `post`, `post_id`, `user_add_id`, `created_at`, `updated_at`) VALUES (1, 1, 'Игорь', 'Кузнецов', '', '89195798871', 'dok.go@yandex.ru', NULL, NULL, 0, 1, '2024-03-25 08:22:58', '2024-03-25 08:22:58')";
           
           // Сеем тестовые данные
           $this->execute($seed);

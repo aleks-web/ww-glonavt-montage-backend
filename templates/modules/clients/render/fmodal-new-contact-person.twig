@@ -2,12 +2,13 @@
     request_params - параметры запроса
     client - клиент
     contacts_persons - контактные персоны
+    contacts_person_posts - Массив. id должностей
 #}
 
 {# Start Проверяем есть ли директор среди других контактных лиц #}
 {% set has_director = false %}
-{% for person in contacts_persons %}
-    {% if person.is_director == 1 %}
+{% for pers in contacts_persons %}
+    {% if pers.post_id == contacts_person_posts.POST_STATUS_DIRECTOR %}
         {% set has_director = true %}
     {% endif %}
 {% endfor %}
@@ -71,11 +72,15 @@
 
                 {% include 'components/checkbox.twig' with {
                     settings: {
-                        db_field_name: 'is_director',
+                        db_field_name: 'post_id',
                         label: 'Этот человек является руководителем',
                         disable: has_director
                     }
                 } %}
+
+                {% if has_director %}
+                    <p style="margin-top: -13px; font-size: 0.8rem; color: var(--clr-14);">Директор уже задан</p>
+                {% endif %}
 
             </div>
             
