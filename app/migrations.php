@@ -11,7 +11,7 @@ include_once __DIR__ . '/Migrations/BookEquipments.php'; // Справочник
 include_once __DIR__ . '/Migrations/Users.php'; // Пользователи crm
 
 
-include_once __DIR__ . '/Migrations/Organizations.php'; // Организации / Клиенты
+// include_once __DIR__ . '/Migrations/Organizations.php'; // Организации / Клиенты
 include_once __DIR__ . '/Migrations/OrgContactsPersons.php'; // Контактные персоны
 
 include_once __DIR__ . '/Migrations/Objects.php'; // Объекты
