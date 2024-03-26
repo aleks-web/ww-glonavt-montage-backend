@@ -9,9 +9,8 @@ import sassGlob from 'gulp-sass-glob';
 import browserSync from 'browser-sync';
 
 
-const folderApp = "public/assets";
-const folderDist = "public/assets";
-const proxyUrl = "crm-backend.ru";
+const folderApp = "public_html/assets";
+const folderDist = "public_html/assets";
 
 const dir = {
     // Дирректории приложения
@@ -55,10 +54,12 @@ export function watching() {
     * Если crm уже лежит на сервере и работает, то командой gulp пользоваться не нужно
     * Нужно просто ввести gulp sass для перекомпиляции стилей. И все. Либо gulp watching
 */
-export function browsersync() {
-    browserSync.init({
-        proxy: proxyUrl
-    });
-}
 
-export default gulp.parallel(browsersync, sass, watching);
+const proxyUrl = "crm-backend.ru";
+// export function browsersync() {
+//     browserSync.init({
+//         proxy: proxyUrl
+//     });
+// }
+
+export default gulp.parallel(sass, watching);

@@ -434,6 +434,14 @@ ul.fmodal__view-input-text {
             }
         }
     }
+
+    // Вьюшная часть и часть редактирования
+    &__data-view,
+    &__data-edit {
+        > *:last-child {
+            margin-bottom: var(--bigModal-padding-y);
+        }
+    }
 }
 // End основной класс модалки
 
