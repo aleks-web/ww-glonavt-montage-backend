@@ -13,7 +13,9 @@
         <div class="layout">
             
             <!-- Start include menu -->
+            {% block menu %}
             {% include 'blocks/main-menu.twig' %}
+            {% endblock menu %}
             <!-- End include menu -->
 
             <div class="main" id="main">

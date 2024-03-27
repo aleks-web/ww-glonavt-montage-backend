@@ -29,20 +29,24 @@ $router->notFound(function(Request $request, Response $response) {
 });
 
 $router->error(function(Request $request, Response $response, Exception $exception) {
-    print_r('Сообщение об ошибке: ' . $exception->getMessage() . '<br>');
-    print_r('Код ошибки: ' . $exception->getCode() . '<br>');
-    print_r('Файл: ' . $exception->getFile() . '<br>');
-    print_r('Строка: ' . $exception->getLine() . '<br><br>');
-    
-    print_r('Trace:<br>');
-    foreach ($exception->getTrace() as $tt) {
-        dump($tt);
+
+    $error = [
+        'error' => [
+            'message' => $exception->getMessage(),
+            'code' => $exception->getCode(),
+            'file' => $exception->getFile(),
+            'line' => $exception->getLine()
+        ]
+    ];
+
+    foreach ($exception->getTrace() as $key => $tt) {
+        $error['trace'][$key] = $tt;
     }
 
-    dump($exception);
+    // dd($error);
 
+    return \WWCrm\ServiceContainer::getInstance()->get('View')->render('exception.twig', $error);
 
-    return $response;
 });
 // End Routes
 

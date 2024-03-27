@@ -1,0 +1,50 @@
+{#
+    Шаблон отображения ошибок
+
+    error - массив с ошибкой
+    trace - трейсы
+#}
+
+{% extends "layout.twig" %}
+{% block module_name %}statistics{% endblock module_name %}
+
+{% block control %}
+{% endblock control %}
+
+{% block menu %}
+{% endblock menu %}
+
+{% block content %}
+<div class="content">
+    <div class="content__container content__container--padding">
+
+        <div>
+            <div style="margin-bottom: 30px;">
+                <div>
+                    <span style="color: red;font-weight: bold;">Сообщение ошибки:</span> {{ error.message }}
+                </div>
+                <div>
+                    <span style="color: red;font-weight: bold;">Ошибка в файле:</span> {{ error.file }} <span style="color: red;font-weight: bold;">в строке</span> {{ error.line }}
+                </div>
+                <div>
+                    <span style="color: red;font-weight: bold;">Код ошибки:</span> {{ error.code }}
+                </div>
+            </div>
+
+            <hr style="margin-bottom: 30px;">
+
+            {% for key, tracee in trace %}
+                <div>Трейс {{ key }}</div>
+                <div>
+                    <div><span>Файл:</span> {{ tracee.file }}</div>
+                    <div><span>Строка:</span> {{ tracee.line }}</div>
+                    <div><span>Функция:</span> {{ tracee.function }}</div>
+                    <div><span>Класс:</span> {{ tracee.class }}</div>
+                    <div><span>Тип:</span> {{ tracee.type }}</div>
+                </div><br>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+{% endblock content %}
