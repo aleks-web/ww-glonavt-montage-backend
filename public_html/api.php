@@ -10,42 +10,35 @@ const API_V1_URL = '/api_v1/';
 
 
 // Start Инициализируем проутер через сервис контейнер
-$router = $WWAppContainer->get('Router');
+$router = $WWAppContainer->get('Router'); // Сервис роутинга
+$controllers = $WWAppContainer->get('Controllers'); // Хранилище неймспейсов контрполлеров
 // End Инициализируем проутер через сервис контейнер
 
 
 // Start Routes
-
 /*
     Роуты модуля "Клиенты"
 */
-$router->xpost(API_V1_URL . 'clients/create', 'ApiClientsController@create');
-$router->xpost(API_V1_URL . 'clients/update', 'ApiClientsController@update');
-$router->xpost(API_V1_URL . 'clients/contacts-persons/create', 'ApiClientsController@create_contacts_person'); // Роут создания контактного лица
-$router->xpost(API_V1_URL . 'clients/contacts-persons/update', 'ApiClientsController@update_contacts_person'); // Роут обновления контактного лица
-$router->xpost(API_V1_URL . 'clients/contacts-persons/remove', 'ApiClientsController@remove_contacts_person'); // Роут удаления контактного лица
+$router->xpost(API_V1_URL . 'clients/create', $controllers['Api']['Clients'] . '@create');
+$router->xpost(API_V1_URL . 'clients/update', $controllers['Api']['Clients'] . '@update');
+$router->xpost(API_V1_URL . 'clients/contacts-persons/create', $controllers['Api']['Clients'] . '@create_contacts_person'); // Роут создания контактного лица
+$router->xpost(API_V1_URL . 'clients/contacts-persons/update', $controllers['Api']['Clients'] . '@update_contacts_person'); // Роут обновления контактного лица
+$router->xpost(API_V1_URL . 'clients/contacts-persons/remove', $controllers['Api']['Clients'] . '@remove_contacts_person'); // Роут удаления контактного лица
+$router->xpost(API_V1_URL . 'clients/render/:string', $controllers['Api']['Clients'] . '@distributor'); // Роут для рендера
 
 /*
     Роуты модуля "Объекты"
 */
-$router->xpost(API_V1_URL . 'objects/add-new-type-equipment', 'ApiObjectsController@add_new_equipment'); // Добавление оборудования
-$router->xpost(API_V1_URL . 'objects/add-new-device', 'ApiObjectsController@add_new_device'); // Добавление девайса
+$router->xpost(API_V1_URL . 'objects/add-new-type-equipment', $controllers['Api']['Objects'] . '@add_new_equipment'); // Добавление оборудования
+$router->xpost(API_V1_URL . 'objects/add-new-device', $controllers['Api']['Objects'] . '@add_new_device'); // Добавление девайса
+$router->xpost(API_V1_URL . 'objects/render/:string', $controllers['Api']['Objects'] . '@distributor'); // Роут для рендера
 
 
-/*
-    Роут рендеринга.
-    :string - принимает название шаблона twig и далее прокидывается в контроллер.
-    Контроллер рендерит и отдает ответ.
-    Метод distributor - распределяет, на какой метод рендеринга отправить запрос
-*/
-$router->xpost(API_V1_URL . 'clients/render/:string', 'ApiClientsController@distributor');
-$router->xpost(API_V1_URL . 'objects/render/:string', 'ApiObjectsController@distributor');
 
-
-// Books
-$router->xpost(API_V1_URL . 'book-equipment/render/:string', 'ApiBookEquipmentsController@distributor'); // Рендер оборудования
-$router->xpost(API_V1_URL . 'book-equipment/update', 'ApiBookEquipmentsController@update'); // Обновление оборудования
-$router->xpost(API_V1_URL . 'book-equipment/create', 'ApiBookEquipmentsController@create'); // Добавление нового типа оборудования
+// Book equipment
+$router->xpost(API_V1_URL . 'book-equipment/render/:string', $controllers['Api']['BooksEquipments'] . '@distributor'); // Рендер оборудования
+$router->xpost(API_V1_URL . 'book-equipment/update', $controllers['Api']['BooksEquipments'] . '@update'); // Обновление оборудования
+$router->xpost(API_V1_URL . 'book-equipment/create', $controllers['Api']['BooksEquipments'] . '@create'); // Добавление нового типа оборудования
 
 
 $router->notFound(function(Request $request, Response $response) {
@@ -58,21 +51,3 @@ $router->notFound(function(Request $request, Response $response) {
 // Start Запускаем роутер
 $router->run();
 // End Запускаем роутер
-
-
-
-
-//use WWCrm\Models\User;
-
-// $users = new User();
-// $users = $users::all();
-
-// foreach ($users as $user) {
-//     if ($user->articles->count()) {
-//         echo "Посты для юзера: (id - $user->id) $user->name:<br>";
-//     }
-
-//     foreach ($user->articles as $article) {
-//         dump($article);
-//     }
-// }

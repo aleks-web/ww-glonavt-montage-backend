@@ -1,6 +1,6 @@
 <?php
 
-namespace WWCrm\Controllers;
+namespace WWCrm\Controllers\Books;
 
 /* 
     Компоненты Symfony запрос и ответ

@@ -1,6 +1,6 @@
 <?php
 
-namespace WWCrm\Controllers;
+namespace WWCrm\Controllers\Clients;
 
 /* 
     Компоненты Symfony запрос и ответ

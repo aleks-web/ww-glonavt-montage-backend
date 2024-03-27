@@ -256,6 +256,11 @@ ul.fmodal__view-input-text {
 }
 // End модалка просмотра объекта ТС
 
+
+
+
+
+
 // Start основной класс модалки
 .modal {
     --modal-gap-main: 2rem;
@@ -438,12 +443,19 @@ ul.fmodal__view-input-text {
     // Вьюшная часть и часть редактирования
     &__data-view,
     &__data-edit {
+        display: flex;
+        flex-direction: column;
+        gap: inherit;
+
         > *:last-child {
             margin-bottom: var(--bigModal-padding-y);
         }
     }
 }
 // End основной класс модалки
+
+
+
 
 // Start модалка новый клиент | Микс с основным классмо модалки
 .modal-client-add {

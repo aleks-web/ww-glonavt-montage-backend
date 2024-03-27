@@ -1,6 +1,6 @@
 <?php
 
-namespace WWCrm\Controllers;
+namespace WWCrm\Controllers\Clients;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

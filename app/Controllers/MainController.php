@@ -21,7 +21,7 @@ class MainController extends Controller {
     }
 
     public function __invoke(Request $request, Response $response) {
-        return $this->WWCrmService->get('View')->render('main.twig', [
+        return $this->view->render('main.twig', [
             'title' => 'Тестовый layout',
         ]);
     }
