@@ -14,8 +14,17 @@ final class CurrentUser {
         $this->session = $this->WWCrmService->get('SymfonySession'); // Получаем сессии
     }
 
+    /*
+        Метод проверки на авторизованность пользователя
+    */
     public function isAuterisation() {
+        $user_id = $this->session->get('user_id');
 
+        if (!$user_id) {
+            return false;
+        }
+
+        return true;
     }
 
 }

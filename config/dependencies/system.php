@@ -24,9 +24,11 @@ return [
         return new \Buki\Router\Router([
             'paths' => [
                 'controllers' => realpath(dirname(dirname(__DIR__)) . '/app/Controllers'),
+                'middlewares' => realpath(dirname(dirname(__DIR__)) . '/app/Middlewares')
             ],
             'namespaces' => [
                 'controllers' => 'WWCrm\Controllers',
+                'middlewares' => 'WWCrm\Middlewares'
             ]
         ]);
     },

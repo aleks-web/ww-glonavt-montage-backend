@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+    <!-- Start include head -->
+    {% include 'blocks/head.twig' %}
+    <!-- End include head -->
+
+    <!-- Start body -->
+    <body class="module-authorization">
+        
+        <div class="region-authorization">
+            <!-- Форма авторизации -->
+            <div class="authorization-form">
+                <div class="authorization-form__container">
+                    <form class="authorization-form__form">
+                        <div class="authorization-form__logo">
+                            <img src="/assets/img/glonavt_logo.svg" alt="Logo glonavt crm">
+                        </div>
+
+                        <h1 class="authorization-form__title">Вход в систему</h1>
+
+                        <div class="authorization-form__inputs">
+                            <input type="tel" name="tel" autocomplete="on" required placeholder="Введите номер телефона">
+                            
+                            <div class="input-block-password">
+                                <input type="password" name="password" autocomplete="on" required placeholder="Введите пароль">
+                                <span class="input-block-password__icon"></span>
+                            </div>
+                            
+                            <div class="checkbox">
+                                <input type="hidden" value="0">
+                                <span class="checkbox__field"></span>
+                                <span class="checkbox__label">Запомнить меня</span>
+                            </div>
+                        </div>
+
+                        <div class="authorization-form__footer">
+                            <button class="authorization-form__btn btn disable">Войти</button>
+                            <a class="authorization-form__forget-pass" href="#">Забыли пароль?</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- / Форма авторизации -->
+        </div>
+
+        <footer class="authorization-footer">
+            <a href="https://ww.net.ru" target="_blank" class="ww-logo authorization-footer__logo">
+                <img src="/assets/img/ww_logo.svg" alt="logo">
+        
+                <div class="ww-logo__desc">
+                    <span>Система разработана</span>
+                    <span>в веб-студии WW</span>
+                </div>
+            </a>
+        </footer>
+
+        <!-- Start include footer -->
+        {% include 'blocks/footer.twig' %}
+        <!-- End include footer -->
+
+    </body>
+    <!-- END body -->
+</html>

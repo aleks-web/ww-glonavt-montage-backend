@@ -10,6 +10,7 @@ return [
             'BooksEquipments' => 'WWCrm\Controllers\Books\ApiBookEquipmentsController'
         ],
         'Default' => [
+            'Auth' => 'WWCrm\Controllers\Auth',
             'Clients' => 'WWCrm\Controllers\Clients\ClientsController',
             'Objects' => 'WWCrm\Controllers\Objects\ObjectsController',
             'Applications' => 'WWCrm\Controllers\Applications\ApplicationsController',
