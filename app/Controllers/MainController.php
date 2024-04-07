@@ -13,11 +13,13 @@ class MainController extends Controller {
     protected $WWCrmService;
     protected $WWCurrentUser;
     protected $view;
+    protected $session;
 
     public function __construct() {
         $this->WWCrmService = ServiceContainer::getInstance();
         $this->WWCurrentUser = $this->WWCrmService->get('CurrentUser');
         $this->view = $this->WWCrmService->get('View');
+        $this->session = $this->WWCrmService->get('SymfonySession');
     }
 
     public function __invoke(Request $request, Response $response) {

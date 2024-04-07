@@ -10,7 +10,7 @@
         
         <div class="region-authorization">
             <!-- Форма авторизации -->
-            <div class="authorization-form">
+            <div class="authorization-form sign-in-form">
                 <div class="authorization-form__container">
                     <form class="authorization-form__form">
                         <div class="authorization-form__logo">
@@ -28,15 +28,16 @@
                             </div>
                             
                             <div class="checkbox">
-                                <input type="hidden" value="0">
+                                <input type="hidden" name="remember" value="0">
                                 <span class="checkbox__field"></span>
                                 <span class="checkbox__label">Запомнить меня</span>
                             </div>
                         </div>
 
                         <div class="authorization-form__footer">
-                            <button class="authorization-form__btn btn disable">Войти</button>
+                            <button class="authorization-form__btn btn">Войти</button>
                             <a class="authorization-form__forget-pass" href="#">Забыли пароль?</a>
+                            {{ session }}
                         </div>
                     </form>
                 </div>
@@ -58,6 +59,16 @@
         <!-- Start include footer -->
         {% include 'blocks/footer.twig' %}
         <!-- End include footer -->
+
+        <script>
+            $(document).on('click', '.sign-in-form .authorization-form__btn', function(e) {
+                let tel = $('.sign-in-form').find('input[name="tel"]');
+                let pass = $('.sign-in-form').find('input[name="password"]');
+                let is_remember = $('.sign-in-form').find('input[name="remember"]');
+
+                alert(`${tel.val()} и ${pass.val()}`);
+            });
+        </script>
 
     </body>
     <!-- END body -->
