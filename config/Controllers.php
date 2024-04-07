@@ -5,6 +5,7 @@ return [
     'Controllers' => [
         'MainController' => 'WWCrm\Controllers\MainController',
         'Api' => [
+            'Auth' => 'WWCrm\Controllers\Auth\ApiAuthController',
             'Clients' => 'WWCrm\Controllers\Clients\ApiClientsController',
             'Objects' => 'WWCrm\Controllers\Objects\ApiObjectsController',
             'BooksEquipments' => 'WWCrm\Controllers\Books\ApiBookEquipmentsController'

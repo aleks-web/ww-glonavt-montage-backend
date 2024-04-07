@@ -19,15 +19,20 @@ function remove_body_bg() {
     Start функции дебага
     Desc: Различне функции для дебага
 */
-function dd(message = "dd - не задано сообщение для отображения в консоли", title = false) {
+function dd(object = "Объект не передан функции dd в main.js!", title = false, type = 'success') {
+    let color = 'green';
+    if (type == 'error') {
+        color = 'red';
+    }
+
     if (WWCrmConfig.debug) {
         if (title) {
-            console.log(`%c${title}`, "color: green; font-size: 14px; font-weight: bold");
+            console.log(`%c${title}`, `color: ${color}; font-size: 14px; font-weight: bold`);
         }
 
-        console.log(message);
+        console.log(object);
 
-        console.log(`%c------`, "color: green;");
+        console.log(`%c------`, `color: ${color};`);
     }
 }
 

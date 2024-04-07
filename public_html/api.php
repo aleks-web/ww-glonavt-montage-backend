@@ -17,6 +17,12 @@ $controllers = $WWAppContainer->get('Controllers'); // Хранилище ней
 
 // Start Routes
 /*
+    Авторизация
+*/
+$router->xpost(API_V1_URL . 'auth/sign_in', $controllers['Api']['Auth'] . '@sign_in');
+
+
+/*
     Роуты модуля "Клиенты"
 */
 $router->xpost(API_V1_URL . 'clients/create', $controllers['Api']['Clients'] . '@create');

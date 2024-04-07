@@ -10,6 +10,9 @@ const WWCrmConfig = {
     Start Глобально доступная константа. Содержит ссылки API
 */
 const API_V1_URLS = {
+    auth: {
+        sign_in: "/api_v1/auth/sign_in/",
+    },
     clients: {
         create: "/api_v1/clients/create/",
         update: "/api_v1/clients/update/",
