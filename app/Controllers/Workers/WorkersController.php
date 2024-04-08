@@ -10,6 +10,7 @@ class WorkersController extends \WWCrm\Controllers\MainController {
     public function __invoke(Request $request, Response $response) {
         return $this->view->render('workers.twig', [
             'title' => 'Сотрудники',
+            'current_user' => $this->WWCurrentUser->getUserObject()
         ]);
     }
 

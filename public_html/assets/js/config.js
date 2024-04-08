@@ -12,6 +12,7 @@ const WWCrmConfig = {
 const API_V1_URLS = {
     auth: {
         sign_in: "/api_v1/auth/sign_in/",
+        logout: "/api_v1/auth/logout/",
     },
     clients: {
         create: "/api_v1/clients/create/",

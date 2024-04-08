@@ -10,6 +10,7 @@ class ApplicationsController extends \WWCrm\Controllers\MainController {
     public function __invoke(Request $request, Response $response) {
         return $this->view->render('applications.twig', [
             'title' => 'Заявки',
+            'current_user' => $this->WWCurrentUser->getUserObject()
         ]);
     }
 

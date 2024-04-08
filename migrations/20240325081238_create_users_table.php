@@ -28,13 +28,14 @@ final class CreateUsersTable extends AbstractMigration
             `tel` VARCHAR(20) DEFAULT NULL COMMENT 'Телефон пользователя',
             `email` VARCHAR(50) DEFAULT NULL COMMENT 'Email пользователя',
             `birth` DATE DEFAULT NULL COMMENT 'День рождения пользователя',
+            `password` VARCHAR(500) NOT NULL COMMENT 'Пароль пользователя',
             PRIMARY KEY (`id`)
           ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
           
           // Создаем таблицу
           $this->execute($sql);
 
-          $seed = "INSERT INTO `users` (`id`, `name`, `surname`, `patronymic`, `tel`, `email`, `birth`) VALUES (1, 'Алексей', 'Антропов', 'Андреевич', '89195798871', 'dok.go@yandex.ru', NULL)";
+          $seed = 'INSERT INTO `users` (`name`, `surname`, `patronymic`, `tel`, `email`, `birth`, `password`) VALUES ("Алексей", "Антропов", "Андреевич", "89195798871", "dok.go@yandex.ru", NULL, "$2y$10$oRPfzOL0FRvfqPxrD5ftJ.Op64GxMD9c1SyDgVgSU8gLe6WgCu8Oa")';
           
           // Сеем тестовые данные
           $this->execute($seed);

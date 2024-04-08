@@ -10,6 +10,7 @@ class BookEquipmentsController extends \WWCrm\Controllers\MainController {
     public function __invoke(Request $request, Response $response) {
         return $this->view->render('book-equipment.twig', [
             'title' => 'Справочник оборудования',
+            'current_user' => $this->WWCurrentUser->getUserObject()
         ]);
     }
 

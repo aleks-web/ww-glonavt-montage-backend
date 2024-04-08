@@ -14,6 +14,7 @@ class Users extends Model {
     'patronymic',
     'tel',
     'email',
-    'birth'
+    'birth',
+    'password'
   ];
 }

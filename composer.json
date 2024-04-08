@@ -9,7 +9,7 @@
             "WWCrm\\Middlewares\\": "app/Middlewares",
             "WWCrm\\Services\\": "app/Services"
         },
-        "files": ["app/db.php", "app/migrations.php", "app/container.php"]
+        "files": ["app/db.php", "app/container.php"]
     },
     "authors": [
         {

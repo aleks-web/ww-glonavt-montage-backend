@@ -17,7 +17,7 @@
                             <img src="/assets/img/glonavt_logo.svg" alt="Logo glonavt crm">
                         </div>
 
-                        <h1 class="authorization-form__title">Вход в систему</h1> {{user_id}}
+                        <h1 class="authorization-form__title">Вход в систему</h1>
 
                         <div class="authorization-form__inputs">
                             <input type="tel" name="tel" autocomplete="on" required placeholder="Введите номер телефона">
@@ -69,7 +69,9 @@
                 e.preventDefault();
 
                 xpost_fd(API_V1_URLS.auth.sign_in, formData).then(response => {
-                    dd(response, 'Авторизация прошла успешно');
+                    dd(response, response.message ? response.message :'Авторизация прошла успешно');
+                    
+                    window.location.href = "/";
                 }).catch(response => {
                     dd(response, response.message ? response.message : 'Авторизация не удалась. Что-то пошло не так', 'error');
                     push(response.message ? response.message : "Авторизация не удалась. Что-то пошло не так", "error", 2000);

@@ -239,7 +239,7 @@ $(document).ready(function (e) {
         post - метод POST,
         fd - formData объект с содержимым формы
 */
-function xpost_fd(url, formData) {
+function xpost_fd(url, formData = null) {
     return new Promise((resolve, reject) => {
         $.ajax({
             url: url,

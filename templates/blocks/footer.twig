@@ -154,8 +154,19 @@
 
         <div class="fmodal-logout__group-btns">
             <button data-fancybox-close class="fmodal-logout__btn btn-bad">Отменить</button>
-            <button class="fmodal-logout__btn btn-good">Выйти</button>
+            <button class="fmodal-logout__btn btn-good" onclick="logout()">Выйти</button>
         </div>
     </div>
+
+    <script>
+        function logout() {
+            xpost_fd(API_V1_URLS.auth.logout).then(response => {
+                $.fancybox.close();
+                window.location.href = "/";
+            }).catch(response => {
+                push(response.message ? response.message : 'Не удалось выйти из системы', 'error');
+            });
+        }
+    </script>
     <!-- End modal logout -->
 <!-- End include footer -->

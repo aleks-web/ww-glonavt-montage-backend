@@ -12,18 +12,18 @@ $controllers = $WWAppContainer->get('Controllers'); // Хранилище ней
 // End Инициализируем проутер через сервис контейнер
 
 // Start Routes
-$router->get('/', $controllers['MainController']); // Главная страница. Обработка в __invoke методе
+$router->get('/', $controllers['MainController'], ['before' => 'MainMiddleware']); // Главная страница. Обработка в __invoke методе
 
 $router->get('/clients', $controllers['Default']['Clients'], ['before' => 'MainMiddleware']); // Клиенты
-$router->get('/applications', $controllers['Default']['Applications']); // Заявки
-$router->get('/statistics', $controllers['Default']['Statistics']); // Статистика
-$router->get('/objects', $controllers['Default']['Objects']); // Объекты
-$router->get('/workers', $controllers['Default']['Workers']); // Сотрудники
+$router->get('/applications', $controllers['Default']['Applications'], ['before' => 'MainMiddleware']); // Заявки
+$router->get('/statistics', $controllers['Default']['Statistics'], ['before' => 'MainMiddleware']); // Статистика
+$router->get('/objects', $controllers['Default']['Objects'], ['before' => 'MainMiddleware']); // Объекты
+$router->get('/workers', $controllers['Default']['Workers'], ['before' => 'MainMiddleware']); // Сотрудники
 
 $router->get('/auth', $controllers['Default']['Auth']); // Авторизация
 
 // Справочники
-$router->get('/book-equipment', $controllers['Default']['BooksEquipments']); // Оборудование
+$router->get('/book-equipment', $controllers['Default']['BooksEquipments'], ['before' => 'MainMiddleware']); // Оборудование
 
 // Страница не найдена
 $router->notFound(function(Request $request, Response $response) {

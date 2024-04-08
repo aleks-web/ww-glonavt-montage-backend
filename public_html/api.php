@@ -20,6 +20,7 @@ $controllers = $WWAppContainer->get('Controllers'); // Хранилище ней
     Авторизация
 */
 $router->xpost(API_V1_URL . 'auth/sign_in', $controllers['Api']['Auth'] . '@sign_in');
+$router->xpost(API_V1_URL . 'auth/logout', $controllers['Api']['Auth'] . '@logout');
 
 
 /*
