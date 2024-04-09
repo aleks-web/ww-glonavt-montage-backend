@@ -9,6 +9,8 @@ namespace WWCrm\Controllers\Auth;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use Symfony\Component\HttpFoundation\Cookie;
+
 // Пользователи
 use WWCrm\Models\Users;
 
@@ -63,12 +65,15 @@ class ApiAuthController extends \WWCrm\Controllers\MainController {
                         $response_array['message'] = 'Авторизация прошла успешно';
                         $response_array['user_obj'] = $this->WWCurrentUser->getUserObject();
                         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+                        $response->headers->setCookie(Cookie::create('is_remember', $is_remember)); // Устанавливаем куку
+
                         return $response;
                     }
                 } else {
                     $response_array['status'] = 'error';
                     $response_array['message'] = 'Вы указали не верный пароль';
-                    $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+                    $response->headers->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
                     return $response;
                 }
             }
