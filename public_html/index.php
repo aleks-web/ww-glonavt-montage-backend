@@ -21,6 +21,7 @@ $router->get('/objects', $controllers['Default']['Objects'], ['before' => 'MainM
 $router->get('/workers', $controllers['Default']['Workers'], ['before' => 'MainMiddleware']); // Сотрудники
 
 $router->get('/auth', $controllers['Default']['Auth']); // Авторизация
+$router->get('/recovery', $controllers['Default']['Auth'] . '@recovery'); // Восстановление пароля
 
 // Справочники
 $router->get('/book-equipment', $controllers['Default']['BooksEquipments'], ['before' => 'MainMiddleware']); // Оборудование

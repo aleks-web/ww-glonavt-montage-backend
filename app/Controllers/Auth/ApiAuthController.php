@@ -67,6 +67,7 @@ class ApiAuthController extends \WWCrm\Controllers\MainController {
                         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
 
                         $response->headers->setCookie(Cookie::create('is_remember', $is_remember)); // Устанавливаем куку
+                        $response->headers->setCookie(Cookie::create('sign_in_timestamp', time())); // Устанавливаем куку
 
                         return $response;
                     }
@@ -97,6 +98,11 @@ class ApiAuthController extends \WWCrm\Controllers\MainController {
         if($this->WWCurrentUser->logout()) {
             $response_array['status'] = 'success';
             $response_array['message'] = 'Вы успешно вышли из системы';
+
+            // Удаляем куки
+            $response->headers->setCookie(Cookie::create('is_remember', null));
+            $response->headers->setCookie(Cookie::create('sign_in_timestamp', null));
+
             $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
 
             return $response;
@@ -107,5 +113,33 @@ class ApiAuthController extends \WWCrm\Controllers\MainController {
 
             return $response;
         }
+    }
+
+    /*
+        Восстановление пароля
+    */
+    public function recovery(Request $request, Response $response) {
+        $response->headers->set('Content-Type', 'application/json');
+
+        $response_array['request_params'] = $request->request->all();
+
+        $email = $response_array['request_params']['email'];
+
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($user = Users::where('email', '=', $email)->first())) {
+            $response_array['status'] = 'success';
+            $response_array['message'] = 'На ваш Email выслан новый пароль';
+            $response_array['user'] = $user;
+
+            // Тут код генерации пароля и его записи в бд
+
+            mail($email, 'glonavt.ru - восстановление пароля', 'asdasd');
+        } else {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'Такого Email адреса не существует. Либо он введен не верно!';
+        }
+
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+        return $response;
     }
 }

@@ -22,4 +22,10 @@ class AuthController extends \WWCrm\Controllers\MainController {
         }
     }
 
+    public function recovery() {
+        return $this->view->render('auth/recovery.twig', [
+            'title' => 'Восстановление пароля'
+        ]);
+    }
+
 }
