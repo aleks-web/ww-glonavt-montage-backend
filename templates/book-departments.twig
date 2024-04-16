@@ -1,6 +1,6 @@
 {% extends "layout.twig" %}
 
-{% block module_name %}book-equipment{% endblock module_name %}
+{% block module_name %}book-departments{% endblock module_name %}
 
 {% block control %}
 <div class="control">
@@ -49,9 +49,9 @@
 
                 if (response.status == "success") {
                     wrapper.html(response.render_response_html);
-                }
 
-                dd(response, `Render main-table.twig ${url}`);
+                    dd_render_success(response, 'main-table.twig', url);
+                }
             },
             beforeSend: function () {
                 wrapper.addClass("loading");
@@ -67,7 +67,7 @@
 <script>
     // Start пагинация и фильтр поиска | Справочник оборудования
     $(document).ready(() => {
-        $('.module-book-equipment .input-search input').on('input', xrender_main_table_book_equipments);
+        $('.module-book-departments .input-search input').on('input', xrender_main_table_book_departments);
     });
     // End пагинация и фильтр поиска | Справочник оборудования
 </script>

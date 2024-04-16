@@ -28,7 +28,7 @@
                                 <svg class="hover"><use xlink:href="#svg-edit"></use></svg>
                             </td>
                             <td class="td-btn-default">
-                                <svg class="hover" onclick="alert('test')"><use xlink:href="#svg-del"></use></svg>
+                                <svg class="hover" onclick="delete_department({{ department.id }})"><use xlink:href="#svg-del"></use></svg>
                             </td>
                         </tr>
                     {% endfor %}
@@ -51,8 +51,31 @@
     </div>
 </div>
 
-{# Start  #}
-<script>
 
+{# Start удаление отдела #}
+<script>
+    function delete_department(id) {
+        let formData = new FormData();
+
+        formData.append('id', id);
+
+        $.ajax({
+            url: API_V1_URLS.book_departments.delete,
+            method: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+
+                if (response.status == "success") {
+                    xrender_main_table_book_departments();
+
+                    dd(response, `Отдел удален из справочника ${API_V1_URLS.book_departments.delete}`);
+                } else if ('error') {
+                    dd(response, response.message ? response.message : `${API_V1_URLS.book_departments.delete}`, 'error');
+                }
+            }
+        });
+    }
 </script>
-{# End #}
+{# End удаление отдела #}

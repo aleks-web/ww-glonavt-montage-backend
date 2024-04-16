@@ -21,8 +21,30 @@ class ApiBookDepartmentsController extends \WWCrm\Controllers\MainController {
     /*
         Метод удаления отдела
     */
-    public function delete() {
+    public function delete(Request $request, Response $response) {
+        // Получаем параметры POST и сразу записываем их в массив с ответом
+        $response_array['request_params'] = $request->request->all();
+        $depId = $response_array['request_params']['id'];
 
+        $response->headers->set('Content-Type', 'application/json');
+        $countDeps = BookDepartments::all()->count();
+
+        if ($countDeps === 1) {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'Остался всего 1 отдел. Его нельзя удалить';
+        } else {
+            if ($dep = BookDepartments::find($depId)) {
+                // $dep->delete();
+                $response_array['status'] = 'success';
+                $response_array['message'] = 'Удалено';
+            } else {
+                $response_array['status'] = 'error';
+                $response_array['message'] = 'Что-то пошло не так';
+            }
+        }
+
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+        return $response;
     }
 
 

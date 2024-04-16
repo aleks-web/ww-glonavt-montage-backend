@@ -50,7 +50,7 @@ $router->xpost(API_V1_URL . 'book-equipment/create', $controllers['Api']['BooksE
 
 // Book departments
 $router->xpost(API_V1_URL . 'book-departments/render/:string', $controllers['Api']['BooksDepartments'] . '@distributor'); // Рендер департаментов
-$router->xpost(API_V1_URL . 'book-departments/update', $controllers['Api']['BooksDepartments'] . '@update'); // Обновление департамента
+$router->xpost(API_V1_URL . 'book-departments/delete', $controllers['Api']['BooksDepartments'] . '@delete'); // Удаление департамента
 $router->xpost(API_V1_URL . 'book-departments/create', $controllers['Api']['BooksDepartments'] . '@create'); // Добавление департамента
 
 
