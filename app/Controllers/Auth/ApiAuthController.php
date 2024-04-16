@@ -127,12 +127,28 @@ class ApiAuthController extends \WWCrm\Controllers\MainController {
 
         if (filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($user = Users::where('email', '=', $email)->first())) {
             $response_array['status'] = 'success';
-            $response_array['message'] = 'На ваш Email выслан новый пароль';
-            $response_array['user'] = $user;
+            $response_array['message'] = $user->name . ', на ваш Email выслан новый пароль';
+            $response_array['user']['name'] = $user->name;
 
             // Тут код генерации пароля и его записи в бд
 
-            mail($email, 'glonavt.ru - восстановление пароля', 'asdasd');
+            $new_pass = mt_rand();
+            $new_pass_db = password_hash($new_pass, PASSWORD_DEFAULT);
+
+            $user->password = $new_pass_db;
+
+            $user->save();
+
+            $serverData = $request->server->all();
+            $mail = $this->view->render('mail/recovery-password.twig', [
+                'password' => $new_pass,
+                'username' => $user->name,
+                'url' => $serverData['REQUEST_SCHEME'] . '://' . $serverData['HTTP_HOST'],
+                'domain' => $serverData['HTTP_HOST'],
+                'logo_url' => $serverData['REQUEST_SCHEME'] . '://' . $serverData['HTTP_HOST'] . '/assets/img/glonavt_logo.svg'
+            ]);
+
+            mail($email, 'glonavt.ru - восстановление пароля', $mail, "From: no-reply@crmdev.glonavt.ru\r\n"."Content-type: text/html; charset=utf-8\r\n"."X-Mailer: PHP mail script");
         } else {
             $response_array['status'] = 'error';
             $response_array['message'] = 'Такого Email адреса не существует. Либо он введен не верно!';

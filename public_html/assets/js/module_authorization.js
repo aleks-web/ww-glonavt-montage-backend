@@ -46,8 +46,6 @@ $(document).ready(function (e) {
 
 });
 
-
-
 // Страница авторизации
 $(document).ready(function (e) {
     $(document).on('click', '.recovery-form .authorization-form__btn', function(e) {
@@ -57,10 +55,21 @@ $(document).ready(function (e) {
         formData.append('email', $('.recovery-form').find('input[name="email"]').val());
 
         xpost_fd(API_V1_URLS.auth.recovery, formData).then(response => {
-            dd(response, response.message ? response.message :'Авторизация прошла успешно');
+            let msg = response.message ? response.message :'Авторизация прошла успешно';
+            dd(response, msg);
+
+            $('.recovery-form .authorization-form__message').css('display', 'block').removeClass('error').addClass('success');
+            $('.recovery-form .authorization-form__message-text').text(msg);
+            
+            push(msg, "success", 2000);
+            
+            setTimeout(() => window.location.href = "/", 2500);
         }).catch(response => {
             dd(response, response.message ? response.message : 'Авторизация не удалась. Что-то пошло не так', 'error');
             push(response.message ? response.message : "Авторизация не удалась. Что-то пошло не так", "error", 2000);
+
+            $('.recovery-form .authorization-form__message').css('display', 'block');
+            $('.recovery-form .authorization-form__message-text').text(response.message ? response.message : 'Авторизация не удалась. Что-то пошло не так');
         });
     });
 });

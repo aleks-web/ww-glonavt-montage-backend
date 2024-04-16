@@ -78,6 +78,10 @@
             &.error {
                 color: var(--clr-9);
             }
+
+            &.success {
+                color: var(--clr-15);
+            }
         }
     }
     // End основная форма авторизации
