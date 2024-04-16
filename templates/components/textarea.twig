@@ -22,7 +22,7 @@
     {% endif %}
 
     <div class="textarea {% if required %}required{% endif %}">
-        <textarea name="{{ settings.db_field_name }}" cols="30" rows="8" placeholder="{{ settings.pls }}" value="{{ settings.val }}"></textarea>
+        <textarea name="{{ settings.db_field_name }}" cols="30" rows="8" placeholder="{{ settings.pls }}" value="{{ settings.val }}">{{ settings.val }}</textarea>
     </div>
 
     {% if settings.input_messages_position == false or settings.input_messages_position == 'bottom' %}

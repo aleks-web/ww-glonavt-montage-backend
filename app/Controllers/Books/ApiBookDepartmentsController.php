@@ -17,6 +17,28 @@ use WWCrm\Models\BookDepartments;
 
 class ApiBookDepartmentsController extends \WWCrm\Controllers\MainController {
 
+    /*
+        Метод создания отдела
+    */
+    public function create(Request $request, Response $response) {
+        // Получаем параметры POST и сразу записываем их в массив с ответом
+        $response_array['request_params'] = $request->request->all();
+        $response->headers->set('Content-Type', 'application/json');
+
+        if (BookDepartments::create($response_array['request_params'])) {
+            $response_array['status'] = 'success';
+            $response_array['message'] = 'Вы успешно добавили отдел';
+        } else {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'Что-то пошло не так';
+        };
+
+        $response_array['status'] = 'success';
+        $response_array['message'] = 'Вы успешно добавили отдел';
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+        return $response;
+    }
 
     /*
         Метод удаления отдела
@@ -54,6 +76,8 @@ class ApiBookDepartmentsController extends \WWCrm\Controllers\MainController {
 
         if ($twig_element == 'main-table.twig') {
             return $this->render_main_table($twig_element, $request, $response);
+        } else if($twig_element == 'fmodal-book-departments-update.twig') {
+            return $this->render_fmodal_book_departments_update($twig_element, $request, $response);
         } else {
             return 'Распределитель рендер запросов. Возврат пустого ответа';
         }
@@ -78,6 +102,26 @@ class ApiBookDepartmentsController extends \WWCrm\Controllers\MainController {
         ]);
 
         $response_array['status'] = 'success';
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+        return $response;
+    }
+
+    /*
+        Рендер модалки редактирования отдела
+    */
+    public function render_fmodal_book_departments_update($twig_element, Request $request, Response $response) {
+        // Получаем параметры POST и сразу записываем их в массив с ответом
+        $response_array['request_params'] = $request->request->all();
+
+        $response_array['render_response_html'] = $this->view->render('books/departments/render/' . $twig_element, [
+            'request_params' => $response_array['request_params'],
+            'department' => BookDepartments::find($response_array['request_params']['id'])
+        ]);
+
+        $response_array['status'] = 'success';
+        $response_array['message'] = 'message';
         $response->headers->set('Content-Type', 'application/json');
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
 

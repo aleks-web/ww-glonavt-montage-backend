@@ -12,7 +12,7 @@
         </div>
 
         <div class="control__right">
-            <button data-fancybox="" data-src="#fmodal-book-new-type-equipment" class="control__btn btn">Добавить</button>
+            <button data-fancybox data-src="#fmodal-book-new-departments" class="control__btn btn">Добавить</button>
         </div>
     </div>
 </div>
@@ -72,4 +72,30 @@
     // End пагинация и фильтр поиска | Справочник оборудования
 </script>
 {# End фильтр #}
+
+
+{# Start добавление отдела #}
+<script>
+    $(document).ready(() => {
+        cpns_form_validate('.fmodal-book-new-departments', '.submitter');
+
+        $('#fmodal-book-new-departments .submitter').click(function(e) {
+            let formData = new FormData();
+            formData.append('name', $('#fmodal-book-new-departments .input-text input[name="name"]').val());
+            formData.append('description', $('#fmodal-book-new-departments .textarea textarea[name="description"]').val());
+
+            // Создаем
+            xpost_fd(API_V1_URLS.book_departments.create, formData).then(response => {
+                xrender_main_table_book_departments();
+                $.fancybox.close();
+
+                dd(response, response.message, 'success');
+                push(response.message, 'success');
+            }).catch(response => {
+                push(response.message, 'error');
+            });
+        });
+    });
+</script>
+{# End добавление отдела #}
 {% endblock scripts %}

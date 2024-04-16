@@ -25,7 +25,7 @@
                             <td class="text-start">{{ department.description }}</td>
                             
                             <td class="td-btn-default">
-                                <svg class="hover"><use xlink:href="#svg-edit"></use></svg>
+                                <svg class="hover" onclick="edit_department({{ department.id }})"><use xlink:href="#svg-edit"></use></svg>
                             </td>
                             <td class="td-btn-default">
                                 <svg class="hover" onclick="delete_department({{ department.id }})"><use xlink:href="#svg-del"></use></svg>
@@ -44,7 +44,7 @@
                     <span>Отделов нет!</span>
                 {% endif %}
 
-                <button data-fancybox data-src="#fmodal-book-new-type-equipment" class="btn">Добавить отдел</button>
+                <button data-fancybox data-src="#fmodal-book-new-departments" class="btn">Добавить отдел</button>
             </div>
         {% endif %}
 
@@ -71,7 +71,7 @@
                     xrender_main_table_book_departments();
 
                     dd(response, `Отдел удален из справочника ${API_V1_URLS.book_departments.delete}`);
-                    push(response.message, 'error');
+                    push(response.message, 'success');
                 } else if ('error') {
                     dd(response, response.message ? response.message : `${API_V1_URLS.book_departments.delete}`, 'error');
                     push(response.message, 'error');
@@ -81,3 +81,37 @@
     }
 </script>
 {# End удаление отдела #}
+
+{# Start редактирование отдела #}
+<script>
+    function edit_department(id) {
+        let formData = new FormData();
+        formData.append('id', id);
+
+        let url = API_V1_URLS.book_departments.render + 'fmodal-book-departments-update';
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.status == "success") {
+                    
+                    $('#fmodal-book-departments-update-wrapper').html(response.render_response_html);
+                    
+                    $.fancybox.open({
+                        src: '#fmodal-book-departments-update',
+                        type: 'inline'
+                    });
+
+                    dd_render_success(response, 'fmodal-book-departments-update.twig', url);
+                } else if ('error') {
+                    dd(response, response.message ? response.message : `${url}`, 'error');
+                }
+            }
+        });
+    }
+</script>
+{# End редактирование отдела #}

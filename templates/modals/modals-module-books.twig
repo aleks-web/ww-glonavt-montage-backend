@@ -142,7 +142,20 @@
 
         <div class="fmodal__vertical">
     
-            @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Название отдела"})
+            {% include 'components/input-text.twig' with {
+                settings: {
+                    db_field_name: 'name',
+                    required: true,
+                    pls: 'Название отдела'
+                }
+            } %}
+
+            {% include 'components/textarea.twig' with {
+                settings: {
+                    db_field_name: 'description',
+                    pls: 'Описание отдела'
+                }
+            } %}
     
         </div>
         
@@ -150,7 +163,7 @@
 
     <div class="fmodal__control-btns">
         <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
-        <button class="fmodal__btn btn-good disable">Сохранить</button>
+        <button class="fmodal__btn btn-good disable submitter">Сохранить</button>
     </div>
 
 
@@ -203,3 +216,8 @@
 
 </div>
 <!-- End fancybox modal | Новый тип документа | Модуль справочники -->
+
+
+{# Start fancybox modal | Редактирование отдела | Справочник отделов #}
+<div id="fmodal-book-departments-update-wrapper"></div>
+{# End fancybox modal | Редактирование отдела | Справочник отделов #}
