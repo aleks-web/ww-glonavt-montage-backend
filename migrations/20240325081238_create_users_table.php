@@ -26,7 +26,7 @@ final class CreateUsersTable extends AbstractMigration
             `surname` VARCHAR(60) DEFAULT NULL COMMENT 'Фамилия пользователя',
             `patronymic` VARCHAR(60) DEFAULT NULL COMMENT 'Отчество пользователя',
             `tel` VARCHAR(20) DEFAULT NULL COMMENT 'Телефон пользователя',
-            `email` VARCHAR(50) DEFAULT NULL UNIQUE COMMENT 'Email пользователя',
+            `email` VARCHAR(50) UNIQUE DEFAULT NULL COMMENT 'Email пользователя',
             `birth` DATE DEFAULT NULL COMMENT 'День рождения пользователя',
             `password` VARCHAR(500) NOT NULL COMMENT 'Пароль пользователя',
             PRIMARY KEY (`id`)
