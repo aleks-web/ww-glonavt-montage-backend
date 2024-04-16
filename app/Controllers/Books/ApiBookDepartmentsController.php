@@ -34,9 +34,9 @@ class ApiBookDepartmentsController extends \WWCrm\Controllers\MainController {
             $response_array['message'] = 'Остался всего 1 отдел. Его нельзя удалить';
         } else {
             if ($dep = BookDepartments::find($depId)) {
-                // $dep->delete();
+                $dep->delete();
                 $response_array['status'] = 'success';
-                $response_array['message'] = 'Удалено';
+                $response_array['message'] = 'Отдел успешно удален';
             } else {
                 $response_array['status'] = 'error';
                 $response_array['message'] = 'Что-то пошло не так';

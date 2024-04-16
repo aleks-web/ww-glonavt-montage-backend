@@ -71,8 +71,10 @@
                     xrender_main_table_book_departments();
 
                     dd(response, `Отдел удален из справочника ${API_V1_URLS.book_departments.delete}`);
+                    push(response.message, 'error');
                 } else if ('error') {
                     dd(response, response.message ? response.message : `${API_V1_URLS.book_departments.delete}`, 'error');
+                    push(response.message, 'error');
                 }
             }
         });
