@@ -22,7 +22,7 @@ final class CreateUsersTable extends AbstractMigration
 
         $sql = "CREATE TABLE IF NOT EXISTS `users` (
             `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-            `name` VARCHAR(50) DEFAULT NULL COMMENT 'Имя пользователя',
+            `name` VARCHAR(50) NOT NULL COMMENT 'Имя пользователя',
             `surname` VARCHAR(60) DEFAULT NULL COMMENT 'Фамилия пользователя',
             `patronymic` VARCHAR(60) DEFAULT NULL COMMENT 'Отчество пользователя',
             `tel` VARCHAR(20) DEFAULT NULL COMMENT 'Телефон пользователя',
