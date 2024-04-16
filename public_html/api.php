@@ -48,6 +48,11 @@ $router->xpost(API_V1_URL . 'book-equipment/render/:string', $controllers['Api']
 $router->xpost(API_V1_URL . 'book-equipment/update', $controllers['Api']['BooksEquipments'] . '@update'); // Обновление оборудования
 $router->xpost(API_V1_URL . 'book-equipment/create', $controllers['Api']['BooksEquipments'] . '@create'); // Добавление нового типа оборудования
 
+// Book departments
+$router->xpost(API_V1_URL . 'book-departments/render/:string', $controllers['Api']['BooksDepartments'] . '@distributor'); // Рендер департаментов
+$router->xpost(API_V1_URL . 'book-departments/update', $controllers['Api']['BooksDepartments'] . '@update'); // Обновление департамента
+$router->xpost(API_V1_URL . 'book-departments/create', $controllers['Api']['BooksDepartments'] . '@create'); // Добавление департамента
+
 
 $router->notFound(function(Request $request, Response $response) {
     header('Location: ' . $request->server->get('REQUEST_SCHEME') . '://' . $request->server->get('HTTP_HOST') . '/404');

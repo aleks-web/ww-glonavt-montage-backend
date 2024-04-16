@@ -25,6 +25,7 @@ $router->get('/recovery', $controllers['Default']['Auth'] . '@recovery'); // В�
 
 // Справочники
 $router->get('/book-equipment', $controllers['Default']['BooksEquipments'], ['before' => 'MainMiddleware']); // Оборудование
+$router->get('/book-departments', $controllers['Default']['BooksDepartments'], ['before' => 'MainMiddleware']); // Оборудование
 
 // Страница не найдена
 $router->notFound(function(Request $request, Response $response) {

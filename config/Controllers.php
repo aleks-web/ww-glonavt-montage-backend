@@ -8,7 +8,8 @@ return [
             'Auth' => 'WWCrm\Controllers\Auth\ApiAuthController',
             'Clients' => 'WWCrm\Controllers\Clients\ApiClientsController',
             'Objects' => 'WWCrm\Controllers\Objects\ApiObjectsController',
-            'BooksEquipments' => 'WWCrm\Controllers\Books\ApiBookEquipmentsController'
+            'BooksEquipments' => 'WWCrm\Controllers\Books\ApiBookEquipmentsController',
+            'BooksDepartments' => 'WWCrm\Controllers\Books\ApiBookDepartmentsController'
         ],
         'Default' => [
             'Auth' => 'WWCrm\Controllers\Auth\AuthController',
@@ -18,6 +19,7 @@ return [
             'Statistics' => 'WWCrm\Controllers\Statistics\StatisticsController',
             'Workers' => 'WWCrm\Controllers\Workers\WorkersController',
             'BooksEquipments' => 'WWCrm\Controllers\Books\BookEquipmentsController',
+            'BooksDepartments' => 'WWCrm\Controllers\Books\BookDepartmentsController'
         ]
     ]
 ];

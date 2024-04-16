@@ -1,0 +1,58 @@
+{#
+    В разработке!
+    request_params - параметры запроса
+    departments - департаменты (отделы)
+#}
+
+<div class="content-table">
+    <div class="content-table__container">
+
+        {% if departments | length > 0 %}
+            <table>
+                <thead>
+                    <tr>
+                        <th class="text-center" width="10%">№ п/п</th>
+                        <th class="text-start">Название отдела</th>
+                        <th class="text-start">Описание</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for department in departments %}
+                        <tr>
+                            <td class="text-center">{{ department.id }}</td>
+                            <td class="text-start">{{ department.name }}</td>
+                            <td class="text-start">{{ department.description }}</td>
+                            
+                            <td class="td-btn-default">
+                                <svg class="hover"><use xlink:href="#svg-edit"></use></svg>
+                            </td>
+                            <td class="td-btn-default">
+                                <svg class="hover" onclick="alert('test')"><use xlink:href="#svg-del"></use></svg>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div style="display: flex; gap: 10px; align-items: center; flex-direction: column; justify-content: center; height: 100%;font-size: 2rem;">
+                <span style="font-size: 3rem;">🙁</span>
+                
+                {% if request_params.control_panel_condition != '' %}
+                    <span>Таких отделов не нашлось</span>
+                {% else %}
+                    <span>Отделов нет!</span>
+                {% endif %}
+
+                <button data-fancybox data-src="#fmodal-book-new-type-equipment" class="btn">Добавить отдел</button>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+
+{# Start  #}
+<script>
+
+</script>
+{# End #}

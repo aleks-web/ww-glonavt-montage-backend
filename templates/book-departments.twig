@@ -1,0 +1,75 @@
+{% extends "layout.twig" %}
+
+{% block module_name %}book-equipment{% endblock module_name %}
+
+{% block control %}
+<div class="control">
+    <div class="control__container">
+        <div class="control__left">
+            <div class="control__search input-search" style="max-width: 300px;">
+                <input type="text" class="input-search__input" placeholder="Поиск по названию">
+            </div>
+        </div>
+
+        <div class="control__right">
+            <button data-fancybox="" data-src="#fmodal-book-new-type-equipment" class="control__btn btn">Добавить</button>
+        </div>
+    </div>
+</div>
+{% endblock control %}
+
+
+{% block content %}
+{% endblock content %}
+
+
+
+
+{% block scripts %}
+{# Start Подгружаем главную таблицу #}
+<script>
+    $(document).ready(function() {
+        xrender_main_table_book_departments();
+    });
+
+    function xrender_main_table_book_departments() {
+        // Разбиваем строку wrapper_and_element на обертку и twig элемент
+        let wrapper = $("#region-main-table");
+        let url = API_V1_URLS.book_departments.render + 'main-table';
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: {
+                twig_element: 'main-table.twig',
+                control_panel_condition: $('.module-book-departments .input-search input').val(),
+            },
+            success: function (response) {
+                wrapper.removeClass("loading");
+
+                if (response.status == "success") {
+                    wrapper.html(response.render_response_html);
+                }
+
+                dd(response, `Render main-table.twig ${url}`);
+            },
+            beforeSend: function () {
+                wrapper.addClass("loading");
+            },
+        });
+    }
+</script>
+{# End Подгружаем главную таблицу #}
+
+
+
+{# Start фильтр #}
+<script>
+    // Start пагинация и фильтр поиска | Справочник оборудования
+    $(document).ready(() => {
+        $('.module-book-equipment .input-search input').on('input', xrender_main_table_book_equipments);
+    });
+    // End пагинация и фильтр поиска | Справочник оборудования
+</script>
+{# End фильтр #}
+{% endblock scripts %}
