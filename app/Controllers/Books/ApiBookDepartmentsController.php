@@ -65,10 +65,16 @@ class ApiBookDepartmentsController extends \WWCrm\Controllers\MainController {
     public function render_main_table($twig_element, Request $request, Response $response) {
         // Получаем параметры POST и сразу записываем их в массив с ответом
         $response_array['request_params'] = $request->request->all();
+        
+        if (!empty($response_array['request_params']['control_panel_condition'])) {
+            $departaments = BookDepartments::where('name', 'like', '%' . $response_array['request_params']['control_panel_condition'] . '%')->get();
+        } else {
+            $departaments = BookDepartments::all();
+        }
 
         $response_array['render_response_html'] = $this->view->render('books/departments/render/' . $twig_element, [
             'request_params' => $response_array['request_params'],
-            'departments' => BookDepartments::all()
+            'departments' => $departaments
         ]);
 
         $response_array['status'] = 'success';
