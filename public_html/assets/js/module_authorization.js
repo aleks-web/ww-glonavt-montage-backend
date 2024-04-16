@@ -25,7 +25,7 @@ $(document).ready(function (e) {
     $(document).on('click', '.sign-in-form .authorization-form__btn', function(e) {
         if (is_val) {
             let formData = new FormData();
-            formData.append('login', $('.sign-in-form').find('input[name="tel"]').val());
+            formData.append('login', $('.sign-in-form').find('input[name="email"]').val());
             formData.append('password', $('.sign-in-form').find('input[name="password"]').val());
             formData.append('is_remember', $('.sign-in-form').find('input[name="remember"]').val());
 

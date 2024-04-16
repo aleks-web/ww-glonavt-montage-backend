@@ -48,7 +48,7 @@ class ApiAuthController extends \WWCrm\Controllers\MainController {
         if (!empty($login) && !empty($password)) {
 
             // Поиск юзера в бд и его авторизация
-            $user_by_login = Users::where(['tel' => $login])->first();
+            $user_by_login = Users::where(['email' => $login])->first();
 
             if (empty($user_by_login)) {
                 $response_array['status'] = 'error';
