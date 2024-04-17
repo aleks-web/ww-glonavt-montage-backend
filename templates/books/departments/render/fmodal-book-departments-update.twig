@@ -53,7 +53,11 @@
             formData.append('description', $('#fmodal-book-departments-update .textarea textarea[name="description"]').val());
 
             xpost_fd(url, formData).then(response => {
-                console.log(response);
+                $.fancybox.close();
+                xrender_main_table_book_departments();
+                dd(response, response.message, 'success');
+            }).catch(response => {
+                dd(response, response.message, 'error');
             });
         });
     });
