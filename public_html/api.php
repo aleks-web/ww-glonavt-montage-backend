@@ -54,6 +54,9 @@ $router->xpost(API_V1_URL . 'book-departments/delete', $controllers['Api']['Book
 $router->xpost(API_V1_URL . 'book-departments/create', $controllers['Api']['BooksDepartments'] . '@create'); // Добавление департамента
 $router->xpost(API_V1_URL . 'book-departments/update', $controllers['Api']['BooksDepartments'] . '@update'); // Обновление департамента
 
+// Book posts
+$router->xpost(API_V1_URL . 'book-posts/render/:string', $controllers['Api']['BooksPosts'] . '@distributor'); // Рендер должностей
+
 
 $router->notFound(function(Request $request, Response $response) {
     header('Location: ' . $request->server->get('REQUEST_SCHEME') . '://' . $request->server->get('HTTP_HOST') . '/404');

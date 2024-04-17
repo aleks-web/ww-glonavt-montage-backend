@@ -35,14 +35,14 @@
     function xrender_main_table_book_posts() {
         // Разбиваем строку wrapper_and_element на обертку и twig элемент
         let wrapper = $("#region-main-table");
-        let url = API_V1_URLS.book_departments.render + 'main-table';
+        let url = API_V1_URLS.book_posts.render + 'main-table';
 
         $.ajax({
             url: url,
             method: "POST",
             data: {
                 twig_element: 'main-table.twig',
-                control_panel_condition: $('.module-book-departments .input-search input').val(),
+                control_panel_condition: $('.module-book-posts .input-search input').val(),
             },
             success: function (response) {
                 wrapper.removeClass("loading");
@@ -67,7 +67,7 @@
 <script>
     // Start пагинация и фильтр поиска | Справочник оборудования
     $(document).ready(() => {
-        $('.module-book-departments .input-search input').on('input', xrender_main_table_book_departments);
+        $('.module-book-posts .input-search input').on('input', xrender_main_table_book_posts);
     });
     // End пагинация и фильтр поиска | Справочник оборудования
 </script>
