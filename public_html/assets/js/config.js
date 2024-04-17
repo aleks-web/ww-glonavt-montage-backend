@@ -35,6 +35,7 @@ const API_V1_URLS = {
     },
     book_departments: {
         create: "/api_v1/book-departments/create/",
+        update: "/api_v1/book-departments/update/",
         delete: "/api_v1/book-departments/delete/",
         render: "/api_v1/book-departments/render/"
     }

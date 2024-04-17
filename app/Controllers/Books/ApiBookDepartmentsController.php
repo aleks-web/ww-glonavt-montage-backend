@@ -31,10 +31,35 @@ class ApiBookDepartmentsController extends \WWCrm\Controllers\MainController {
         } else {
             $response_array['status'] = 'error';
             $response_array['message'] = 'Что-то пошло не так';
-        };
+        }
 
-        $response_array['status'] = 'success';
-        $response_array['message'] = 'Вы успешно добавили отдел';
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+        return $response;
+    }
+
+    /*
+        Метод обновления отдела
+    */
+    public function update(Request $request, Response $response) {
+        // Получаем параметры POST и сразу записываем их в массив с ответом
+        $response_array['request_params'] = $request->request->all();
+        $response->headers->set('Content-Type', 'application/json');
+
+        if ($dep = BookDepartments::find($response_array['request_params']['id'])) {
+
+            $dep->update([
+                'name' => $response_array['request_params']['name'],
+                'description' => $response_array['request_params']['description']
+            ]);
+
+            $response_array['status'] = 'success';
+            $response_array['message'] = 'Вы успешно обновили отдел';
+        } else {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'Отдел с id ' . $response_array['request_params']['id'] . ' не найден!';
+        }
+
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
 
         return $response;
