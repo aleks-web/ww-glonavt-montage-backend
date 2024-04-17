@@ -29,10 +29,10 @@
 {# Start Подгружаем главную таблицу #}
 <script>
     $(document).ready(function() {
-        xrender_main_table_book_departments();
+        xrender_main_table_book_posts();
     });
 
-    function xrender_main_table_book_departments() {
+    function xrender_main_table_book_posts() {
         // Разбиваем строку wrapper_and_element на обертку и twig элемент
         let wrapper = $("#region-main-table");
         let url = API_V1_URLS.book_departments.render + 'main-table';
