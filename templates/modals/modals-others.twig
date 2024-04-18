@@ -1,0 +1,26 @@
+<!-- РЕАЛИЗОВАТЬ! -->
+
+<!-- Start регион подгрузки модального окна | Редактирование собственной карточки пользователя -->
+<div id="modal-current-user-wrapper" class="modal-current-user-wrapper"></div>
+<!-- End регион подгрузки модального окна | Редактирование собственной карточки пользователя -->
+
+
+{# Start редактирование текущего пользователя #}
+<script>
+    function edit_current_user() {
+        let formData = new FormData();
+        formData.append('id', {{ current_user.id }});
+
+        let url = API_V1_URLS.users.render + 'modal-current-user';
+
+        xpost_fd(url, formData).then(response => {
+            console.log('---------------');
+            console.log(response);
+
+            $('#modal-current-user-wrapper').html(response.render_response_html);
+
+            dd_render_success(response, 'modal-current-user.twig', url);
+        });
+    }
+</script>
+{# End редактирование текущего пользователя #}
