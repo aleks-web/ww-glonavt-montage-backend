@@ -37,7 +37,13 @@
         {% else %} {# Если клиентов нет #}
             <div style="display: flex; gap: 10px; align-items: center; flex-direction: column; justify-content: center; height: 100%;font-size: 2rem;">
                 <span style="font-size: 3rem;">🙁</span>
-                <span>Клиентов нет!</span>
+
+                {% if request_params.control_panel_condition != '' %}
+                    <span>Таких клиентов не нашлось</span>
+                {% else %}
+                    <span>Клиентов нет!</span>
+                {% endif %}
+
                 <button data-modal-client-add class="btn">Добавить ногого</button>
             </div>
         {% endif %}
