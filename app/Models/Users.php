@@ -17,4 +17,10 @@ class Users extends Model {
     'birth',
     'password'
   ];
+
+  // Должность
+  public function post()
+  {
+      return $this->belongsTo('\WWCrm\Models\BookPosts', 'post_id', 'id');
+  }
 }

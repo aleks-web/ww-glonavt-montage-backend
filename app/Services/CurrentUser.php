@@ -7,6 +7,9 @@ use WWCrm\ServiceContainer;
 // Пользователи
 use WWCrm\Models\Users;
 
+use WWCrm\Models\BookPosts;
+use WWCrm\Models\BookDepartments;
+
 final class CurrentUser {
 
     protected $WWCrmService;
@@ -37,7 +40,12 @@ final class CurrentUser {
         if($this->isAuterisation()) {
             $user_id = $this->session->get('user_id');
 
-            $user = Users::find($user_id);
+            $user = Users::find($user_id)->first();
+            $post = BookPosts::find($user->post_id);
+            $department = BookDepartments::find($post->department_id);
+            $user->post = $post;
+            $user->department = $department;
+
             return $user;
         }
 
