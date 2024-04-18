@@ -1,11 +1,12 @@
 {#
     request_params - параметры запроса
+    post - текущая должность
     departments_select_prop - отделы
 #}
 
 <!-- Start fancybox modal | Новая должность | Модуль справочники -->
 <div id="fmodal-book-post-update" class="fmodal fmodal-book-post-update" style="display: none;min-width: unset;">
-    <div class="fmodal__title">Обновление должности</div>
+    <div class="fmodal__title">Обновление должности ({{ post.name }})</div>
 
     <div class="fmodal__content">
 
@@ -15,6 +16,7 @@
                 settings: {
                     db_field_name: 'name',
                     required: true,
+                    val: post.name,
                     pls: 'Название должности'
                 }
             } %}
@@ -24,6 +26,7 @@
             {% include 'components/textarea.twig' with {
                 settings: {
                     db_field_name: 'description',
+                    val: post.description,
                     pls: 'Описание должности'
                 }
             } %}
@@ -44,6 +47,28 @@
 
 {# Start обновление должности #}
 <script>
-    
+    $(document).ready(() => {
+        cpns_form_validate('#fmodal-book-post-update', '.submitter', true);
+
+        $('#fmodal-book-post-update .submitter').click(function(e) {
+            let formData = new FormData();
+            formData.append('id', {{ post.id }});
+            formData.append('name', $('#fmodal-book-post-update .input-text input[name="name"]').val());
+            formData.append('department_id', $('#fmodal-book-post-update .select input[name="department_id"]').val());
+            formData.append('description', $('#fmodal-book-post-update .textarea textarea[name="description"]').val());
+
+            // Создаем
+            xpost_fd(API_V1_URLS.book_posts.update, formData).then(response => {
+                xrender_main_table_book_posts();
+                $.fancybox.close();
+
+                dd(response, response.message, 'success');
+                push(response.message, 'success');
+            }).catch(response => {
+                dd(response, response.message, 'error');
+                push(response.message, 'error');
+            });
+        });
+    });
 </script>
 {# End обновление должности #}

@@ -25,7 +25,7 @@
                             <td class="text-start">{{ post.description | default('-') }}</td>
                             
                             <td class="td-btn-default">
-                                <svg class="hover"><use xlink:href="#svg-edit"></use></svg>
+                                <svg class="hover" onclick="edit_post({{ post.id }})"><use xlink:href="#svg-edit"></use></svg>
                             </td>
                             <td class="td-btn-default">
                                 <svg class="hover" onclick="delete_post({{ post.id }})"><use xlink:href="#svg-del"></use></svg>
@@ -73,3 +73,38 @@
     }
 </script>
 {# End удаление должности #}
+
+{# Start обновление должности | подгрузка модалки #}
+<script>
+    function edit_post(id) {
+        let url = API_V1_URLS.book_posts.render + 'fmodal-book-post-update';
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: {
+                id: id,
+                twig_element: 'fmodal-book-post-update.twig',
+            },
+            success: function (response) {
+                if (response.status == "success") {
+
+                    $('#fmodal-book-post-update-wrapper').html(response.render_response_html);
+
+                    $.fancybox.open({
+                        src: '#fmodal-book-post-update',
+                        type: 'inline'
+                    });
+
+
+                    dd_render_success(
+                        response,
+                        'books/posts/render/fmodal-book-post-update.twig',
+                        url
+                    );
+                }
+            }
+        });
+    }
+</script>
+{# End обновление должности | подгрузка модалки  #}
