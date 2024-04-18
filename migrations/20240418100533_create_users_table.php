@@ -36,12 +36,12 @@ final class CreateUsersTable extends AbstractMigration
           // Создаем таблицу
           $this->execute($sql);
 
-          // $sql_alert = "
-          //   ALTER TABLE `users`
-          //       ADD KEY `users_post_id_foreign` (`post_id`),
-          //       ADD CONSTRAINT `users_post_id_foreign` FOREIGN KEY (`post_id`) REFERENCES `book_posts` (`id`) ON DELETE SET NULL
-          // ";
-          // $this->execute($sql_alert);
+          $sql_alert = "
+            ALTER TABLE `users`
+                ADD KEY `users_post_id_foreign` (`post_id`),
+                ADD CONSTRAINT `users_post_id_foreign` FOREIGN KEY (`post_id`) REFERENCES `book_posts` (`id`) ON DELETE SET NULL
+          ";
+          $this->execute($sql_alert);
 
           $seed = 'INSERT INTO `users` (`name`, `surname`, `patronymic`, `tel`, `email`, `birth`, `password`) VALUES ("Алексей", "Антропов", "Андреевич", "89195798871", "dok.go@yandex.ru", NULL, "$2y$10$oRPfzOL0FRvfqPxrD5ftJ.Op64GxMD9c1SyDgVgSU8gLe6WgCu8Oa")';
           
