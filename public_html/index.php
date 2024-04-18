@@ -48,7 +48,7 @@ $router->error(function(Request $request, Response $response, Exception $excepti
         $error['trace'][$key] = $tt;
     }
 
-    // dd($error);
+    dump($exception);
 
     return \WWCrm\ServiceContainer::getInstance()->get('View')->render('exception.twig', $error);
 

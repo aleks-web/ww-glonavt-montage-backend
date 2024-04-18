@@ -1,0 +1,49 @@
+{#
+    request_params - параметры запроса
+    departments_select_prop - отделы
+#}
+
+<!-- Start fancybox modal | Новая должность | Модуль справочники -->
+<div id="fmodal-book-post-update" class="fmodal fmodal-book-post-update" style="display: none;min-width: unset;">
+    <div class="fmodal__title">Обновление должности</div>
+
+    <div class="fmodal__content">
+
+        <div class="fmodal__vertical">
+    
+            {% include 'components/input-text.twig' with {
+                settings: {
+                    db_field_name: 'name',
+                    required: true,
+                    pls: 'Название должности'
+                }
+            } %}
+
+            {% include 'components/select.twig' with departments_select_prop %}
+
+            {% include 'components/textarea.twig' with {
+                settings: {
+                    db_field_name: 'description',
+                    pls: 'Описание должности'
+                }
+            } %}
+    
+        </div>
+        
+    </div>
+
+    <div class="fmodal__control-btns">
+        <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
+        <button class="fmodal__btn btn-good submitter disable">Сохранить</button>
+    </div>
+
+</div>
+<!-- End fancybox modal | Новая должность | Модуль справочники -->
+
+
+
+{# Start обновление должности #}
+<script>
+    
+</script>
+{# End обновление должности #}

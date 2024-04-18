@@ -23,7 +23,8 @@ final class CreateBookPostsTable extends AbstractMigration
         $sql = "CREATE TABLE IF NOT EXISTS `book_posts` (
             `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
             `department_id` BIGINT UNSIGNED NOT NULL COMMENT 'id отдела для которого создана должность',
-            `name` VARCHAR(50) NOT NULL COMMENT 'Название отдела',
+            `name` VARCHAR(50) NOT NULL COMMENT 'Название должности',
+            `description` VARCHAR(255) DEFAULT NULL COMMENT 'Описание должности',
             PRIMARY KEY (`id`)
           ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
 
@@ -37,7 +38,7 @@ final class CreateBookPostsTable extends AbstractMigration
           ";
           $this->execute($sql_alert);
 
-          $seed = "INSERT INTO `book_posts` (`id`, `department_id`, `name`) VALUES (1, 1, 'Отдел 1')";
+          $seed = "INSERT INTO `book_posts` (`id`, `department_id`, `name`) VALUES (1, 1, 'Должность 1')";
 
           // Сеем тестовые данные
           $this->execute($seed);

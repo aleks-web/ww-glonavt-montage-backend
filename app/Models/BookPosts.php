@@ -11,7 +11,8 @@ class BookPosts extends Model {
   // Разрешенные для записи поля
   protected $fillable = [
     'department_id',
-    'name'
+    'name',
+    'description'
   ];
 
 }

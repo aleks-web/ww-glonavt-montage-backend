@@ -1,0 +1,70 @@
+{#
+    request_params - параметры запроса
+    departments_select_prop - отделы
+#}
+
+<!-- Start fancybox modal | Новая должность | Модуль справочники -->
+<div id="fmodal-book-new-post" class="fmodal fmodal-book-new-post" style="display: none;min-width: unset;">
+    <div class="fmodal__title">Новая должность</div>
+
+    <div class="fmodal__content">
+
+        <div class="fmodal__vertical">
+    
+            {% include 'components/input-text.twig' with {
+                settings: {
+                    db_field_name: 'name',
+                    required: true,
+                    pls: 'Название должности'
+                }
+            } %}
+
+            {% include 'components/select.twig' with departments_select_prop %}
+
+            {% include 'components/textarea.twig' with {
+                settings: {
+                    db_field_name: 'description',
+                    pls: 'Описание должности'
+                }
+            } %}
+    
+        </div>
+        
+    </div>
+
+    <div class="fmodal__control-btns">
+        <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
+        <button class="fmodal__btn btn-good submitter disable">Сохранить</button>
+    </div>
+
+</div>
+<!-- End fancybox modal | Новая должность | Модуль справочники -->
+
+
+
+{# Start добавление должности #}
+<script>
+    $(document).ready(() => {
+        cpns_form_validate('#fmodal-book-new-post', '.submitter', true);
+
+        $('#fmodal-book-new-post .submitter').click(function(e) {
+            let formData = new FormData();
+            formData.append('name', $('#fmodal-book-new-post .input-text input[name="name"]').val());
+            formData.append('department_id', $('#fmodal-book-new-post .select input[name="department_id"]').val());
+            formData.append('description', $('#fmodal-book-new-post .textarea textarea[name="description"]').val());
+
+            // Создаем
+            xpost_fd(API_V1_URLS.book_posts.create, formData).then(response => {
+                xrender_main_table_book_posts();
+                $.fancybox.close();
+
+                dd(response, response.message, 'success');
+                push(response.message, 'success');
+            }).catch(response => {
+                dd(response, response.message, 'error');
+                push(response.message, 'error');
+            });
+        });
+    });
+</script>
+{# End добавление должности #}

@@ -56,10 +56,29 @@ $router->xpost(API_V1_URL . 'book-departments/update', $controllers['Api']['Book
 
 // Book posts
 $router->xpost(API_V1_URL . 'book-posts/render/:string', $controllers['Api']['BooksPosts'] . '@distributor'); // Рендер должностей
-
+$router->xpost(API_V1_URL . 'book-posts/delete', $controllers['Api']['BooksPosts'] . '@delete'); // Удаление должности
+$router->xpost(API_V1_URL . 'book-posts/create', $controllers['Api']['BooksPosts'] . '@create'); // Создание должности
 
 $router->notFound(function(Request $request, Response $response) {
     header('Location: ' . $request->server->get('REQUEST_SCHEME') . '://' . $request->server->get('HTTP_HOST') . '/404');
+});
+
+
+$router->error(function(Request $request, Response $response, Exception $exception) {
+    $response->headers->set('Content-Type', 'application/json');
+
+    $error = [
+        'error' => [
+            'message' => $exception->getMessage(),
+            'code' => $exception->getCode(),
+            'file' => $exception->getFile(),
+            'line' => $exception->getLine()
+        ]
+    ];
+
+    $response->setContent(json_encode($error, JSON_UNESCAPED_UNICODE));
+    return $response;
+
 });
 // End Routes
 

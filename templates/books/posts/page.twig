@@ -12,7 +12,7 @@
         </div>
 
         <div class="control__right">
-            <button data-fancybox data-src="#fmodal-book-new-departments" class="control__btn btn">Добавить должность</button>
+            <button data-fancybox data-src="#fmodal-book-new-post" class="control__btn btn">Добавить должность</button>
         </div>
     </div>
 </div>
@@ -74,28 +74,34 @@
 {# End фильтр #}
 
 
-{# Start добавление отдела #}
+{# Start добавление должности | подгрузка модалки #}
 <script>
     $(document).ready(() => {
-        cpns_form_validate('.fmodal-book-new-departments', '.submitter');
+        let url = API_V1_URLS.book_posts.render + 'fmodal-book-new-post';
 
-        $('#fmodal-book-new-departments .submitter').click(function(e) {
-            let formData = new FormData();
-            formData.append('name', $('#fmodal-book-new-departments .input-text input[name="name"]').val());
-            formData.append('description', $('#fmodal-book-new-departments .textarea textarea[name="description"]').val());
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: {
+                twig_element: 'fmodal-book-new-post.twig',
+            },
+            success: function (response) {
 
-            // Создаем
-            xpost_fd(API_V1_URLS.book_departments.create, formData).then(response => {
-                xrender_main_table_book_departments();
-                $.fancybox.close();
+                console.log(response);
 
-                dd(response, response.message, 'success');
-                push(response.message, 'success');
-            }).catch(response => {
-                push(response.message, 'error');
-            });
+                if (response.status == "success") {
+
+                    $('#fmodal-book-new-post-wrapper').html(response.render_response_html);
+
+                    dd_render_success(
+                        response,
+                        'books/posts/render/fmodal-book-new-post.twig',
+                        url
+                    );
+                }
+            }
         });
     });
 </script>
-{# End добавление отдела #}
+{# End добавление должности | подгрузка модалки #}
 {% endblock scripts %}
