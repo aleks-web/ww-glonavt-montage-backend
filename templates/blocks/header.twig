@@ -8,7 +8,7 @@
 <div class="header">
     <div class="header__container">
         <div class="header__left">
-            <div class="header__title" data-fancybox="" data-src="#fmodal-new-contact-person">{{ title }}</div>
+            <div class="header__title">{{ title }}</div>
         </div>
 
         <div class="header__right">
@@ -19,7 +19,7 @@
                 </div>
                 <div class="header__btns">
                     <div class="header__btn-user">
-                        <a href="#"><svg><use xlink:href="#svg-user"></use></svg></a>
+                        <a href="#" onclick="$('.modal-current-user').addClass('open');add_body_bg();"><svg><use xlink:href="#svg-user"></use></svg></a>
                     </div>
                     <div class="header__btn-logout">
                         <a href="#" data-fancybox data-src="#fmodal-logout"><svg><use xlink:href="#svg-logout"></use></svg></a>
