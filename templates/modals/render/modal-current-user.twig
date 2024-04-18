@@ -14,8 +14,7 @@
                 
                 <div class="modal__info">
                     <div class="modal__info-title">
-                        <span class="modal__info-title-h1">gfhfgh</span>
-                        <span class="modal__info-title-h2">ИНН: asdasd</span>
+                        <span class="modal__info-title-h1">{{ user.name }}</span>
                     </div>
                 </div>
 
@@ -26,25 +25,6 @@
                 <div class="modal__header-group-btns tab-outside tab-outside--active" data-outside-id="1">
                     <button class="modal__header-btn modal__header-btn-edit btn">Редактировать</button>
                     <button class="modal__header-btn modal__header-btn-save btn-good" style="display: none;">Сохранить</button>
-
-                    {% if client.status != client_statuses.STATUS_ARCHIVE %}
-                        <button class="modal__header-btn btn-bad" onclick="chenge_client_status({{ client.id }}, {{ client_statuses.STATUS_ARCHIVE }})">В архив</button>
-                    {% endif %}
-                </div>
-                <div class="modal__header-group-btns tab-outside" data-outside-id="2">
-                    <button onclick="load_fmodal_contacts_persons({{ client.id }})" class="modal__header-btn btn">Добавить</button>
-                </div>
-                <div class="modal__header-group-btns tab-outside" data-outside-id="4">
-                    <button data-fancybox data-src="#fmodal-new-contract" class="modal__header-btn btn">Добавить договор</button>
-                </div>
-                <div class="modal__header-group-btns tab-outside" data-outside-id="5">
-                    <button data-fancybox data-src="#fmodal-new-bill" class="modal__header-btn btn">Добавить счет</button>
-                </div>
-                <div class="modal__header-group-btns tab-outside" data-outside-id="6">
-                    <button data-fancybox data-src="#fmodal-new-document" class="modal__header-btn btn">Добавить документ</button>
-                </div>
-                <div class="modal__header-group-btns tab-outside" data-outside-id="7">
-                    <button data-fancybox data-src="#fmodal-request-view" class="modal__header-btn btn">Добавить заявку</button>
                 </div>
             </div>
             {# End Кнопки управления #}
@@ -72,12 +52,43 @@
                         
                         <div class="modal__data-view modal-current-user__data-view view">
                             <div class="block-info">
-                                <div class="block-info__title">О компании</div>
+                                <div class="block-info__title">Основные данные</div>
 
                                 <div class="block-info__content">
                                     <div class="block-info__item">
-                                        <span class="block-info__text-secondary">asdasd</span>
-                                        <span class="block-info__text-main">asdasd</span>
+                                        <span class="block-info__text-secondary">Имя</span>
+                                        <span class="block-info__text-main">{{ user.name }}</span>
+                                    </div>
+
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Фамилия</span>
+                                        <span class="block-info__text-main">{{ user.surname }}</span>
+                                    </div>
+
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Отчество</span>
+                                        <span class="block-info__text-main">{{ user.patronymic }}</span>
+                                    </div>
+
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Дата рождения</span>
+                                        <span class="block-info__text-main">{{ user.birth | date('d.m.Y') }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="block-info">
+                                <div class="block-info__title">Контактная информация</div>
+
+                                <div class="block-info__content">
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Телефон</span>
+                                        <span class="block-info__text-main">{{ user.tel }}</span>
+                                    </div>
+
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Email</span>
+                                        <span class="block-info__text-main">{{ user.email }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -86,10 +97,79 @@
                         <div class="modal__data-edit modal-current-user__data-edit edit" style="display: none;">
                             
                             <div class="block-info">
-                                <div class="block-info__title">О компании</div>
+                                <div class="block-info__title">Контактная информация</div>
                             
                                 <div class="block-info__content">
-                                    <!-- items -->sdsd
+                                    
+                                    <div class="block-info__item">
+                                        {% include 'components/input-text.twig' with {
+                                            settings: {
+                                                db_field_name: 'name',
+                                                val: user.name,
+                                                pls: 'Ваше имя'
+                                            }
+                                        } %}
+                                    </div>
+
+                                    <div class="block-info__item">
+                                        {% include 'components/input-text.twig' with {
+                                            settings: {
+                                                db_field_name: 'surname',
+                                                val: user.surname,
+                                                pls: 'Ваша фамилия'
+                                            }
+                                        } %}
+                                    </div>
+
+                                    <div class="block-info__item">
+                                        {% include 'components/input-text.twig' with {
+                                            settings: {
+                                                db_field_name: 'patronymic',
+                                                val: user.patronymic,
+                                                pls: 'Ваше отчество'
+                                            }
+                                        } %}
+                                    </div>
+
+                                    <div class="block-info__item">
+                                        {% include 'components/input-date.twig' with {
+                                            settings: {
+                                                db_field_name: 'birth',
+                                                pls: 'Дата рождения',
+                                                val: user.birth
+                                            }
+                                        } %}
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <div class="block-info">
+                                <div class="block-info__title">Контактная информация</div>
+                            
+                                <div class="block-info__content">
+                                    
+                                    <div class="block-info__item">
+                                        {% include 'components/input-text.twig' with {
+                                            settings: {
+                                                db_field_name: 'tel',
+                                                val: user.tel,
+                                                pls: 'Ваш телефон'
+                                            }
+                                        } %}
+                                    </div>
+
+                                    <div class="block-info__item">
+                                        {% include 'components/input-text.twig' with {
+                                            settings: {
+                                                db_field_name: 'email',
+                                                val: user.email,
+                                                pls: 'Ваш email'
+                                            }
+                                        } %}
+                                    </div>
+
                                 </div>
                             </div>
 

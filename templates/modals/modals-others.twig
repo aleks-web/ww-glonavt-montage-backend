@@ -14,13 +14,17 @@
         let url = API_V1_URLS.users.render + 'modal-current-user';
 
         xpost_fd(url, formData).then(response => {
-            console.log('---------------');
-            console.log(response);
-
             $('#modal-current-user-wrapper').html(response.render_response_html);
+            cpns_init();
 
             dd_render_success(response, 'modal-current-user.twig', url);
+        }).catch(resp => {
+            dd(resp, 'Ошибка', 'error');
         });
     }
+
+    $(document).ready(() => {
+        edit_current_user();
+    });
 </script>
 {# End редактирование текущего пользователя #}

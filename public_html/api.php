@@ -25,6 +25,11 @@ $router->xpost(API_V1_URL . 'auth/recovery', $controllers['Api']['Auth'] . '@rec
 
 
 /*
+    Пользователи системы
+*/
+$router->xpost(API_V1_URL . 'users/render/:string', $controllers['Api']['Users'] . '@distributor'); // Рендер элементов
+
+/*
     Роуты модуля "Клиенты"
 */
 $router->xpost(API_V1_URL . 'clients/create', $controllers['Api']['Clients'] . '@create');
