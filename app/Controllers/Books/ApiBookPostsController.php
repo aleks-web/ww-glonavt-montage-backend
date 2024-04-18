@@ -129,12 +129,17 @@ class ApiBookPostsController extends \WWCrm\Controllers\MainController {
             $posts = BookPosts::all();
         }
 
+        foreach ($posts as $key => $post) {
+            $post->department;
+        }
+
         $response_array['render_response_html'] = $this->view->render('books/posts/render/' . $twig_element, [
             'request_params' => $response_array['request_params'],
             'posts' => $posts
         ]);
 
         $response_array['status'] = 'success';
+        $response_array['posts'] = $posts;
         $response->headers->set('Content-Type', 'application/json');
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
 

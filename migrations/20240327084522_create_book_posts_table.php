@@ -38,7 +38,7 @@ final class CreateBookPostsTable extends AbstractMigration
           ";
           $this->execute($sql_alert);
 
-          $seed = "INSERT INTO `book_posts` (`id`, `department_id`, `name`) VALUES (1, 1, 'Должность 1')";
+          $seed = "INSERT INTO `book_posts` (`id`, `department_id`, `name`, `description`) VALUES (1, 1, 'Разработчик ПО', 'Занимается разработкой и тех.поддержкой системы')";
 
           // Сеем тестовые данные
           $this->execute($seed);

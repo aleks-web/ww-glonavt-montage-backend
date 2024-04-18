@@ -30,7 +30,7 @@ final class CreateBookDepartmentsTable extends AbstractMigration
           // Создаем таблицу
           $this->execute($sql);
 
-          $seed = "INSERT INTO `book_departments` (`id`, `name`, `description`) VALUES (1, 'Отдел 1', 'Описание отдела 1')";
+          $seed = "INSERT INTO `book_departments` (`id`, `name`, `description`) VALUES (1, 'Отдел разработки', 'Занимается тех.поддержкой crm и её доработками')";
 
           // Сеем тестовые данные
           $this->execute($seed);

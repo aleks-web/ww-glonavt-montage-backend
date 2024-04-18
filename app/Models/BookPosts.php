@@ -15,4 +15,10 @@ class BookPosts extends Model {
     'description'
   ];
 
+  // Департаменты 
+  public function department()
+  {
+      return $this->belongsTo('\WWCrm\Models\BookDepartments', 'department_id', 'id');
+  }
+
 }

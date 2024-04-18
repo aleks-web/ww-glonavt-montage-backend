@@ -25,6 +25,7 @@ final class CreateUsersTable extends AbstractMigration
             `name` VARCHAR(50) NOT NULL COMMENT 'Имя пользователя',
             `surname` VARCHAR(60) DEFAULT NULL COMMENT 'Фамилия пользователя',
             `patronymic` VARCHAR(60) DEFAULT NULL COMMENT 'Отчество пользователя',
+            `post_id` BIGINT UNSIGNED DEFAULT NULL COMMENT 'Занимаемая должность',
             `tel` VARCHAR(20) DEFAULT NULL COMMENT 'Телефон пользователя',
             `email` VARCHAR(50) NOT NULL UNIQUE COMMENT 'Email пользователя',
             `birth` DATE DEFAULT NULL COMMENT 'День рождения пользователя',
@@ -34,6 +35,13 @@ final class CreateUsersTable extends AbstractMigration
           
           // Создаем таблицу
           $this->execute($sql);
+
+          // $sql_alert = "
+          //   ALTER TABLE `users`
+          //       ADD KEY `users_post_id_foreign` (`post_id`),
+          //       ADD CONSTRAINT `users_post_id_foreign` FOREIGN KEY (`post_id`) REFERENCES `book_posts` (`id`) ON DELETE SET NULL
+          // ";
+          // $this->execute($sql_alert);
 
           $seed = 'INSERT INTO `users` (`name`, `surname`, `patronymic`, `tel`, `email`, `birth`, `password`) VALUES ("Алексей", "Антропов", "Андреевич", "89195798871", "dok.go@yandex.ru", NULL, "$2y$10$oRPfzOL0FRvfqPxrD5ftJ.Op64GxMD9c1SyDgVgSU8gLe6WgCu8Oa")';
           
