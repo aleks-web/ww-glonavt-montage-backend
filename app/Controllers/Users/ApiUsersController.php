@@ -36,18 +36,23 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
             return $this->render_main_table($twig_element, $request, $response);
         } else if ($twig_element == 'modal-current-user.twig') {
             return $this->render_modal_current_user($twig_element, $request, $response);
+        } else if ($twig_element == 'main-table.twig') {
+            return $this->render_main_table($twig_element, $request, $response);
         } else {
             return 'Распределитель рендер запросов. Возврат пустого ответа';
         }
     }
 
     /*
-        РЕАЛИЗОВАТЬ!
         Рендер главной таблицы
     */
     public function render_main_table($twig_element, Request $request, Response $response) {
         // Получаем параметры POST и сразу записываем их в массив с ответом
         $response_array['request_params'] = $request->request->all();
+
+        $response_array['render_response_html'] = $this->view->render('modules/users/render/' . $twig_element, [
+            'request_params' => $response_array['request_params']
+        ]);
 
         $response_array['status'] = 'success';
         $response_array['message'] = 'Тест';
