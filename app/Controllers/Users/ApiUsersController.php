@@ -28,6 +28,34 @@ use WWCrm\Models\BookPosts;
 class ApiUsersController extends \WWCrm\Controllers\MainController {
 
     /*
+        Создание пользователя
+    */
+    public function create(Request $request, Response $response) {
+        // Получаем параметры POST и сразу записываем их в массив с ответом
+        $response_array['request_params'] = $request->request->all();
+        $response->headers->set('Content-Type', 'application/json');
+
+        try {
+            Users::create($response_array['request_params']);
+
+            $response_array['status'] = 'success';
+            $response_array['message'] = 'Успешное создание пользователя';
+        } catch (\Illuminate\Database\QueryException $e) {
+            $response_array['status'] = 'error';
+
+            $response_array['message'] = 'Не удалось создать пользователя';
+            $response_array['exception_message'] = $e->getMessage();
+            
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+            return $response;
+        }
+
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+        return $response;
+    }
+
+    /*
         Выступает в качестве распределителя
     */
     public function distributor($twig_element, Request $request, Response $response) {

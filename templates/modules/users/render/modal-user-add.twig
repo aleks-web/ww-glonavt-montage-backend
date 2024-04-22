@@ -59,7 +59,12 @@
 
             <div class="d-flex justify-content-start align-items-end flex-column w-50">
 
-                @@include('../components/photo-add.html', {"btn_name": "Добавить фото"})
+                {% include 'components/photo-add.twig' with {
+                    settings: {
+                        db_field_name: 'avatar',
+                        btn_text: 'Добавить фото'
+                    }
+                } %}
 
             </div>
         </div>
@@ -79,6 +84,12 @@
 <script>
     $(document).ready(() => {
         cpns_form_validate('#modal-user-add', '.submitter');
+
+        $('#modal-user-add .submitter').click(() => {
+            let formData = cpns_get_formdata_by_wrapper('#modal-user-add');
+
+            xpost_fd(API_V1_URLS.users.create, formData);
+        });
     });
 </script>
 {# End скрипты #}

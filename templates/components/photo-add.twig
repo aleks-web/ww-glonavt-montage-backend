@@ -1,0 +1,21 @@
+{#
+    Компонент добавления фото
+
+    settings - массив с настройками
+        * db_field_name - имя поля
+        * btn_text - текст кнопки
+#}
+
+{% if settings.db_field_name == '' %}
+    <div style="color: red;">Параметр "db_field_name" для компонента photo-add не проброшен!</div>
+{% else %}
+    <div class="photo-add">
+        <input class="photo-add__input" type="file" accept="image/png, image/jpeg" name="{{ settings.db_field_name }}">
+
+        <div class="photo-add__preview">
+            <svg><use xlink:href="#svg-photo-default"></use></svg>
+        </div>
+
+        <button class="photo-add__btn-add btn">{{ settings.btn_text | default('Добавить фото/изображение') }}</button>
+    </div>
+{% endif %}

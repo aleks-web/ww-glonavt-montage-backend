@@ -16,6 +16,7 @@ const API_V1_URLS = {
         logout: "/api_v1/auth/logout/",
     },
     users: {
+        create: "/api_v1/users/create/",
         render: "/api_v1/users/render/",
     },
     clients: {
