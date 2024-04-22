@@ -49,6 +49,7 @@ class Objects extends Model {
     return (new static)->getFillable();
   }
 
+  // Кто добавил
   public function userAdded() {
     return $this->belongsTo(Users::class, 'user_add_id', 'id');
   }

@@ -4,7 +4,7 @@ $(document).ready(function (e) {
         let object_id = $(this).data('object-id');
 
         if (object_id) {
-            load_modal_object(object_id);
+            open_modal_object(object_id);
         } else {
             alert('Не задан id объекта в атрибуте data-object-id');
         }
@@ -47,40 +47,56 @@ $(document).ready(function (e) {
 
 
 
+// Start Функция загрузки модального окна объекты | Модуль объекты
+function open_modal_object(object_id) {
+    
+    load_modal_object(object_id).then(() => {
+        add_body_bg();
+
+        setTimeout(() => { // Без таймаута анимация открытия модалки страдает
+            $("#modal-object").addClass("open");
+        }, 10);
+    });
+}
+// End Функция загрузки модального окна объекты | Модуль объекты
+
 
 // Start Функция загрузки модального окна объекты | Модуль объекты
-function load_modal_object(object_id) {
-    let url = API_V1_URLS.objects.render + 'modal-object';
+function load_modal_object(object_id, is_open = false) {
+    return new Promise(function(resolve, reject) {
+        let url = API_V1_URLS.objects.render + 'modal-object';
 
-    $.ajax({
-        url: url,
-        method: "POST",
-        data: {
-            twig_element: 'modal-object.twig',
-            object_id: object_id
-        },
-        success: function (response) {
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: {
+                twig_element: 'modal-object.twig',
+                object_id: object_id,
+                is_open: is_open
+            },
+            success: function (response) {
 
-            if (response.status == "success") {
-                add_body_bg();
+                if (response.status == "success") {
+                    add_body_bg();
 
-                $('#region-modal-object').html(response.render_response_html);
+                    $('#region-modal-object').html(response.render_response_html);
 
-                setTimeout(() => { // Без таймаута анимация открытия модалки страдает
-                    $("#modal-object").addClass("open");
-                }, 10);
+                    dd_render_success(
+                        response,
+                        'modules/objects/render/modal-object.twig',
+                        url
+                    );
+
+                    resolve(response);
+                }
+
+                if (response.status == "error") {
+                    wrapper.html(`<div style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">${response.message}</div>`);
+                    
+                    reject(response);
+                }
             }
-
-            if (response.status == "error") {
-                wrapper.html(`<div style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">${response.message}</div>`);
-            }
-
-            dd_render_success(
-                response,
-                'modules/objects/render/modal-object.twig',
-                url
-            );
-        }
+        });
     });
 }
 // End Функция загрузки модального окна объекты | Модуль объекты

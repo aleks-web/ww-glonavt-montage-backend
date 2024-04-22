@@ -33,7 +33,7 @@
 
                 <tbody>
                     {% for object in objects %}
-                        <tr onclick="load_modal_object({{ object.id }});" class="pointer">
+                        <tr onclick="open_modal_object({{ object.id }});" class="pointer">
                             <td class="text-start">{{ object.id }}</td>
                             <td class="text-start">Грузовой автомобиль</td>
                             <td class="text-start"><span>{{ object.brand | default('Марка не определена') }} / {{ object.model | default('Модель не определена') }}</span><br><span>{{ object.gnum | default('Гос.номер не задан') }}</span></td>

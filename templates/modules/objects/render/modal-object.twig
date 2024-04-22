@@ -3,7 +3,7 @@
     object - выгрузка из базы данных. Конкретный объект
     twig_components_data - данные для элементов
 #}
-<div id="modal-object" class="modal modal-object">
+<div id="modal-object" class="modal modal-object {% if request_params.is_open %}open{%endif%}" data-object-id="{{ object.id }}">
     <svg data-modal-close class="modal__close"><use xlink:href="#svg-close"></use></svg>
 
     <div class="modal__container">
@@ -527,3 +527,30 @@ function load_tab_equipments (object_id, is_reload = false) {
 }
 </script>
 {# End подгрузка таба "Оборудование" #}
+
+{# Start функционал сохранения данных #}
+<script>
+    save_big_modal('modal-object', () => {
+        let object_id = $('#modal-object').data('object-id');
+        
+        let url = API_V1_URLS.objects.update;
+
+        let formData = cpns_get_formdata_by_wrapper('#modal-object .modal-object__data-edit');
+
+        formData.append('id', object_id);
+
+        return xpost_fd(url, formData).then(response => {
+            dd(response, response.message, 'success');
+
+            load_modal_object(object_id, true); // Обновляем
+
+            return true;
+
+        }).catch(response => {
+            dd(response, response.message, 'error');
+
+            return false;
+        });
+    });
+</script>
+{# End функционал сохранения данных #}

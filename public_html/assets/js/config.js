@@ -29,6 +29,7 @@ const API_V1_URLS = {
     objects: {
         add_new_type_equipment: "/api_v1/objects/add-new-type-equipment/",
         add_new_device: "/api_v1/objects/add-new-device/",
+        update: "/api_v1/objects/update/",
         render: "/api_v1/objects/render/",
     },
     book_equipments: {

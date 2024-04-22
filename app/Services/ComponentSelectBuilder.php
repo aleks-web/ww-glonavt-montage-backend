@@ -12,6 +12,7 @@ namespace WWCrm\Services;
         * required - обязательный ли инпут
         * input_messages_position - расположение сообщений об ошибках и прочее. Либо bottom (по умолчанию, но можно изменить здесь) либо top
         * checkbox - если true, то добавляет класс select__item--checkbox для item элементов и можно выбирать сразу несколько элементов
+        * position - позиция выпадающего меню
 
 */
 final class ComponentSelectBuilder {
@@ -22,6 +23,7 @@ final class ComponentSelectBuilder {
     protected array $items = [];
     protected array $boofer_item = []; // Текущий item
     protected string $default_text = '';
+    protected string $position = 'bottom';
 
     public function __construct($db_field_name, $required = false) {
         $this->db_field_name = $db_field_name;
@@ -137,6 +139,21 @@ final class ComponentSelectBuilder {
         return $this->default_text;
     }
 
+
+    /*
+        Метод устанавливает отображение выпадающего списка. Верху или снизу
+    */
+    public function setPosition($position_text) : void {
+        $this->position = $position_text;
+    }
+
+    /*
+        Метод возвращает отображение выпадающего списка
+    */
+    public function getPosition() : string {
+        return $this->position;
+    }
+
     /*
         Метод возвращает настроенный массив для компонента .select
     */
@@ -146,6 +163,7 @@ final class ComponentSelectBuilder {
         $settings['val'] = $this->getVal();
         $settings['title'] = $this->getTitle();
         $settings['not_selected_text'] = $this->getDefaultText() ?: null; // Устанавливаем дефолтное значение
+        $settings['position'] = $this->getPosition();
 
         $select_array['settings'] = $settings;
         $select_array['items'] = $this->getItems();

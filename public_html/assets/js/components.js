@@ -286,6 +286,8 @@ function cpns_get_formdata_by_wrapper(wrapper_selector) {
         if (input.val()) {
             formData.append(input.attr("name"), input.val());
             countFields = countFields + 1;
+        } else {
+            formData.append(input.attr("name"), ''); // Устанавливаем пустое значение
         }
     });
 

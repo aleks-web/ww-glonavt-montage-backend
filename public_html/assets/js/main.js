@@ -147,15 +147,17 @@ function save_big_modal(modal_id, save_function_collback) {
         if ($(this).hasClass(save_class)) {
 
             if (save_function_collback()) {
-                $modal.find(".tabs__item--active .view").css("display", "flex");
-                $modal.find(".tabs__item--active .edit").css("display", "none");
-
-                // Смена кнопок
-                btn_save.fadeOut(200, () => {
-                    btn_edit.fadeIn(200);
-                });
-
                 $('#' + modal_id + " .modal__header-btn-edit, " + '#' + modal_id + " .modal__header-btn-save").off();
+                
+                setTimeout(() => {
+                    $modal.find(".tabs__item--active .view").css("display", "flex");
+                    $modal.find(".tabs__item--active .edit").css("display", "none");
+
+                    // Смена кнопок
+                    btn_save.fadeOut(200, () => {
+                        btn_edit.fadeIn(200);
+                    });
+                }, 500);
             } else {
                 alert('Сохранение не удалось!');
             }

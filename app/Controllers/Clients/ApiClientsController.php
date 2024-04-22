@@ -255,6 +255,7 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
 
             $response_array['client'] = Organizations::find($client_id); // $response_array['client'] для основного проброса. Тут делаем что-то с данными. Например заменяем статус клиента на читаемый вид
             $response_array['client']['contacts_persons'] = $response_array['client']->contactsPersons; // Получаем контактных лиц из другой таблицы
+            $response_array['client']['manager'] = $response_array['client']->manager;
 
             // Заменяем статус с цифры на читаемый вид
             $response_array['client']['status_name'] = Organizations::getStatusName($response_array['client']['status']);
@@ -262,12 +263,20 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             // Start Формируем и прокидываем настроенный компонент статуса с выпадающим списком
             $StatusSelect = new ComponentSelectBuilder('status', true);
             $StatusSelect->setVal((int) $clientOriginalObject['status']);
-
             foreach(Organizations::getArrayStatuses() as $status_id => $status_name) { // Добавляем выгруженные элементы селект
                 $StatusSelect->addIdItem($status_id)->addTextItem($status_name)->saveItem();
             }
-
             $response_array['twig_components_data']['status'] = $StatusSelect->toArray();
+
+
+            $ManagersSelect = new ComponentSelectBuilder('manager_id', false);
+            $ManagersSelect->setVal((int) $response_array['client']['manager']['id']);
+            $ManagersSelect->setPosition('top');
+            foreach(Users::all() as $manager_key => $manager) { // Добавляем выгруженные элементы селект
+                $ManagersSelect->addIdItem($manager->id)->addTextItem($manager->name)->saveItem();
+            }
+            $ManagersSelect->setDefaultText('Менеджер не назначен');
+            $response_array['twig_components_data']['managers'] = $ManagersSelect->toArray();
 
             // Настройки модалки
             $response_array['modal_settings'] = [

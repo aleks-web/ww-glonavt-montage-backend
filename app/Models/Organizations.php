@@ -83,4 +83,9 @@ class Organizations extends Model {
   public function objects() {
     return $this->hasMany('\WWCrm\Models\Objects', 'organization_id', 'id');
   }
+
+  // Назначенный менеджер
+  public function manager() {
+    return $this->belongsTo(Users::class, 'manager_id', 'id');
+  }
 }

@@ -30,6 +30,26 @@ use WWCrm\Models\Objects;
 class ApiObjectsController extends \WWCrm\Controllers\MainController {
 
     /*
+        Метод обновления объекта
+    */
+    public function update(Request $request, Response $response) {
+        // Получаем параметры
+        $params = $request->request->all();
+        $response_array['request_params'] = $params;
+
+        // Обновляем оргонизацию
+        $client = Objects::find($params['id'])->update($params);
+
+        $response_array['status'] = 'success';
+        $response_array['message'] = 'Данные объекта обновлены';
+
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+        return $response;
+    }
+
+    /*
         Добавляет новое оборудование из справочника.
         Добавляется не в родную, а служебную (смежную) таблицу. Модель - ObjEquipments
     */
