@@ -104,7 +104,24 @@ $(document).ready(function (e) {
         }
     });
 
-    $(document).on("click", ".modal .modal__header-btn-edit, .modal .modal__header-btn-save", function (e) {
+    
+});
+// End табы в модалках
+
+
+/*
+    Данная функция универсальна для любого модального окна класса .modal.
+    Выполняет сохранение данных на сервер
+    Первый панаметр - это id модального окна
+    Второй параметр - функция коллбек, которая собственно сохраняет данные на сервер.
+    Функция должна возвращать true либо false в зависимости от результат сохранения!
+    Только так функционал переключения с режима редактирования в режим просмотра и наборот будет работать корректно!
+
+    Мотив создания функции - уменьшить однотипный код переключения вкладок. Он универсален всегда!
+*/
+function save_big_modal(modal_id, save_function_collback) {
+
+    $('#' + modal_id + " .modal__header-btn-edit, " + '#' + modal_id + " .modal__header-btn-save").click(function (e) {
         let edit_class = "modal__header-btn-edit";
         let save_class = "modal__header-btn-save";
 
@@ -128,17 +145,23 @@ $(document).ready(function (e) {
 
         // Если клик по кнопке "Сохранить"
         if ($(this).hasClass(save_class)) {
-            $modal.find(".tabs__item--active .view").css("display", "flex");
-            $modal.find(".tabs__item--active .edit").css("display", "none");
 
-            // Смена кнопок
-            btn_save.fadeOut(200, () => {
-                btn_edit.fadeIn(200);
-            });
+            if (save_function_collback()) {
+                $modal.find(".tabs__item--active .view").css("display", "flex");
+                $modal.find(".tabs__item--active .edit").css("display", "none");
+
+                // Смена кнопок
+                btn_save.fadeOut(200, () => {
+                    btn_edit.fadeIn(200);
+                });
+
+                $('#' + modal_id + " .modal__header-btn-edit, " + '#' + modal_id + " .modal__header-btn-save").off();
+            } else {
+                alert('Сохранение не удалось!');
+            }
         }
     });
-});
-// End табы в модалках
+}
 
 
 

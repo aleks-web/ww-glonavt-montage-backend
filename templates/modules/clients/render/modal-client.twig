@@ -713,8 +713,6 @@ function chenge_client_status(client_id, status) {
     formData.append('id', client_id);
     formData.append('status', status);
 
-    console.log(API_V1_URLS.clients.update);
-
     $.ajax({
         url: API_V1_URLS.clients.update,
         method: "POST",
@@ -739,3 +737,30 @@ function chenge_client_status(client_id, status) {
 }
 </script>
 {# End изменяет статус клиента #}
+
+{# Start функционал сохранения данных #}
+<script>
+    save_big_modal('modal-client', () => {
+        let client_id = $('#modal-client').data('client-id');
+        
+        let url = API_V1_URLS.clients.update;
+
+        let formData = new FormData();
+
+        formData.append('id', client_id);
+        formData.append('name', '234234!');
+
+         return xpost_fd(url, formData).then(response => {
+            console.log(response);
+
+            load_modal_client(client_id); // Обновляем
+
+            return true;
+        }).catch(response => {
+            console.log(response);
+
+            return false;
+        });
+    });
+</script>
+{# End функционал сохранения данных #}
