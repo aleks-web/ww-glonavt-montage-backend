@@ -49,9 +49,27 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
     public function render_main_table($twig_element, Request $request, Response $response) {
         // Получаем параметры POST и сразу записываем их в массив с ответом
         $response_array['request_params'] = $request->request->all();
+        $response_array['users'] = Users::all();
+
+        if ($cond = $response_array['request_params']['control_panel_condition']) {
+            $response_array['users'] = Users::where('name', 'like', '%' . $cond .  '%')
+                                            ->orWhere('surname', 'like', '%' . $cond .  '%')
+                                            ->orWhere('patronymic', 'like', '%' . $cond .  '%')
+                                            ->orWhere('tel', 'like', '%' . $cond .  '%')
+                                            ->orWhere('email', 'like', '%' . $cond .  '%')
+                                            ->get();
+        } else {
+            $response_array['users'] = Users::all();
+        }
+
+
+        foreach ($response_array['users'] as $user) {
+            $user->post;
+        }
 
         $response_array['render_response_html'] = $this->view->render('modules/users/render/' . $twig_element, [
-            'request_params' => $response_array['request_params']
+            'request_params' => $response_array['request_params'],
+            'users' => $response_array['users']
         ]);
 
         $response_array['status'] = 'success';

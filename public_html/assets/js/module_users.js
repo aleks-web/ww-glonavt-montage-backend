@@ -21,8 +21,8 @@ $(document).ready(function (e) {
 });
 
 
-// Start функция, которая получает html разметку главной таблицы и вставляет ее | Модуль объекты
-function xrender_main_table_users(current_page = 1, control_panel_condition = null) {
+// Start функция, которая получает html разметку главной таблицы и вставляет ее | Модуль сотрудники
+function xrender_main_table_users() {
     // Разбиваем строку wrapper_and_element на обертку и twig элемент
     let wrapper = $("#region-main-table");
     let twig_element = "main-table.twig";
@@ -37,8 +37,7 @@ function xrender_main_table_users(current_page = 1, control_panel_condition = nu
         method: "POST",
         data: {
             twig_element: twig_element,
-            current_page: current_page, // Текущая страница, если есть
-            control_panel_condition: control_panel_condition,
+            control_panel_condition: $('.control .input-search input').val(),
         },
         success: function (response) {
             wrapper.removeClass("loading");
@@ -62,6 +61,6 @@ function xrender_main_table_users(current_page = 1, control_panel_condition = nu
         },
     });
 }
-// Start функция, которая получает html разметку главной таблицы и вставляет ее | Модуль объекты
+// End функция, которая получает html разметку главной таблицы и вставляет ее | Модуль сотрудники
 
 

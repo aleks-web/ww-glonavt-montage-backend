@@ -1,17 +1,68 @@
-<div class="content-table">
+{#
+    request_params - параметры запроса
+    users - пользователи
+#}
+
+
+<div class="content-table content-table--control">
     <div class="content-table__container">
 
-        <table>
-            <thead>
-                <tr>
-                <th class="text-start" width="10%">Фото</th>
-                <th class="text-start">Сотрудник/Отдел</th>
-                <th class="text-start">Телефон</th>
-                <th class="text-start">Почта</th>
-                <th class="text-start">Дата/Время<br>авторизации</th>
-                </tr>
-            </thead>
+        {% if users | length > 0 %}
+            <table>
+                <thead>
+                    <tr>
+                        <th class="text-start" width="10%">Фото</th>
+                        <th class="text-start">Сотрудник/Отдел</th>
+                        <th class="text-start">Телефон</th>
+                        <th class="text-start">Почта</th>
+                    </tr>
+                </thead>
 
+                <tbody>
+                    {% for user in users %}
+                        {% set name = user.surname ~ ' ' ~ user.name ~ ' ' ~ user.patronymic %}
+
+                        <tr data-modal-user data-user-id="1" class="pointer">
+                            <td class="td-avatar">
+                                <svg><use xlink:href="#svg-user"></use></svg>
+                                <img src="/assets/img/default/avatar.png" alt="Аватар">
+                            </td>
+                            <td class="text-start">
+                                <span>{{ name | trim }}</span>
+                                <br>
+                                <span class="text-secondary">{{ user.post.name }}</span>
+                            </td>
+                            <td class="text-start">{{ user.tel | default('-')}}</td>
+                            <td class="text-start">{{ user.email | default('-') }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %} {# Если пользователей нет #}
+            <div style="display: flex; gap: 10px; align-items: center; flex-direction: column; justify-content: center; height: 100%;font-size: 2rem;">
+                <span style="font-size: 3rem;">🙁</span>
+
+                {% if request_params.control_panel_condition != '' %}
+                    <span>Пользователей не нашлось</span>
+                {% else %}
+                    <span>Пользователей нет!</span>
+                {% endif %}
+
+                <button data-modal-user-add class="btn">Добавить ногого сотрудника</button>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+
+
+
+
+
+
+
+<div class="content-table">
+    <div class="content-table__container">
             <tbody>
                 <tr data-modal-user data-user-id="1" class="pointer">
                     <td class="td-avatar">

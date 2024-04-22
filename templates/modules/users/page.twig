@@ -1,6 +1,6 @@
 {% extends "layout.twig" %}
 
-{% block module_name %}workers{% endblock module_name %}
+{% block module_name %}users{% endblock module_name %}
 
 {% block control %}
 <div class="control">
@@ -8,7 +8,7 @@
         <div class="control__left">
 
             <div class="control__search input-search" style="max-width: 370px;">
-                <input type="text" class="input-search__input" placeholder="Поиск по ФИО сотрудника">
+                <input type="text" class="input-search__input" placeholder="Поиск сотрудника">
             </div>
 
         </div>
@@ -28,7 +28,13 @@
 {% block scripts %}
 {# Start Подгружаем главную таблицу #}
 <script>
-    xrender_main_table_users(1);
+    $(document).ready(() => {
+        xrender_main_table_users();
+    });
+
+    $('.control .input-search input').on('input', () => {
+        xrender_main_table_users();
+    });
 </script>
 {# End Подгружаем главную таблицу #}
 {% endblock scripts %}
