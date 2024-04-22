@@ -3,7 +3,6 @@
     users - пользователи
 #}
 
-
 <div class="content-table content-table--control">
     <div class="content-table__container">
 
@@ -22,7 +21,7 @@
                     {% for user in users %}
                         {% set name = user.surname ~ ' ' ~ user.name ~ ' ' ~ user.patronymic %}
 
-                        <tr data-modal-user data-user-id="1" class="pointer">
+                        <tr onclick="open_modal_user({{ user.id }})" class="pointer">
                             <td class="td-avatar">
                                 <svg><use xlink:href="#svg-user"></use></svg>
                                 <img src="/assets/img/default/avatar.png" alt="Аватар">
@@ -51,35 +50,6 @@
                 <button data-modal-user-add class="btn">Добавить ногого сотрудника</button>
             </div>
         {% endif %}
-
-    </div>
-</div>
-
-
-
-
-
-
-
-<div class="content-table">
-    <div class="content-table__container">
-            <tbody>
-                <tr data-modal-user data-user-id="1" class="pointer">
-                    <td class="td-avatar">
-                        <svg><use xlink:href="#svg-user"></use></svg>
-                        <img src="/assets/img/default/avatar.png" alt="Аватар">
-                    </td>
-                    <td class="text-start">
-                        <span>Константинопольский Константин Константинович</span>
-                        <br>
-                        <span class="text-secondary">Руководитель</span>
-                    </td>
-                    <td class="text-start">89222314546</td>
-                    <td class="text-start">example@mail.ru</td>
-                    <td class="text-start">19.10.2023 15:21</td>
-                </tr>
-            </tbody>
-        </table>
 
     </div>
 </div>

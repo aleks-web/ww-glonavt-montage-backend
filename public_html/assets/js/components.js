@@ -405,6 +405,8 @@ function cpns_clear_by_wrapper(wrapper_selector) {
     Работает с другими функциями
 */
 function cpns_form_validate(form_wrapper, submitter, moment = false) {
+
+    cpns_init();
     
     function validate() {
         let data = cpns_get_errors_by_wrapper(form_wrapper); // Функция получает ошибки компонентов внутри определенного контейнера

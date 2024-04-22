@@ -1,0 +1,159 @@
+{#
+    request_params - данные запроса
+    user - массив с пользователем
+#}
+
+{% set name = user.surname ~ ' ' ~ user.name ~ ' ' ~ user.patronymic %}
+
+<!-- Start Модалка просмотра сотрудника -->
+<div id="modal-user" class="modal modal-user {% if request_params.is_open %}open{% endif %}">
+    <svg data-modal-close class="modal__close"><use xlink:href="#svg-close"></use></svg>
+
+    <div class="modal__container">
+
+        <!-- Start Шапка модалки -->
+        <div class="modal__header">
+            <div class="modal__header-left">
+                
+                <div class="modal__info">
+                    <div class="modal__info-img">
+                        <svg class="modal__info-avatarDefault"><use xlink:href="#svg-user"></use></svg>
+                         <img class="modal__info-avatar" src="/assets/img/default/avatar.png">
+                    </div>
+                    <div class="modal__info-title">
+                        <span class="modal__info-title-h1">{{ name | trim }}</span>
+                        <span class="modal__info-title-h2">{{ user.post.name | default('Должность не задана') }}</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal__header-right tabs-outside-worker-control">
+                <div class="modal__header-group-btns tab-outside tab-outside--active" data-outside-id="1">
+                    <button class="modal__header-btn modal__header-btn-edit btn">Редактировать</button>
+                    <button class="modal__header-btn modal__header-btn-save btn-good" style="display: none;">Сохранить</button>
+                    
+                    <button class="modal__header-btn btn-bad">Заблокировать</button>
+                </div>
+            </div>
+        </div>
+        <!-- End Шапка модалки -->
+
+        <!-- Start Основное содержимое модалки -->
+        <div class="modal__main">
+
+            <div class="tabs" data-outside="worker-control">
+
+                <!-- Start tabs__header -->
+                <div class="tabs__header tabs__header--one">
+                    <div data-id="1" class="tabs__tab tabs__tab--active">
+                        Информация
+                    </div>
+                </div>
+                <!-- End tabs__header -->
+
+                <!-- Start tabs__content -->
+                <div class="tabs__content">
+                    
+                    <!-- Start tab content 1 -->
+                    <div data-id="1" class="tabs__item tabs__item--active">
+                        
+                        <div class="modal-application__data-view view" style="display:flex;flex-direction:column;gap:inherit;">
+                            <div class="block-info">
+                                <div class="block-info__title">О сотруднике</div>
+
+                                <div class="block-info__content" style="grid-template-columns: repeat(3, 1fr);">
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Фамилия</span>
+                                        <span class="block-info__text-main">{{ user.surname | default('-') }}</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Имя</span>
+                                        <span class="block-info__text-main">{{ user.name | default('-') }}</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Отчество</span>
+                                        <span class="block-info__text-main">{{ user.patronymic | default('-') }}</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Дата рождения</span>
+                                        <span class="block-info__text-main">{{ user.birth | date('d.m.Y') }}</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Должность</span>
+                                        <span class="block-info__text-main">{{ user.post.name | default('-') }}</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Телефон</span>
+                                        <span class="block-info__text-main">{{ user.tel | default('-') }}</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Почта</span>
+                                        <span class="block-info__text-main">{{ user.email | default('-') }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-application__data-edit edit" style="display: none;">
+                            <div class="block-info">
+                                <div class="block-info__title">О сотруднике</div>
+                            
+                                    <div class="block-info__content" style="grid-template-columns: repeat(3, 1fr);">
+
+                                        <div class="block-info__item">
+                                            @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Фамилия"})
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Имя"})
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Отчество"})
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            @@include('../components/standart-input-date.html', {"name": ""})
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            @@include('../components/select.html', {"name": "", "stText": "Должность", "itemName": "Должность"})
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            @@include('../components/select.html', {"name": "", "stText": "Подразделение", "itemName": "Подразделение"})
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Телефон"})
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Email"})
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            @@include('../components/input-text.html', {"name": "", "value": "", "stText": "ID Telegram"})
+                                        </div>
+
+                                    </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- End tab content 1 -->
+
+                </div>
+                <!-- End tabs__content -->
+            </div>
+
+        </div>
+        <!-- End Основное содержимое модалки -->
+
+
+
+    </div>
+</div>
+<!-- End Модалка просмотра сотрудника -->

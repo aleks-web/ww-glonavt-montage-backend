@@ -55,6 +55,21 @@
                     }
                 } %}
 
+                {% include 'components/input-text.twig' with {
+                    settings: {
+                        db_field_name: 'password',
+                        required: true,
+                        pls: 'Пароль'
+                    }
+                } %}
+
+                {% include 'components/checkbox.twig' with {
+                    settings: {
+                        db_field_name: 'is_send_password',
+                        label: 'Уведомить пользователя о создании аккаунта?'
+                    }
+                } %}
+
             </div>
 
             <div class="d-flex justify-content-start align-items-end flex-column w-50">

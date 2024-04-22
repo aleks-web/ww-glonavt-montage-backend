@@ -1,18 +1,5 @@
 $(document).ready(function (e) {
 
-    $(document).on('click', '[data-modal-user]', function (e) {
-        let client_id = $(this).data('user-id');
-
-        if (client_id) {
-            
-            add_body_bg();
-            $('#modal-user').addClass('open');
-            
-        } else {
-            alert('Не задан id сотрудника в атрибуте data-user-id');
-        }
-    });
-
     $(document).on('click', '[data-modal-user-add]', function (e) {
             add_body_bg();
             $('#modal-user-add').addClass('open');
@@ -71,3 +58,48 @@ xpost_fd(API_V1_URLS.users.render + 'modal-user-add').then(response => {
 
     dd_render_success(response, 'modal-user-add.twig', API_V1_URLS.users.render + 'modal-user-add');
 });
+
+/*
+    Открытие модалки просмотра клиента 
+*/
+function open_modal_user(user_id) {
+    load_modal_user(user_id).then(response => {
+        add_body_bg();
+
+        setTimeout(() => { // Без таймаута анимация открытия модалки страдает
+            $("#modal-user").addClass("open");
+        }, 10);
+
+        dd_render_success(response, 'modal-user.twig', API_V1_URLS.users.render + 'modal-user');
+    });
+}
+
+/*
+    Подгрузка модалки просмотра клиента 
+*/
+function load_modal_user(user_id, is_open = false) {
+    return new Promise(function(resolve, reject) {
+        let url = API_V1_URLS.users.render + 'modal-user';
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: {
+                twig_element: 'modal-user.twig',
+                user_id: user_id,
+                is_open: is_open
+            },
+            success: function (response) {
+
+                if (response.status == "success") {
+                    $('#modal-user-wrapper').html(response.render_response_html);
+                    resolve(response);
+                }
+
+                if (response.status == "error") {
+                    reject(response);
+                }
+            }
+        });
+    });
+}
