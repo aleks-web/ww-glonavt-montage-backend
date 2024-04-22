@@ -47,7 +47,10 @@ $router->xpost(API_V1_URL . 'objects/add-new-device', $controllers['Api']['Objec
 $router->xpost(API_V1_URL . 'objects/update', $controllers['Api']['Objects'] . '@update'); // Обновление объекта
 $router->xpost(API_V1_URL . 'objects/render/:string', $controllers['Api']['Objects'] . '@distributor'); // Роут для рендера
 
-
+/*
+    Роуты модуля "Сотрудники"
+*/
+$router->xpost(API_V1_URL . 'users/render/:string', $controllers['Api']['Users'] . '@distributor'); // Роут для рендера
 
 // Book equipment
 $router->xpost(API_V1_URL . 'book-equipment/render/:string', $controllers['Api']['BooksEquipments'] . '@distributor'); // Рендер оборудования
