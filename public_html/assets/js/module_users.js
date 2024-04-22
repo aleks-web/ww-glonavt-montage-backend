@@ -63,4 +63,11 @@ function xrender_main_table_users() {
 }
 // End функция, которая получает html разметку главной таблицы и вставляет ее | Модуль сотрудники
 
+/*
+    Загрузка модального окна "Добавление нового сотрудника"
+*/
+xpost_fd(API_V1_URLS.users.render + 'modal-user-add').then(response => {
+    $('#modal-user-add-wrapper').html(response.render_response_html);
 
+    dd_render_success(response, 'modal-user-add.twig', API_V1_URLS.users.render + 'modal-user-add');
+});
