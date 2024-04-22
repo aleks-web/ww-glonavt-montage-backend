@@ -88,7 +88,18 @@
         $('#modal-user-add .submitter').click(() => {
             let formData = cpns_get_formdata_by_wrapper('#modal-user-add');
 
-            xpost_fd(API_V1_URLS.users.create, formData);
+            xpost_fd(API_V1_URLS.users.create, formData).then(response => {
+                xrender_main_table_users();
+                $('#modal-user-add .modal__close').trigger('click');
+
+                cpns_clear_by_wrapper('#modal-user-add');
+
+                dd(response, response.message, 'success');
+                push(response.message, 'success');
+            }).catch(response => {
+                dd(response, response.message, 'error');
+                push(response.message, 'error');
+            });
         });
     });
 </script>

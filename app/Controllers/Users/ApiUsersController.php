@@ -35,6 +35,15 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
         $response_array['request_params'] = $request->request->all();
         $response->headers->set('Content-Type', 'application/json');
 
+        if (Users::where('email', $response_array['request_params']['email'])->count() >= 1) {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'Пользователь с таким Email уже существует';
+
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+            return $response;
+        }
+
         try {
             Users::create($response_array['request_params']);
 

@@ -12,6 +12,7 @@ class Users extends Model {
     'name',
     'surname',
     'patronymic',
+    'post_id',
     'tel',
     'email',
     'birth',
