@@ -44,6 +44,10 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
             return $response;
         }
 
+        if (empty($response_array['request_params']['post_id'])) {
+            $response_array['request_params']['post_id'] = null;
+        }
+
         try {
             Users::create($response_array['request_params']);
 
