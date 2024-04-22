@@ -18,7 +18,7 @@ $router->get('/clients', $controllers['Default']['Clients'], ['before' => 'MainM
 $router->get('/applications', $controllers['Default']['Applications'], ['before' => 'MainMiddleware']); // Заявки
 $router->get('/statistics', $controllers['Default']['Statistics'], ['before' => 'MainMiddleware']); // Статистика
 $router->get('/objects', $controllers['Default']['Objects'], ['before' => 'MainMiddleware']); // Объекты
-$router->get('/workers', $controllers['Default']['Workers'], ['before' => 'MainMiddleware']); // Сотрудники
+$router->get('/workers', $controllers['Default']['Users'], ['before' => 'MainMiddleware']); // Сотрудники
 
 $router->get('/auth', $controllers['Default']['Auth']); // Авторизация
 $router->get('/recovery', $controllers['Default']['Auth'] . '@recovery'); // Восстановление пароля

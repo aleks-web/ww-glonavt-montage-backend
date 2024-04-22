@@ -15,11 +15,11 @@ return [
         ],
         'Default' => [
             'Auth' => 'WWCrm\Controllers\Auth\AuthController',
+            'Users' => 'WWCrm\Controllers\Users\UsersController',
             'Clients' => 'WWCrm\Controllers\Clients\ClientsController',
             'Objects' => 'WWCrm\Controllers\Objects\ObjectsController',
             'Applications' => 'WWCrm\Controllers\Applications\ApplicationsController',
             'Statistics' => 'WWCrm\Controllers\Statistics\StatisticsController',
-            'Workers' => 'WWCrm\Controllers\Workers\WorkersController',
             'BooksEquipments' => 'WWCrm\Controllers\Books\BookEquipmentsController',
             'BooksDepartments' => 'WWCrm\Controllers\Books\BookDepartmentsController',
             'BooksPosts' => 'WWCrm\Controllers\Books\BookPostsController'
