@@ -1,68 +1,6 @@
-<!-- Start модалка добавление сотрудника -->
-<div id="modal-user-add" class="modal modal--small modal-user-add">
-    <svg data-modal-close class="modal__close"><use xlink:href="#svg-close"></use></svg>
-
-    <div class="modal__container">
-        <div class="modal__title">
-            Новый сотрудник
-        </div>
-
-        <div class="d-flex justify-content-between gap-5">
-            <div class="d-flex flex-column gap-4 w-50">
-
-                @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Имя"})
-                @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Фамилия"})
-                @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Отчество"})
-
-                @@include('../components/select.html', {
-                    "name": "",
-                    "stText": "Руководитель",
-                    "itemName": "Руководитель"
-                })
-
-                @@include('../components/select.html', {
-                    "name": "",
-                    "stText": "Подразделение",
-                    "itemName": "Подразделение"
-                })
-
-                @@include('../components/select.html', {
-                    "name": "",
-                    "stText": "Телефон",
-                    "itemName": "Телефон"
-                })
-
-                @@include('../components/select.html', {
-                    "name": "",
-                    "stText": "Почта",
-                    "itemName": "Почта"
-                })
-
-                @@include('../components/select.html', {
-                    "name": "",
-                    "stText": "ID Telegram",
-                    "itemName": "ID Telegram"
-                })
-
-            </div>
-
-            <div class="d-flex justify-content-start align-items-end flex-column w-50">
-
-                @@include('../components/photo-add.html', {"btn_name": "Добавить фото"})
-
-            </div>
-        </div>
-        
-        <div class="d-flex flex-column align-items-end">
-            <button class="btn disable" style="font-weight: 700; width: max-content;">
-                Сохранить
-            </button>
-            <span style="margin-top: 5px;display: block; font-size: 0.8rem; color: var(--clr-6);">*обязательные поля</span>
-        </div>
-
-    </div>
-</div>
-<!-- End модалка добавление сотрудника -->
+<!-- Start модалка добавление сотрудника. Контейнер | Модуль сотрудники -->
+<div id="modal-user-add-wrapper"></div>
+<!-- End модалка добавление сотрудника. Контейнер | Модуль сотрудники -->
 
 
 
@@ -70,7 +8,7 @@
 
 
 <!-- Start Модалка просмотра сотрудника -->
-<div id="modal-user" class="modal modal-worker">
+<div id="modal-user" class="modal modal-user">
     <svg data-modal-close class="modal__close"><use xlink:href="#svg-close"></use></svg>
 
     <div class="modal__container">

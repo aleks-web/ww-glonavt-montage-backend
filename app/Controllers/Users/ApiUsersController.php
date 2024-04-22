@@ -73,8 +73,6 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
         ]);
 
         $response_array['status'] = 'success';
-        $response_array['message'] = 'Тест';
-
 
         $response->headers->set('Content-Type', 'application/json');
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
@@ -82,6 +80,25 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
         return $response;
     }
 
+    /*
+        Рендер модального окна (добавление нового пользователя)
+    */
+    public function render_modal_user_add($twig_element, Request $request, Response $response) {
+         // Получаем параметры POST и сразу записываем их в массив с ответом
+         $response_array['request_params'] = $request->request->all();
+
+ 
+         $response_array['render_response_html'] = $this->view->render('modules/users/render/' . $twig_element, [
+             'request_params' => $response_array['request_params']
+         ]);
+ 
+         $response_array['status'] = 'success';
+ 
+         $response->headers->set('Content-Type', 'application/json');
+         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+ 
+         return $response;
+    }
 
     /*
         Рендер модального окна "Редактирование собственной карточки пользователя"
