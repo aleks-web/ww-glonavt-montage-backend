@@ -210,10 +210,9 @@
         return xpost_fd(url, formData).then(response => {
             dd(response, response.message, 'success');
 
-            load_modal_user(user_id, true).then(resp => {
-                remove_body_bg();
-                $('#modal-user').removeClass('open');
-            }); // Обновляем
+            load_modal_user(user_id, true); // Обновляем
+
+            xrender_main_table_users();
 
             return true;
 

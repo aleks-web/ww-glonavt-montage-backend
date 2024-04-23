@@ -7,7 +7,8 @@
             "WWCrm\\Models\\": "app/Models",
             "WWCrm\\Controllers\\": "app/Controllers",
             "WWCrm\\Middlewares\\": "app/Middlewares",
-            "WWCrm\\Services\\": "app/Services"
+            "WWCrm\\Services\\": "app/Services",
+            "WWCrm\\Utils\\": "app/Utils"
         },
         "files": ["app/db.php", "app/container.php"]
     },
