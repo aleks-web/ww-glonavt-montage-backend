@@ -210,12 +210,18 @@
         return xpost_fd(url, formData).then(response => {
             dd(response, response.message, 'success');
 
-            load_modal_user(user_id, true); // Обновляем
+            load_modal_user(user_id, true).then(resp => {
+                remove_body_bg();
+                $('#modal-user').removeClass('open');
+            }); // Обновляем
 
             return true;
 
         }).catch(response => {
-            dd(response, response.message, 'error');
+            let mes = response.message ? response.message : 'Неизвестная ошибка';
+            let resp = response ? response : 'Нет объекта ответа';
+
+            dd(resp, mes, 'error');
 
             return false;
         });
