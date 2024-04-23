@@ -55,10 +55,21 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
         Обновление организации
     */
     public function update(Request $request, Response $response) {
-
+        $response->headers->set('Content-Type', 'application/json');
+        
         // Получаем параметры
-        $params = $request->request->all();
-        $response_array['request_params'] = $params;
+        $params = $response_array['request_params'] = $request->request->all();
+
+        /*
+            Проверяем валидность ФИО
+        */
+        if(!$this->utils->isValidFio($params['name'])) {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'ФИО должно содержать только буквы';
+
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+            return $response;
+        }
 
         // Обновляем оргонизацию
         $client = Organizations::find($params['id'])->update($params);
@@ -66,7 +77,6 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
         $response_array['status'] = 'success';
         $response_array['message'] = 'Данные клиента обновлены';
 
-        $response->headers->set('Content-Type', 'application/json');
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
 
         return $response;

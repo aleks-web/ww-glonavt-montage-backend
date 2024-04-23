@@ -744,7 +744,7 @@ function chenge_client_status(client_id, status) {
 
 {# Start функционал сохранения данных #}
 <script>
-    save_big_modal('modal-client', () => {
+    save_big_modal('modal-client', async () => {
         let client_id = $('#modal-client').data('client-id');
         
         let url = API_V1_URLS.clients.update;
@@ -753,17 +753,23 @@ function chenge_client_status(client_id, status) {
 
         formData.append('id', client_id);
 
-        return xpost_fd(url, formData).then(response => {
+        return await xpost_fd(url, formData).then(response => {
             dd(response, response.message, 'success');
+            push(response.message, 'success');
 
             load_modal_client(client_id, true); // Обновляем
 
-            return true;
+            return new Promise((resolve, reject) => {
+                resolve(response);
+            });
 
         }).catch(response => {
             dd(response, response.message, 'error');
+            push(response.message, 'error');
 
-            return false;
+            return new Promise((resolve, reject) => {
+                reject(resp);
+            });
         });
     });
 </script>
