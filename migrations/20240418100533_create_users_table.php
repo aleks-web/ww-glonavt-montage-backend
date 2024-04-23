@@ -26,7 +26,7 @@ final class CreateUsersTable extends AbstractMigration
             `surname` VARCHAR(60) DEFAULT NULL COMMENT 'Фамилия пользователя',
             `patronymic` VARCHAR(60) DEFAULT NULL COMMENT 'Отчество пользователя',
             `post_id` BIGINT UNSIGNED DEFAULT NULL COMMENT 'Занимаемая должность',
-            `tel` VARCHAR(20) DEFAULT NULL COMMENT 'Телефон пользователя',
+            `tel` VARCHAR(15) DEFAULT NULL COMMENT 'Телефон пользователя',
             `email` VARCHAR(50) NOT NULL UNIQUE COMMENT 'Email пользователя',
             `birth` DATE DEFAULT NULL COMMENT 'День рождения пользователя',
             `avatar_file_name` VARCHAR(255) DEFAULT NULL COMMENT 'Название файла аватарки пользователя',

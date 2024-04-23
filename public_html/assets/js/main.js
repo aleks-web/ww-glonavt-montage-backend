@@ -145,8 +145,7 @@ function save_big_modal(modal_id, save_function_collback) {
 
         // Если клик по кнопке "Сохранить"
         if ($(this).hasClass(save_class)) {
-
-            if (save_function_collback()) {
+            save_function_collback().then(response => {
                 $(elements).off();
                 
                 setTimeout(() => {
@@ -156,9 +155,9 @@ function save_big_modal(modal_id, save_function_collback) {
                     btn_edit.css('display', 'block');
                     btn_save.css('display', 'none');
                 }, 500);
-            } else {
-                alert('Сохранение не удалось!');
-            }
+            }).catch(response => {
+                
+            });
         }
     });
 }

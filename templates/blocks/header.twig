@@ -1,9 +1,12 @@
 {#
     title - заголовок страницы
     current_user - текущий пользователь
+    paths - пути
 #}
 {% set username = current_user.surname ~ ' ' ~ current_user.name ~ ' ' ~ current_user.patronymic %}
 {% set username = username | trim %}
+
+{% set avatar = current_user.avatar_file_name ? paths.public_urn.users_avatars ~ '/' ~ current_user.avatar_file_name : false %}
 
 <div class="header">
     <div class="header__container">
@@ -15,14 +18,28 @@
             <div class="header__account">
                 <div class="header__user">
                     <span class="header__user-name">{{ username }}</span>
-                    <span class="header__user-post">{{ current_user.post.name }} ({{ current_user.department.name }})</span>
+                    <span class="header__user-post">
+                        {% if current_user.post.id %}
+                            {{ current_user.post.name }} ({{ current_user.department.name }})
+                        {% else %}
+                            {{ current_user.post.name }}
+                        {% endif %}
+                    </span>
                 </div>
                 <div class="header__btns">
                     <div class="header__btn-user">
-                        <a href="#" onclick="$('.modal-current-user').addClass('open');add_body_bg();"><svg><use xlink:href="#svg-user"></use></svg></a>
+                        {% if avatar %}
+                            <a href="#" onclick="$('.modal-current-user').addClass('open');add_body_bg();">
+                                <img src="{{ avatar }}" alt="{{ current_user.name }}" />
+                            </a>
+                        {% else %}
+                            <a href="#" onclick="$('.modal-current-user').addClass('open');add_body_bg();"><svg><use xlink:href="#svg-user"></use></svg></a>
+                        {% endif %}
                     </div>
                     <div class="header__btn-logout">
-                        <a href="#" data-fancybox data-src="#fmodal-logout"><svg><use xlink:href="#svg-logout"></use></svg></a>
+                        <a href="#" data-fancybox data-src="#fmodal-logout">
+                            <svg><use xlink:href="#svg-logout"></use></svg>
+                        </a>
                     </div>
                 </div>
             </div>

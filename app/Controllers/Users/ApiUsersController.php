@@ -39,7 +39,7 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
     */
     public function create(Request $request, Response $response) {
         // Получаем параметры POST и сразу записываем их в массив с ответом
-        $response_array['request_params'] = $request->request->all();
+        $params = $response_array['request_params'] = $request->request->all();
         $response->headers->set('Content-Type', 'application/json');
 
         if ($this->userService->findUserByEmail($response_array['request_params']['email'])) {
@@ -51,7 +51,10 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
             return $response;
         }
 
-        if (!filter_var($response_array['request_params']['email'], FILTER_VALIDATE_EMAIL)) {
+        /*
+            Валидность Email
+        */
+        if (!$this->utils->isValidEmail($params['email'])) {
             $response_array['status'] = 'error';
             $response_array['message'] = 'Email введен не верно!';
 
@@ -123,13 +126,27 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
     */
     public function update(Request $request, Response $response) {
         // Получаем параметры POST и сразу записываем их в массив с ответом
-        $response_array['request_params'] = $request->request->all();
-        $response_array['request_params']['tel'] = $this->utils->formatTel($response_array['request_params']['tel']);
+        $params = $response_array['request_params'] = $request->request->all();
         $response->headers->set('Content-Type', 'application/json');
 
         $user = Users::find($response_array['request_params']['id']);
 
+        $response_array['request_params']['tel'] = $this->utils->formatTel($response_array['request_params']['tel']);
         $response_array['request_params']['post_id'] = empty($response_array['request_params']['post_id']) ? null : $response_array['request_params']['post_id'];
+
+
+        /*
+            Проверяем валидность email
+        */
+        if (empty($params['email']) || !$this->utils->isValidEmail($params['email'])) {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'Не коррекртый Email адрес';
+
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+            return $response;
+        }
+
 
         /*
             Возвращаем ошибку, если юзер с таким пользователем уже есть
@@ -143,6 +160,18 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
             return $response;
         }
 
+        /*
+            Проверяем валидность ФИО
+        */
+        if(!$this->utils->isValidFio($params['name']) || !$this->utils->isValidFio($params['surname']) || !$this->utils->isValidFio($params['patronymic'])) {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'ФИО должно содержать только буквы';
+
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+            return $response;
+        }
+
+        // Обновляем юзера
         $user->update($response_array['request_params']);
 
         $response_array['status'] = 'success';

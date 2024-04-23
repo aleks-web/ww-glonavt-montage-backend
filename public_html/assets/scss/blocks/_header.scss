@@ -79,6 +79,17 @@
             }
         }
 
+        &-user img {
+            width: calc(var(--header-min-height) - 10px);
+            height: calc(var(--header-min-height) - 10px);
+            border-radius: 50%;
+
+            @include media-breakpoint-down(xl) {
+                width: calc(var(--header-min-height) - 23px);
+                height: calc(var(--header-min-height) - 23px);
+            }
+        }
+
         &s {
           display: flex;
           align-items: center;

@@ -409,6 +409,7 @@ ul.fmodal__view-input-text {
             display: flex;
             align-items: center;
             justify-content: center;
+            cursor: pointer;
 
             &:has(.modal__info-avatar) {
                 padding: 0.5rem;
