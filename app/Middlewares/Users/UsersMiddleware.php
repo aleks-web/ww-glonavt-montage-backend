@@ -11,6 +11,6 @@ class UsersMiddleware extends Middleware {
     public function handle(Request $request, Response $response) {
         $WWCrmContainer = \WWCrm\ServiceContainer::getInstance();
 
-        return $response;
+        return true;
     }
 }
