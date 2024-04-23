@@ -12,6 +12,7 @@ class ClientsController extends \WWCrm\Controllers\MainController {
     public function __invoke(Request $request, Response $response) { 
         return $this->WWCrmService->get('View')->render('clients.twig', [
             'title' => 'Клиенты',
+            'paths' => $this->paths,
             'current_user' => $this->WWCurrentUser->getUserObject()
         ]);
     }

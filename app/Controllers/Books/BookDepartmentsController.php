@@ -12,6 +12,7 @@ class BookDepartmentsController extends \WWCrm\Controllers\MainController {
     public function __invoke(Request $request, Response $response) {
         return $this->view->render('books/departments/page.twig', [
             'title' => 'Справочник отделов',
+            'paths' => $this->paths,
             'current_user' => $this->WWCurrentUser->getUserObject()
         ]);
     }
