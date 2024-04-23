@@ -8,6 +8,8 @@ namespace WWCrm\Controllers\Users;
 */
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\File\FileBag;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /* 
     ComponentSelectBuilder - Билдер компонента select
@@ -24,6 +26,11 @@ use WWCrm\Services\ComponentSelectBuilder;
 */
 use WWCrm\Models\Users;
 use WWCrm\Models\BookPosts;
+
+/*
+    Сервисы
+*/
+use WWCrm\Services\UserService;
 
 class ApiUsersController extends \WWCrm\Controllers\MainController {
 
@@ -72,6 +79,13 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
 
         try {
             $user = Users::create($response_array['request_params']);
+
+            $file_name = $this->userService->saveUserAvatarFromFile($_FILES['avatar']);
+
+            if ($file_name) {
+                $user->avatar_file_name = $file_name;
+                $user->save();
+            }
 
             if ($user && $response_array['request_params']['is_send_password']) {
                 $user->password = $originalPass;
@@ -151,7 +165,8 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
 
         $response_array['render_response_html'] = $this->view->render('modules/users/render/' . $twig_element, [
             'request_params' => $response_array['request_params'],
-            'users' => $response_array['users']
+            'users' => $response_array['users'],
+            'paths' => $this->paths
         ]);
 
         $response_array['status'] = 'success';
@@ -192,6 +207,9 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
          return $response;
     }
 
+    /*
+        Рендер модального окна (просмотр пользователя)
+    */
     public function render_modal_user($twig_element, Request $request, Response $response) {
         // Получаем параметры POST и сразу записываем их в массив с ответом
         $response_array['request_params'] = $request->request->all();
@@ -201,7 +219,8 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
 
         $response_array['render_response_html'] = $this->view->render('modules/users/render/' . $twig_element, [
             'request_params' => $response_array['request_params'],
-            'user' => $response_array['user']
+            'user' => $response_array['user'],
+            'paths' => $this->paths
         ]);
  
          $response_array['status'] = 'success';

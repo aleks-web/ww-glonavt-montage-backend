@@ -12,6 +12,7 @@ class Users extends Model {
     'name',
     'surname',
     'patronymic',
+    'avatar_file_name',
     'post_id',
     'tel',
     'email',

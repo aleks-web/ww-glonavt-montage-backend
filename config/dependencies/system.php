@@ -32,11 +32,25 @@ return [
             ]
         ]);
     },
+
     'CurrentUser' => function (\Psr\Container\ContainerInterface $container) {
         return new \WWCrm\Services\CurrentUser();
     },
 
     'SymfonySession' => function () {
         return new \Symfony\Component\HttpFoundation\Session\Session();
-    }
+    },
+
+    'InterventionGdDriver' => \DI\Factory(function() {
+        return new \Intervention\Image\Drivers\Gd\Driver();
+    }),
+
+    'ImageManager' => function (\Psr\Container\ContainerInterface $container) {
+        return new \Intervention\Image\ImageManager($container->get('InterventionGdDriver'));
+    },
+
+    'UserService' => function () {
+        return new \WWCrm\Services\UserService();
+    },
+
 ];

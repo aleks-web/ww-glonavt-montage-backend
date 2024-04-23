@@ -1,9 +1,11 @@
 {#
     request_params - данные запроса
     user - массив с пользователем
+    paths - пути
 #}
 
 {% set name = user.surname ~ ' ' ~ user.name ~ ' ' ~ user.patronymic %}
+{% set avatar = user.avatar_file_name ? paths.public_urn.users_avatars ~ '/' ~ user.avatar_file_name : paths.public_urn.default_images ~ '/avatar.png' %}
 
 <!-- Start Модалка просмотра сотрудника -->
 <div id="modal-user" class="modal modal-user {% if request_params.is_open %}open{% endif %}">
@@ -18,7 +20,7 @@
                 <div class="modal__info">
                     <div class="modal__info-img">
                         <svg class="modal__info-avatarDefault"><use xlink:href="#svg-user"></use></svg>
-                         <img class="modal__info-avatar" src="/assets/img/default/avatar.png">
+                         <img class="modal__info-avatar" src="{{ avatar }}">
                     </div>
                     <div class="modal__info-title">
                         <span class="modal__info-title-h1">{{ name | trim }}</span>

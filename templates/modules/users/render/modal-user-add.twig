@@ -99,6 +99,7 @@
 <script>
     $(document).ready(() => {
         cpns_form_validate('#modal-user-add', '.submitter');
+        cpns_init();
 
         $('#modal-user-add .submitter').click(() => {
             let formData = cpns_get_formdata_by_wrapper('#modal-user-add');

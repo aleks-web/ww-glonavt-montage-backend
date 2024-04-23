@@ -29,6 +29,7 @@ final class CreateUsersTable extends AbstractMigration
             `tel` VARCHAR(20) DEFAULT NULL COMMENT 'Телефон пользователя',
             `email` VARCHAR(50) NOT NULL UNIQUE COMMENT 'Email пользователя',
             `birth` DATE DEFAULT NULL COMMENT 'День рождения пользователя',
+            `avatar_file_name` VARCHAR(255) DEFAULT NULL COMMENT 'Название файла аватарки пользователя',
             `password` VARCHAR(500) NOT NULL COMMENT 'Пароль пользователя',
             PRIMARY KEY (`id`)
           ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
@@ -43,7 +44,7 @@ final class CreateUsersTable extends AbstractMigration
           ";
           $this->execute($sql_alert);
 
-          $seed = 'INSERT INTO `users` (`name`, `surname`, `patronymic`, `tel`, `email`, `birth`, `password`, `post_id`) VALUES ("Алексей", "Антропов", "Андреевич", "89195798871", "dok.go@yandex.ru", NULL, "$2y$10$oRPfzOL0FRvfqPxrD5ftJ.Op64GxMD9c1SyDgVgSU8gLe6WgCu8Oa", 1)';
+          $seed = 'INSERT INTO `users` (`name`, `surname`, `patronymic`, `tel`, `email`, `birth`, `password`, `post_id`, `avatar_file_name`) VALUES ("Алексей", "Антропов", "Андреевич", "89195798871", "dok.go@yandex.ru", NULL, "$2y$10$oRPfzOL0FRvfqPxrD5ftJ.Op64GxMD9c1SyDgVgSU8gLe6WgCu8Oa", 1, "alex_developer.jpg")';
           
           // Сеем тестовые данные
           $this->execute($seed);
