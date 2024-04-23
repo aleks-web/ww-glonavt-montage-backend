@@ -40,7 +40,7 @@ final class UserService {
             $file_name = time() . '.jpg';
             $new_file_path = $save_dir . '/' . $file_name;
 
-            $this->imageManager->read($old_file_path)->cover(300, 300, 'center')->toJpg()->save($old_file_path, quality: 10);
+            $this->imageManager->read($old_file_path)->cover(300, 300, 'center')->toJpg()->save($old_file_path);
 
             if (move_uploaded_file($old_file_path, $new_file_path)) {
                 return $file_name;
