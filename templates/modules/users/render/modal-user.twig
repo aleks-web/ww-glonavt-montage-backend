@@ -2,13 +2,15 @@
     request_params - данные запроса
     user - массив с пользователем
     paths - пути
+    twig_components_data - данные для компонентов
+        posts - посты
 #}
 
 {% set name = user.surname ~ ' ' ~ user.name ~ ' ' ~ user.patronymic %}
 {% set avatar = user.avatar_file_name ? paths.public_urn.users_avatars ~ '/' ~ user.avatar_file_name : paths.public_urn.default_images ~ '/avatar.png' %}
 
 <!-- Start Модалка просмотра сотрудника -->
-<div id="modal-user" class="modal modal-user {% if request_params.is_open %}open{% endif %}">
+<div id="modal-user" class="modal modal-user {% if request_params.is_open %}open{% endif %}" data-user-id="{{ user.id }}">
     <svg data-modal-close class="modal__close"><use xlink:href="#svg-close"></use></svg>
 
     <div class="modal__container">
@@ -30,7 +32,7 @@
 
             </div>
 
-            <div class="modal__header-right tabs-outside-worker-control">
+            <div class="modal__header-right tabs-outside-worker">
                 <div class="modal__header-group-btns tab-outside tab-outside--active" data-outside-id="1">
                     <button class="modal__header-btn modal__header-btn-edit btn">Редактировать</button>
                     <button class="modal__header-btn modal__header-btn-save btn-good" style="display: none;">Сохранить</button>
@@ -44,7 +46,7 @@
         <!-- Start Основное содержимое модалки -->
         <div class="modal__main">
 
-            <div class="tabs" data-outside="worker-control">
+            <div class="tabs" data-outside="worker"> 
 
                 <!-- Start tabs__header -->
                 <div class="tabs__header tabs__header--one">
@@ -60,7 +62,7 @@
                     <!-- Start tab content 1 -->
                     <div data-id="1" class="tabs__item tabs__item--active">
                         
-                        <div class="modal-application__data-view view" style="display:flex;flex-direction:column;gap:inherit;">
+                        <div class="modal-user__data-view view" style="display:flex;flex-direction:column;gap:inherit;">
                             <div class="block-info">
                                 <div class="block-info__title">О сотруднике</div>
 
@@ -97,46 +99,75 @@
                             </div>
                         </div>
 
-                        <div class="modal-application__data-edit edit" style="display: none;">
+                        <div class="modal-user__data-edit edit" style="display: none;">
                             <div class="block-info">
                                 <div class="block-info__title">О сотруднике</div>
                             
                                     <div class="block-info__content" style="grid-template-columns: repeat(3, 1fr);">
 
                                         <div class="block-info__item">
-                                            @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Фамилия"})
+                                            {% include 'components/input-text.twig' with {
+                                                settings: {
+                                                    db_field_name: 'surname',
+                                                    val: user.surname,
+                                                    pls: 'Фамилия пользователя'
+                                                }
+                                            } %}
                                         </div>
 
                                         <div class="block-info__item">
-                                            @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Имя"})
+                                            {% include 'components/input-text.twig' with {
+                                                settings: {
+                                                    db_field_name: 'name',
+                                                    val: user.name,
+                                                    pls: 'Имя пользователя'
+                                                }
+                                            } %}
                                         </div>
 
                                         <div class="block-info__item">
-                                            @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Отчество"})
+                                            {% include 'components/input-text.twig' with {
+                                                settings: {
+                                                    db_field_name: 'patronymic',
+                                                    val: user.patronymic,
+                                                    pls: 'Отчество пользователя'
+                                                }
+                                            } %}
                                         </div>
 
                                         <div class="block-info__item">
-                                            @@include('../components/standart-input-date.html', {"name": ""})
+                                            {% include 'components/input-date.twig' with {
+                                                settings: {
+                                                    db_field_name: 'birth',
+                                                    val: user.birth,
+                                                    pls: 'Дата рождения'
+                                                }
+                                            } %}
                                         </div>
 
                                         <div class="block-info__item">
-                                            @@include('../components/select.html', {"name": "", "stText": "Должность", "itemName": "Должность"})
+                                            {% include 'components/select.twig' with twig_components_data.posts %}
                                         </div>
 
                                         <div class="block-info__item">
-                                            @@include('../components/select.html', {"name": "", "stText": "Подразделение", "itemName": "Подразделение"})
+                                            {% include 'components/input-text.twig' with {
+                                                settings: {
+                                                    db_field_name: 'tel',
+                                                    val: user.tel,
+                                                    pls: 'Телефон пользователя'
+                                                }
+                                            } %}
                                         </div>
 
                                         <div class="block-info__item">
-                                            @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Телефон"})
-                                        </div>
-
-                                        <div class="block-info__item">
-                                            @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Email"})
-                                        </div>
-
-                                        <div class="block-info__item">
-                                            @@include('../components/input-text.html', {"name": "", "value": "", "stText": "ID Telegram"})
+                                            {% include 'components/input-text.twig' with {
+                                                settings: {
+                                                    db_field_name: 'email',
+                                                    required: true,
+                                                    val: user.email,
+                                                    pls: 'Email пользователя'
+                                                }
+                                            } %}
                                         </div>
 
                                     </div>
@@ -159,3 +190,35 @@
     </div>
 </div>
 <!-- End Модалка просмотра сотрудника -->
+
+{# Start функционал сохранения данных #}
+<script>
+
+    $(document).ready(() => {
+        cpns_form_validate('#modal-user .modal-user__data-edit', '#modal-user .modal__header-btn-save');
+    });
+
+    save_big_modal('modal-user', () => {
+        let user_id = $('#modal-user').data('user-id');
+        
+        let url = API_V1_URLS.users.update;
+
+        let formData = cpns_get_formdata_by_wrapper('#modal-user .modal-user__data-edit');
+
+        formData.append('id', user_id);
+
+        return xpost_fd(url, formData).then(response => {
+            dd(response, response.message, 'success');
+
+            load_modal_user(user_id, true); // Обновляем
+
+            return true;
+
+        }).catch(response => {
+            dd(response, response.message, 'error');
+
+            return false;
+        });
+    });
+</script>
+{# End функционал сохранения данных #}

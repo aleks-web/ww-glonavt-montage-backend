@@ -28,6 +28,7 @@ $router->xpost(API_V1_URL . 'auth/recovery', $controllers['Api']['Auth'] . '@rec
     Пользователи системы
 */
 $router->xpost(API_V1_URL . 'users/create/', $controllers['Api']['Users'] . '@create'); // Создание пользователя
+$router->xpost(API_V1_URL . 'users/update/', $controllers['Api']['Users'] . '@update'); // Обновление пользователя
 $router->xpost(API_V1_URL . 'users/render/:string', $controllers['Api']['Users'] . '@distributor'); // Рендер элементов
 
 /*

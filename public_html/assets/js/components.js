@@ -417,10 +417,17 @@ function cpns_form_validate(form_wrapper, submitter, moment = false) {
     function validate() {
         let data = cpns_get_errors_by_wrapper(form_wrapper); // Функция получает ошибки компонентов внутри определенного контейнера
 
-        if (data) {
-            $(`${form_wrapper} ${submitter}`).addClass("disable");
+        let submitter_element;
+        if ($(`${form_wrapper} ${submitter}`).length == 0) {
+            submitter_element = $(`${submitter}`);
         } else {
-            $(`${form_wrapper} ${submitter}`).removeClass("disable");
+            submitter_element = $(`${form_wrapper} ${submitter}`);
+        }
+
+        if (data) {
+            submitter_element.addClass("disable");
+        } else {
+            submitter_element.removeClass("disable");
         }
 
         cpns_update_from_json(data, form_wrapper); // Обновление компонентов

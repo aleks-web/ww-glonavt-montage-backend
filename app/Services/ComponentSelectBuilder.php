@@ -19,7 +19,7 @@ final class ComponentSelectBuilder {
     protected string $db_field_name;
     protected string $title = '';
     protected bool $required;
-    protected string|array $val = '';
+    protected string|array|int|null $val = '';
     protected array $items = [];
     protected array $boofer_item = []; // Текущий item
     protected string $default_text = '';
@@ -54,14 +54,16 @@ final class ComponentSelectBuilder {
     /*
         Устанавливает значение value в инпут
     */
-    public function setVal(string | array $val) : void {
-        $this->val = $val;
+    public function setVal(int | string | array | null $val) : void {
+        if ($val) {
+            $this->val = $val;
+        }
     }
 
     /*
         Возвращает установленное значение value
     */
-    public function getVal() : string | array {
+    public function getVal() : string | array | int {
         return $this->val;
     }
 

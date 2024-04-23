@@ -42,7 +42,7 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
         $response_array['request_params'] = $request->request->all();
         $response->headers->set('Content-Type', 'application/json');
 
-        if (Users::where('email', $response_array['request_params']['email'])->count() >= 1) {
+        if ($this->userService->findUserByEmail($response_array['request_params']['email'])) {
             $response_array['status'] = 'error';
             $response_array['message'] = 'Пользователь с таким Email уже существует';
 
@@ -80,7 +80,7 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
         try {
             $user = Users::create($response_array['request_params']);
 
-            $file_name = $this->userService->saveUserAvatarFromFile($_FILES['avatar']);
+            $file_name = $_FILES['avatar'] ? $this->userService->saveUserAvatarFromFile($_FILES['avatar']) : false;
 
             if ($file_name) {
                 $user->avatar_file_name = $file_name;
@@ -113,6 +113,39 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
             return $response;
         }
 
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+        return $response;
+    }
+
+    /*
+        Обновление пользователя
+    */
+    public function update(Request $request, Response $response) {
+        // Получаем параметры POST и сразу записываем их в массив с ответом
+        $response_array['request_params'] = $request->request->all();
+        $response->headers->set('Content-Type', 'application/json');
+
+        $user = Users::find($response_array['request_params']['id']);
+
+        $response_array['request_params']['post_id'] = empty($response_array['request_params']['post_id']) ? null : $response_array['request_params']['post_id'];
+
+        /*
+            Возвращаем ошибку, если юзер с таким пользователем уже есть
+        */
+        if($this->userService->findUserByEmail($response_array['request_params']['email']) && $this->userService->findUserByEmail($response_array['request_params']['email'])['email'] != $user->email) {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'Пользователь с таким Email уже существует';
+
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+            return $response;
+        }
+
+        $user->update($response_array['request_params']);
+
+        $response_array['status'] = 'success';
+        $response_array['message'] = 'Данные пользователя успешно обновлены';
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
 
         return $response;
@@ -215,12 +248,21 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
         $response_array['request_params'] = $request->request->all();
         $response_array['user'] = Users::find($response_array['request_params']['user_id']);
         $response_array['user']->post->department;
+        $response_array['posts'] = BookPosts::all();
 
+        $PostsSelect = new ComponentSelectBuilder('post_id', false);
+        $PostsSelect->setVal($response_array['user']->post_id);
+        $PostsSelect->setDefaultText('Должность не выбрана');
+        foreach($response_array['posts'] as $post) { // Добавляем выгруженные элементы селект
+            $PostsSelect->addIdItem($post->id)->addTextItem($post->name . ' (' . $post->department->name . ')')->saveItem();
+        }
+        $response_array['twig_components_data']['posts'] = $PostsSelect->toArray();
 
         $response_array['render_response_html'] = $this->view->render('modules/users/render/' . $twig_element, [
             'request_params' => $response_array['request_params'],
             'user' => $response_array['user'],
-            'paths' => $this->paths
+            'paths' => $this->paths,
+            'twig_components_data' => $response_array['twig_components_data']
         ]);
  
          $response_array['status'] = 'success';

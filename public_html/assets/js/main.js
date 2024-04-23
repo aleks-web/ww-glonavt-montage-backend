@@ -121,7 +121,9 @@ $(document).ready(function (e) {
 */
 function save_big_modal(modal_id, save_function_collback) {
 
-    $('#' + modal_id + " .modal__header-btn-edit, " + '#' + modal_id + " .modal__header-btn-save").click(function (e) {
+    let elements = '#' + modal_id + " .modal__header-btn-edit, " + '#' + modal_id + " .modal__header-btn-save";
+
+    $(elements).click(function (e) {
         let edit_class = "modal__header-btn-edit";
         let save_class = "modal__header-btn-save";
 
@@ -137,26 +139,22 @@ function save_big_modal(modal_id, save_function_collback) {
             $modal.find(".tabs__item--active .view").css("display", "none");
             $modal.find(".tabs__item--active .edit").css("display", "flex");
 
-            // Смена кнопок
-            btn_edit.fadeOut(200, () => {
-                btn_save.fadeIn(200);
-            });
+            btn_edit.css('display', 'none');
+            btn_save.css('display', 'block');
         }
 
         // Если клик по кнопке "Сохранить"
         if ($(this).hasClass(save_class)) {
 
             if (save_function_collback()) {
-                $('#' + modal_id + " .modal__header-btn-edit, " + '#' + modal_id + " .modal__header-btn-save").off();
+                $(elements).off();
                 
                 setTimeout(() => {
                     $modal.find(".tabs__item--active .view").css("display", "flex");
                     $modal.find(".tabs__item--active .edit").css("display", "none");
 
-                    // Смена кнопок
-                    btn_save.fadeOut(200, () => {
-                        btn_edit.fadeIn(200);
-                    });
+                    btn_edit.css('display', 'block');
+                    btn_save.css('display', 'none');
                 }, 500);
             } else {
                 alert('Сохранение не удалось!');

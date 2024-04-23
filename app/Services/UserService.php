@@ -52,4 +52,17 @@ final class UserService {
         return false;
     }
 
+
+    /*
+        Поиск пользователя по имейлу
+    */
+    public function findUserByEmail(string $email) : Users|false {
+        $user = Users::where('email', '=', $email)->first();
+
+        if (!empty($user)) {
+            return $user;
+        } else {
+            return false;
+        }
+    }
 }
