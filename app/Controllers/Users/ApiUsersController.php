@@ -124,6 +124,7 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
     public function update(Request $request, Response $response) {
         // Получаем параметры POST и сразу записываем их в массив с ответом
         $response_array['request_params'] = $request->request->all();
+        $response_array['request_params']['tel'] = $this->utils->formatTel($response_array['request_params']['tel']);
         $response->headers->set('Content-Type', 'application/json');
 
         $user = Users::find($response_array['request_params']['id']);

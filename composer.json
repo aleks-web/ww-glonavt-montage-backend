@@ -7,10 +7,9 @@
             "WWCrm\\Models\\": "app/Models",
             "WWCrm\\Controllers\\": "app/Controllers",
             "WWCrm\\Middlewares\\": "app/Middlewares",
-            "WWCrm\\Services\\": "app/Services",
-            "WWCrm\\Utils\\": "app/Utils"
+            "WWCrm\\Services\\": "app/Services"
         },
-        "files": ["app/db.php", "app/container.php"]
+        "files": ["app/db.php", "app/container.php", "app/utils.php"]
     },
     "authors": [
         {

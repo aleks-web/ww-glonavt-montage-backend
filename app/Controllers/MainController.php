@@ -17,6 +17,7 @@ class MainController extends Controller {
     protected $paths;
     protected $imageManager;
     protected $userService;
+    protected $utils;
 
     public function __construct() {
         $this->WWCrmService = ServiceContainer::getInstance();
@@ -26,6 +27,7 @@ class MainController extends Controller {
         $this->paths = $this->WWCrmService->get('paths');
         $this->imageManager = $this->WWCrmService->get('ImageManager');
         $this->userService = $this->WWCrmService->get('UserService');
+        $this->utils = $this->WWCrmService->get('Utils');
     }
 
     public function __invoke(Request $request, Response $response) {

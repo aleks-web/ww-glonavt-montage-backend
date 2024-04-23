@@ -49,6 +49,10 @@ return [
         return new \Intervention\Image\ImageManager($container->get('InterventionGdDriver'));
     },
 
+    'Utils' => function () {
+        return new \WWCrm\Utils();
+    },
+
     'UserService' => function () {
         return new \WWCrm\Services\UserService();
     },
