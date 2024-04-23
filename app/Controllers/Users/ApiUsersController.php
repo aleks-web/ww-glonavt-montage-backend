@@ -42,6 +42,9 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
         $params = $response_array['request_params'] = $request->request->all();
         $response->headers->set('Content-Type', 'application/json');
 
+        /*
+            Есть ли пользователи с таким Email
+        */
         if ($this->userService->findUserByEmail($response_array['request_params']['email'])) {
             $response_array['status'] = 'error';
             $response_array['message'] = 'Пользователь с таким Email уже существует';
@@ -67,6 +70,9 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
             $response_array['request_params']['post_id'] = null;
         }
 
+        /*
+            Если пароль пустой
+        */
         if (empty($response_array['request_params']['password'])) {
             $response_array['status'] = 'error';
             $response_array['message'] = 'Вы не создали пароль для пользователя';
@@ -74,7 +80,7 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
             $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
 
             return $response;
-        } else {
+        } else { // Иначе если пароль не пустой
             $originalPass = $response_array['request_params']['password'];
             $response_array['request_params']['password'] = trim($response_array['request_params']['password']);
             $response_array['request_params']['password'] = password_hash($response_array['request_params']['password'], PASSWORD_DEFAULT);
