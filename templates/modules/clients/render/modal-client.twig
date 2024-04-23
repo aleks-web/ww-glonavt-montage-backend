@@ -758,6 +758,7 @@ function chenge_client_status(client_id, status) {
             push(response.message, 'success');
 
             load_modal_client(client_id, true); // Обновляем
+            xrender_main_table_clients(1);
 
             return new Promise((resolve, reject) => {
                 resolve(response);

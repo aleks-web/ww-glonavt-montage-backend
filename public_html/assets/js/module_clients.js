@@ -71,6 +71,7 @@ function load_modal_client(client_id, is_open = false) {
 
 
 
+
 // Start функция, которая получает html разметку главной таблицы и вставляет ее
 function xrender_main_table_clients(current_page = 1, control_panel_condition = null) {
     // Разбиваем строку wrapper_and_element на обертку и twig элемент

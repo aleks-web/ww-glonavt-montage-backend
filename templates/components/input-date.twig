@@ -38,7 +38,7 @@
                 <span class="input-date__name">{{ settings.title }}</span>
             {% endif %}
 
-            <input type="text" value="{{ settings.val }}" name="{{ settings.db_field_name }}" placeholder="{{ settings.pls | default('Выберите дату') }}" />
+            <input type="text" value="{{ settings.val }}" name="{{ settings.db_field_name }}" placeholder="{{ settings.pls | default('Выберите дату') }}" readonly />
         </div>
 
         {# Start Сообщения об ошибках и пр #}

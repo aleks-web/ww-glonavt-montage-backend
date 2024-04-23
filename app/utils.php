@@ -27,7 +27,7 @@ class Utils {
         if (is_array($fio)) {
             foreach ($fio as $val) {
                 if ($validate) {
-                    if (preg_match('/^[а-яА-Яa-zA-Z]+$/u', $val)) {
+                    if (preg_match('/^[а-яА-Яa-zA-Z ]+$/u', $val)) {
                         $validate = true;
                     } else {
                         $validate = false;
@@ -35,7 +35,7 @@ class Utils {
                 }
             }
         } else {
-            if (preg_match('/^[а-яА-Яa-zA-Z]+$/u', $fio)) {
+            if (preg_match('/^[а-яА-Яa-zA-Z ]+$/u', $fio)) {
                 $validate = true;
             } else {
                 $validate = false;

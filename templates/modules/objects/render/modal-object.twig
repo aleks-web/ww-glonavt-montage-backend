@@ -161,11 +161,11 @@
                                         </div>
 
                                         <div class="block-info__item">
-                                            {% include 'components/input-text.twig' with {
+                                            {% include 'components/input-date.twig' with {
                                                 settings: {
                                                     db_field_name: 'year',
-                                                    val: object.year,
-                                                    pls: 'Год выпуска'
+                                                    pls: 'Год выпуска',
+                                                    air: ['air-only-years']
                                                 }
                                             } %}
                                         </div>
@@ -530,7 +530,13 @@ function load_tab_equipments (object_id, is_reload = false) {
 
 {# Start функционал сохранения данных #}
 <script>
-    save_big_modal('modal-object', () => {
+
+    $(document).ready(() => {
+        cpns_form_validate('#modal-object .modal-object__data-edit', '#modal-object .modal__header-btn-save');
+    });
+
+
+    save_big_modal('modal-object', async () => {
         let object_id = $('#modal-object').data('object-id');
         
         let url = API_V1_URLS.objects.update;
@@ -539,17 +545,24 @@ function load_tab_equipments (object_id, is_reload = false) {
 
         formData.append('id', object_id);
 
-        return xpost_fd(url, formData).then(response => {
+        return await xpost_fd(url, formData).then(response => {
             dd(response, response.message, 'success');
+            push(response.message, 'success');
 
             load_modal_object(object_id, true); // Обновляем
+            xrender_main_table_objects(1);
 
-            return true;
+            return new Promise((resolve, reject) => {
+                resolve(response);
+            });
 
         }).catch(response => {
             dd(response, response.message, 'error');
+            push(response.message, 'error');
 
-            return false;
+            return new Promise((resolve, reject) => {
+                reject(response);
+            });
         });
     });
 </script>
