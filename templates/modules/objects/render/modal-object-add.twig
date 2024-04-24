@@ -1,6 +1,8 @@
 {#
     request_params - параметры запроса
     organizations - организации
+    twig_components_data - данные для компонентов
+        clients - клиенты
 #}
 <div id="modal-object-add" class="modal modal--small modal-object-add">
     <svg data-modal-close class="modal__close"><use xlink:href="#svg-close"></use></svg>
@@ -13,7 +15,7 @@
         <div class="d-flex justify-content-between gap-5">
             <div class="d-flex flex-column gap-4 w-50">
                 
-                @@include('../components/select.html', {"name": "", "stText": "Выберите клиента", "itemName": "Клиент"})
+                {% include 'components/select.twig' with twig_components_data.clients %}
 
                 {% include 'components/input-text.twig' with {
                     settings: {
@@ -86,10 +88,22 @@
         </div>
         
         <div style="display: flex;justify-content: flex-end;">
-            <button class="btn disable" style="font-weight: 700; width: max-content;">
+            <button class="btn submitter disable" style="font-weight: 700; width: max-content;">
                 Сохранить
             </button>
         </div>
 
     </div>
 </div>
+
+{#
+    Start 
+#}
+    <script>
+        $(document).ready(() => {
+            cpns_form_validate('#modal-object-add', '.submitter');
+        })
+    </script>
+{#
+    End 
+#}

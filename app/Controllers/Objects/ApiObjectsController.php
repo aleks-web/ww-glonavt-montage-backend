@@ -282,10 +282,18 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         $response_array['request_params'] = $request->request->all();
         $response_array['organizations'] = Organizations::all();
 
+        $componentBuilder = new ComponentSelectBuilder('client_id', true);
+        $componentBuilder->setDefaultText('Выберите клиента');
+        foreach (Organizations::all() as $client) {
+            $componentBuilder->addIdItem($client->id)->addTextItem($client->name)->saveItem();
+        }
+        $response_array['twig_components_data']['clients'] = $componentBuilder->toArray();
+
         // Рендерим
         $response_array['render_response_html'] = $this->view->render('modules/objects/render/' . $twig_element, [
             'request_params' => $response_array['request_params'],
-            'organizations' => $response_array['organizations']
+            'organizations' => $response_array['organizations'],
+            'twig_components_data' => $response_array['twig_components_data']
         ]);
 
         $response_array['status'] = 'success';
