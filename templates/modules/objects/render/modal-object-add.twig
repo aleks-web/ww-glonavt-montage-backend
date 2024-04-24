@@ -1,3 +1,6 @@
+{#
+    request_params - параметры запроса
+#}
 <div id="modal-object-add" class="modal modal--small modal-object-add">
     <svg data-modal-close class="modal__close"><use xlink:href="#svg-close"></use></svg>
 
@@ -61,58 +64,22 @@
                     }
                 } %}
 
-                @@include('../components/select.html', {"name": "", "stText": "Выберите тип объекта", "itemName": "Объект"})
-
-
-
-
-                {# <div class="d-flex flex-column gap-3">
-                    @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Гос№"})
-    
-                    <div class="checkbox">
-                        <input type="hidden" value="0">
-                        <span class="checkbox__field"></span>
-                        <span class="checkbox__label">Нет гос№</span>
-                    </div>
-                </div> #}
-
-                {# <div class="d-flex flex-column gap-3">
-                    @@include('../components/input-text.html', {"name": "", "value": "", "stText": "VIN"})
-    
-                    <div class="checkbox">
-                        <input type="hidden" value="0">
-                        <span class="checkbox__field"></span>
-                        <span class="checkbox__label">Нет VIN</span>
-                    </div>
-                </div> #}
-
-                {# <div class="d-flex flex-column gap-3">
-                    @@include('../components/select.html', {"name": "", "stText": "Документ о регистрации", "itemName": "Документ"})
-    
-                    <div class="checkbox">
-                        <input type="hidden" value="0">
-                        <span class="checkbox__field"></span>
-                        <span class="checkbox__label">Нет документа о регистрации</span>
-                    </div>
-                </div> #}
-
             </div>
 
             <div class="d-flex justify-content-start align-items-end flex-column w-50">
 
-                @@include('../components/photo-add.html', {"btn_name": "Добавить фото"})
+                {% include 'components/photo-add.twig' with {
+                    settings: {
+                        db_field_name: 'photo',
+                        btn_text: 'Добавить фото'
+                    }
+                } %}
 
-                <div class="files-add">
-                    <input class="files-add__input" type="file" multiple accept=".xlsx, .xls, .doc, .docx, .ppt, .pptx, .pdf">
-
-                    <span class="files-add__info">Перетащите файлы сюда или нажмите на +</span>
-
-                    <div class="files-add__view"></div>
-
-                    <div class="files-add__bottom">
-                        <svg class="files-add__btn"><use xlink:href="#svg-add"></use></svg>
-                    </div>
-                </div>
+                {% include 'components/files-add.twig' with {
+                    settings: {
+                        db_field_name: 'documents_files'
+                    }
+                } %}
 
             </div>
         </div>

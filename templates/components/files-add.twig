@@ -1,0 +1,24 @@
+{#
+    Компонент добавления файлов
+
+    settings - массив с настройками
+        * db_field_name - Имя поля (если компонент записывает данные в БД, то db_field_name равно названию поля из базы данных)
+#}
+
+{% if settings.db_field_name == false %}
+    <div style="color: red;">Параметр "db_field_name" для компонента files-add не проброшен!</div>
+{% else %}
+    <div class="component-wrapper">
+        <div class="files-add">
+            <input class="files-add__input" name="{{ settings.db_field_name }}" type="file" multiple accept=".xlsx, .xls, .doc, .docx, .ppt, .pptx, .pdf">
+
+            <span class="files-add__info">Перетащите файлы сюда или нажмите на +</span>
+
+            <div class="files-add__view"></div>
+
+            <div class="files-add__bottom">
+                <svg class="files-add__btn"><use xlink:href="#svg-add"></use></svg>
+            </div>
+        </div>
+    </div>
+{% endif %}
