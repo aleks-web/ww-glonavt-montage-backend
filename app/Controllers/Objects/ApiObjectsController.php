@@ -280,11 +280,12 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
     public function render_modal_objects_add($twig_element, Request $request, Response $response) {
         // Получаем параметры POST и сразу записываем их в массив с ответом
         $response_array['request_params'] = $request->request->all();
+        $response_array['organizations'] = Organizations::all();
 
         // Рендерим
         $response_array['render_response_html'] = $this->view->render('modules/objects/render/' . $twig_element, [
             'request_params' => $response_array['request_params'],
-            // 'twig_components_data' => $response_array['twig_components_data']
+            'organizations' => $response_array['organizations']
         ]);
 
         $response_array['status'] = 'success';
