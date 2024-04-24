@@ -2,19 +2,8 @@
 
 namespace WWCrm\Services;
 
-/*
+use WWCrm\ServiceContainer;
 
-    * settings - массив с настройками
-        * title - заголовок (не обязательно)
-        * db_field_name - Имя поля (если компонент записывает данные в БД, то db_field_name равно названию поля из базы данных)
-        * val - значение инпута в атрибуте value. Может быть единым значением, может имень вид в виде массива : [1, 2, 3]
-        * not_selected_text - пункт меню "Не выбрано". Если не проброшен, то не выводится, если задан, то выводится с заданным текстом
-        * required - обязательный ли инпут
-        * input_messages_position - расположение сообщений об ошибках и прочее. Либо bottom (по умолчанию, но можно изменить здесь) либо top
-        * checkbox - если true, то добавляет класс select__item--checkbox для item элементов и можно выбирать сразу несколько элементов
-        * position - позиция выпадающего меню
-
-*/
 final class ComponentSelectBuilder {
     protected string $db_field_name;
     protected string $title = '';
@@ -24,11 +13,31 @@ final class ComponentSelectBuilder {
     protected array $boofer_item = []; // Текущий item
     protected string $default_text = '';
     protected string $position = 'bottom';
+    protected $WWCrmService;
 
-    public function __construct($db_field_name, $required = false) {
+    public function __construct(string $db_field_name, bool $required = false, array $array_settings = null) {
+        $this->WWCrmService = ServiceContainer::getInstance();
         $this->db_field_name = $db_field_name;
         $this->required = $required;
+
+        // $array_settings - массив настроек
     }
+
+
+    /*
+        Установить name
+    */
+    public function setInputName(string $name) {
+        $this->title = $name;
+    }
+
+    /*
+        Вернуть name
+    */
+    public function getInputName() : string {
+        return $this->name;
+    }
+
 
     /*
         Установить title
@@ -38,7 +47,7 @@ final class ComponentSelectBuilder {
     }
 
     /*
-        Установить title
+        Вернуть title
     */
     public function getTitle() : string {
         return $this->title;
@@ -50,6 +59,7 @@ final class ComponentSelectBuilder {
     public function getDbFieldName() : string {
         return $this->db_field_name;
     }
+
 
     /*
         Устанавливает значение value в инпут
@@ -171,6 +181,15 @@ final class ComponentSelectBuilder {
         $select_array['items'] = $this->getItems();
 
         return $select_array;
+    }
+
+    /*
+        Возвращает отрендеренный элемент
+    */
+    public function toHtml() : string {
+        $settings = $this->toArray(); // Получаем массив настроек
+
+        return $html = $this->WWCrmService->get('View')->render('components/select.twig', $settings);
     }
 
 }

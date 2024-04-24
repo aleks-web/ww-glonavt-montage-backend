@@ -1,8 +1,11 @@
 {#
     request_params - параметры запроса
     organizations - организации
-    twig_components_data - данные для компонентов
-        clients - клиенты
+    twig_components - данные для компонентов
+        data
+            clients - клиенты
+        html
+            clients - клиенты
 #}
 <div id="modal-object-add" class="modal modal--small modal-object-add">
     <svg data-modal-close class="modal__close"><use xlink:href="#svg-close"></use></svg>
@@ -15,7 +18,7 @@
         <div class="d-flex justify-content-between gap-5">
             <div class="d-flex flex-column gap-4 w-50">
                 
-                {% include 'components/select.twig' with twig_components_data.clients %}
+                {{ twig_components.html.clients|raw }}
 
                 {% include 'components/input-text.twig' with {
                     settings: {

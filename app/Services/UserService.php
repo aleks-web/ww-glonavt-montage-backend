@@ -68,24 +68,4 @@ final class UserService {
             return false;
         }
     }
-
-    /*
-        Получить html отрендеренный компонент со списком пользователей
-    */
-    // public function getComponentSelect(string $component_input_name = null, bool $required = null) : false|string {
-
-    //     if (empty($component_input_name) || empty($required)) {
-    //         return false;
-    //     }
-
-    //     $componentBuilder = new ComponentSelectBuilder($component_input_name, $required);
-
-    //     foreach (Users::all() as $user) {
-    //         $componentBuilder->addIdItem($user->id)->addTextItem($user->name)->saveItem();
-    //     }
-
-    //     return $componentBuilder->toArray();
-
-
-    // }
 }
