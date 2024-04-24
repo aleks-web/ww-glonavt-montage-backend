@@ -5,10 +5,10 @@ namespace WWCrm\Services;
 // Сервис контейнер DI
 use WWCrm\ServiceContainer;
 
-// Пользователи
+// Организации
 use WWCrm\Models\Organizations;
 
-// Компоненты
+// Билдер для компонента
 use WWCrm\Services\ComponentSelectBuilder;
 
 final class OrganizationService {
@@ -26,6 +26,7 @@ final class OrganizationService {
     }
 
     /*
+        ПРОТЕСТИТЬ!!!!!
         Получить html отрендеренный компонент со списком пользователей
     */
     public function getComponentSelect(string $component_input_name = null, bool $required = null) : false|string {
