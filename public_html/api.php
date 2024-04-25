@@ -46,6 +46,7 @@ $router->xpost(API_V1_URL . 'clients/render/:string', $controllers['Api']['Clien
 */
 $router->xpost(API_V1_URL . 'objects/add-new-type-equipment', $controllers['Api']['Objects'] . '@add_new_equipment'); // Добавление оборудования
 $router->xpost(API_V1_URL . 'objects/add-new-device', $controllers['Api']['Objects'] . '@add_new_device'); // Добавление девайса
+$router->xpost(API_V1_URL . 'objects/create', $controllers['Api']['Objects'] . '@create'); // Создание объекта
 $router->xpost(API_V1_URL . 'objects/update', $controllers['Api']['Objects'] . '@update'); // Обновление объекта
 $router->xpost(API_V1_URL . 'objects/render/:string', $controllers['Api']['Objects'] . '@distributor'); // Роут для рендера
 

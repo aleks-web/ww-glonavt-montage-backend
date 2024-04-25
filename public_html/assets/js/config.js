@@ -33,6 +33,7 @@ const API_V1_URLS = {
         add_new_device: "/api_v1/objects/add-new-device/",
         update: "/api_v1/objects/update/",
         render: "/api_v1/objects/render/",
+        create: "/api_v1/objects/create/"
     },
     book_equipments: {
         create: "/api_v1/book-equipment/create/",
