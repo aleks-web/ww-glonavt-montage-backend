@@ -40,6 +40,8 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
         // Создаем пользователя
         $client = Organizations::create($params);
 
+
+
         $response_array['client'] = Organizations::find($client->id);
         $response_array['status'] = 'success';
         $response_array['message'] = 'Клиент создан';

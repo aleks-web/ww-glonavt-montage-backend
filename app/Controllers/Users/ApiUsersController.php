@@ -27,6 +27,9 @@ use WWCrm\Services\ComponentSelectBuilder;
 use WWCrm\Models\Users;
 use WWCrm\Models\BookPosts;
 
+// Dto
+use WWCrm\Dto\UserDto;
+
 
 class ApiUsersController extends \WWCrm\Controllers\MainController {
 
@@ -37,6 +40,9 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
         // Получаем параметры POST и сразу записываем их в массив с ответом
         $params = $response_array['request_params'] = $request->request->all();
         $response->headers->set('Content-Type', 'application/json');
+        
+
+        $this->userService->createUser(new UserDto($params)); 
 
         /*
             Есть ли пользователи с таким Email

@@ -2,8 +2,8 @@
 
 namespace WWCrm\Services\User;
 
-// Сервис контейнер DI
-use WWCrm\ServiceContainer;
+use WWCrm\Services\MainService;
+
 
 // Пользователи
 use WWCrm\Models\Users;
@@ -11,19 +11,12 @@ use WWCrm\Models\Users;
 // Компоненты
 use WWCrm\Services\ComponentSelectBuilder;
 
-final class UserService {
+// Dto
+use WWCrm\Dto\UserDto;
 
-    protected $WWCrmService;
-    protected $session;
-    protected $paths;
-    protected $imageManager;
+use Exception;
 
-    public function __construct() {
-        $this->WWCrmService = ServiceContainer::getInstance(); // Получаем контейнер
-        $this->session = $this->WWCrmService->get('SymfonySession'); // Получаем сессии
-        $this->paths = $this->WWCrmService->get('paths');
-        $this->imageManager = $this->WWCrmService->get('ImageManager');
-    }
+final class UserService extends MainService {
 
     /*
         Сохранение аватарки пользователя
@@ -69,7 +62,10 @@ final class UserService {
         }
     }
 
-    public function createUser() {
-        
+    /*
+       Создание пользователя 
+    */
+    public function createUser(UserDto $dto) : Users|false {
+        return false;
     }
 }

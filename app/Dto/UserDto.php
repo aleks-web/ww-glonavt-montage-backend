@@ -110,7 +110,7 @@ class UserDto {
         Фамилия
     */
     public function setSurname(string $surname) : void {
-        return $this->surname = $surname;
+        $this->surname = $surname;
     }
 
     public function getSurname() : string|null {
@@ -121,7 +121,7 @@ class UserDto {
         Отчество
     */
     public function setPatronymic(string $patronymic) : void {
-        return $this->patronymic = $patronymic;
+        $this->patronymic = $patronymic;
     }
 
     public function getPatronymic() : string|null {
@@ -132,7 +132,7 @@ class UserDto {
         Имя аватарки
     */
     public function setAvatarFileName(string $avatarFileName) : void {
-        return $this->avatarFileName = $avatarFileName;
+        $this->avatarFileName = $avatarFileName;
     }
 
     public function getAvatarFileName() : string|null {
@@ -143,7 +143,7 @@ class UserDto {
         id должности
     */
     public function setPostId(string $postId) : void {
-        return $this->postId = $postId;
+        $this->postId = $postId;
     }
 
     public function getPostId() : string|null {
@@ -154,7 +154,7 @@ class UserDto {
         Телефон
     */
     public function setTel(string|int $tel) : void {
-        return $this->tel = $tel;
+        $this->tel = $tel;
     }
 
     public function getTel() : string|int|null {
@@ -165,7 +165,7 @@ class UserDto {
         Email
     */
     public function setEmail(string $email) : void {
-        return $this->email = $email;
+        $this->email = $email;
     }
 
     public function getEmail() : string|null {
@@ -176,7 +176,7 @@ class UserDto {
         День рождения
     */
     public function setBirth(string $birth) : void {
-        return $this->birth = $birth;
+        $this->birth = $birth;
     }
 
     public function getBirth() : string|null {
