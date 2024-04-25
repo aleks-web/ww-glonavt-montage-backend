@@ -4,7 +4,16 @@ namespace WWCrm\Dto;
 
 class UserDto {
     private array $allFields = [];
-    private int $id;
+    private $id;
+    private $name;
+    private $surname;
+    private $patronymic;
+    private $avatarFileName;
+    private $post_id;
+    private $tel;
+    private $email;
+    private $birth;
+    private $password;
 
 
     public function __construct(array $values) {
@@ -12,8 +21,56 @@ class UserDto {
             switch ($key) {
                 case 'id':
                     if (isset($val)) {
-                        $this->id = $val;
-                        $allFields['id'] = $val;
+                        $this->setId($val);
+                        $this->allFields['id'] = $this->getId();
+                    }
+                    break;
+                case 'name':
+                    if (isset($val)) {
+                        $this->setName($val);
+                        $this->allFields['name'] = $this->getName();
+                    }
+                    break;
+                case 'surname':
+                    if (isset($val)) {
+                        $this->setSurname($val);
+                        $this->allFields['surname'] = $this->getSurname();
+                    }
+                    break;
+                case 'patronymic':
+                    if (isset($val)) {
+                        $this->setPatronymic($val);
+                        $this->allFields['patronymic'] = $this->getPatronymic();
+                    }
+                    break;
+                case 'avatar_file_name':
+                    if (isset($val)) {
+                        $this->setPatronymic($val);
+                        $this->allFields['avatar_file_name'] = $this->getPatronymic();
+                    }
+                    break;
+                case 'post_id':
+                    if (isset($val)) {
+                        $this->setPostId($val);
+                        $this->allFields['post_id'] = $this->getPostId();
+                    }
+                    break;
+                case 'tel':
+                    if (isset($val)) {
+                        $this->setTel($val);
+                        $this->allFields['tel'] = $this->getTel();
+                    }
+                    break;
+                case 'email':
+                    if (isset($val)) {
+                        $this->setEmail($val);
+                        $this->allFields['email'] = $this->getEmail();
+                    }
+                    break;
+                case 'birth':
+                    if (isset($val)) {
+                        $this->setBirth($val);
+                        $this->allFields['birth'] = $this->getBirth();
                     }
                     break;
             }
@@ -21,7 +78,7 @@ class UserDto {
     }
 
     /*
-        Возвращает массив тех данных
+        Возвращает массив данных
     */
     public function toArray() : array {
         return $this->allFields;
@@ -35,106 +92,40 @@ class UserDto {
     }
 
     public function getId() : int|null {
-        return $this->id;
+        return (int) $this->id;
     }
 
     /*
-        Номер документа о регистрации
+        Имя
     */
-    public function setRegDocNum(string $regDocNum) : void {
-        $this->regDocNum = $regDocNum;
+    public function setName(string $name) : void {
+        $this->name = $name;
     }
 
-    public function getRegDocNum() : string|null {
-        return $this->regDocNum;
+    public function getName() : string {
+        return (string) $this->name;
     }
 
     /*
-        Цвет
+        Фамилия
     */
-    public function setColor(string $color) : void {
-        $this->color = $color;
+    public function setSurname(string $surname) : void {
+        return $this->surname = $surname;
     }
 
-    public function getColor() : string|null {
-        return $this->color;
+    public function getSurname() : string|null {
+        return $this->surname;
     }
 
     /*
-        Статус
+        Отчество
     */
-    public function setStatus(int $status) : void {
-        $this->status = $status;
+    public function setPatronymic(string $patronymic) : void {
+        return $this->patronymic = $patronymic;
     }
 
-    public function getStatus() : int|null {
-        return $this->status;
-    }
-
-    /*
-        Vin номер
-    */
-    public function setVin(string $vin) : void {
-        $this->vin = $vin;
-    }
-
-    public function getVin() : string|null {
-        return $this->vin;
-    }
-
-    /*
-        Гос.номер
-    */
-    public function setGnum(string $gnum) : void {
-        $this->gnum = $gnum;
-    }
-
-    public function getGnum() : string|null {
-        return $this->gnum;
-    } 
-    
-    /*
-        id организации
-    */
-    public function setOrganizationId(int $organizationId) : void {
-        $this->organizationId = $organizationId;
-    }
-
-    public function getOrganizationId() : int {
-        return $this->organizationId;
-    }
-
-    /*
-        Год
-    */
-    public function setYear(int $year) : void {
-        $this->year = str_replace(' ', '', $year);
-    }
-
-    public function getYear() : int|null {
-        return $this->year;
-    }
-
-    /*
-        Брэнд
-    */
-    public function setBrand(string $brand) : void {
-        $this->brand = $brand;
-    }
-
-    public function getBrand() : string|null {
-        return $this->brand;
-    }
-
-    /*
-        Модель
-    */
-    public function setModel(string $model) : void {
-        $this->model = $model;
-    }
-
-    public function getModel() : string|null {
-        return $this->model;
+    public function getPatronymic() : string|null {
+        return $this->patronymic;
     }
 
 }

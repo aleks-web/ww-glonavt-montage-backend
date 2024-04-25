@@ -2,6 +2,8 @@
 
 namespace WWCrm\Dto;
 
+use WWCrm\Models\Objects;
+
 class ObjectDto {
     private array $allFields = [];
     private $id;
@@ -21,61 +23,61 @@ class ObjectDto {
             switch ($key) {
                 case 'organization_id':
                     if (isset($val)) {
-                        $this->organizationId = $this->setOrganizationId($val);
+                        $this->setOrganizationId($val);
                         $this->allFields['organization_id'] = $this->getOrganizationId();
                     }
                     break;
                 case 'id':
                     if (isset($val)) {
-                        $this->id = $this->setId($val);
+                        $this->setId($val);
                         $this->allFields['id'] = $this->getId();
                     }
                     break;
                 case 'year':
                     if (isset($val)) {
-                        $this->year = $this->setYear($val);
+                        $this->setYear($val);
                         $this->allFields['year'] = $this->getYear();
                     }
                     break;
                 case 'brand':
                     if (isset($val)) {
-                        $this->brand = $this->setBrand($val);
+                        $this->setBrand($val);
                         $this->allFields['brand'] = $this->getBrand();
                     }
                     break;
                 case 'model':
                     if (isset($val)) {
-                        $this->model = $this->setModel($val);
+                        $this->setModel($val);
                         $this->allFields['model'] = $this->getModel();
                     }
                     break;
                 case 'gnum':
                     if (isset($val)) {
-                        $this->gnum = $this->setGnum($val);
+                        $this->setGnum($val);
                         $this->allFields['gnum'] = $this->getGnum();
                     }
                     break;
                 case 'vin':
                     if (isset($val)) {
-                        $this->vin = $this->setVin($val);
+                        $this->setVin($val);
                         $this->allFields['vin'] = $this->getVin();
                     }
                     break;
                 case 'status':
                     if (isset($val)) {
-                        $this->status = $this->setStatus($val);
+                        $this->setStatus($val);
                         $this->allFields['status'] = $this->getStatus();
                     }
                     break;
                 case 'color':
                     if (isset($val)) {
-                        $this->color = $this->setColor($val);
+                        $this->setColor($val);
                         $this->allFields['color'] = $this->getColor();
                     }
                     break;
                 case 'reg_doc_num':
                     if (isset($val)) {
-                        $this->regDocNum = $this->setRegDocNum($val);
+                        $this->setRegDocNum($val);
                         $this->allFields['reg_doc_num'] = $this->getRegDocNum();
                     }
                     break;
@@ -171,10 +173,10 @@ class ObjectDto {
         Год
     */
     public function setYear(int|string $year) : void {
-        $this->year = (int) str_replace(' ', '', $year);
+        $this->year = str_replace(' ', '', $year);
     }
 
-    public function getYear() : int|null {
+    public function getYear() {
         return $this->year;
     }
 

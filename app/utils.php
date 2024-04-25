@@ -55,8 +55,8 @@ class Utils {
     /*
         Проверяет валидность года
     */
-    public function isValidYear($year) : bool {
-        if (ctype_digit($year) && !ctype_space($year) && strlen($year) === 4 && isset($year)) {
+    public function isValidYear($year = null) : bool {
+        if (ctype_digit($year) && strlen((string) $year) == 4 && isset($year)) {
             return true;
         } else {
             return false;

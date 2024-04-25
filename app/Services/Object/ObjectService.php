@@ -17,9 +17,12 @@ use Exception;
 final class ObjectService extends MainService {
     public function createObject(ObjectDto $dto) : Objects {
         try {
+
             // Проверяем валидность года
-            if (!$this->utils->isValidYear($dto->getYear()) && $dto->getYear() != null) {
-                throw new Exception("Не валидная дата");
+            if ($dto->getYear() != null && $dto->getYear() != '') {
+                if (!$this->utils->isValidYear($dto->getYear())) {
+                    throw new Exception("Не валидный год");
+                }
             }
 
             $data = $dto->toArray();
