@@ -30,11 +30,12 @@ use WWCrm\Models\Objects;
 class ApiObjectsController extends \WWCrm\Controllers\MainController {
 
     /*
+        ПРОТЕСТИТЬ!!!
         Создание объекта
     */
-    public function create() {
+    public function create(Request $request, Response $response) {
         // Получаем параметры
-        $params = $request->request->all();
+        $params = $response_array['request_params'] = $request->request->all();
 
         // Создаем пользователя
         $object = Objects::create($params);
@@ -42,7 +43,6 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         $response_array['object'] = $object;
         $response_array['status'] = 'success';
         $response_array['message'] = 'Объект создан';
-        $response_array['request_params'] = $params;
 
         $response->headers->set('Content-Type', 'application/json');
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));

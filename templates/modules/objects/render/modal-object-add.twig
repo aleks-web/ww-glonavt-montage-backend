@@ -99,14 +99,20 @@
     </div>
 </div>
 
-{#
-    Start 
-#}
-    <script>
-        $(document).ready(() => {
-            cpns_form_validate('#modal-object-add', '.submitter');
-        })
-    </script>
-{#
-    End 
-#}
+{# Start создание объекта #}
+<script>
+    $(document).ready(() => {
+        cpns_form_validate('#modal-object-add', '.submitter');
+
+        $('#modal-object-add .submitter').click(() => {
+            xpost_fd(API_V1_URLS.objects.create, cpns_get_formdata_by_wrapper('#modal-object-add')).then(response => {
+                dd(response, response.message, 'success');
+                push(response.message, 'success');
+            }).catch(response => {
+                dd(response, response.message, 'error');
+                push(response.message, 'error');
+            });
+        });
+    });
+</script>
+{# End создание объекта #}
