@@ -131,7 +131,6 @@ class ApiAuthController extends \WWCrm\Controllers\MainController {
             $response_array['user']['name'] = $user->name;
 
             // Тут код генерации пароля и его записи в бд
-
             $new_pass = mt_rand();
             $new_pass_db = password_hash($new_pass, PASSWORD_DEFAULT);
 
