@@ -4,79 +4,83 @@ namespace WWCrm\Dto;
 
 class ObjectDto {
     private array $allFields = [];
-    private int $id;
-    private int $organizationId;
-    private int|null $year = null;
-    private string|null $brand = null;
-    private string|null $model  = null;
-    private string|null $gnum = null;
-    private string|null $vin = null;
-    private int|null $status = null;
-    private string|null $color = null;
-    private string|null $regDocNum = null;
+    private $id;
+    private $organizationId;
+    private $year;
+    private $status;
+    private $brand;
+    private $model ;
+    private $gnum;
+    private $vin;
+    private $color;
+    private $regDocNum;
 
 
     public function __construct(array $values) {
         foreach ($values as $key => $val) {
             switch ($key) {
+                case 'organization_id':
+                    if (isset($val)) {
+                        $this->organizationId = $this->setOrganizationId($val);
+                        $this->allFields['organization_id'] = $this->getOrganizationId();
+                    }
+                    break;
                 case 'id':
                     if (isset($val)) {
-                        $this->id = $val;
-                        $allFields['id'] = $val;
+                        $this->id = $this->setId($val);
+                        $this->allFields['id'] = $this->getId();
                     }
                     break;
                 case 'year':
                     if (isset($val)) {
-                        $this->year = $val;
-                        $allFields['year'] = $val;
+                        $this->year = $this->setYear($val);
+                        $this->allFields['year'] = $this->getYear();
                     }
                     break;
                 case 'brand':
                     if (isset($val)) {
-                        $this->brand = $val;
-                        $allFields['brand'] = $val;
+                        $this->brand = $this->setBrand($val);
+                        $this->allFields['brand'] = $this->getBrand();
                     }
                     break;
                 case 'model':
                     if (isset($val)) {
-                        $this->model = $val;
-                        $allFields['model'] = $val;
+                        $this->model = $this->setModel($val);
+                        $this->allFields['model'] = $this->getModel();
                     }
                     break;
                 case 'gnum':
                     if (isset($val)) {
-                        $this->gnum = $val;
-                        $allFields['gnum'] = $val;
+                        $this->gnum = $this->setGnum($val);
+                        $this->allFields['gnum'] = $this->getGnum();
                     }
                     break;
                 case 'vin':
                     if (isset($val)) {
-                        $this->vin = $val;
-                        $allFields['vin'] = $val;
+                        $this->vin = $this->setVin($val);
+                        $this->allFields['vin'] = $this->getVin();
                     }
                     break;
                 case 'status':
                     if (isset($val)) {
-                        $this->status = $val;
-                        $allFields['status'] = $val;
+                        $this->status = $this->setStatus($val);
+                        $this->allFields['status'] = $this->getStatus();
                     }
                     break;
                 case 'color':
                     if (isset($val)) {
-                        $this->color = $val;
-                        $allFields['color'] = $val;
+                        $this->color = $this->setColor($val);
+                        $this->allFields['color'] = $this->getColor();
                     }
                     break;
                 case 'reg_doc_num':
                     if (isset($val)) {
-                        $this->regDocNum = $val;
-                        $allFields['reg_doc_num'] = $val;
+                        $this->regDocNum = $this->setRegDocNum($val);
+                        $this->allFields['reg_doc_num'] = $this->getRegDocNum();
                     }
                     break;
             }
         }
-
-        $this->allFields = $values;
     }
 
     /*
@@ -123,7 +127,7 @@ class ObjectDto {
         Статус
     */
     public function setStatus(int $status) : void {
-        $this->status = $status;
+        $this->status = (int) $status;
     }
 
     public function getStatus() : int|null {
@@ -155,19 +159,19 @@ class ObjectDto {
     /*
         id организации
     */
-    public function setOrganizationId(int $organizationId) : void {
-        $this->organizationId = $organizationId;
+    public function setOrganizationId(int|string $organizationId) : void {
+        $this->organizationId = (int) $organizationId;
     }
 
-    public function getOrganizationId() : int {
+    public function getOrganizationId() : int|null {
         return $this->organizationId;
     }
 
     /*
         Год
     */
-    public function setYear(int $year) : void {
-        $this->year = str_replace(' ', '', $year);
+    public function setYear(int|string $year) : void {
+        $this->year = (int) str_replace(' ', '', $year);
     }
 
     public function getYear() : int|null {

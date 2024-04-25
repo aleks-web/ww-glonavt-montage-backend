@@ -1,6 +1,6 @@
 <?php
 
-namespace WWCrm\Services;
+namespace WWCrm\Services\User;
 
 // Сервис контейнер DI
 use WWCrm\ServiceContainer;
@@ -67,5 +67,9 @@ final class UserService {
         } else {
             return false;
         }
+    }
+
+    public function createUser() {
+        
     }
 }

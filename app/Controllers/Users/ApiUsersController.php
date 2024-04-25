@@ -27,10 +27,6 @@ use WWCrm\Services\ComponentSelectBuilder;
 use WWCrm\Models\Users;
 use WWCrm\Models\BookPosts;
 
-/*
-    Сервисы
-*/
-use WWCrm\Services\UserService;
 
 class ApiUsersController extends \WWCrm\Controllers\MainController {
 

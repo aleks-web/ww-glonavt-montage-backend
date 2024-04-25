@@ -54,6 +54,7 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
             $response_array['message'] = 'Объект создан';
         } catch (Exception $e) {
             $response_array['status'] = 'error';
+            $response_array['statusssss'] = $dto->toArray();
             $response_array['message'] = 'Объект не удалось создать';
             $response_array['exception_message'] = $e->getMessage();
         }

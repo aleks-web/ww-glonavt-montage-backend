@@ -60,7 +60,7 @@ return [
         return new \WWCrm\Services\Object\ObjectService();
     },
     'UserService' => function () {
-        return new \WWCrm\Services\UserService();
+        return new \WWCrm\Services\User\UserService();
     },
 
 ];
