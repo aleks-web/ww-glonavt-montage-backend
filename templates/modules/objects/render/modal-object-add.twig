@@ -108,6 +108,8 @@
             xpost_fd(API_V1_URLS.objects.create, cpns_get_formdata_by_wrapper('#modal-object-add')).then(response => {
                 dd(response, response.message, 'success');
                 push(response.message, 'success');
+
+                $('#modal-object-add .modal__close').trigger('click');
             }).catch(response => {
                 dd(response, response.message, 'error');
                 push(response.message, 'error');
