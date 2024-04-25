@@ -5,8 +5,8 @@
 <div class="control">
     <div class="control__container">
         <div class="control__left">
-            <div class="control__search input-search">
-                <input type="text" class="input-search__input" placeholder="Поиск по номеру">
+            <div class="control__search input-search" style="max-width: 380px;">
+                <input type="text" class="input-search__input" placeholder="Поиск">
             </div>
         </div>
 
@@ -24,6 +24,10 @@
 {# Start Подгружаем главную таблицу #}
 <script>
     $(document).ready(function() {
+        $('.module-objects .control .input-search input').on('input', function() {
+            xrender_main_table_objects(1, $(this).val());
+        });
+
         xrender_main_table_objects(1);
     });
 </script>

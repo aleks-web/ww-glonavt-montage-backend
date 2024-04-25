@@ -32,7 +32,19 @@
         {% else %} {# Если клиентов нет #}
             <div style="display: flex; gap: 10px; align-items: center; flex-direction: column; justify-content: center; height: 100%;font-size: 2rem;">
                 <span style="font-size: 3rem;">🙁</span>
-                <span>Объектов нет!</span>
+                
+                {% if request_params.control_panel_condition != '' %}
+                    <span>Таких объектов не нашлось</span>
+                    
+                    <div class="d-flex gap-2">
+                        <span>Вы искали: </span>
+                        <span class="text-secondary">{{ request_params.control_panel_condition }}</span>
+                    </div>
+
+                {% else %}
+                    <span>Объектов нет!</span>
+                {% endif %}
+
                 <button data-modal-object-add class="btn">Добавить новый объект</button>
             </div>
         {% endif %}

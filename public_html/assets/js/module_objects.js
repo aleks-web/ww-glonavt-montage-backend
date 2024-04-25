@@ -129,6 +129,7 @@ $(document).ready(() => {
 
 // Start функция, которая получает html разметку главной таблицы и вставляет ее | Модуль объекты
 function xrender_main_table_objects(current_page = 1, control_panel_condition = null) {
+
     // Разбиваем строку wrapper_and_element на обертку и twig элемент
     let wrapper = $("#region-main-table");
     let twig_element = "main-table.twig";

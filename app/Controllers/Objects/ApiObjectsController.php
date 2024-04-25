@@ -226,10 +226,10 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
             $queryBuildNext = Objects::offset($offset_next)->limit($per_page);
             
             if ($condition = $response_array['request_params']['control_panel_condition']) {
-                $queryBuild->where('inn', 'like', '%' . $condition['name'] . '%')
-                            ->orWhere('name', 'like', '%' . $condition['name'] . '%');
-                $queryBuildNext->where('inn', 'like', '%' . $condition['name'] . '%')
-                                ->orWhere('name', 'like', '%' . $condition['name'] . '%');
+                $queryBuild->where('model', 'like', '%' . $condition . '%')
+                            ->orWhere('brand', 'like', '%' . $condition . '%');
+                $queryBuildNext->where('model', 'like', '%' . $condition . '%')
+                                ->orWhere('brand', 'like', '%' . $condition . '%');
             }
 
             $response_array['pagination']['offset'] = $offset;

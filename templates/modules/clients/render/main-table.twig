@@ -40,6 +40,11 @@
 
                 {% if request_params.control_panel_condition != '' %}
                     <span>Таких клиентов не нашлось</span>
+
+                    <div class="d-flex gap-2">
+                        <span>Вы искали: </span>
+                        <span class="text-secondary">{{ request_params.control_panel_condition.name }}</span>
+                    </div>
                 {% else %}
                     <span>Клиентов нет!</span>
                 {% endif %}
