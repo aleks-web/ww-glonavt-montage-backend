@@ -3,6 +3,8 @@
 namespace WWCrm\Dto;
 
 class ObjectDto {
+    private array $allFields = [];
+    private int $id;
     private int $organizationId;
     private int|null $year = null;
     private string|null $brand = null;
@@ -12,6 +14,88 @@ class ObjectDto {
     private int|null $status = null;
     private string|null $color = null;
     private string|null $regDocNum = null;
+
+
+    public function __construct(array $values) {
+        foreach ($values as $key => $val) {
+            switch ($key) {
+                case 'id':
+                    if (isset($val)) {
+                        $this->id = $val;
+                        $allFields['id'] = $val;
+                    }
+                    break;
+                case 'year':
+                    if (isset($val)) {
+                        $this->year = $val;
+                        $allFields['year'] = $val;
+                    }
+                    break;
+                case 'brand':
+                    if (isset($val)) {
+                        $this->brand = $val;
+                        $allFields['brand'] = $val;
+                    }
+                    break;
+                case 'model':
+                    if (isset($val)) {
+                        $this->model = $val;
+                        $allFields['model'] = $val;
+                    }
+                    break;
+                case 'gnum':
+                    if (isset($val)) {
+                        $this->gnum = $val;
+                        $allFields['gnum'] = $val;
+                    }
+                    break;
+                case 'vin':
+                    if (isset($val)) {
+                        $this->vin = $val;
+                        $allFields['vin'] = $val;
+                    }
+                    break;
+                case 'status':
+                    if (isset($val)) {
+                        $this->status = $val;
+                        $allFields['status'] = $val;
+                    }
+                    break;
+                case 'color':
+                    if (isset($val)) {
+                        $this->color = $val;
+                        $allFields['color'] = $val;
+                    }
+                    break;
+                case 'reg_doc_num':
+                    if (isset($val)) {
+                        $this->regDocNum = $val;
+                        $allFields['reg_doc_num'] = $val;
+                    }
+                    break;
+            }
+        }
+
+        $this->allFields = $values;
+    }
+
+    /*
+        Возвращает массив тех данных
+    */
+    public function toArray() : array {
+        return $this->allFields;
+    }
+
+    /*
+        Id
+    */
+    public function setId(int $id) : void {
+        $this->id = $id;
+    }
+
+    public function getId() : int|null {
+        return $this->id;
+    }
 
     /*
         Номер документа о регистрации

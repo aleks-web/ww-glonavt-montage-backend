@@ -44,16 +44,7 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         // Получаем параметры
         $params = $response_array['request_params'] = $request->request->all();
 
-        $dto = new ObjectDto();
-        $dto->setOrganizationId((int)$params['organization_id']);
-        $dto->setYear((int)$params['year']);
-        $dto->setBrand($params['brand']);
-        $dto->setModel($params['model']);
-        $dto->setGnum($params['gnum']);
-        $dto->setVin($params['vin']);
-        $dto->setStatus((int)$params['status']);
-        $dto->setColor($params['color']);
-        $dto->setRegDocNum($params['reg_doc_num']);
+        $dto = new ObjectDto($params);
 
         try {
             $object = $this->objectService->createObject($dto);
@@ -77,17 +68,28 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         Метод обновления объекта
     */
     public function update(Request $request, Response $response) {
-        // Получаем параметры
-        $params = $request->request->all();
-        $response_array['request_params'] = $params;
-
-        // Обновляем оргонизацию
-        $client = Objects::find($params['id'])->update($params);
-
-        $response_array['status'] = 'success';
-        $response_array['message'] = 'Данные объекта обновлены';
-
         $response->headers->set('Content-Type', 'application/json');
+        // Получаем параметры
+        $params = $response_array['request_params'] = $request->request->all();
+
+        $dto = new ObjectDto($params);
+
+        try {
+            if ($this->objectService->updateObject($dto)) {
+                $response_array['object'] = $object;
+                $response_array['status'] = 'success';
+                $response_array['message'] = 'Объект обновлен';
+                $response_array['message2'] = $dto->toArray();
+            } else {
+                $response_array['status'] = 'error';
+                $response_array['message'] = 'Не удалось создать объект';
+            }
+        } catch (Exception $e) {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'Объект не удалось создать';
+            $response_array['exception_message'] = $e->getMessage();
+        }
+
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
 
         return $response;

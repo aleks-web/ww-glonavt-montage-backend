@@ -17,25 +17,33 @@ use Exception;
 final class ObjectService extends MainService {
     public function createObject(ObjectDto $dto) : Objects {
         try {
-
             // Проверяем валидность года
             if (!$this->utils->isValidYear($dto->getYear())) {
                 throw new Exception("Не валидная дата");
             }
 
+            $data = $dto->toArray();
+            $data['user_add_id'] = $this->currentUser->getId();
+
             // Создаем объект
-            return Objects::create([
-                'organization_id' => $dto->getOrganizationId(),
-                'year' => $dto->getYear(),
-                'brand' => $dto->getBrand(),
-                'model' => $dto->getModel(),
-                'gnum' => $dto->getGnum(),
-                'vin' => $dto->getVin(),
-                'status' => $dto->getStatus(),
-                'color' => $dto->getColor(),
-                'reg_doc_num' => $dto->getRegDocNum(),
-                'user_add_id' => $this->currentUser->getId()
-            ]);
+            return Objects::create($data);
+        } catch (\Illuminate\Database\QueryException $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /*
+        Обновляем объект
+    */
+    public function updateObject(ObjectDto $dto) : bool {
+        // Проверяем валидность года
+        if (!$this->utils->isValidYear($dto->getYear())) {
+            throw new Exception("Не валидная дата");
+        }
+
+        // Обновляем
+        try {
+            return Objects::find($dto->getId())->update($dto->toArray());
         } catch (\Illuminate\Database\QueryException $e) {
             throw new Exception($e->getMessage());
         }

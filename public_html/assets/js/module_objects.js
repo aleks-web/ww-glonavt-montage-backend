@@ -81,6 +81,8 @@ function load_modal_object(object_id, is_open = false) {
 
                     $('#region-modal-object').html(response.render_response_html);
 
+                    cpns_init();
+
                     dd_render_success(
                         response,
                         'modules/objects/render/modal-object.twig',
