@@ -9,7 +9,7 @@ class UserDto {
     private $surname;
     private $patronymic;
     private $avatarFileName;
-    private $post_id;
+    private $postId;
     private $tel;
     private $email;
     private $birth;
@@ -45,8 +45,8 @@ class UserDto {
                     break;
                 case 'avatar_file_name':
                     if (isset($val)) {
-                        $this->setPatronymic($val);
-                        $this->allFields['avatar_file_name'] = $this->getPatronymic();
+                        $this->setAvatarFileName($val);
+                        $this->allFields['avatar_file_name'] = $this->getAvatarFileName();
                     }
                     break;
                 case 'post_id':
@@ -128,4 +128,58 @@ class UserDto {
         return $this->patronymic;
     }
 
+    /*
+        Имя аватарки
+    */
+    public function setAvatarFileName(string $avatarFileName) : void {
+        return $this->avatarFileName = $avatarFileName;
+    }
+
+    public function getAvatarFileName() : string|null {
+        return $this->avatarFileName;
+    }
+
+    /*
+        id должности
+    */
+    public function setPostId(string $postId) : void {
+        return $this->postId = $postId;
+    }
+
+    public function getPostId() : string|null {
+        return $this->postId;
+    }
+
+    /*
+        Телефон
+    */
+    public function setTel(string|int $tel) : void {
+        return $this->tel = $tel;
+    }
+
+    public function getTel() : string|int|null {
+        return $this->tel;
+    }
+
+    /*
+        Email
+    */
+    public function setEmail(string $email) : void {
+        return $this->email = $email;
+    }
+
+    public function getEmail() : string|null {
+        return $this->email;
+    }
+
+    /*
+        День рождения
+    */
+    public function setBirth(string $birth) : void {
+        return $this->birth = $birth;
+    }
+
+    public function getBirth() : string|null {
+        return $this->birth;
+    }
 }
