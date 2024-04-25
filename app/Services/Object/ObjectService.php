@@ -9,11 +9,5 @@ use WWCrm\Services\MainService;
 use WWCrm\Models\Organizations;
 
 final class ObjectService extends MainService {
-
-    /*
-        Получить html отрендеренный компонент со списком пользователей
-    */
-    public static function getComponentSelect(string $component_input_name = null, bool $required = null) : false|string {
-        
-    }
+    
 }
