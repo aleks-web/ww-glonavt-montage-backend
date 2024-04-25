@@ -16,6 +16,7 @@ class MainController extends Controller {
     protected $session;
     protected $paths;
     protected $imageManager;
+    protected $objectService;
     protected $userService;
     protected $utils;
 
@@ -26,6 +27,8 @@ class MainController extends Controller {
         $this->session = $this->WWCrmService->get('SymfonySession');
         $this->paths = $this->WWCrmService->get('paths');
         $this->imageManager = $this->WWCrmService->get('ImageManager');
+
+        $this->objectService = $this->WWCrmService->get('ObjectService');
         $this->userService = $this->WWCrmService->get('UserService');
         $this->utils = $this->WWCrmService->get('Utils');
     }

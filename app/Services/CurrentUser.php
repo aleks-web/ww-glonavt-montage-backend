@@ -34,6 +34,17 @@ final class CurrentUser {
     }
 
     /*
+        Получает id текущего пользователя
+    */
+    public function getId() : int|false {
+        if($this->isAuterisation()) {
+            return (int) $this->session->get('user_id');
+        } else {
+            return false;
+        }
+    }
+
+    /*
         Метод возвращает объект текущего пользователя
     */
     public function getUserObject() : Object | false {

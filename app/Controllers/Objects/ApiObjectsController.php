@@ -27,6 +27,10 @@ use WWCrm\Models\BookEquipments;
 use WWCrm\Models\ObjEquipments;
 use WWCrm\Models\Objects;
 
+use WWCrm\Dto\ObjectDto;
+
+use Exception;
+
 class ApiObjectsController extends \WWCrm\Controllers\MainController {
 
     /*
@@ -34,17 +38,34 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         Создание объекта
     */
     public function create(Request $request, Response $response) {
+        $response->headers->set('Content-Type', 'application/json');
+
         // Получаем параметры
         $params = $response_array['request_params'] = $request->request->all();
 
-        // Создаем пользователя
-        $object = Objects::create($params);
+        $dto = new ObjectDto();
+        $dto->setOrganizationId((int)$params['organization_id']);
+        $dto->setYear((int)$params['year']);
+        $dto->setBrand($params['brand']);
+        $dto->setModel($params['model']);
+        $dto->setGnum($params['gnum']);
+        $dto->setVin($params['vin']);
+        $dto->setStatus((int)$params['status']);
+        $dto->setColor($params['color']);
+        $dto->setRegDocNum($params['reg_doc_num']);
 
-        $response_array['object'] = $object;
-        $response_array['status'] = 'success';
-        $response_array['message'] = 'Объект создан';
+        try {
+            $object = $this->objectService->createObject($dto);
 
-        $response->headers->set('Content-Type', 'application/json');
+            $response_array['object'] = $object;
+            $response_array['status'] = 'success';
+            $response_array['message'] = 'Объект создан';
+        } catch (Exception $e) {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'Объект не удалось создать';
+            $response_array['exception_message'] = $e->getMessage();
+        }
+
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
 
         return $response;
@@ -304,7 +325,7 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         $response_array['request_params'] = $request->request->all();
         $response_array['organizations'] = Organizations::all();
 
-        $componentBuilder = new ComponentSelectBuilder('client_id', true);
+        $componentBuilder = new ComponentSelectBuilder('organization_id', true);
         $componentBuilder->setDefaultText('Выберите клиента');
         foreach (Organizations::all() as $client) {
             $componentBuilder->addIdItem($client->id)->addTextItem($client->name)->saveItem();

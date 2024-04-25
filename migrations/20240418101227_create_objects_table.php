@@ -25,7 +25,7 @@ final class CreateObjectsTable extends AbstractMigration
 
         $sql = "CREATE TABLE IF NOT EXISTS `objects` (
             `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-            `organization_id` BIGINT UNSIGNED DEFAULT NULL COMMENT 'Организация к которой принадлежит объект',
+            `organization_id` BIGINT UNSIGNED NOT NULL COMMENT 'Организация к которой принадлежит объект',
             `status` INT NOT NULL DEFAULT '{$default_status}' COMMENT 'Статус объекта',
             `brand` VARCHAR(255) DEFAULT NULL COMMENT 'Модель объекта',
             `model` VARCHAR(255) DEFAULT NULL COMMENT 'Марка объекта',

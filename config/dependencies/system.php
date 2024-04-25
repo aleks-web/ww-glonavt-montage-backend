@@ -53,6 +53,12 @@ return [
         return new \WWCrm\Utils();
     },
 
+    'ClientService' => function () {
+        return new \WWCrm\Services\Client\ClientService();
+    },
+    'ObjectService' => function () {
+        return new \WWCrm\Services\Object\ObjectService();
+    },
     'UserService' => function () {
         return new \WWCrm\Services\UserService();
     },

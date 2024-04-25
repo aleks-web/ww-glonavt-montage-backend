@@ -52,4 +52,14 @@ class Utils {
         return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
 
+    /*
+        Проверяет валидность года
+    */
+    public function isValidYear(string|int $year) : bool {
+        if (ctype_digit($year) && !ctype_space($year) && strlen($year) === 4) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

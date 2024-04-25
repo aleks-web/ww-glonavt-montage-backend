@@ -16,11 +16,15 @@ class MainService {
     protected $imageManager;
     protected $session;
     protected $paths;
+    protected $currentUser;
+    protected $utils;
 
     public function __construct() {
         $this->WWCrmService = ServiceContainer::getInstance(); // Получаем контейнер
         $this->imageManager = $this->WWCrmService->get('ImageManager'); // Обработка изображений
         $this->session = $this->WWCrmService->get('SymfonySession'); // Получаем сессии
         $this->paths = $this->WWCrmService->get('paths'); // Пути
+        $this->currentUser = $this->WWCrmService->get('CurrentUser'); // Текущий пользователь
+        $this->utils = $this->WWCrmService->get('Utils'); // Утильные методы
     }
 }
