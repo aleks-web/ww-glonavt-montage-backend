@@ -27,6 +27,11 @@ use WWCrm\Models\BookEquipments;
 use WWCrm\Models\ObjEquipments;
 use WWCrm\Models\Objects;
 
+/*
+    Сервисы
+*/
+use WWCrm\Services\Object\ObjectService;
+
 class ApiObjectsController extends \WWCrm\Controllers\MainController {
 
     /*
@@ -43,6 +48,7 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         $response_array['object'] = $object;
         $response_array['status'] = 'success';
         $response_array['message'] = 'Объект создан';
+        $response_array['message2'] = ObjectService::getComponentSelect();
 
         $response->headers->set('Content-Type', 'application/json');
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
