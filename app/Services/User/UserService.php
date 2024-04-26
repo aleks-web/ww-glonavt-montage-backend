@@ -79,6 +79,13 @@ final class UserService extends MainService {
             throw new Exception('Email введен не верно!');
         }
 
-        return Users::create($dto->toArray());
+        /*
+            Создание пользователя
+        */
+        try {
+            return Users::create($dto->toArray());
+        } catch (\Illuminate\Database\QueryException $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 }
