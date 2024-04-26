@@ -30,7 +30,6 @@ use WWCrm\Models\BookPosts;
 // Dto
 use WWCrm\Dto\UserDto;
 
-
 class ApiUsersController extends \WWCrm\Controllers\MainController {
 
     /*
@@ -41,8 +40,10 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
         $params = $response_array['request_params'] = $request->request->all();
         $response->headers->set('Content-Type', 'application/json');
         
-
-        $this->userService->createUser(new UserDto($params)); 
+        /*
+            Создание пользователя
+        */
+        $this->userService->createUser(new UserDto($params));
 
         /*
             Есть ли пользователи с таким Email
