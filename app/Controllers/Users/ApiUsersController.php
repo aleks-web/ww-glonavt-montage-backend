@@ -19,7 +19,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use WWCrm\Services\ComponentSelectBuilder;
 
 
-
 /*
     Модели - 1 модель работает с 1 таблицей в БД
     Расширяют класс Model от Laravel
@@ -29,6 +28,8 @@ use WWCrm\Models\BookPosts;
 
 // Dto
 use WWCrm\Dto\UserDto;
+
+use Exception;
 
 class ApiUsersController extends \WWCrm\Controllers\MainController {
 
@@ -43,7 +44,20 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
         /*
             Создание пользователя
         */
-        $this->userService->createUser(new UserDto($params));
+        try {
+            $this->userService->createUser(new UserDto($params));
+
+            $response_array['status'] = 'success';
+            $response_array['message'] = 'Успешное создание пользоватееля';
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+            return $response;
+        } catch (Exception $e) {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'Не удалось создать пользователя';
+            $response_array['exception_message'] $e->getMessage();
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+            return $response;
+        }
 
         /*
             Есть ли пользователи с таким Email
