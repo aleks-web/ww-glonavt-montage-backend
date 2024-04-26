@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 use WWCrm\Services\ComponentSelectBuilder;
 
 
-
 /*
     Модели - 1 модель работает с 1 таблицей в БД
     Расширяют класс Model от Laravel
@@ -26,6 +25,14 @@ use WWCrm\Models\Organizations;
 use WWCrm\Models\Objects;
 use WWCrm\Models\OrgContactsPersons;
 use WWCrm\Models\Users;
+
+/*
+    Сервисы
+*/
+use WWCrm\Services\Organization\OrganizationService;
+
+// Dto
+use WWCrm\Dto\OrganizationDto;
 
 class ApiClientsController extends \WWCrm\Controllers\MainController {
     
