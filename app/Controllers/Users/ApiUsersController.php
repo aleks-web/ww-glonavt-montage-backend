@@ -59,30 +59,8 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
             return $response;
         }
 
-        /*
-            Есть ли пользователи с таким Email
-        */
-        if ($this->userService->findUserByEmail($response_array['request_params']['email'])) {
-            $response_array['status'] = 'error';
-            $response_array['message'] = 'Пользователь с таким Email уже существует';
 
-            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
-
-            return $response;
-        }
-
-        /*
-            Валидность Email
-        */
-        if (!$this->utils->isValidEmail($params['email'])) {
-            $response_array['status'] = 'error';
-            $response_array['message'] = 'Email введен не верно!';
-
-            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
-
-            return $response;
-        }
-
+        // Проверить для мереноса в сервис
         if (empty($response_array['request_params']['post_id'])) {
             $response_array['request_params']['post_id'] = null;
         }

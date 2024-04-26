@@ -65,7 +65,20 @@ final class UserService extends MainService {
     /*
        Создание пользователя 
     */
-    public function createUser(UserDto $dto) : Users|false {
-        return false;
+    public function createUser(UserDto $dto) : Users {
+
+        // Проверка на Email
+        if ($this->findUserByEmail($dto->getEmail())) {
+            throw new Exception('Пользователь с таким Email уже существует');
+        }
+
+        /*
+            Валидность Email
+        */
+        if (!$this->utils->isValidEmail($dto->getEmail())) {
+            throw new Exception('Email введен не верно!');
+        }
+
+        return Users::create($dto->toArray());
     }
 }
