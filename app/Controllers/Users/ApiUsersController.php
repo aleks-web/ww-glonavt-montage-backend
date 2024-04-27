@@ -60,29 +60,9 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
         }
 
 
-        // Проверить для мереноса в сервис
-        if (empty($response_array['request_params']['post_id'])) {
-            $response_array['request_params']['post_id'] = null;
-        }
-
-        /*
-            Если пароль пустой
-        */
-        if (empty($response_array['request_params']['password'])) {
-            $response_array['status'] = 'error';
-            $response_array['message'] = 'Вы не создали пароль для пользователя';
-
-            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
-
-            return $response;
-        } else { // Иначе если пароль не пустой
-            $originalPass = $response_array['request_params']['password'];
-            $response_array['request_params']['password'] = trim($response_array['request_params']['password']);
-            $response_array['request_params']['password'] = password_hash($response_array['request_params']['password'], PASSWORD_DEFAULT);
-        }
 
         try {
-            $user = Users::create($response_array['request_params']);
+            // $user = Users::create($response_array['request_params']);
 
             $file_name = $_FILES['avatar'] ? $this->userService->saveUserAvatarFromFile($_FILES['avatar']) : false;
 
@@ -309,17 +289,16 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
         Редактирование аккаунта
     */
     public function render_modal_current_user($twig_element, Request $request, Response $response) {
-        // Получаем параметры POST и сразу записываем их в массив с ответом
-        $response_array['request_params'] = $request->request->all();
         $response->headers->set('Content-Type', 'application/json');
+        // Получаем параметры POST и сразу записываем их в массив с ответом
+        $params = $response_array['request_params'] = $request->request->all();
 
         $response_array['render_response_html'] = $this->view->render('modals/render/' . $twig_element, [
-            'request_params' => $response_array['request_params'],
-            'user' => Users::find($response_array['request_params']['id'])
+            'request_params' => $params,
+            'user' => Users::find($params['id'])
         ]);
 
         $response_array['status'] = 'success';
-
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
         return $response;
     }

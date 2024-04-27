@@ -182,4 +182,15 @@ class UserDto {
     public function getBirth() : string|null {
         return $this->birth;
     }
+
+    /*
+        Пароль
+    */
+    public function setPassword(string $pass) : void {
+        $this->pass = $pass;
+    }
+
+    public function getPassword() : string|null {
+        return $this->pass;
+    }
 }
