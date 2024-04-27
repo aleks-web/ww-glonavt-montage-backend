@@ -38,10 +38,6 @@ function xrender_main_table_users() {
                     url
                 );
             }
-
-            if (response.status == "error") {
-                wrapper.html(`<div style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">${response.message}</div>`);
-            }
         },
         beforeSend: function () {
             wrapper.addClass("loading");
