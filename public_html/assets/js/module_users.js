@@ -49,12 +49,16 @@ function xrender_main_table_users() {
 /*
     Загрузка модального окна "Добавление нового сотрудника"
 */
-xpost_fd(API_V1_URLS.users.render + 'modal-user-add').then(response => {
-    $('#modal-user-add-wrapper').html(response.render_response_html);
-
-    cpns_init();
-
-    dd_render_success(response, 'modal-user-add.twig', API_V1_URLS.users.render + 'modal-user-add');
+$(document).ready(() => {
+    xpost_fd(API_V1_URLS.users.render + 'modal-user-add').then((response) => {
+        $('#modal-user-add-wrapper').html(response.render_response_html);
+    
+        cpns_init();
+    
+        dd_render_success(response, 'modal-user-add.twig', API_V1_URLS.users.render + 'modal-user-add');
+    }).catch(response => {
+        dd(response, 'Ошибка рендера modal-user-add.twig', 'error');
+    });
 });
 
 /*

@@ -73,6 +73,12 @@ class UserDto {
                         $this->allFields['birth'] = $this->getBirth();
                     }
                     break;
+                case 'password':
+                    if (isset($val)) {
+                        $this->setPassword($val);
+                        $this->allFields['password'] = $this->getPassword();
+                    }
+                    break;
             }
         }
     }
@@ -142,7 +148,11 @@ class UserDto {
     /*
         id должности
     */
-    public function setPostId(string $postId) : void {
+    public function setPostId(string|int $postId) : void {
+        if(empty($postId)) {
+            $postId = null;
+        }
+        
         $this->postId = $postId;
     }
 
@@ -187,10 +197,10 @@ class UserDto {
         Пароль
     */
     public function setPassword(string $pass) : void {
-        $this->pass = $pass;
+        $this->password = $pass;
     }
 
     public function getPassword() : string|null {
-        return $this->pass;
+        return $this->password;
     }
 }

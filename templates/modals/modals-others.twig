@@ -7,24 +7,24 @@
 
 {# Start редактирование текущего пользователя #}
 <script>
-    // function edit_current_user() {
-    //     let formData = new FormData();
-    //     formData.append('id', {{ current_user.id }});
+    function edit_current_user() {
+        let formData = new FormData();
+        formData.append('id', {{ current_user.id }});
 
-    //     let url = API_V1_URLS.users.render + 'modal-current-user';
+        let url = API_V1_URLS.users.render + 'modal-current-user';
 
-    //     xpost_fd(url, formData).then(response => {
-    //         $('#modal-current-user-wrapper').html(response.render_response_html);
-    //         cpns_init();
+        xpost_fd(url, formData).then(response => {
+            $('#modal-current-user-wrapper').html(response.render_response_html);
+            cpns_init();
 
-    //         dd_render_success(response, 'modal-current-user.twig', url);
-    //     }).catch(resp => {
-    //         dd(resp, 'Ошибка загрузки modal-current-user.twig', 'error');
-    //     });
-    // }
+            dd_render_success(response, 'modal-current-user.twig', url);
+        }).catch(resp => {
+            dd(resp, 'Ошибка загрузки modal-current-user.twig', 'error');
+        });
+    }
 
-    // $(document).ready(() => {
-    //     edit_current_user();
-    // });
+    $(document).ready(() => {
+        edit_current_user();
+    });
 </script>
 {# End редактирование текущего пользователя #}
