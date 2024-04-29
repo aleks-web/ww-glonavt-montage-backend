@@ -2,7 +2,7 @@
     Start push
     Desc: push уведомление на экран
 */
-function push(text, type, time = 1000) {
+function push(text, type, time = 2000) {
     if (type == 'error') {
         notyf.error({
             message: text,

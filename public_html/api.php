@@ -72,6 +72,11 @@ $router->xpost(API_V1_URL . 'book-posts/delete', $controllers['Api']['BooksPosts
 $router->xpost(API_V1_URL . 'book-posts/create', $controllers['Api']['BooksPosts'] . '@create'); // Создание должности
 $router->xpost(API_V1_URL . 'book-posts/update', $controllers['Api']['BooksPosts'] . '@update'); // Обновление должности
 
+// Book docs
+$router->xpost(API_V1_URL . 'book-docs/delete', $controllers['Api']['BooksDocs'] . '@delete'); // Удаление типа документа
+$router->xpost(API_V1_URL . 'book-docs/create', $controllers['Api']['BooksDocs'] . '@create'); // Создание типа документа
+$router->xpost(API_V1_URL . 'book-docs/render/:string', $controllers['Api']['BooksDocs'] . '@distributor'); // Рендер типов документов
+
 $router->notFound(function(Request $request, Response $response) {
     header('Location: ' . $request->server->get('REQUEST_SCHEME') . '://' . $request->server->get('HTTP_HOST') . '/404');
 });

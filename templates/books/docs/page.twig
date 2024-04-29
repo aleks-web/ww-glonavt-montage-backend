@@ -1,0 +1,107 @@
+{% extends "layout.twig" %}
+
+{% block module_name %}book-docs{% endblock module_name %}
+
+{% block control %}
+<div class="control">
+    <div class="control__container">
+        <div class="control__left">
+            <div class="control__search input-search" style="max-width: 300px;">
+                <input type="text" class="input-search__input" placeholder="Поиск по названию">
+            </div>
+        </div>
+
+        <div class="control__right">
+            <button data-fancybox data-src="#fmodal-book-new-post" class="control__btn btn">Добавить тип документа</button>
+        </div>
+    </div>
+</div>
+{% endblock control %}
+
+
+{% block content %}
+{% endblock content %}
+
+
+
+
+{% block scripts %}
+{# Start Подгружаем главную таблицу #}
+<script>
+    $(document).ready(function() {
+        xrender_main_table_book_docs();
+    });
+
+    function xrender_main_table_book_docs() {
+        // Разбиваем строку wrapper_and_element на обертку и twig элемент
+        let wrapper = $("#region-main-table");
+        let url = API_V1_URLS.book_docs.render + 'main-table';
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: {
+                twig_element: 'main-table.twig',
+                control_panel_condition: $('.module-book-docs .input-search input').val(),
+            },
+            success: function (response) {
+                wrapper.removeClass("loading");
+
+                if (response.status == "success") {
+                    wrapper.html(response.render_response_html);
+
+                    dd_render_success(response, 'main-table.twig', url);
+                }
+            },
+            beforeSend: function () {
+                wrapper.addClass("loading");
+            },
+        });
+    }
+</script>
+{# End Подгружаем главную таблицу #}
+
+
+
+{# Start фильтр #}
+<script>
+    // Start пагинация и фильтр поиска | Справочник оборудования
+    $(document).ready(() => {
+        $('.module-book-docs .input-search input').on('input', xrender_main_table_book_docs);
+    });
+    // End пагинация и фильтр поиска | Справочник оборудования
+</script>
+{# End фильтр #}
+
+
+{# Start добавление должности | подгрузка модалки #}
+<script>
+    $(document).ready(() => {
+        let url = API_V1_URLS.book_posts.render + 'fmodal-book-new-post';
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: {
+                twig_element: 'fmodal-book-new-post.twig',
+            },
+            success: function (response) {
+
+                console.log(response);
+
+                if (response.status == "success") {
+
+                    $('#fmodal-book-new-post-wrapper').html(response.render_response_html);
+
+                    dd_render_success(
+                        response,
+                        'books/posts/render/fmodal-book-new-post.twig',
+                        url
+                    );
+                }
+            }
+        });
+    });
+</script>
+{# End добавление должности | подгрузка модалки #}
+{% endblock scripts %}

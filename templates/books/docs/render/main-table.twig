@@ -1,0 +1,70 @@
+{#
+    В разработке!
+    request_params - параметры запроса
+    docs - типы документов
+#}
+
+<div class="content-table">
+    <div class="content-table__container">
+
+        {% if docs | length > 0 %}
+            <table>
+                <thead>
+                    <tr>
+                        <th class="text-center" width="10%">№ п/п</th>
+                        <th class="text-start">Тип документа</th>
+                        <th class="text-start">Описание типа документа</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for doc in docs %}
+                        <tr>
+                            <td class="text-center">{{ doc.id }}</td>
+                            <td class="text-start">{{ doc.name }}</td>
+                            <td class="text-start">{{ doc.description }}</td>
+                            
+                            <td class="td-btn-default">
+                                <svg class="hover" onclick="alert({{ doc.id }})"><use xlink:href="#svg-edit"></use></svg>
+                            </td>
+                            <td class="td-btn-default">
+                                <svg class="hover" onclick="delete_book_doc_type({{ doc.id }})"><use xlink:href="#svg-del"></use></svg>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div style="display: flex; gap: 10px; align-items: center; flex-direction: column; justify-content: center; height: 100%;font-size: 2rem;">
+                <span style="font-size: 3rem;">🙁</span>
+                
+                {% if request_params.control_panel_condition != '' %}
+                    <span>Таких типов документов не нашлось</span>
+                {% else %}
+                    <span>Записей нет!</span>
+                {% endif %}
+
+                <button data-fancybox data-src="#fmodal-book-new-departments" class="btn">Добавить отдел</button>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+
+{# Start удаление типа документа #}
+<script>
+    function delete_book_doc_type(book_doc_id) {
+        let url = API_V1_URLS.book_docs.delete;
+        let formData = new FormData();
+        formData.append('id', book_doc_id);
+
+        xpost_fd(url, formData).then(response => {
+            dd(response, response.message, 'success');
+            push(response.message, 'success');
+        }).catch(response => {
+            dd(response, response.message, 'error');
+            push(response.message, 'error');
+        });
+    }
+</script>
+{# End удаление типа документа #}
