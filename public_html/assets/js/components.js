@@ -3,23 +3,19 @@
     Desc: push уведомление на экран
 */
 function push(text, type, time = 1000) {
-    let push_block = $("#region-push .push");
-    let push_block_text = push_block.find(".push__text");
-
-    push_block.removeAttr("style");
-    push_block.removeClass("error").removeClass("success");
-
-    push_block.addClass(type);
-    push_block_text.text(text);
-    push_block.addClass("active");
-
-    setTimeout(() => {
-        push_block.fadeOut(400, () => {
-            push_block.removeClass("active");
-            push_block_text.text("");
-            push_block.removeClass("error").removeClass("success");
+    if (type == 'error') {
+        notyf.error({
+            message: text,
+            duration: time
         });
-    }, time);
+    }
+
+    if (type == 'success') {
+        notyf.success({
+            message: text,
+            duration: time
+        });
+    }
 }
 // End push
 
