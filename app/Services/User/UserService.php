@@ -2,6 +2,7 @@
 
 namespace WWCrm\Services\User;
 
+// Главный сервис
 use WWCrm\Services\MainService;
 
 
@@ -14,6 +15,7 @@ use WWCrm\Services\ComponentSelectBuilder;
 // Dto
 use WWCrm\Dto\UserDto;
 
+// Класс исключений
 use Exception;
 
 final class UserService extends MainService {
@@ -67,7 +69,16 @@ final class UserService extends MainService {
     */
     public function createUser(UserDto $dto) : Users {
 
-        // Проверка на Email
+        /*
+            Проверяем на заполненность имени
+        */
+        if(empty($dto->getName())) {
+            throw new Exception('Вы должны заполнить имя');
+        }
+
+        /*
+            Проверка на Email
+        */
         if ($this->findUserByEmail($dto->getEmail())) {
             throw new Exception('Пользователь с таким Email уже существует');
         }
@@ -96,4 +107,50 @@ final class UserService extends MainService {
             throw new Exception($e->getMessage());
         }
     }
+
+    /*
+        Обновление пользователя
+    */
+    public function updateUser(UserDto $dto) : bool {
+        $user = Users::find($dto->getId());
+
+        if ($user) {
+
+            /*
+                Валидность Email
+            */
+            if (!$this->utils->isValidEmail($dto->getEmail())) {
+                throw new Exception('Email введен не верно!');
+            }
+
+            /*
+                Возвращаем ошибку, если юзер с таким пользователем уже есть
+            */
+            if($this->findUserByEmail($dto->getEmail()) && $this->findUserByEmail($dto->getEmail())['email'] != $dto->getEmail()) {
+                throw new Exception('Пользователь с таким Email уже существует');
+            }
+
+            /*
+                Проверяем валидность ФИО
+            */
+            if(!$this->utils->isValidFio(($dto->getName())) || !$this->utils->isValidFio($dto->getSurname()) || !$this->utils->isValidFio($dto->getPatronymic())) {
+                throw new Exception('ФИО должно содержать только буквы');
+            }
+
+            /*
+                Проверяем на заполненность имени
+            */
+            if(empty($dto->getName())) {
+                throw new Exception('Вы должны заполнить имя');
+            }
+
+            if ($user->update($dto->toArray())) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+
 }

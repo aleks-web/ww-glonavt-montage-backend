@@ -160,7 +160,7 @@ class UserDto {
         Телефон
     */
     public function setTel(string|int $tel) : void {
-        $this->tel = $tel;
+        $this->tel = preg_replace('/[^0-9]/', '', $tel);
         $this->allFields['tel'] = $this->getTel();
     }
 

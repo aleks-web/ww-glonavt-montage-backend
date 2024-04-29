@@ -119,6 +119,7 @@
                                             {% include 'components/input-text.twig' with {
                                                 settings: {
                                                     db_field_name: 'name',
+                                                    required: true,
                                                     val: user.name,
                                                     pls: 'Имя пользователя'
                                                 }
@@ -196,6 +197,7 @@
 
     $(document).ready(() => {
         cpns_form_validate('#modal-user .modal-user__data-edit', '#modal-user .modal__header-btn-save');
+        cpns_init();
     });
 
     save_big_modal('modal-user', async function() {

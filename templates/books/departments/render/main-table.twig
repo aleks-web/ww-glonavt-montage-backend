@@ -25,10 +25,10 @@
                             <td class="text-start">{{ department.description }}</td>
                             
                             <td class="td-btn-default">
-                                <svg class="hover" onclick="edit_department({{ department.id }})"><use xlink:href="#svg-edit"></use></svg>
+                                <svg class="hover" {% if post.is_delete == false %}style="opacity: 0;cursor: context-menu !important;pointer-events: none;"{% endif %} onclick="edit_department({{ department.id }})"><use xlink:href="#svg-edit"></use></svg>
                             </td>
                             <td class="td-btn-default">
-                                <svg class="hover" onclick="delete_department({{ department.id }})"><use xlink:href="#svg-del"></use></svg>
+                                <svg class="hover" {% if post.is_delete == false %}style="opacity: 0;cursor: context-menu !important;pointer-events: none;"{% endif %}onclick="delete_department({{ department.id }})"><use xlink:href="#svg-del"></use></svg>
                             </td>
                         </tr>
                     {% endfor %}

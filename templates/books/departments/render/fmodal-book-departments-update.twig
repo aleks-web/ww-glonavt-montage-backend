@@ -58,6 +58,7 @@
                 dd(response, response.message, 'success');
             }).catch(response => {
                 dd(response, response.message, 'error');
+                push(response.message, 'error');
             });
         });
     });

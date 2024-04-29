@@ -46,6 +46,13 @@ class ApiBookDepartmentsController extends \WWCrm\Controllers\MainController {
         $response_array['request_params'] = $request->request->all();
         $response->headers->set('Content-Type', 'application/json');
 
+        if (BookDepartments::find($response_array['request_params']['id'])->is_delete == false) {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'Данный отдел редактировать нельзя!';
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+            return $response;
+        }
+
         if ($dep = BookDepartments::find($response_array['request_params']['id'])) {
 
             $dep->update([
@@ -74,6 +81,14 @@ class ApiBookDepartmentsController extends \WWCrm\Controllers\MainController {
         $depId = $response_array['request_params']['id'];
 
         $response->headers->set('Content-Type', 'application/json');
+
+        if (BookDepartments::find($response_array['request_params']['id'])->is_delete == false) {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'Данный отдел удалить нельзя!';
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+            return $response;
+        }
+
         $countDeps = BookDepartments::all()->count();
 
         if ($countDeps === 1) {

@@ -29,6 +29,13 @@ class ApiBookPostsController extends \WWCrm\Controllers\MainController {
 
         $countPosts = BookPosts::all()->count();
 
+        if (BookPosts::find($response_array['request_params']['id'])->is_delete == false) {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'Данную должность удалить нельзя!';
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+            return $response;
+        }
+
         if ($countPosts === 1) {
             $response_array['status'] = 'error';
             $response_array['message'] = 'Осталась всего 1 должность. Ее нельзя удалить';
@@ -82,6 +89,13 @@ class ApiBookPostsController extends \WWCrm\Controllers\MainController {
         // Получаем параметры POST и сразу записываем их в массив с ответом
         $response_array['request_params'] = $request->request->all();
         $response->headers->set('Content-Type', 'application/json');
+
+        if (BookPosts::find($response_array['request_params']['id'])->is_delete == false) {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'Данную должность редактировать нельзя!';
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+            return $response;
+        }
 
         try {
             BookPosts::find($response_array['request_params']['id'])->update($response_array['request_params']);

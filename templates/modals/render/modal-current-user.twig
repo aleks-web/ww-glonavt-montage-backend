@@ -3,7 +3,7 @@
     user - пользователь
 #}
 
-<div id="modal-current-user" class="modal modal-current-user">
+<div id="modal-current-user" class="modal modal-current-user {% if request_params.is_open %}open{% endif %}" data-user-id="{{ user.id }}">
     <svg data-modal-close class="modal__close"><use xlink:href="#svg-close"></use></svg>
 
     <div class="modal__container">
@@ -57,22 +57,22 @@
                                 <div class="block-info__content">
                                     <div class="block-info__item">
                                         <span class="block-info__text-secondary">Имя</span>
-                                        <span class="block-info__text-main">{{ user.name }}</span>
+                                        <span class="block-info__text-main">{{ user.name | default('-') }}</span>
                                     </div>
 
                                     <div class="block-info__item">
                                         <span class="block-info__text-secondary">Фамилия</span>
-                                        <span class="block-info__text-main">{{ user.surname }}</span>
+                                        <span class="block-info__text-main">{{ user.surname | default('-') }}</span>
                                     </div>
 
                                     <div class="block-info__item">
                                         <span class="block-info__text-secondary">Отчество</span>
-                                        <span class="block-info__text-main">{{ user.patronymic }}</span>
+                                        <span class="block-info__text-main">{{ user.patronymic | default('-') }}</span>
                                     </div>
 
                                     <div class="block-info__item">
                                         <span class="block-info__text-secondary">Дата рождения</span>
-                                        <span class="block-info__text-main">{{ user.birth | date('d.m.Y') }}</span>
+                                        <span class="block-info__text-main">{{ user.birth | date('d.m.Y') | default('-') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -83,12 +83,12 @@
                                 <div class="block-info__content">
                                     <div class="block-info__item">
                                         <span class="block-info__text-secondary">Телефон</span>
-                                        <span class="block-info__text-main">{{ user.tel }}</span>
+                                        <span class="block-info__text-main">{{ user.tel | default('-') }}</span>
                                     </div>
 
                                     <div class="block-info__item">
                                         <span class="block-info__text-secondary">Email</span>
-                                        <span class="block-info__text-main">{{ user.email }}</span>
+                                        <span class="block-info__text-main">{{ user.email | default('-') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -105,8 +105,9 @@
                                         {% include 'components/input-text.twig' with {
                                             settings: {
                                                 db_field_name: 'name',
+                                                required: true,
                                                 val: user.name,
-                                                pls: 'Ваше имя'
+                                                pls: 'Мое имя'
                                             }
                                         } %}
                                     </div>
@@ -116,7 +117,7 @@
                                             settings: {
                                                 db_field_name: 'surname',
                                                 val: user.surname,
-                                                pls: 'Ваша фамилия'
+                                                pls: 'Моя фамилия'
                                             }
                                         } %}
                                     </div>
@@ -126,7 +127,7 @@
                                             settings: {
                                                 db_field_name: 'patronymic',
                                                 val: user.patronymic,
-                                                pls: 'Ваше отчество'
+                                                pls: 'Мое отчество'
                                             }
                                         } %}
                                     </div>
@@ -155,7 +156,7 @@
                                             settings: {
                                                 db_field_name: 'tel',
                                                 val: user.tel,
-                                                pls: 'Ваш телефон'
+                                                pls: 'Мой телефон'
                                             }
                                         } %}
                                     </div>
@@ -165,7 +166,7 @@
                                             settings: {
                                                 db_field_name: 'email',
                                                 val: user.email,
-                                                pls: 'Ваш email'
+                                                pls: 'Мой email'
                                             }
                                         } %}
                                     </div>
@@ -189,4 +190,41 @@
 
     </div>
 </div>
-<!-- End Модалка просмотра клиента -->
+
+
+{# Start скрипт сохранения #}
+<script>
+    $(document).ready(() => {
+        cpns_form_validate('#modal-current-user .modal-current-user__data-edit', '.modal__header-btn-save');
+    });
+
+    save_big_modal('modal-current-user', async () => {
+        let user_id = $('#modal-current-user').data('user-id');
+        
+        let url = API_V1_URLS.users.update;
+
+        let formData = cpns_get_formdata_by_wrapper('#modal-current-user .modal-current-user__data-edit');
+
+        formData.append('id', user_id);
+
+        return await xpost_fd(url, formData).then(response => {
+            dd(response, response.message, 'success');
+            push(response.message, 'success');
+
+            edit_current_user(1);
+
+            return new Promise((resolve, reject) => {
+                resolve(response);
+            });
+
+        }).catch(response => {
+            dd(response, response.message, 'error');
+            push(response.message, 'error');
+
+            return new Promise((resolve, reject) => {
+                reject(resp);
+            });
+        });
+    });
+</script>
+{# End скрипт сохранения #}

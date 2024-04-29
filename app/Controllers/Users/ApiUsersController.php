@@ -93,56 +93,22 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
         $params = $response_array['request_params'] = $request->request->all();
         $response->headers->set('Content-Type', 'application/json');
 
-        $user = Users::find($response_array['request_params']['id']);
+        try {
+            $userDto = new UserDto($params);
 
-        $response_array['request_params']['tel'] = $this->utils->formatTel($response_array['request_params']['tel']);
-        $response_array['request_params']['post_id'] = empty($response_array['request_params']['post_id']) ? null : $response_array['request_params']['post_id'];
+            $user = $this->userService->updateUser($userDto);
 
-
-        /*
-            Проверяем валидность email
-        */
-        if (empty($params['email']) || !$this->utils->isValidEmail($params['email'])) {
-            $response_array['status'] = 'error';
-            $response_array['message'] = 'Не коррекртый Email адрес';
-
+            $response_array['status'] = 'success';
+            $response_array['message'] = 'Успешное обновление данных пользователя';
             $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
-
             return $response;
-        }
-
-
-        /*
-            Возвращаем ошибку, если юзер с таким пользователем уже есть
-        */
-        if($this->userService->findUserByEmail($response_array['request_params']['email']) && $this->userService->findUserByEmail($response_array['request_params']['email'])['email'] != $user->email) {
+        } catch (Exception $e) {
             $response_array['status'] = 'error';
-            $response_array['message'] = 'Пользователь с таким Email уже существует';
-
-            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
-
-            return $response;
-        }
-
-        /*
-            Проверяем валидность ФИО
-        */
-        if(!$this->utils->isValidFio($params['name']) || !$this->utils->isValidFio($params['surname']) || !$this->utils->isValidFio($params['patronymic'])) {
-            $response_array['status'] = 'error';
-            $response_array['message'] = 'ФИО должно содержать только буквы';
-
+            $response_array['message'] = 'Не удалось обновить данные пользователя';
+            $response_array['exception_message'] = $e->getMessage();
             $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
             return $response;
         }
-
-        // Обновляем юзера
-        $user->update($response_array['request_params']);
-
-        $response_array['status'] = 'success';
-        $response_array['message'] = 'Данные пользователя успешно обновлены';
-        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
-
-        return $response;
     }
 
     /*
@@ -193,7 +159,8 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
         $response_array['render_response_html'] = $this->view->render('modules/users/render/' . $twig_element, [
             'request_params' => $response_array['request_params'],
             'users' => $response_array['users'],
-            'paths' => $this->paths
+            'paths' => $this->paths,
+            'current_user' => $this->WWCurrentUser->getUserObject()
         ]);
 
         $response_array['status'] = 'success';

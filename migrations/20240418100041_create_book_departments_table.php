@@ -24,13 +24,14 @@ final class CreateBookDepartmentsTable extends AbstractMigration
             `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
             `name` VARCHAR(50) NOT NULL COMMENT 'Название отдела',
             `description` VARCHAR(255) DEFAULT NULL COMMENT 'Описание отдела',
+            `is_delete` BOOLEAN DEFAULT TRUE COMMENT 'Можно ли удалить данную запись',
             PRIMARY KEY (`id`)
           ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
 
           // Создаем таблицу
           $this->execute($sql);
 
-          $seed = "INSERT INTO `book_departments` (`id`, `name`, `description`) VALUES (1, 'Отдел разработки', 'Занимается тех.поддержкой crm и её доработками')";
+          $seed = "INSERT INTO `book_departments` (`id`, `name`, `description`, `is_delete`) VALUES (1, 'Отдел разработки', 'Занимается тех.поддержкой crm и её доработками', false)";
 
           // Сеем тестовые данные
           $this->execute($seed);

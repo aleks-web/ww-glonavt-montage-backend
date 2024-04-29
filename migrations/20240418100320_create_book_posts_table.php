@@ -25,6 +25,7 @@ final class CreateBookPostsTable extends AbstractMigration
             `department_id` BIGINT UNSIGNED NOT NULL COMMENT 'id отдела для которого создана должность',
             `name` VARCHAR(50) NOT NULL COMMENT 'Название должности',
             `description` VARCHAR(255) DEFAULT NULL COMMENT 'Описание должности',
+            `is_delete` BOOLEAN DEFAULT TRUE COMMENT 'Можно ли удалить данную запись',
             PRIMARY KEY (`id`)
           ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
 
@@ -38,7 +39,7 @@ final class CreateBookPostsTable extends AbstractMigration
           ";
           $this->execute($sql_alert);
 
-          $seed = "INSERT INTO `book_posts` (`id`, `department_id`, `name`, `description`) VALUES (1, 1, 'Разработчик ПО', 'Занимается разработкой и тех.поддержкой системы')";
+          $seed = "INSERT INTO `book_posts` (`id`, `department_id`, `name`, `description`, `is_delete`) VALUES (1, 1, 'Главный разработчик', 'Главный разработчик - это основной программист, который занимается поддержкой и развитием crm. Он больше всех знает, как устоена crm с технической точки зрения.', false)";
 
           // Сеем тестовые данные
           $this->execute($seed);

@@ -2,6 +2,7 @@
     request_params - параметры запроса
     users - пользователи
     paths - пути
+    current_user - текущий пользователь
 #}
 
 <div class="content-table content-table--control">
@@ -23,7 +24,7 @@
                         {% set name = user.surname ~ ' ' ~ user.name ~ ' ' ~ user.patronymic %}
                         {% set avatar = user.avatar_file_name ? paths.public_urn.users_avatars ~ '/' ~ user.avatar_file_name : paths.public_urn.default_images ~ '/avatar.png' %}
 
-                        <tr onclick="open_modal_user({{ user.id }})" class="pointer">
+                        <tr {% if current_user.id != user.id %}onclick="open_modal_user({{ user.id }})"{% endif %} class="pointer" {% if current_user.id == user.id %}style="background-color: var(--clr-4);" onclick="$('.modal-current-user').addClass('open');add_body_bg();"{% endif %}>
                             <td class="td-avatar">
                                 <svg><use xlink:href="#svg-user"></use></svg>
                                 <img src="{{ avatar }}" alt="{{ user.surname }}">
