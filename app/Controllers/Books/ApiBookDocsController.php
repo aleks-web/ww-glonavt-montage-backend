@@ -20,15 +20,16 @@ class ApiBookDocsController extends \WWCrm\Controllers\MainController {
 
     /*
         Создание типа документа
+        РЕАЛИЗОВАТЬ!!!!
     */
-    public function delete(Request $request, Response $response) {
+    public function create(Request $request, Response $response) {
         $response->headers->set('Content-Type', 'application/json');
 
         // Получаем параметры POST и сразу записываем их в массив с ответом
         $params = $response_array['request_params'] = $request->request->all();
 
         $response_array['status'] = 'success';
-        $response_array['message'] = 'Успешное удаление типа документа';
+        $response_array['message'] = 'Успешное создание типа документа';
 
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
         return $response;
