@@ -53,7 +53,21 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
                 $userDto->setAvatarFileName($file_name);
             }
 
-            $this->userService->createUser($userDto);
+            $user = $this->userService->createUser($userDto);
+
+            if ($user && $params['is_send_password']) {
+                $user->password = $userDto->getPassword();
+
+                $serverData = $request->server->all();
+                $mail = $this->view->render('mail/create-account.twig', [
+                    'user' => $user,
+                    'url' => $serverData['REQUEST_SCHEME'] . '://' . $serverData['HTTP_HOST'],
+                    'domain' => $serverData['HTTP_HOST'],
+                    'logo_url' => $serverData['REQUEST_SCHEME'] . '://' . $serverData['HTTP_HOST'] . '/assets/img/glonavt_logo.svg'
+                ]);
+
+                mail($user->email, 'glonavt.ru - создание аккаунта', $mail, "From: no-reply@crmdev.glonavt.ru\r\n"."Content-type: text/html; charset=utf-8\r\n"."X-Mailer: PHP mail script");
+            }
 
             $response_array['status'] = 'success';
             $response_array['message'] = 'Успешное создание пользоватееля';
@@ -69,42 +83,6 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
             return $response;
         }
 
-
-
-        // try {
-
-        //     $file_name = $_FILES['avatar'] ? $this->userService->saveUserAvatarFromFile($_FILES['avatar']) : false;
-
-        //     if ($file_name) {
-        //         $user->avatar_file_name = $file_name;
-        //         $user->save();
-        //     }
-
-        //     if ($user && $response_array['request_params']['is_send_password']) {
-        //         $user->password = $originalPass;
-
-        //         $serverData = $request->server->all();
-        //         $mail = $this->view->render('mail/create-account.twig', [
-        //             'user' => $user,
-        //             'url' => $serverData['REQUEST_SCHEME'] . '://' . $serverData['HTTP_HOST'],
-        //             'domain' => $serverData['HTTP_HOST'],
-        //             'logo_url' => $serverData['REQUEST_SCHEME'] . '://' . $serverData['HTTP_HOST'] . '/assets/img/glonavt_logo.svg'
-        //         ]);
-
-        //         mail($user->email, 'glonavt.ru - создание аккаунта', $mail, "From: no-reply@crmdev.glonavt.ru\r\n"."Content-type: text/html; charset=utf-8\r\n"."X-Mailer: PHP mail script");
-        //     }
-
-        //     $response_array['status'] = 'success';
-        //     $response_array['message'] = 'Успешное создание пользователя';
-        // } catch (\Illuminate\Database\QueryException $e) {
-        //     $response_array['status'] = 'error';
-
-        //     $response_array['message'] = 'Не удалось создать пользователя';
-        //     $response_array['exception_message'] = $e->getMessage();
-            
-        //     $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
-        //     return $response;
-        // }
     }
 
     /*

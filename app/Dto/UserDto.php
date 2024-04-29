@@ -22,61 +22,51 @@ class UserDto {
                 case 'id':
                     if (isset($val)) {
                         $this->setId($val);
-                        $this->allFields['id'] = $this->getId();
                     }
                     break;
                 case 'name':
                     if (isset($val)) {
                         $this->setName($val);
-                        $this->allFields['name'] = $this->getName();
                     }
                     break;
                 case 'surname':
                     if (isset($val)) {
                         $this->setSurname($val);
-                        $this->allFields['surname'] = $this->getSurname();
                     }
                     break;
                 case 'patronymic':
                     if (isset($val)) {
                         $this->setPatronymic($val);
-                        $this->allFields['patronymic'] = $this->getPatronymic();
                     }
                     break;
                 case 'avatar_file_name':
                     if (isset($val)) {
                         $this->setAvatarFileName($val);
-                        $this->allFields['avatar_file_name'] = $this->getAvatarFileName();
                     }
                     break;
                 case 'post_id':
                     if (isset($val)) {
                         $this->setPostId($val);
-                        $this->allFields['post_id'] = $this->getPostId();
                     }
                     break;
                 case 'tel':
                     if (isset($val)) {
                         $this->setTel($val);
-                        $this->allFields['tel'] = $this->getTel();
                     }
                     break;
                 case 'email':
                     if (isset($val)) {
                         $this->setEmail($val);
-                        $this->allFields['email'] = $this->getEmail();
                     }
                     break;
                 case 'birth':
                     if (isset($val)) {
                         $this->setBirth($val);
-                        $this->allFields['birth'] = $this->getBirth();
                     }
                     break;
                 case 'password':
                     if (isset($val)) {
                         $this->setPassword($val);
-                        $this->allFields['password'] = $this->getPassword();
                     }
                     break;
             }
@@ -95,6 +85,7 @@ class UserDto {
     */
     public function setId(int $id) : void {
         $this->id = $id;
+        $this->allFields['id'] = $this->getId();
     }
 
     public function getId() : int|null {
@@ -106,6 +97,7 @@ class UserDto {
     */
     public function setName(string $name) : void {
         $this->name = $name;
+        $this->allFields['name'] = $this->getName();
     }
 
     public function getName() : string {
@@ -117,6 +109,7 @@ class UserDto {
     */
     public function setSurname(string $surname) : void {
         $this->surname = $surname;
+        $this->allFields['surname'] = $this->getSurname();
     }
 
     public function getSurname() : string|null {
@@ -128,6 +121,7 @@ class UserDto {
     */
     public function setPatronymic(string $patronymic) : void {
         $this->patronymic = $patronymic;
+        $this->allFields['patronymic'] = $this->getPatronymic();
     }
 
     public function getPatronymic() : string|null {
@@ -155,6 +149,7 @@ class UserDto {
         }
         
         $this->postId = $postId;
+        $this->allFields['post_id'] = $this->getPostId();
     }
 
     public function getPostId() : string|null {
@@ -166,6 +161,7 @@ class UserDto {
     */
     public function setTel(string|int $tel) : void {
         $this->tel = $tel;
+        $this->allFields['tel'] = $this->getTel();
     }
 
     public function getTel() : string|int|null {
@@ -177,6 +173,7 @@ class UserDto {
     */
     public function setEmail(string $email) : void {
         $this->email = $email;
+        $this->allFields['email'] = $this->getEmail();
     }
 
     public function getEmail() : string|null {
@@ -188,6 +185,7 @@ class UserDto {
     */
     public function setBirth(string $birth) : void {
         $this->birth = $birth;
+        $this->allFields['birth'] = $this->getBirth();
     }
 
     public function getBirth() : string|null {
@@ -198,7 +196,8 @@ class UserDto {
         Пароль
     */
     public function setPassword(string $pass) : void {
-        $this->password = $pass;
+        $this->password = trim($pass);
+        $this->allFields['password'] = $this->getPassword();
     }
 
     public function getPassword() : string|null {

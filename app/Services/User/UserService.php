@@ -81,17 +81,17 @@ final class UserService extends MainService {
 
         if (empty($dto->getPassword())) {
             throw new Exception('Вы не создали пароль для пользователя!');
-        } else { // Иначе если пароль не пустой
-            $originalPass = $dto->getPassword();
-            $pass = password_hash(trim($originalPass), PASSWORD_DEFAULT);
-            $dto->setPassword($pass);
         }
 
         /*
             Создание пользователя
         */
         try {
-            return Users::create($dto->toArray());
+            $pass = password_hash($dto->getPassword(), PASSWORD_DEFAULT);
+            $user_array = $dto->toArray();
+            $user_array['password'] = $pass;
+
+            return Users::create($user_array);
         } catch (\Illuminate\Database\QueryException $e) {
             throw new Exception($e->getMessage());
         }
