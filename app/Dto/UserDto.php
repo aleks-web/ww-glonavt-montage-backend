@@ -139,6 +139,7 @@ class UserDto {
     */
     public function setAvatarFileName(string $avatarFileName) : void {
         $this->avatarFileName = $avatarFileName;
+        $this->allFields['avatar_file_name'] = $this->getAvatarFileName();
     }
 
     public function getAvatarFileName() : string|null {

@@ -45,7 +45,15 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
             Создание пользователя
         */
         try {
-            $this->userService->createUser(new UserDto($params));
+            $userDto = new UserDto($params);
+
+            $file_name = $_FILES['avatar'] ? $this->userService->saveUserAvatarFromFile($_FILES['avatar']) : false;
+            
+            if ($file_name) {
+                $userDto->setAvatarFileName($file_name);
+            }
+
+            $this->userService->createUser($userDto);
 
             $response_array['status'] = 'success';
             $response_array['message'] = 'Успешное создание пользоватееля';
@@ -64,7 +72,6 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
 
 
         // try {
-        //     // $user = Users::create($response_array['request_params']);
 
         //     $file_name = $_FILES['avatar'] ? $this->userService->saveUserAvatarFromFile($_FILES['avatar']) : false;
 
