@@ -28,6 +28,7 @@ $router->get('/book-equipment', $controllers['Default']['BooksEquipments'], ['be
 $router->get('/book-departments', $controllers['Default']['BooksDepartments'], ['before' => 'MainMiddleware']); // Отделы
 $router->get('/book-posts', $controllers['Default']['BooksPosts'], ['before' => 'MainMiddleware']); // Должности
 $router->get('/book-docs', $controllers['Default']['BooksDocs'], ['before' => 'MainMiddleware']); // Документы
+$router->get('/book-objects', $controllers['Default']['BooksObjects'], ['before' => 'MainMiddleware']); // Объекты
 
 // Страница не найдена
 $router->notFound(function(Request $request, Response $response) {

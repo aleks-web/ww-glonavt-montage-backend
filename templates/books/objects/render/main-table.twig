@@ -1,5 +1,4 @@
 {#
-    В разработке!
     request_params - параметры запроса
     objects_types - типы объектов
 #}
@@ -12,8 +11,8 @@
                 <thead>
                     <tr>
                         <th class="text-center" width="10%">№ п/п</th>
-                        <th class="text-start">Тип документа</th>
-                        <th class="text-start">Описание типа документа</th>
+                        <th class="text-start">Тип объекта</th>
+                        <th class="text-start">Описание типа объекта</th>
                     </tr>
                 </thead>
 
@@ -25,10 +24,10 @@
                             <td class="text-start">{{ object_type.description }}</td>
                             
                             <td class="td-btn-default">
-                                <svg class="hover" onclick="alert({{ object_type.id }})"><use xlink:href="#svg-edit"></use></svg>
+                                <svg class="hover" onclick="load_fmodal_type_object_edit({{ object_type.id }})"><use xlink:href="#svg-edit"></use></svg>
                             </td>
                             <td class="td-btn-default">
-                                <svg class="hover" onclick="alert({{ object_type.id }})"><use xlink:href="#svg-del"></use></svg>
+                                <svg class="hover" onclick="delete_book_object_type({{ object_type.id }})"><use xlink:href="#svg-del"></use></svg>
                             </td>
                         </tr>
                     {% endfor %}

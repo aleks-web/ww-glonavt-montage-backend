@@ -57,6 +57,12 @@ const API_V1_URLS = {
         create: "/api_v1/book-docs/create/",
         update: "/api_v1/book-docs/update/",
         render: "/api_v1/book-docs/render/"
+    },
+    book_objects: {
+        delete: "/api_v1/book-objects/delete/",
+        create: "/api_v1/book-objects/create/",
+        update: "/api_v1/book-objects/update/",
+        render: "/api_v1/book-objects/render/"
     }
 };
 // End Глобально доступная константа. Содержит ссылки API

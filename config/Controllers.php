@@ -12,7 +12,8 @@ return [
             'BooksEquipments' => 'WWCrm\Controllers\Books\ApiBookEquipmentsController',
             'BooksDepartments' => 'WWCrm\Controllers\Books\ApiBookDepartmentsController',
             'BooksPosts' => 'WWCrm\Controllers\Books\ApiBookPostsController',
-            'BooksDocs' => 'WWCrm\Controllers\Books\ApiBookDocsController'
+            'BooksDocs' => 'WWCrm\Controllers\Books\ApiBookDocsController',
+            'BooksObjects' => 'WWCrm\Controllers\Books\ApiBookObjectsController'
         ],
         'Default' => [
             'Auth' => 'WWCrm\Controllers\Auth\AuthController',
@@ -24,7 +25,8 @@ return [
             'BooksEquipments' => 'WWCrm\Controllers\Books\BookEquipmentsController',
             'BooksDepartments' => 'WWCrm\Controllers\Books\BookDepartmentsController',
             'BooksPosts' => 'WWCrm\Controllers\Books\BookPostsController',
-            'BooksDocs' => 'WWCrm\Controllers\Books\BookDocsController'
+            'BooksDocs' => 'WWCrm\Controllers\Books\BookDocsController',
+            'BooksObjects' => 'WWCrm\Controllers\Books\BookObjectsController'
         ]
     ]
 ];

@@ -78,6 +78,12 @@ $router->xpost(API_V1_URL . 'book-docs/create', $controllers['Api']['BooksDocs']
 $router->xpost(API_V1_URL . 'book-docs/update', $controllers['Api']['BooksDocs'] . '@update'); // Обновление типа документа
 $router->xpost(API_V1_URL . 'book-docs/render/:string', $controllers['Api']['BooksDocs'] . '@distributor'); // Рендер типов документов
 
+// Book objects
+$router->xpost(API_V1_URL . 'book-objects/delete', $controllers['Api']['BooksObjects'] . '@delete'); // Удаление типов объектов
+$router->xpost(API_V1_URL . 'book-objects/create', $controllers['Api']['BooksObjects'] . '@create'); // Создание типов объектов
+$router->xpost(API_V1_URL . 'book-objects/update', $controllers['Api']['BooksObjects'] . '@update'); // Обновление типов объектов
+$router->xpost(API_V1_URL . 'book-objects/render/:string', $controllers['Api']['BooksObjects'] . '@distributor'); // Рендер типов объектов
+
 $router->notFound(function(Request $request, Response $response) {
     header('Location: ' . $request->server->get('REQUEST_SCHEME') . '://' . $request->server->get('HTTP_HOST') . '/404');
 });

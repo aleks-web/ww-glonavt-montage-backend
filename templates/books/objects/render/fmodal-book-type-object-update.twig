@@ -1,0 +1,61 @@
+{#
+    request_params - параметры запроса
+    object_type - текущий тип объекта
+#}
+
+<!-- Start fancybox modal | Редактирование типа объекта | Модуль справочники -->
+<div id="fmodal-book-type-object-update" class="fmodal fmodal-book-type-object-update" style="display: none;min-width: unset;">
+    <div class="fmodal__title">Редактирование типа объекта</div>
+
+    <div class="fmodal__content">
+
+        <div class="fmodal__vertical">
+            {% include 'components/input-text.twig' with {
+                settings: {
+                    db_field_name: 'name',
+                    required: true,
+                    val: object_type.name,
+                    pls: 'Название типа объекта'
+                }
+            } %}
+
+            {% include 'components/textarea.twig' with {
+                settings: {
+                    db_field_name: 'description',
+                    val: object_type.description,
+                    pls: 'Описание типа объекта'
+                }
+            } %}
+        </div>
+        
+    </div>
+
+    <div class="fmodal__control-btns">
+        <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
+        <button class="fmodal__btn btn-good submitter disable" onclick="save_book_object_type()">Сохранить</button>
+    </div>
+
+</div>
+<!-- End fancybox modal | Редактирование типа объекта | Модуль справочники -->
+
+<script>
+    $(document).ready(() => {
+        cpns_form_validate('#fmodal-book-type-object-update', '.submitter');
+    });
+
+    function save_book_object_type() {
+        let url = API_V1_URLS.book_objects.update;
+        let formData = cpns_get_formdata_by_wrapper('#fmodal-book-type-object-update');
+        formData.append('id', {{ object_type.id }});
+
+        xpost_fd(url, formData).then(response => {
+            xrender_main_table_book_objects();
+            $.fancybox.close();
+            dd(response, response.message, 'success');
+            push(response.message, 'success');
+        }).catch(response => {
+            dd(response, response.message, 'error');
+            push(response.message, 'error');
+        });
+    }
+</script>
