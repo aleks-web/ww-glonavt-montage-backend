@@ -4,31 +4,28 @@
 #}
 
 <!-- Start fancybox modal | Новый тип документа | Модуль справочники -->
-<div id="fmodal-book-doc-new" class="fmodal fmodal-book-doc-new" style="display: none;min-width: unset;">
-    <div class="fmodal__title">Новый тип документаs</div>
+<div id="fmodal-book-new-type-doc" class="fmodal fmodal-book-new-type-doc" style="display: none;min-width: unset;">
+    <div class="fmodal__title">Новый тип документа</div>
 
     <div class="fmodal__content">
 
         <div class="fmodal__vertical">
-    
-            {# include 'components/input-text.twig' with {
+            {% include 'components/input-text.twig' with {
                 settings: {
                     db_field_name: 'name',
                     required: true,
-                    pls: 'Название должности'
+                    pls: 'Название типа документа'
                 }
-            } #}
-
-            {# include 'components/select.twig' with departments_select_prop #}
-    
+            } %}
         </div>
         
     </div>
 
     <div class="fmodal__control-btns">
         <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
-        <button class="fmodal__btn btn-good submitter disable">Сохранить</button>
+        <button class="fmodal__btn btn-good disable">Сохранить</button>
     </div>
+
 
 </div>
 <!-- End fancybox modal | Новый тип документа | Модуль справочники -->
@@ -38,9 +35,9 @@
 {# Start добавление нового типа документа #}
 <script>
     $(document).ready(() => {
-        cpns_form_validate('#fmodal-book-doc-new', '.submitter', true);
+        cpns_form_validate('#fmodal-book-new-type-doc', '.submitter', true);
 
-        $('#fmodal-book-doc-new .submitter').click(function(e) {
+        $('#fmodal-book-new-type-doc .submitter').click(function(e) {
             let formData = new FormData();
 
             // Создаем

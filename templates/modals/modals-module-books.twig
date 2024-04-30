@@ -171,35 +171,6 @@
 <!-- End fancybox modal | Новый отдел | Модуль справочники -->
 
 
-
-<!-- Start fancybox modal | Новый тип документа | Модуль справочники -->
-<div id="fmodal-book-new-type-doc" class="fmodal fmodal-book-new-type-doc" style="display: none;min-width: unset;">
-    <div class="fmodal__title">Новый тип документа</div>
-
-    <div class="fmodal__content">
-
-        <div class="fmodal__vertical">
-            {% include 'components/input-text.twig' with {
-                settings: {
-                    db_field_name: 'name',
-                    required: true,
-                    pls: 'Название типа документа'
-                }
-            } %}
-        </div>
-        
-    </div>
-
-    <div class="fmodal__control-btns">
-        <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
-        <button class="fmodal__btn btn-good disable">Сохранить</button>
-    </div>
-
-
-</div>
-<!-- End fancybox modal | Новый тип документа | Модуль справочники -->
-
-
 {# Start fancybox modal | Редактирование отдела | Справочник отделов #}
 <div id="fmodal-book-departments-update-wrapper"></div>
 {# End fancybox modal | Редактирование отдела | Справочник отделов #}
@@ -211,3 +182,7 @@
 {# Start fancybox modal | Редактирование должности | Справочник должностей #}
 <div id="fmodal-book-post-update-wrapper"></div>
 {# End fancybox modal | Редактирование должности | Справочник должностей #}
+
+{# Start fancybox modal | Добавление нового типа документа | Справочник документов #}
+<div id="fmodal-book-new-type-doc-wrapper"></div>
+{# End fancybox modal | Добавление нового типа документа | Справочник документов #}
