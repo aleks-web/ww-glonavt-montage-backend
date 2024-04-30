@@ -75,6 +75,7 @@ $router->xpost(API_V1_URL . 'book-posts/update', $controllers['Api']['BooksPosts
 // Book docs
 $router->xpost(API_V1_URL . 'book-docs/delete', $controllers['Api']['BooksDocs'] . '@delete'); // Удаление типа документа
 $router->xpost(API_V1_URL . 'book-docs/create', $controllers['Api']['BooksDocs'] . '@create'); // Создание типа документа
+$router->xpost(API_V1_URL . 'book-docs/update', $controllers['Api']['BooksDocs'] . '@update'); // Обновление типа документа
 $router->xpost(API_V1_URL . 'book-docs/render/:string', $controllers['Api']['BooksDocs'] . '@distributor'); // Рендер типов документов
 
 $router->notFound(function(Request $request, Response $response) {

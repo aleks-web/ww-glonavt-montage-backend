@@ -1,6 +1,5 @@
 {#
     request_params - параметры запроса
-    departments_select_prop - отделы
 #}
 
 <!-- Start fancybox modal | Новый тип документа | Модуль справочники -->
@@ -17,13 +16,20 @@
                     pls: 'Название типа документа'
                 }
             } %}
+
+            {% include 'components/textarea.twig' with {
+                settings: {
+                    db_field_name: 'description',
+                    pls: 'Описание типа документа'
+                }
+            } %}
         </div>
         
     </div>
 
     <div class="fmodal__control-btns">
         <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
-        <button class="fmodal__btn btn-good disable">Сохранить</button>
+        <button class="fmodal__btn btn-good submitter disable">Сохранить</button>
     </div>
 
 
@@ -38,7 +44,7 @@
         cpns_form_validate('#fmodal-book-new-type-doc', '.submitter', true);
 
         $('#fmodal-book-new-type-doc .submitter').click(function(e) {
-            let formData = new FormData();
+            let formData = cpns_get_formdata_by_wrapper('#fmodal-book-new-type-doc');
 
             // Создаем
             xpost_fd(API_V1_URLS.book_docs.create, formData).then(response => {

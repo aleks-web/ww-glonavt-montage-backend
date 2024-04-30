@@ -25,7 +25,7 @@
                             <td class="text-start">{{ doc.description }}</td>
                             
                             <td class="td-btn-default">
-                                <svg class="hover" onclick="alert({{ doc.id }})"><use xlink:href="#svg-edit"></use></svg>
+                                <svg class="hover" onclick="load_fmodal_type_doc_edit({{ doc.id }})"><use xlink:href="#svg-edit"></use></svg>
                             </td>
                             <td class="td-btn-default">
                                 <svg class="hover" onclick="delete_book_doc_type({{ doc.id }})"><use xlink:href="#svg-del"></use></svg>
@@ -50,21 +50,3 @@
 
     </div>
 </div>
-
-{# Start удаление типа документа #}
-<script>
-    function delete_book_doc_type(book_doc_id) {
-        let url = API_V1_URLS.book_docs.delete;
-        let formData = new FormData();
-        formData.append('id', book_doc_id);
-
-        xpost_fd(url, formData).then(response => {
-            dd(response, response.message, 'success');
-            push(response.message, 'success');
-        }).catch(response => {
-            dd(response, response.message, 'error');
-            push(response.message, 'error');
-        });
-    }
-</script>
-{# End удаление типа документа #}

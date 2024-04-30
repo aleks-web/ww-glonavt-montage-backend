@@ -20,7 +20,6 @@ class ApiBookDocsController extends \WWCrm\Controllers\MainController {
 
     /*
         Создание типа документа
-        РЕАЛИЗОВАТЬ!!!!
     */
     public function create(Request $request, Response $response) {
         $response->headers->set('Content-Type', 'application/json');
@@ -28,8 +27,28 @@ class ApiBookDocsController extends \WWCrm\Controllers\MainController {
         // Получаем параметры POST и сразу записываем их в массив с ответом
         $params = $response_array['request_params'] = $request->request->all();
 
+        BookDocs::create($params);
+
         $response_array['status'] = 'success';
         $response_array['message'] = 'Успешное создание типа документа';
+
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+        return $response;
+    }
+
+    /*
+        Обновление типа документа
+    */
+    public function update(Request $request, Response $response) {
+        $response->headers->set('Content-Type', 'application/json');
+
+        // Получаем параметры POST и сразу записываем их в массив с ответом
+        $params = $response_array['request_params'] = $request->request->all();
+
+        BookDocs::find($params['id'])->update($params);
+
+        $response_array['status'] = 'success';
+        $response_array['message'] = 'Успешное обновление типа документа';
 
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
         return $response;
@@ -69,6 +88,10 @@ class ApiBookDocsController extends \WWCrm\Controllers\MainController {
 
         if ($twig_element == 'main-table.twig') {
             return $this->render_main_table($twig_element, $request, $response);
+        } else if ($twig_element == 'fmodal-book-new-type-doc.twig') {
+            return $this->render_fmodal_book_new_type_doc($twig_element, $request, $response);
+        } else if ($twig_element == 'fmodal-book-type-doc-update.twig') {
+            return $this->render_fmodal_book_type_doc_update($twig_element, $request, $response);
         } else {
             return 'Распределитель рендер запросов. Возврат пустого ответа';
         }
@@ -97,6 +120,42 @@ class ApiBookDocsController extends \WWCrm\Controllers\MainController {
         $response_array['status'] = 'success';
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
 
+        return $response;
+    }
+
+    /*
+        Рендер модалки fmodal-book-new-type-doc.twig
+    */
+    public function render_fmodal_book_new_type_doc($twig_element, Request $request, Response $response) {
+        $response->headers->set('Content-Type', 'application/json');
+        // Получаем параметры POST и сразу записываем их в массив с ответом
+        $params = $response_array['request_params'] = $request->request->all();
+
+        $response_array['render_response_html'] = $this->view->render('books/docs/render/' . $twig_element, [
+            'request_params' => $response_array['request_params']
+        ]);
+
+        $response_array['status'] = 'success';
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+        return $response;
+    }
+
+    /*
+        Рендер модалки fmodal-book-type-doc-update.twig
+    */
+    public function render_fmodal_book_type_doc_update($twig_element, Request $request, Response $response) {
+        $response->headers->set('Content-Type', 'application/json');
+        // Получаем параметры POST и сразу записываем их в массив с ответом
+        $params = $response_array['request_params'] = $request->request->all();
+        $response_array['doc'] = BookDocs::find($params['id']);
+
+        $response_array['render_response_html'] = $this->view->render('books/docs/render/' . $twig_element, [
+            'request_params' => $response_array['request_params'],
+            'doc' => $response_array['doc']
+        ]);
+
+        $response_array['status'] = 'success';
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
         return $response;
     }
 

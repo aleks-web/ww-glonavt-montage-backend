@@ -1,0 +1,61 @@
+{#
+    request_params - параметры запроса
+    doc - текущий дтип документа
+#}
+
+<!-- Start fancybox modal | Редактирование типа документа | Модуль справочники -->
+<div id="fmodal-book-type-doc-update" class="fmodal fmodal-book-type-doc-update" style="display: none;min-width: unset;">
+    <div class="fmodal__title">Редактирование типа документа</div>
+
+    <div class="fmodal__content">
+
+        <div class="fmodal__vertical">
+            {% include 'components/input-text.twig' with {
+                settings: {
+                    db_field_name: 'name',
+                    required: true,
+                    val: doc.name,
+                    pls: 'Название типа документа'
+                }
+            } %}
+
+            {% include 'components/textarea.twig' with {
+                settings: {
+                    db_field_name: 'description',
+                    val: doc.description,
+                    pls: 'Описание типа документа'
+                }
+            } %}
+        </div>
+        
+    </div>
+
+    <div class="fmodal__control-btns">
+        <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
+        <button class="fmodal__btn btn-good submitter disable" onclick="save_book_doc_type()" >Сохранить</button>
+    </div>
+
+</div>
+<!-- End fancybox modal | Редактирование типа документа | Модуль справочники -->
+
+<script>
+    $(document).ready(() => {
+        cpns_form_validate('#fmodal-book-type-doc-update', '.submitter');
+    });
+
+    function save_book_doc_type() {
+        let url = API_V1_URLS.book_docs.update;
+        let formData = cpns_get_formdata_by_wrapper('#fmodal-book-type-doc-update');
+        formData.append('id', {{ doc.id }});
+
+        xpost_fd(url, formData).then(response => {
+            xrender_main_table_book_docs();
+            $.fancybox.close();
+            dd(response, response.message, 'success');
+            push(response.message, 'success');
+        }).catch(response => {
+            dd(response, response.message, 'error');
+            push(response.message, 'error');
+        });
+    }
+</script>
