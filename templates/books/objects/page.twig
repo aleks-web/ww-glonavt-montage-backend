@@ -1,6 +1,6 @@
 {% extends "layout.twig" %}
 
-{% block module_name %}book-docs{% endblock module_name %}
+{% block module_name %}book-objects{% endblock module_name %}
 
 {% block control %}
 <div class="control">
@@ -12,7 +12,7 @@
         </div>
 
         <div class="control__right">
-            <button data-fancybox data-src="#fmodal-book-new-type-doc" class="control__btn btn">Добавить тип документа</button>
+            <button data-fancybox data-src="#fmodal-book-new-type-doc" class="control__btn btn">Добавить</button>
         </div>
     </div>
 </div>
@@ -29,9 +29,9 @@
 {# Start Подгружаем главную таблицу #}
 <script>
     $(document).ready(function() {
-        xrender_main_table_book_docs();
+        xrender_main_table_book_objects();
 
-        $('.module-book-docs .input-search input').on('input', xrender_main_table_book_docs);
+        $('.module-book-objects .input-search input').on('input', xrender_main_table_book_objects);
     });
 </script>
 {# End Подгружаем главную таблицу #}
