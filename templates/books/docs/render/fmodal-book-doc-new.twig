@@ -1,0 +1,59 @@
+{#
+    request_params - параметры запроса
+    departments_select_prop - отделы
+#}
+
+<!-- Start fancybox modal | Новый тип документа | Модуль справочники -->
+<div id="fmodal-book-doc-new" class="fmodal fmodal-book-doc-new" style="display: none;min-width: unset;">
+    <div class="fmodal__title">Новый тип документаs</div>
+
+    <div class="fmodal__content">
+
+        <div class="fmodal__vertical">
+    
+            {# include 'components/input-text.twig' with {
+                settings: {
+                    db_field_name: 'name',
+                    required: true,
+                    pls: 'Название должности'
+                }
+            } #}
+
+            {# include 'components/select.twig' with departments_select_prop #}
+    
+        </div>
+        
+    </div>
+
+    <div class="fmodal__control-btns">
+        <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
+        <button class="fmodal__btn btn-good submitter disable">Сохранить</button>
+    </div>
+
+</div>
+<!-- End fancybox modal | Новый тип документа | Модуль справочники -->
+
+
+
+{# Start добавление нового типа документа #}
+<script>
+    $(document).ready(() => {
+        cpns_form_validate('#fmodal-book-doc-new', '.submitter', true);
+
+        $('#fmodal-book-doc-new .submitter').click(function(e) {
+            let formData = new FormData();
+
+            // Создаем
+            xpost_fd(API_V1_URLS.book_docs.create, formData).then(response => {
+                xrender_main_table_book_docs();
+                $.fancybox.close();
+                dd(response, response.message, 'success');
+                push(response.message, 'success');
+            }).catch(response => {
+                dd(response, response.message, 'error');
+                push(response.message, 'error');
+            });
+        });
+    });
+</script>
+{# End добавление нового типа документа #}

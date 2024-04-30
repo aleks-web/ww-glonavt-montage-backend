@@ -54,6 +54,7 @@ const API_V1_URLS = {
     },
     book_docs: {
         delete: "/api_v1/book-docs/delete/",
+        create: "/api_v1/book-docs/create/",
         render: "/api_v1/book-docs/render/"
     }
 };
