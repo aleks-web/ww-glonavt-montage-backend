@@ -1,7 +1,12 @@
 {#
     request_params - данные из запроса
+    paths - массив с путями
+        users_avatars - путь до аватарок
     user - пользователь
 #}
+
+{% set name = user.surname ~ ' ' ~ user.name ~ ' ' ~ user.patronymic %}
+{% set avatar = user.avatar_file_name ? paths.public_urn.users_avatars ~ '/' ~ user.avatar_file_name : paths.public_urn.default_images ~ '/avatar.png' %}
 
 <div id="modal-current-user" class="modal modal-current-user {% if request_params.is_open %}open{% endif %}" data-user-id="{{ user.id }}">
     <svg data-modal-close class="modal__close"><use xlink:href="#svg-close"></use></svg>
@@ -13,8 +18,13 @@
             <div class="modal__header-left">
                 
                 <div class="modal__info">
+                    <div class="modal__info-img" data-fancybox data-src="{{ avatar }}">
+                        <svg class="modal__info-avatarDefault"><use xlink:href="#svg-user"></use></svg>
+                         <img class="modal__info-avatar" src="{{ avatar }}">
+                    </div>
                     <div class="modal__info-title">
-                        <span class="modal__info-title-h1">{{ user.name }}</span>
+                        <span class="modal__info-title-h1">{{ name | trim }}</span>
+                        <span class="modal__info-title-h2">{{ user.post.name | default('Должность не задана') }}</span>
                     </div>
                 </div>
 

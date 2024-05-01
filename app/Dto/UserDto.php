@@ -8,6 +8,7 @@ class UserDto {
     private $name;
     private $surname;
     private $patronymic;
+    private $status;
     private $avatarFileName;
     private $postId;
     private $tel;
@@ -67,6 +68,11 @@ class UserDto {
                 case 'password':
                     if (isset($val)) {
                         $this->setPassword($val);
+                    }
+                    break;
+                case 'status':
+                    if (isset($val)) {
+                        $this->setStatus($val);
                     }
                     break;
             }
@@ -202,5 +208,17 @@ class UserDto {
 
     public function getPassword() : string|null {
         return $this->password;
+    }
+
+    /*
+        Статус
+    */
+    public function setStatus(string|int $status) : void {
+        $this->status = (int) $status;
+        $this->allFields['status'] = $this->getStatus();
+    }
+
+    public function getStatus() : string|int|null {
+        return $this->status;
     }
 }

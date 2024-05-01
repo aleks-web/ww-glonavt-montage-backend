@@ -3,6 +3,7 @@
     users - пользователи
     paths - пути
     current_user - текущий пользователь
+    users_named_statuses - статусы
 #}
 
 <div class="content-table content-table--control">
@@ -14,6 +15,7 @@
                     <tr>
                         <th class="text-start" width="10%">Фото</th>
                         <th class="text-start">Сотрудник/Отдел</th>
+                        <th class="text-start">Статус</th>
                         <th class="text-start">Телефон</th>
                         <th class="text-start">Почта</th>
                     </tr>
@@ -34,6 +36,7 @@
                                 <br>
                                 <span class="text-secondary">{{ user.post.name }}</span>
                             </td>
+                            <td class="text-start">{{ users_named_statuses[user.status] | default('-') }}</td>
                             <td class="text-start">{{ user.tel | default('-')}}</td>
                             <td class="text-start">{{ user.email | default('-') }}</td>
                         </tr>

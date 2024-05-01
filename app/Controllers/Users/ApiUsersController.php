@@ -96,7 +96,11 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
         try {
             $userDto = new UserDto($params);
 
-            $user = $this->userService->updateUser($userDto);
+            if ($params['event_name'] == 'chenge_status') {
+                $user = $this->userService->chengeStatusUser($userDto);
+            } else {
+                $user = $this->userService->updateUser($userDto);
+            }
 
             $response_array['status'] = 'success';
             $response_array['message'] = 'Успешное обновление данных пользователя';
@@ -159,6 +163,7 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
         $response_array['render_response_html'] = $this->view->render('modules/users/render/' . $twig_element, [
             'request_params' => $response_array['request_params'],
             'users' => $response_array['users'],
+            'users_named_statuses' => Users::getArrayStatuses(),
             'paths' => $this->paths,
             'current_user' => $this->WWCurrentUser->getUserObject()
         ]);
@@ -222,6 +227,7 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
         $response_array['render_response_html'] = $this->view->render('modules/users/render/' . $twig_element, [
             'request_params' => $response_array['request_params'],
             'user' => $response_array['user'],
+            'user_statuses' => Users::getArrayStatusesNamed(),
             'paths' => $this->paths,
             'twig_components_data' => $response_array['twig_components_data']
         ]);
@@ -245,6 +251,7 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
 
         $response_array['render_response_html'] = $this->view->render('modals/render/' . $twig_element, [
             'request_params' => $params,
+            'paths' => $this->paths,
             'user' => Users::find($params['id'])
         ]);
 

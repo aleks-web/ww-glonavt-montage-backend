@@ -29,7 +29,7 @@ class MainController extends Controller {
         $this->imageManager = $this->WWCrmService->get('ImageManager');
 
         $this->objectService = $this->WWCrmService->get('ObjectService');
-        $this->OrganizationService = $this->WWCrmService->get('OrganizationService');
+        $this->organizationService = $this->WWCrmService->get('OrganizationService');
         $this->userService = $this->WWCrmService->get('UserService');
         $this->utils = $this->WWCrmService->get('Utils');
     }

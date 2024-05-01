@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 use Phinx\Migration\AbstractMigration;
 
+// Модель пользователя
+use WWCrm\Models\Users;
+
 final class CreateUsersTable extends AbstractMigration
 {
     /**
@@ -20,11 +23,14 @@ final class CreateUsersTable extends AbstractMigration
     public function up(): void
     {
 
+        $default_status = Users::STATUS_ACTIVE;
+
         $sql = "CREATE TABLE IF NOT EXISTS `users` (
             `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
             `name` VARCHAR(50) NOT NULL COMMENT 'Имя пользователя',
             `surname` VARCHAR(60) DEFAULT NULL COMMENT 'Фамилия пользователя',
             `patronymic` VARCHAR(60) DEFAULT NULL COMMENT 'Отчество пользователя',
+            `status` INT NOT NULL DEFAULT '{$default_status}' COMMENT 'Статус пользователя',
             `post_id` BIGINT UNSIGNED DEFAULT NULL COMMENT 'Занимаемая должность',
             `tel` VARCHAR(15) DEFAULT NULL COMMENT 'Телефон пользователя',
             `email` VARCHAR(50) NOT NULL UNIQUE COMMENT 'Email пользователя',

@@ -105,3 +105,32 @@ function load_modal_user(user_id, is_open = false) {
         });
     });
 }
+
+/*
+    Блокировка пользователя
+*/
+function chenge_user_status(user_id, status_id) {
+    let url = API_V1_URLS.users.update;
+    let formData = new FormData();
+    formData.append('id', user_id);
+    formData.append('status', status_id);
+    formData.append('event_name', 'chenge_status');
+
+    return xpost_fd(url, formData).then(response => {
+        xrender_main_table_users();
+
+        push(response.message, 'success');
+        dd(response, response.message, 'success');
+
+        return new Promise((resolve, reject) => {
+            resolve(response);
+        });
+    }).catch(response => {
+        push(response.message, 'error');
+        dd(response, response.message, 'error');
+
+        return new Promise((resolve, reject) => {
+            reject(response);
+        });
+    });
+}

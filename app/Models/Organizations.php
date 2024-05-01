@@ -38,6 +38,21 @@ class Organizations extends Model {
   }
 
   /*
+    Возвращаем id статуса по его названию
+  */
+  public static function getStatusId($status_name = false) {
+    if ($status_name === 'STATUS_NULL') {
+      return self::STATUS_NULL;
+    } elseif ($status_name === 'STATUS_ACTIVE') {
+      return self::STATUS_ACTIVE;
+    } elseif($status_name === 'STATUS_ARCHIVE') {
+      return self::STATUS_ACTIVE;
+    } else {
+      return false;
+    }
+  }
+
+  /*
     Получить все статусы в виде массива
   */
   public static function getArrayStatuses() {
@@ -45,6 +60,17 @@ class Organizations extends Model {
       self::STATUS_NULL => self::getStatusName(self::STATUS_NULL),
       self::STATUS_ACTIVE => self::getStatusName(self::STATUS_ACTIVE),
       self::STATUS_ARCHIVE => self::getStatusName(self::STATUS_ARCHIVE),
+    ];
+  }
+
+  /*
+    Получить все статусы в виде именованного массива
+  */
+  public static function getArrayStatusesNamed() {
+    return [
+      'STATUS_NULL' => self::getStatusId('STATUS_NULL'),
+      'STATUS_ACTIVE' => self::getStatusId('STATUS_ACTIVE'),
+      'STATUS_ARCHIVE' => self::getStatusId('STATUS_ARCHIVE'),
     ];
   }
 

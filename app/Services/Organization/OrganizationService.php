@@ -30,4 +30,55 @@ final class OrganizationService extends MainService {
         }
     }
 
+    /*
+        Обновление организации
+    */
+    public function updateOrganization(OrganizationDto $dto) : bool {
+        $client = Organizations::find($dto->getId());
+
+        /*
+            Проверяем валидность имени организации
+        */
+        if(!$this->utils->isValidFio($dto->getName())) {
+            throw new Exception("В имени организации не должно быть посторонних симфолов и цифр");
+        }
+
+        /*
+            Обновление организации/клиента
+        */
+        if ($client) {
+            try {
+                if ($client->update($dto->toArray())) {
+                    return true;
+                } else {
+                    throw new Exception("Не удалось обновить организацию");
+                }
+            } catch (\Illuminate\Database\QueryException $e) {
+                throw new Exception($e->getMessage());
+            }
+        }
+    }
+
+    /*
+        Смена статуса организации
+    */
+    public function changeStatusOrganization(OrganizationDto $dto) : bool {
+        $client = Organizations::find($dto->getId());
+
+        /*
+            Обновление организации/клиента
+        */
+        if ($client) {
+            try {
+                if ($client->update(['status' => $dto->getStatus()])) {
+                    return true;
+                } else {
+                    throw new Exception("Не удалось сменить статус организации");
+                }
+            } catch (\Illuminate\Database\QueryException $e) {
+                throw new Exception($e->getMessage());
+            }
+        }
+    }
+
 }

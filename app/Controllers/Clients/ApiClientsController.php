@@ -34,6 +34,8 @@ use WWCrm\Services\Organization\OrganizationService;
 // Dto
 use WWCrm\Dto\OrganizationDto;
 
+use Exception;
+
 class ApiClientsController extends \WWCrm\Controllers\MainController {
     
     /*
@@ -49,7 +51,7 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
         try {
             $clientDto = new OrganizationDto($params);
 
-            $client = $this->OrganizationService->createOrganization($clientDto);
+            $client = $this->organizationService->createOrganization($clientDto);
 
             $response_array['status'] = 'success';
             $response_array['message'] = 'Клиент успешно создан';
@@ -76,26 +78,27 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
         // Получаем параметры
         $params = $response_array['request_params'] = $request->request->all();
 
-        /*
-            Проверяем валидность ФИО
-        */
-        if(!$this->utils->isValidFio($params['name'])) {
-            $response_array['status'] = 'error';
-            $response_array['message'] = 'ФИО должно содержать только буквы';
+        $orgDto = new OrganizationDto($params);
 
+        try {
+            if ($params['event_name'] == 'change_status') {
+                $this->organizationService->changeStatusOrganization($orgDto);
+                $response_array['message'] = 'Статус клиента изменен';
+            } else {
+                $this->organizationService->updateOrganization($orgDto);
+                $response_array['message'] = 'Успешное обновление данных клиента';
+            }
+
+            $response_array['status'] = 'success';
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+            return $response;
+        } catch (Exception $e) {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'Не удалось обновить данные клиента';
+            $response_array['exception_message'] = $e->getMessage();
             $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
             return $response;
         }
-
-        // Обновляем оргонизацию
-        $client = Organizations::find($params['id'])->update($params);
-
-        $response_array['status'] = 'success';
-        $response_array['message'] = 'Данные клиента обновлены';
-
-        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
-
-        return $response;
     }
 
     /*

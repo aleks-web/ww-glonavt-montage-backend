@@ -146,6 +146,30 @@ load_modal_client_add();
 // End Функция рендерит и вставляет модалкку добавления клиента
 
 
+// Start изменяет статус клиента
+function chenge_client_status(client_id, status) {
+    let url = API_V1_URLS.clients.update;
+    let formData = new FormData();
+    formData.append('id', client_id);
+    formData.append('status', status);
+    formData.append('event_name', 'change_status');
+
+    xpost_fd(url, formData).then(response => {
+        let urlbrouser = new URL(window.location.href);
+        xrender_main_table_clients(urlbrouser.searchParams.get('page'), {status: urlbrouser.searchParams.get('status')});
+        $('#modal-client .modal__close').trigger('click');
+        
+
+        push(response.message, 'success');
+        dd(response, response.message, 'success');
+    }).catch(response => {
+        push(response.message, 'error');
+        dd(response, response.message, 'error');
+    });
+}
+// End изменяет статус клиента
+
+
 // Start пагинация и фильтр поиска | Модуль клиенты
 $(document).ready(() => {
     // Start реализация пагинации для главной таблицы клиентов

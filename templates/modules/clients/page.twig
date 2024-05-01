@@ -3,6 +3,7 @@
     paths - пути
     current_user - текущий пользователь
     query - параметры запроса
+    org_statuses - статусы
 #}
 
 {% extends "layout.twig" %}
@@ -41,8 +42,9 @@
 {# Start Подгружаем главную таблицу #}
 <script>
     $(document).ready(function() {
-        xrender_main_table_clients({{ query.page }}, {
-            status: {{ query.status | default(10) }}
+        let status = {{ query.status | default('null') | raw }};
+        xrender_main_table_clients({{ query.page | default(1) }}, {
+            status: status
         });
     });
 </script>

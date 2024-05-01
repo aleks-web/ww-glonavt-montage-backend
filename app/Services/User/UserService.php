@@ -152,5 +152,18 @@ final class UserService extends MainService {
         }
     }
 
+    /*
+        Смена статуса пользователя
+    */
+    public function chengeStatusUser(UserDto $dto) : bool {
+        $user = Users::find($dto->getId());
+
+        if ($user->update($dto->toArray())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
 }

@@ -4,6 +4,7 @@
     paths - пути
     twig_components_data - данные для компонентов
         posts - посты
+    user_statuses - именованные статусы
 #}
 
 {% set name = user.surname ~ ' ' ~ user.name ~ ' ' ~ user.patronymic %}
@@ -36,8 +37,12 @@
                 <div class="modal__header-group-btns tab-outside tab-outside--active" data-outside-id="1">
                     <button class="modal__header-btn modal__header-btn-edit btn">Редактировать</button>
                     <button class="modal__header-btn modal__header-btn-save btn-good" style="display: none;">Сохранить</button>
-                    
-                    <button class="modal__header-btn btn-bad">Заблокировать</button>
+
+                    {% if user.status == user_statuses.STATUS_BLOCKED %}
+                        <button class="modal__header-btn btn-good" onclick="chenge_user_status({{ user.id }}, {{ user_statuses.STATUS_ACTIVE }}).then((r) => { $('#modal-user .modal__close').trigger('click') });">Разблокировать</button>
+                    {% else %}
+                        <button class="modal__header-btn btn-bad" onclick="chenge_user_status({{ user.id }}, {{ user_statuses.STATUS_BLOCKED }}).then((r) => { $('#modal-user .modal__close').trigger('click') });">Заблокировать</button>
+                    {% endif %}
                 </div>
             </div>
         </div>
