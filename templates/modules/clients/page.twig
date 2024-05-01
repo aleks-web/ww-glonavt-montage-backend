@@ -41,7 +41,9 @@
 {# Start Подгружаем главную таблицу #}
 <script>
     $(document).ready(function() {
-        xrender_main_table_clients(1);
+        xrender_main_table_clients({{ query.page }}, {
+            status: {{ query.status | default(10) }}
+        });
     });
 </script>
 {# End Подгружаем главную таблицу #}

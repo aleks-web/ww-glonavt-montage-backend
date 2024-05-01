@@ -73,7 +73,7 @@ function load_modal_client(client_id, is_open = false) {
 
 
 // Start функция, которая получает html разметку главной таблицы и вставляет ее
-function xrender_main_table_clients(current_page = 1, control_panel_condition = null) {
+function xrender_main_table_clients(current_page = 1, control_panel_condition = {}) {
     // Разбиваем строку wrapper_and_element на обертку и twig элемент
     let wrapper = $("#region-main-table");
     let twig_element = "main-table.twig";
@@ -96,10 +96,15 @@ function xrender_main_table_clients(current_page = 1, control_panel_condition = 
 
             if (response.status == "success") {
                 wrapper.html(response.render_response_html);
-            }
 
-            if (response.status == "error") {
-                wrapper.html(`<div style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">${response.message}</div>`);
+                let brouserUrl = new URL(window.location.href);
+                brouserUrl.searchParams.set('page', current_page);
+
+                if (control_panel_condition.status) {
+                    brouserUrl.searchParams.set('status', control_panel_condition.status);
+                }
+
+                window.history.replaceState({}, '', brouserUrl);
             }
 
             dd_render_success(
@@ -166,7 +171,7 @@ $(document).ready(function (e) {
             // Отправка запроса
             xpost_fd(create_url, formData).then(function (data) { // xpost_fd - main.js
                 cpns_clear_by_wrapper("#modal-client-add");
-                xrender_main_table_clients("region-main-table:main-table.twig"); // Обновляем главную таблицу клиентов
+                xrender_main_table_clients(1); // Обновляем главную таблицу клиентов
                 $("#modal-client-add [data-modal-close]").trigger("click");
             });
         }

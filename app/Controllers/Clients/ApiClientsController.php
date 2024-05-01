@@ -40,6 +40,7 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
         Создание организации
     */
     public function create(Request $request, Response $response) {
+        $response->headers->set('Content-Type', 'application/json');
 
         // Получаем параметры
         $params = $request->request->all();
@@ -47,14 +48,11 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
         // Создаем пользователя
         $client = Organizations::create($params);
 
-
-
-        $response_array['client'] = Organizations::find($client->id);
+        // $response_array['client'] = $client;
         $response_array['status'] = 'success';
         $response_array['message'] = 'Клиент создан';
         $response_array['request_params'] = $params;
 
-        $response->headers->set('Content-Type', 'application/json');
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
 
         return $response;
@@ -208,12 +206,18 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             // Начальное построение запроса
             $queryBuild = Organizations::offset($offset)->limit($per_page);
             $queryBuildNext = Organizations::offset($offset_next)->limit($per_page);
-            
-            if ($condition = $response_array['request_params']['control_panel_condition']) {
+
+            $condition = $response_array['request_params']['control_panel_condition'];
+            if ($condition['name'] || $condition['inn']) {
                 $queryBuild->where('inn', 'like', '%' . $condition['name'] . '%')
                             ->orWhere('name', 'like', '%' . $condition['name'] . '%');
                 $queryBuildNext->where('inn', 'like', '%' . $condition['name'] . '%')
-                                ->orWhere('name', 'like', '%' . $condition['name'] . '%');
+                               ->orWhere('name', 'like', '%' . $condition['name'] . '%');
+            }
+
+            if ($condition['status']) {
+                $queryBuild->where('status', '=', $condition['status']);
+                $queryBuildNext->where('status', '=', $condition['status']);
             }
 
             $response_array['pagination']['offset'] = $offset;
@@ -229,7 +233,7 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             $response_array['message'] = 'Элемент успешно отрендерился';
             $response_array['table_rows'] = $queryBuild->get();
 
-            foreach ($response_array['table_rows'] as $client) {
+            foreach ($response_aray['table_rows'] as $client) {
                 $client->objects; // Получаем объекты. При обращении к свойству, каждая запись table_rows автоматически дополнится записями объектов
                 $client->status_name = Organizations::getStatusName($client->status);
             }
