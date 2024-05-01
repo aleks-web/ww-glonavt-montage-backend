@@ -279,6 +279,8 @@ function cpns_get_formdata_by_wrapper(wrapper_selector) {
             input = $(this).find("textarea");
         }
 
+        // console.log(input.attr('name'), input.val());
+
         if (input.attr('type') == 'file') { // Не уверен на счет files
             formData.append(input.attr("name"), input[0].files[0]);
         } else if (input.attr('type') == 'files') { // Не уверен на счет files - проверить и переписать!!!!

@@ -53,8 +53,8 @@ return [
         return new \WWCrm\Utils();
     },
 
-    'ClientService' => function () {
-        return new \WWCrm\Services\Client\ClientService();
+    'OrganizationService' => function () {
+        return new \WWCrm\Services\Organization\OrganizationService();
     },
     'ObjectService' => function () {
         return new \WWCrm\Services\Object\ObjectService();

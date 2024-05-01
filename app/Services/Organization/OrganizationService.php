@@ -19,9 +19,15 @@ final class OrganizationService extends MainService {
         Создание организации
     */
     public function createOrganization(OrganizationDto $dto) : Organizations {
-        $client = Organizations::create($dto->toArray());
 
-        return $client;
+        /*
+            Создание организации/клиента
+        */
+        try {
+            return Organizations::create($dto->toArray());
+        } catch (\Illuminate\Database\QueryException $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 
 }

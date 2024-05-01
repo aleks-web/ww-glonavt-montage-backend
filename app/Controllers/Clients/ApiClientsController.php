@@ -46,16 +46,25 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
         $params = $request->request->all();
 
         // Создаем пользователя
-        $client = Organizations::create($params);
+        try {
+            $clientDto = new OrganizationDto($params);
 
-        // $response_array['client'] = $client;
-        $response_array['status'] = 'success';
-        $response_array['message'] = 'Клиент создан';
-        $response_array['request_params'] = $params;
+            $client = $this->OrganizationService->createOrganization($clientDto);
 
-        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+            $response_array['status'] = 'success';
+            $response_array['message'] = 'Клиент успешно создан';
+            $response_array['client'] = $client;
 
-        return $response;
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+            return $response;
+        } catch (\Illuminate\Database\QueryException $e) {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'Клиента создать не удалось';
+            $response_array['exception_message'] = $e->getMessage();
+
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+            return $response;
+        }
     }
 
     /*
@@ -181,9 +190,37 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             return $this->render_fmodal_contact_person_update($twig_element, $request, $response);
         } else if ($twig_element == 'tab-content-objects.twig') {
             return $this->render_tab_objects($twig_element, $request, $response);
+        } else if ($twig_element == 'modal-client-add.twig') {
+            return $this->render_modal_client_add($twig_element, $request, $response);
         } else {
             return 'Распределитель рендер запросов. Возврат пустого ответа';
         }
+    }
+
+    /*
+        TWIG: modules/clients/render/modal-client-add.twig
+        Desc: Рендер модалки "Добавить клиента"
+    */
+    public function render_modal_client_add($twig_element, Request $request, Response $response) {
+        $response->headers->set('Content-Type', 'application/json');
+
+        // Получаем параметры POST и сразу записываем их в массив с ответом
+        $params = $response_array['request_params'] = $request->request->all();
+
+        if (!empty($twig_element)) { // Если есть рендер элемент
+            $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
+                'request_params' => $response_array['request_params']
+            ]);
+
+            $response_array['status'] = 'success';
+            $response_array['message'] = 'Элемент успешно отрендерился';
+        } else {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'Twig элемент не найден в POST запросе. Проверьте отправляемые данные';
+        }
+
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+        return $response;
     }
 
     /*

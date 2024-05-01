@@ -11,6 +11,12 @@ $(document).ready(function (e) {
             alert("Не задан id клиента в атрибуте data-client-id");
         }
     });
+
+    // Событие на открытие модалки "Добавление нового клиента"
+    $(document).on("click", "[data-modal-client-add]", function (e) {
+        add_body_bg();
+        $("#modal-client-add").addClass("open");
+    });
 });
 // End Подгрузка модального окна клиента и его открытие | Модуль клиенты
 
@@ -120,8 +126,24 @@ function xrender_main_table_clients(current_page = 1, control_panel_condition = 
 }
 // End функция, которая получает html разметку главной таблицы и вставляет ее
 
+// Start Функция рендерит и вставляет модалкку добавления клиента
+function load_modal_client_add() {
+    let url = API_V1_URLS.clients.render + 'modal-client-add';
+    
+    xpost_fd(url).then(response => {
+        $('#modal-client-add-wrapper').html(response.render_response_html);
 
-
+        dd_render_success(
+            response,
+            'modules/clients/render/modal-client-add.twig',
+            url
+        );
+    }).catch(response => {
+        dd(response, response.message ? response.message : 'Не удалось отрендерить modal-client-add.twig', 'error');
+    });
+}
+load_modal_client_add();
+// End Функция рендерит и вставляет модалкку добавления клиента
 
 
 // Start пагинация и фильтр поиска | Модуль клиенты
@@ -144,41 +166,3 @@ $(document).ready(() => {
     // End фильтр поиска
 });
 // End пагинация и фильтр поиска | Модуль клиенты
-
-
-
-
-
-
-
-// Start Добаввление клиента в базу данных | Модалка добавления нового пользователя
-$(document).ready(function (e) {
-    
-    // Событие на открытие модалки "Добавление нового клиента"
-    $(document).on("click", "[data-modal-client-add]", function (e) {
-        add_body_bg();
-        $("#modal-client-add").addClass("open");
-    });
-
-
-    // Событие на отправку данных на сервер
-    $(document).on("click", "#modal-client-add .js-submitter", function (e) {
-        let create_url = API_V1_URLS.clients.create; // API_V1_URLS - Смотрим в main.js
-        let formData = cpns_get_formdata_by_wrapper("#modal-client-add");
-
-        // Если есть заполненные поля и нет ошибок, отправляем запрос
-        if (formData && !cpns_get_errors_by_wrapper("#modal-client-add")) {
-            // Отправка запроса
-            xpost_fd(create_url, formData).then(function (data) { // xpost_fd - main.js
-                cpns_clear_by_wrapper("#modal-client-add");
-                xrender_main_table_clients(1); // Обновляем главную таблицу клиентов
-                $("#modal-client-add [data-modal-close]").trigger("click");
-            });
-        }
-    });
-
-    // Start валидация формы
-    cpns_form_validate("#modal-client-add", ".js-submitter");
-    // End валидация формы
-});
-// End Добаввление клиента в базу данных | Модалка добавления нового пользователя
