@@ -4,6 +4,7 @@
     settings - массив с настройками
         * db_field_name - имя поля
         * btn_text - текст кнопки
+        * image_url - реализовать. Пробрасывается для установки стандартного изображения
 #}
 
 {% if settings.db_field_name == '' %}
@@ -14,7 +15,11 @@
             <input class="photo-add__input" type="file" accept="image/png, image/jpeg" name="{{ settings.db_field_name }}">
 
             <div class="photo-add__preview">
-                <svg><use xlink:href="#svg-photo-default"></use></svg>
+                {% if settings.image_url %}
+                    <div data-fancybox data-src="{{ settings.image_url }}"><img src="{{ settings.image_url }}"></div>
+                {% else %}
+                    <svg><use xlink:href="#svg-photo-default"></use></svg>
+                {% endif %}
             </div>
 
             <button class="photo-add__btn-add btn">{{ settings.btn_text | default('Добавить фото/изображение') }}</button>

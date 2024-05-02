@@ -184,6 +184,24 @@
                                 </div>
                             </div>
 
+                            <div class="block-info">
+                                <div class="block-info__title">Фотография</div>
+                            
+                                <div class="block-info__content">
+                                    
+                                    <div class="block-info__item">
+                                        {% include 'components/photo-add.twig' with {
+                                            settings: {
+                                                db_field_name: 'avatar',
+                                                btn_text: 'Загрузить фото профиля',
+                                                image_url: avatar
+                                            }
+                                        } %}
+                                    </div>
+
+                                </div>
+                            </div>
+
                         </div>
 
                     </div>
@@ -216,6 +234,8 @@
         let formData = cpns_get_formdata_by_wrapper('#modal-current-user .modal-current-user__data-edit');
 
         formData.append('id', user_id);
+
+        console.log(formData.get('avatar'));
 
         return await xpost_fd(url, formData).then(response => {
             dd(response, response.message, 'success');
