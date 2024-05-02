@@ -10,6 +10,7 @@ class UserDto {
     private $patronymic;
     private $status;
     private $avatarFileName;
+    private $avatartFileRequest;
     private $postId;
     private $tel;
     private $email;
@@ -73,6 +74,11 @@ class UserDto {
                 case 'status':
                     if (isset($val)) {
                         $this->setStatus($val);
+                    }
+                    break;
+                case 'avatar':
+                    if (isset($val)) {
+                        $this->setAvatartFileRequest($val);
                     }
                     break;
             }
@@ -144,6 +150,17 @@ class UserDto {
 
     public function getAvatarFileName() : string|null {
         return $this->avatarFileName;
+    }
+
+    /*
+        Массив с аватаркой $_FILES['аватарка']
+    */
+    public function setAvatartFileRequest(array $avatartFileRequest) : void {
+        $this->avatartFileRequest = $avatartFileRequest;
+    }
+
+    public function getAvatartFileRequest() : array|null {
+        return $this->avatartFileRequest;
     }
 
     /*

@@ -235,8 +235,6 @@
 
         formData.append('id', user_id);
 
-        console.log(formData.get('avatar'));
-
         return await xpost_fd(url, formData).then(response => {
             dd(response, response.message, 'success');
             push(response.message, 'success');

@@ -2,7 +2,7 @@
 
 namespace WWCrm\Controllers\Users;
 
-/* 
+/*
     Компоненты Symfony запрос и ответ
     https://symfony.ru/doc/current/components/http_foundation.html
 */
@@ -93,17 +93,23 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
         $params = $response_array['request_params'] = $request->request->all();
         $response->headers->set('Content-Type', 'application/json');
 
-        try {
-            $userDto = new UserDto($params);
+        $userDto = new UserDto($params);
+        
+        // Если загрузили фото
+        if ($_FILES['avatar']) {
+            $userDto->setAvatartFileRequest($_FILES['avatar']);
+        }
 
+        try {
             if ($params['event_name'] == 'chenge_status') {
                 $user = $this->userService->chengeStatusUser($userDto);
+                $response_array['message'] = 'Статус пользователя изменен';
             } else {
                 $user = $this->userService->updateUser($userDto);
+                $response_array['message'] = 'Успешное обновление данных пользователя';
             }
 
             $response_array['status'] = 'success';
-            $response_array['message'] = 'Успешное обновление данных пользователя';
             $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
             return $response;
         } catch (Exception $e) {

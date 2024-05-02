@@ -282,9 +282,13 @@ function cpns_get_formdata_by_wrapper(wrapper_selector) {
         // console.log(input.attr('name'), input.val());
 
         if (input.attr('type') == 'file') { // Не уверен на счет files
-            formData.append(input.attr("name"), input[0].files[0]);
+            if (input[0].files[0]) {
+                formData.append(input.attr("name"), input[0].files[0]);
+            }
         } else if (input.attr('type') == 'files') { // Не уверен на счет files - проверить и переписать!!!!
-            formData.append(input.attr("name"), input[0].files[0]); // Тут циклом нужно будет, если появятся компоненты с несколькими загрузками файлов
+            if (input[0].files[0]) {
+                formData.append(input.attr("name"), input[0].files[0]); // Тут циклом нужно будет, если появятся компоненты с несколькими загрузками файлов
+            }
         } else { // Во всех остальных случаях
             if (input.val()) {
                 formData.append(input.attr("name"), input.val());
