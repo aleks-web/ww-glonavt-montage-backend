@@ -2,7 +2,7 @@ alias composer="php8.3 ~/.composer/composer.phar"
 alias phinx="php8.3 vendor/bin/phinx"
 alias gulp="npm run gulp"
 alias sass="gulp sass"
-alias push="git status && git add . ; git commit -m 'standart commit by alias' && git push origin master && git status"
+alias push="git status && git add . && git commit -m 'standart commit by alias' && git push origin master && git status"
 
 
 function _prompt {
