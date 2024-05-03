@@ -128,7 +128,9 @@ function save_big_modal(modal_id, save_function_collback, tab_id = null) {
         return false;
     }
 
-    let elements = '#' + modal_id + " .modal__header-btn-edit, " + '#' + modal_id + " .modal__header-btn-save";
+    cpns_form_validate(`#modal-current-user .tabs__item[data-id="${tab_id}"] .modal__data-edit`, `.tab-outside[data-outside-id="${tab_id}"] .modal__header-btn-save`);
+
+    let elements = `#${modal_id} .tab-outside[data-outside-id="${tab_id}"] .modal__header-btn-edit, #${modal_id} .tab-outside[data-outside-id="${tab_id}"] .modal__header-btn-save`;
 
     $(elements).click(function (e) {
         let edit_class = "modal__header-btn-edit";
