@@ -149,28 +149,28 @@ final class UserService extends MainService {
                 throw new Exception('Вы должны заполнить имя');
             }
 
+            /*
+                Сохраняем новое фото, если оно есть
+            */
+            if ($dto->getAvatartFileRequest()) {
+                $file_name = $this->saveUserAvatarFromFile($dto->getAvatartFileRequest());
+                $dto->setAvatarFileName($file_name);
+            }
+
+            /*
+                Если есть новое фото, то удаляем старое
+            */
+            if($dto->getAvatarFileName()) {
+                $old_file_name = $user->avatar_file_name;
+                $directory_file = $this->paths['fs']['users_avatars'] . '/' . $old_file_name;
+
+                if (file_exists($directory_file) && isset($old_file_name)) {
+                    unlink($directory_file);
+                }
+            }
+
             try {
                 if ($user->update($dto->toArray())) {
-                    /*
-                        Сохраняем новое фото, если оно есть
-                    */
-                    if ($dto->getAvatartFileRequest()) {
-                        $file_name = $this->saveUserAvatarFromFile($dto->getAvatartFileRequest());
-                        $dto->setAvatarFileName($file_name);
-                    }
-
-                    /*
-                        Если есть новое фото, то удаляем старое
-                    */
-                    if($dto->getAvatarFileName()) {
-                        $old_file_name = $user->avatar_file_name;
-                        $directory_file = $this->paths['fs']['users_avatars'] . '/' . $old_file_name;
-
-                        if (file_exists($directory_file) && isset($old_file_name)) {
-                            unlink($directory_file);
-                        }
-                    }
-
                     return true;
                 }
             } catch (\Exception $e) {

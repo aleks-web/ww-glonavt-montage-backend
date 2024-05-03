@@ -24,7 +24,7 @@
                 <tbody>
                     {% for user in users %}
                         {% set name = user.surname ~ ' ' ~ user.name ~ ' ' ~ user.patronymic %}
-                        {% set avatar = user.avatar_file_name ? paths.public_urn.users_avatars ~ '/' ~ user.avatar_file_name : paths.public_urn.default_images ~ '/avatar.png' %}
+                        {% set avatar = user.avatar_file_name ? paths.public.users_avatars ~ '/' ~ user.avatar_file_name : paths.public.default_images ~ '/avatar.png' %}
 
                         <tr {% if current_user.id != user.id %}onclick="open_modal_user({{ user.id }})"{% endif %} class="pointer" {% if current_user.id == user.id %}style="background-color: var(--clr-4);" onclick="$('.modal-current-user').addClass('open');add_body_bg();"{% endif %}>
                             <td class="td-avatar">

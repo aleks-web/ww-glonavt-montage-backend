@@ -21,23 +21,13 @@ class OrgTwigExtension extends \Twig\Extension\AbstractExtension {
     public function getFunctions()
     {
         return [
-            new \Twig\TwigFunction('cpnt_select', [$this, 'cpnt_select']),
+            new \Twig\TwigFunction('select', [$this, 'select']),
         ];
     }
 
-    public function cpnt_select() {
-        $builder = new ComponentSelectBuilder([
-            'db_field_name' => 'test',
-            'required' => false,
-            'val' => 1,
-            'title' => 'Title',
-            'not_selected_text' => 'Нет',
-            'position' => 'bottom',
-            'input_messages_position' => 'top',
-            'checkbox' => false
-
-        ]);
-        $builder->addIdItem(1)->addTextItem('text')->saveItem();
+    public function select($array) {
+        $builder = new ComponentSelectBuilder();
+        $builder->fromArray($array);
         return $builder->toArray();
     }
 }

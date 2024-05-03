@@ -8,7 +8,7 @@
 #}
 
 {% set name = user.surname ~ ' ' ~ user.name ~ ' ' ~ user.patronymic %}
-{% set avatar = user.avatar_file_name ? paths.public_urn.users_avatars ~ '/' ~ user.avatar_file_name : paths.public_urn.default_images ~ '/avatar.png' %}
+{% set avatar = user.avatar_file_name ? paths.public.users_avatars ~ '/' ~ user.avatar_file_name : paths.public.default_images ~ '/avatar.png' %}
 
 <!-- Start Модалка просмотра сотрудника -->
 <div id="modal-user" class="modal modal-user {% if request_params.is_open %}open{% endif %}" data-user-id="{{ user.id }}">

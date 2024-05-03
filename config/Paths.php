@@ -10,7 +10,7 @@ $users_avatars = realpath($uploads_files . '/users/avatars');
 return [
     'paths' => [
         /*
-            Файловая система
+            Названия путей в файловой системе
         */
         'fs' => [
             'base_path' => $base_path,
@@ -20,9 +20,9 @@ return [
         ],
 
         /*
-            Для отображения на фронте
+            Названия путей для отображения на фронте
         */
-        'public_urn' => [
+        'public' => [
             'assets' => '/assets',
             'default_images' => '/assets/img/default',
             'users_avatars' => '/upload_files/users/avatars',

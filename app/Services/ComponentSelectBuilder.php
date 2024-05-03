@@ -2,7 +2,23 @@
 
 namespace WWCrm\Services;
 
+// DI контейнер
 use WWCrm\ServiceContainer;
+
+/*
+    Класс создан специально для templates/components/select.twig
+    Он конфигурирует настройки. Может вернуть массив, для того чтобы пробросить их в select.twig
+    Также он может отдать готовую html разметку select.twig
+
+    В конструктор принимает массив с различными настройками
+
+    Также можно устанавливать настройки вручную через сеттеры
+
+    Итоговые методы это toArray и toHtml
+
+    toArray - получает сконфигурированный массив для проброса в select.twig
+    toHtml - рендерит html разметку select.twig исходя из заданных конфигураций
+*/
 
 final class ComponentSelectBuilder {
     protected $WWCrmService;
@@ -18,14 +34,37 @@ final class ComponentSelectBuilder {
         
         /*
             Если проброшен массив с настройками, то конфигурируем массив
+            Также может быть проброшен массив и с настройками и с элементами выпадающего списка
+            Пример массива можно посмотреть в templates/components/select.twig
         */
-        $this->fromArraySettings($array_settings);
+        if (!empty($array_settings['settings']) && !empty($array_settings['items'])) {
+            $this->fromArray($array_settings);
+        } else if (!empty($array_settings['settings']) && empty($array_settings['items'])) {
+            $this->setSettings($array_settings);
+        }
+    }
+
+    /*
+        Если получаем массив и с настройками и с элементами списка, то конфигурируем объект
+    */
+    public function fromArray($full_array) : void {
+        if (!empty($full_array['settings'])) {
+            $this->setSettings($full_array['settings']);
+        }
+
+        if (!empty($full_array['items'])) {
+            foreach ($full_array['items'] as $key => $item) {
+                if (!empty($item['id']) && !empty($item['text'])) {
+                    $this->addIdItem($item['id'])->addTextItem($item['text'])->addCurrentTextItem($item['current_text'])->saveItem();
+                }
+            }
+        }
     }
 
     /*
         Метод устанавливающий настройки из массива
     */
-    public function fromArraySettings(array $array_settings = null) {
+    public function setSettings(array $array_settings = null) {
         if ($array_settings) {
             foreach ($array_settings as $key => $val) {
                 switch ($key) {
@@ -152,8 +191,10 @@ final class ComponentSelectBuilder {
     /*
         Добавляем отображаемый текст элементу из выпадающего списка
     */
-    public function addCurrentTextItem($current_text) : ComponentSelectBuilder {
-        $this->boofer_item['current_text'] = $current_text;
+    public function addCurrentTextItem($current_text = null) : ComponentSelectBuilder {
+        if (!empty($current_text)) {
+            $this->boofer_item['current_text'] = $current_text;
+        }
         return $this;
     }
 
