@@ -716,7 +716,7 @@ function load_tab_objects (client_id, is_reload = false, condition_filtres = fal
         
         let url = API_V1_URLS.clients.update;
 
-        let formData = cpns_get_formdata_by_wrapper('#modal-client .modal-client__data-edit');
+        let formData = cpns_get_formdata_by_wrapper('#modal-client .tabs__item[data-id="1"] .modal-client__data-edit');
 
         formData.append('id', client_id);
 
@@ -739,6 +739,6 @@ function load_tab_objects (client_id, is_reload = false, condition_filtres = fal
                 reject(resp);
             });
         });
-    });
+    }, 1);
 </script>
 {# End функционал сохранения данных #}

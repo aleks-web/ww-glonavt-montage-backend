@@ -2,7 +2,9 @@
     title - заголовок страницы
     paths - пути
 #}
+
 {% set current_user = current_user() %}
+{% set paths = app().paths %}
 
 {% set username = current_user.surname ~ ' ' ~ current_user.name ~ ' ' ~ current_user.patronymic %}
 {% set username = username | trim %}

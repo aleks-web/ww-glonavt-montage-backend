@@ -128,7 +128,7 @@ function save_big_modal(modal_id, save_function_collback, tab_id = null) {
         return false;
     }
 
-    cpns_form_validate(`#modal-current-user .tabs__item[data-id="${tab_id}"] .modal__data-edit`, `.tab-outside[data-outside-id="${tab_id}"] .modal__header-btn-save`);
+    cpns_form_validate(`#${modal_id} .tabs__item[data-id="${tab_id}"] .modal__data-edit`, `.tab-outside[data-outside-id="${tab_id}"] .modal__header-btn-save`);
 
     let elements = `#${modal_id} .tab-outside[data-outside-id="${tab_id}"] .modal__header-btn-edit, #${modal_id} .tab-outside[data-outside-id="${tab_id}"] .modal__header-btn-save`;
 

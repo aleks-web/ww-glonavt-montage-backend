@@ -199,19 +199,11 @@
 
 {# Start функционал сохранения данных #}
 <script>
-
-    $(document).ready(() => {
-        cpns_form_validate('#modal-user .modal-user__data-edit', '#modal-user .modal__header-btn-save');
-        cpns_init();
-    });
-
     save_big_modal('modal-user', async function() {
         let user_id = $('#modal-user').data('user-id');
         
         let url = API_V1_URLS.users.update;
-
-        let formData = cpns_get_formdata_by_wrapper('#modal-user .modal-user__data-edit');
-
+        let formData = cpns_get_formdata_by_wrapper('#modal-user .tabs__item[data-id="1"] .modal-user__data-edit');
         formData.append('id', user_id);
 
         return await xpost_fd(url, formData).then(response => {
@@ -238,6 +230,6 @@
             });
         });
 
-    });
+    }, 1);
 </script>
 {# End функционал сохранения данных #}
