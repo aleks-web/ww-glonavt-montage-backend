@@ -11,30 +11,7 @@
 
 {% set avatar = current_user.avatar_file_name ? paths.public.users_avatars ~ '/' ~ current_user.avatar_file_name : false %}
 
-<div class="header">{{ dd(select(
-
-    {
-        'settings': {
-            'db_field_name': 'test',
-            'required': false,
-            'val': 1,
-            'title': 'Title',
-            'not_selected_text': 'Нет',
-            'position': 'bottom',
-            'input_messages_position': 'top',
-            'checkbox': false
-
-        },
-        'items': {
-            1: {
-                'id': 1,
-                'text': 'asdasd',
-                'current_text': 'asdasd'
-            }
-        }
-    }
-
-)) }}
+<div class="header">
     <div class="header__container">
         <div class="header__left">
             <div class="header__title">{{ title }}</div>

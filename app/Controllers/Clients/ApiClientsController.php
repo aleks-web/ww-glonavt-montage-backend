@@ -310,11 +310,7 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             $clientOriginalObject = Organizations::find($client_id);
 
             // Statuses
-            $response_array['client_statuses'] = [
-                'STATUS_NULL' => Organizations::STATUS_NULL,
-                'STATUS_ACTIVE' => Organizations::STATUS_ACTIVE,
-                'STATUS_ARCHIVE' => Organizations::STATUS_ARCHIVE,
-            ];
+            $response_array['client_statuses'] = Organizations::getArrayStatusesNamed();
 
             $response_array['client'] = Organizations::find($client_id); // $response_array['client'] для основного проброса. Тут делаем что-то с данными. Например заменяем статус клиента на читаемый вид
             $response_array['client']['contacts_persons'] = $response_array['client']->contactsPersons; // Получаем контактных лиц из другой таблицы

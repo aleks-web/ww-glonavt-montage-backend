@@ -40,6 +40,8 @@ final class ComponentSelectBuilder {
         if (!empty($array_settings['settings']) && !empty($array_settings['items'])) {
             $this->fromArray($array_settings);
         } else if (!empty($array_settings['settings']) && empty($array_settings['items'])) {
+            $this->setSettings($array_settings['settings']);
+        } else if (empty($array_settings['settings']) && empty($array_settings['items']) && !empty($array_settings['db_field_name'])) {
             $this->setSettings($array_settings);
         }
     }

@@ -21,11 +21,11 @@ class OrgTwigExtension extends \Twig\Extension\AbstractExtension {
     public function getFunctions()
     {
         return [
-            new \Twig\TwigFunction('select', [$this, 'select']),
+            new \Twig\TwigFunction('t', [$this, 't']),
         ];
     }
 
-    public function select($array) {
+    public function t($array) {
         $builder = new ComponentSelectBuilder();
         $builder->fromArray($array);
         return $builder->toArray();
