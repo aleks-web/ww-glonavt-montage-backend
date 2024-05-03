@@ -15,6 +15,9 @@ const API_V1_URLS = {
         recovery: "/api_v1/auth/recovery/",
         logout: "/api_v1/auth/logout/",
     },
+    currentuser: {
+        update: "/api_v1/currentuser/update/",
+    },
     users: {
         create: "/api_v1/users/create/",
         update: "/api_v1/users/update/",

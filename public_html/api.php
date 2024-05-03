@@ -32,6 +32,11 @@ $router->xpost(API_V1_URL . 'users/update/', $controllers['Api']['Users'] . '@up
 $router->xpost(API_V1_URL . 'users/render/:string', $controllers['Api']['Users'] . '@distributor'); // Рендер элементов
 
 /*
+    Текущий пользователь
+*/
+$router->xpost(API_V1_URL . 'currentuser/update/', $controllers['Api']['CurrentUser'] . '@update'); // Рендер элементов
+
+/*
     Роуты модуля "Клиенты"
 */
 $router->xpost(API_V1_URL . 'clients/create', $controllers['Api']['Clients'] . '@create');

@@ -186,10 +186,26 @@ final class UserService extends MainService {
     public function chengeStatusUser(UserDto $dto) : bool {
         $user = Users::find($dto->getId());
 
-        if ($user->update($dto->toArray())) {
+        try {
+            $user->update(['status' => $dto->getStatus()]);
             return true;
-        } else {
-            return false;
+        } catch (\Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /*
+        Смена пароля пользователя
+    */
+    public function chengePasswordUser(UserDto $dto) : bool {
+        $user = Users::find($dto->getId());
+        $pass_new = password_hash($dto->getPassword(), PASSWORD_DEFAULT);
+
+        try {
+            $user->update(['password' => $pass_new]);
+            return true;
+        } catch (\Exception $e) {
+            throw new Exception($e->getMessage());
         }
     }
 

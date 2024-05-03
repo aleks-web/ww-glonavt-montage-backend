@@ -242,7 +242,7 @@
 
                             <div class="block-info">
                                 <div class="block-info__title">Логин и пароль</div>
-                                <p style="color: var(--clr-5);">Руководитель не задан.<br>При необходимости его можно задать во вкладке "Контактные лица".</p>
+                                <p style="color: var(--clr-5);">Пароль скрыт.<br>Вы можете придумать новый пароль тем самым изменив старый</p>
                             
                                 <div class="block-info__content">
 
@@ -261,24 +261,6 @@
                                             settings: {
                                                 db_field_name: 'password',
                                                 pls: 'Введите новый пароль'
-                                            }
-                                        } %}
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <div class="block-info">
-                                <div class="block-info__title">Фотография</div>
-                            
-                                <div class="block-info__content">
-                                    
-                                    <div class="block-info__item">
-                                        {% include 'components/photo-add.twig' with {
-                                            settings: {
-                                                db_field_name: 'avatar',
-                                                btn_text: 'Загрузить фото профиля',
-                                                image_url: avatar
                                             }
                                         } %}
                                     </div>
@@ -307,7 +289,7 @@
     save_big_modal('modal-current-user', async () => {
         let user_id = $('#modal-current-user').data('user-id');
         
-        let url = API_V1_URLS.users.update;
+        let url = API_V1_URLS.currentuser.update;
 
         let formData = cpns_get_formdata_by_wrapper('#modal-current-user .tabs__item[data-id="1"] .modal-current-user__data-edit');
 
@@ -340,11 +322,12 @@
     save_big_modal('modal-current-user', async () => {
         let user_id = $('#modal-current-user').data('user-id');
         
-        let url = API_V1_URLS.users.update;
+        let url = API_V1_URLS.currentuser.update;
 
         let formData = cpns_get_formdata_by_wrapper('#modal-current-user .tabs__item[data-id="2"] .modal-current-user__data-edit');
 
         formData.append('id', user_id);
+        formData.append('event_name', 'chenge_password');
 
         return await xpost_fd(url, formData).then(response => {
             dd(response, response.message, 'success');
