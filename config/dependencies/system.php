@@ -8,8 +8,9 @@ return [
         ]);
 
         $twig->addExtension($container->get('TwigExtensionDebugExtension'));
-        $twig->addExtension($container->get('TwigExtensionDd'));
+        $twig->addExtension($container->get('TwigExtensionUtils'));
         $twig->addExtension($container->get('TwigExtensionCurrentUser'));
+        $twig->addExtension($container->get('TwigExtensionApp'));
 
         return $twig;
     },
@@ -22,12 +23,16 @@ return [
         return new \Twig\Extension\DebugExtension();
     }),
     
-    'TwigExtensionDd' => \DI\Factory(function() {
-        return new WWCrm\Others\Twig\Extensions\DdTwigExtension();
+    'TwigExtensionUtils' => \DI\Factory(function() {
+        return new WWCrm\Others\Twig\Extensions\UtilsTwigExtension();
     }),
 
     'TwigExtensionCurrentUser' => \DI\Factory(function() {
         return new WWCrm\Others\Twig\Extensions\CurrentUserTwigExtension();
+    }),
+
+    'TwigExtensionApp' => \DI\Factory(function() {
+        return new WWCrm\Others\Twig\Extensions\AppTwigExtension();
     }),
 
     'Router' => function (\Psr\Container\ContainerInterface $container) {

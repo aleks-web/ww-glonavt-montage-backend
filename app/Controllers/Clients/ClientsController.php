@@ -14,7 +14,6 @@ class ClientsController extends \WWCrm\Controllers\MainController {
         return $this->WWCrmService->get('View')->render('modules/clients/page.twig', [
             'title' => 'Клиенты',
             'paths' => $this->paths,
-            'current_user' => $this->WWCurrentUser->getUserObject(),
             'org_statuses' => Organizations::getArrayStatusesNamed(),
             'query' => $request->query->all()
         ]);

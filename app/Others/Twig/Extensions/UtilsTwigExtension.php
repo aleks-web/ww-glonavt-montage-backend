@@ -2,7 +2,7 @@
 
 namespace WWCrm\Others\Twig\Extensions;
 
-class DdTwigExtension extends \Twig\Extension\AbstractExtension
+class UtilsTwigExtension extends \Twig\Extension\AbstractExtension
 {
     public function getFunctions()
     {
@@ -13,10 +13,10 @@ class DdTwigExtension extends \Twig\Extension\AbstractExtension
     }
 
     public function dd($dd) {
-        dd($dd);
+        !empty($dd) ? dd($dd) : dd('dd без параметров');
     }
 
-    public function dump($dd) {
-        dump($dd);
+    public function dump($dump) {
+        !empty($dump) ? dump($dump) : dump('dump без параметров');
     }
 }

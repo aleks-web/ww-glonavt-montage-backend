@@ -11,7 +11,6 @@ class BookEquipmentsController extends \WWCrm\Controllers\MainController {
         return $this->view->render('books/equipments/page.twig', [
             'title' => 'Справочник оборудования',
             'paths' => $this->paths,
-            'current_user' => $this->WWCurrentUser->getUserObject()
         ]);
     }
 

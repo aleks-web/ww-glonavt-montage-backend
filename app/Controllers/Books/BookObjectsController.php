@@ -11,7 +11,6 @@ class BookObjectsController extends \WWCrm\Controllers\MainController {
         return $this->view->render('books/objects/page.twig', [
             'title' => 'Справочник типов объектов',
             'paths' => $this->paths,
-            'current_user' => $this->WWCurrentUser->getUserObject()
         ]);
     }
 

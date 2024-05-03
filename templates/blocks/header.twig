@@ -1,8 +1,9 @@
 {#
     title - заголовок страницы
-    current_user - текущий пользователь
     paths - пути
 #}
+{% set current_user = current_user() %}
+
 {% set username = current_user.surname ~ ' ' ~ current_user.name ~ ' ' ~ current_user.patronymic %}
 {% set username = username | trim %}
 

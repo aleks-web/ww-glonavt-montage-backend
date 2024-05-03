@@ -11,8 +11,7 @@ class StatisticsController extends \WWCrm\Controllers\MainController {
 
         return $this->view->render('statistics.twig', [
             'title' => 'Статистика',
-            'paths' => $this->paths,
-            'current_user' => $this->WWCurrentUser->getUserObject()
+            'paths' => $this->paths
         ]);
     }
 

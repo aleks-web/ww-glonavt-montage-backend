@@ -11,7 +11,6 @@ class ApplicationsController extends \WWCrm\Controllers\MainController {
         return $this->view->render('applications.twig', [
             'title' => 'Заявки',
             'paths' => $this->paths,
-            'current_user' => $this->WWCurrentUser->getUserObject()
         ]);
     }
 

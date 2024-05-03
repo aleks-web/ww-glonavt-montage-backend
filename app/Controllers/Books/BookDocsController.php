@@ -11,7 +11,6 @@ class BookDocsController extends \WWCrm\Controllers\MainController {
         return $this->view->render('books/docs/page.twig', [
             'title' => 'Справочник типов документов',
             'paths' => $this->paths,
-            'current_user' => $this->WWCurrentUser->getUserObject()
         ]);
     }
 

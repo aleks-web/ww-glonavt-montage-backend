@@ -11,7 +11,6 @@ class BookPostsController extends \WWCrm\Controllers\MainController {
         return $this->view->render('books/posts/page.twig', [
             'title' => 'Справочник должностей',
             'paths' => $this->paths,
-            'current_user' => $this->WWCurrentUser->getUserObject()
         ]);
     }
 

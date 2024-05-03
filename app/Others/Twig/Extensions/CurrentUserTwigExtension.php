@@ -2,8 +2,6 @@
 
 namespace WWCrm\Others\Twig\Extensions;
 
-use WWCrm\Services\CurrentUser;
-
 class CurrentUserTwigExtension extends \Twig\Extension\AbstractExtension {
     
     public function __construct() {
