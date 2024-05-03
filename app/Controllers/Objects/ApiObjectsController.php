@@ -289,7 +289,7 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
             $response_array['object']['status'] = Objects::getStatusName($response_array['object']['status']);
 
 
-            $clientsBuilder = new ComponentSelectBuilder('organization_id', true);
+            $clientsBuilder = new ComponentSelectBuilder(['db_field_name' => 'organization_id', 'required' => true]);
 
             $response_array['twig_components_data']['clients'] = [];
             $clientsBuilder->setVal($response_array['object']['organization_id']);
@@ -328,7 +328,7 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         $response_array['request_params'] = $request->request->all();
         $response_array['organizations'] = Organizations::all();
 
-        $componentBuilder = new ComponentSelectBuilder('organization_id', true);
+        $componentBuilder = new ComponentSelectBuilder(['db_field_name' => 'organization_id', 'required' => true]);
         $componentBuilder->setDefaultText('Выберите клиента');
         foreach (Organizations::all() as $client) {
             $componentBuilder->addIdItem($client->id)->addTextItem($client->name)->saveItem();
@@ -363,7 +363,7 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         $book_equipments = BookEquipments::where(['status' => BookEquipments::STATUS_ACTIVE])->get();
         $response_array['book_equipment'] = $book_equipments;
 
-        $equipmentsBuilder = new ComponentSelectBuilder('equipment_id', true);
+        $equipmentsBuilder = new ComponentSelectBuilder(['db_field_name' => 'equipment_id', 'required' => true]);
         $equipmentsBuilder->setDefaultText('Не выбрано');
         foreach($book_equipments as $key => $equipment) {
             $equipmentsBuilder->addIdItem($equipment['id'])->addTextItem($equipment['name'])->saveItem();

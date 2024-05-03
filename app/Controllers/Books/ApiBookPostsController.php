@@ -167,7 +167,7 @@ class ApiBookPostsController extends \WWCrm\Controllers\MainController {
         // Получаем параметры POST и сразу записываем их в массив с ответом
         $response_array['request_params'] = $request->request->all();
 
-        $DepartmentsSelect = new ComponentSelectBuilder('department_id', true);
+        $DepartmentsSelect = new ComponentSelectBuilder(['db_field_name' => 'department_id', 'required' => true]);
         $DepartmentsSelect->setDefaultText('Не выбрано'); // Дефолтный текст
 
         foreach(BookDepartments::all() as $depKey => $dep) { // Добавляем выгруженные элементы селект
@@ -194,7 +194,7 @@ class ApiBookPostsController extends \WWCrm\Controllers\MainController {
         $response_array['request_params'] = $request->request->all();
         $post = BookPosts::find($response_array['request_params']['id']);
 
-        $DepartmentsSelect = new ComponentSelectBuilder('department_id', true);
+        $DepartmentsSelect = new ComponentSelectBuilder(['db_field_name' => 'department_id', 'required' => true]);
         $DepartmentsSelect->setDefaultText('Не выбрано'); // Дефолтный текст
         $DepartmentsSelect->setVal($post->department_id); // Дефолтный текст
         foreach(BookDepartments::all() as $depKey => $dep) { // Добавляем выгруженные элементы селект

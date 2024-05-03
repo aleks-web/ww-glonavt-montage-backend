@@ -2,7 +2,7 @@
     request_params - данные из запроса
     user - пользователь
 #}
-
+{% set user = current_user() %}
 {% set paths = app().paths %}
 {% set name = user.surname ~ ' ' ~ user.name ~ ' ' ~ user.patronymic %}
 {% set avatar = user.avatar_file_name ? paths.public_urn.users_avatars ~ '/' ~ user.avatar_file_name : paths.public_urn.default_images ~ '/avatar.png' %}
@@ -89,7 +89,13 @@
 
                                     <div class="block-info__item">
                                         <span class="block-info__text-secondary">Дата рождения</span>
-                                        <span class="block-info__text-main">{{ user.birth | date('d.m.Y') | default('-') }}</span>
+                                        <span class="block-info__text-main">
+                                            {% if user.birth %}
+                                                {{ user.birth | date('d.m.Y') }}
+                                            {% else %}
+                                                -
+                                            {% endif %}
+                                        </span>
                                     </div>
                                 </div>
                             </div>

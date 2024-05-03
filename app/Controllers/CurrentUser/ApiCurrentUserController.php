@@ -92,9 +92,7 @@ class ApiCurrentUserController extends \WWCrm\Controllers\MainController {
         $params = $response_array['request_params'] = $request->request->all();
 
         $response_array['render_response_html'] = $this->view->render('modals/render/' . $twig_element, [
-            'request_params' => $params,
-            'paths' => $this->paths,
-            'user' => Users::find($params['id'])
+            'request_params' => $params
         ]);
 
         $response_array['status'] = 'success';

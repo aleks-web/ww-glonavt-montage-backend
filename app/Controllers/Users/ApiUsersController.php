@@ -186,7 +186,7 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
         $response_array['posts'] = BookPosts::all();
 
 
-        $PostsSelect = new ComponentSelectBuilder('post_id', false);
+        $PostsSelect = new ComponentSelectBuilder(['db_field_name' => 'post_id', 'required' => false]);
         $PostsSelect->setDefaultText('Должность не выбрана');
         foreach($response_array['posts'] as $post) { // Добавляем выгруженные элементы селект
             $PostsSelect->addIdItem($post->id)->addTextItem($post->name . ' (' . $post->department->name . ')')->saveItem();
@@ -217,7 +217,7 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
         $response_array['user']->post->department;
         $response_array['posts'] = BookPosts::all();
 
-        $PostsSelect = new ComponentSelectBuilder('post_id', false);
+        $PostsSelect = new ComponentSelectBuilder(['db_field_name' => 'post_id', 'required' => false]);
         $PostsSelect->setVal($response_array['user']->post_id);
         $PostsSelect->setDefaultText('Должность не выбрана');
         foreach($response_array['posts'] as $post) { // Добавляем выгруженные элементы селект

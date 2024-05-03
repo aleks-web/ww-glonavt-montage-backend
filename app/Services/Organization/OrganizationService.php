@@ -4,9 +4,6 @@ namespace WWCrm\Services\Organization;
 
 use WWCrm\Services\MainService;
 
-// Билдер для компонента
-use WWCrm\Services\ComponentSelectBuilder;
-
 // Dto
 use WWCrm\Dto\OrganizationDto;
 
@@ -21,12 +18,19 @@ final class OrganizationService extends MainService {
     public function createOrganization(OrganizationDto $dto) : Organizations {
 
         /*
+            Валидность Email
+        */
+        if (!$this->utils->isValidEmail($dto->getEmail()) && !empty($dto->getEmail())) {
+            throw new \Exception('Email введен не верно!');
+        }
+
+        /*
             Создание организации/клиента
         */
         try {
             return Organizations::create($dto->toArray());
         } catch (\Illuminate\Database\QueryException $e) {
-            throw new Exception($e->getMessage());
+            throw new \Exception($e->getMessage());
         }
     }
 
@@ -37,10 +41,10 @@ final class OrganizationService extends MainService {
         $client = Organizations::find($dto->getId());
 
         /*
-            Проверяем валидность имени организации
+            Валидность Email
         */
-        if(!$this->utils->isValidFio($dto->getName())) {
-            throw new Exception("В имени организации не должно быть посторонних симфолов и цифр");
+        if (!$this->utils->isValidEmail($dto->getEmail()) && !empty($dto->getEmail())) {
+            throw new \Exception('Email введен не верно!');
         }
 
         /*
@@ -51,11 +55,13 @@ final class OrganizationService extends MainService {
                 if ($client->update($dto->toArray())) {
                     return true;
                 } else {
-                    throw new Exception("Не удалось обновить организацию");
+                    throw new \Exception("Не удалось обновить организацию");
                 }
-            } catch (\Illuminate\Database\QueryException $e) {
-                throw new Exception($e->getMessage());
+            } catch (\Exception $e) {
+                throw new \Exception($e->getMessage());
             }
+        } else {
+            throw new \Exception("Не удалось найти организацию");
         }
     }
 
@@ -73,11 +79,13 @@ final class OrganizationService extends MainService {
                 if ($client->update(['status' => $dto->getStatus()])) {
                     return true;
                 } else {
-                    throw new Exception("Не удалось сменить статус организации");
+                    throw new \Exception("Не удалось сменить статус организации");
                 }
-            } catch (\Illuminate\Database\QueryException $e) {
-                throw new Exception($e->getMessage());
+            } catch (\Exception $e) {
+                throw new \Exception($e->getMessage());
             }
+        } else {
+            throw new \Exception("Не удалось найти организацию");
         }
     }
 

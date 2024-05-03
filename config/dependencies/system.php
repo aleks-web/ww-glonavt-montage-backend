@@ -1,6 +1,10 @@
 <?php
 
 return [
+    
+    /*
+        Twig
+    */
     'View' => function (\Psr\Container\ContainerInterface $container) {
         $twig =  new \Twig\Environment($container->get('TwigFilesystemLoader'), [
             // 'cache' => realpath(dirname(dirname(__DIR__)) . '/templates/compilation_cache'),
@@ -11,6 +15,7 @@ return [
         $twig->addExtension($container->get('TwigExtensionUtils'));
         $twig->addExtension($container->get('TwigExtensionCurrentUser'));
         $twig->addExtension($container->get('TwigExtensionApp'));
+        $twig->addExtension($container->get('TwigExtensionOrg'));
 
         return $twig;
     },
@@ -34,6 +39,17 @@ return [
     'TwigExtensionApp' => \DI\Factory(function() {
         return new WWCrm\Others\Twig\Extensions\AppTwigExtension();
     }),
+
+    'TwigExtensionOrg' => \DI\Factory(function() {
+        return new WWCrm\Others\Twig\Extensions\OrgTwigExtension();
+    }),
+
+
+
+
+    /*
+        Others
+    */
 
     'Router' => function (\Psr\Container\ContainerInterface $container) {
         return new \Buki\Router\Router([

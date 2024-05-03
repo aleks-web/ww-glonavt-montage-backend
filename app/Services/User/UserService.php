@@ -9,9 +9,6 @@ use WWCrm\Services\MainService;
 // Пользователи
 use WWCrm\Models\Users;
 
-// Компоненты
-use WWCrm\Services\ComponentSelectBuilder;
-
 // Dto
 use WWCrm\Dto\UserDto;
 
@@ -31,7 +28,7 @@ final class UserService extends MainService {
         }
 
         // Путь до хранения аватарок
-        $save_dir = $this->paths['users_avatars'];
+        $save_dir = $this->paths['fs']['users_avatars'];
 
         if (is_dir($save_dir)) {
             $old_file_path = $file_array['tmp_name'];
@@ -152,30 +149,32 @@ final class UserService extends MainService {
                 throw new Exception('Вы должны заполнить имя');
             }
 
-            /*
-                Сохраняем новое фото, если оно есть
-            */
-            if ($dto->getAvatartFileRequest()) {
-                $file_name = $this->saveUserAvatarFromFile($dto->getAvatartFileRequest());
-                $dto->setAvatarFileName($file_name);
-            }
+            try {
+                if ($user->update($dto->toArray())) {
+                    /*
+                        Сохраняем новое фото, если оно есть
+                    */
+                    if ($dto->getAvatartFileRequest()) {
+                        $file_name = $this->saveUserAvatarFromFile($dto->getAvatartFileRequest());
+                        $dto->setAvatarFileName($file_name);
+                    }
 
-            /*
-                Если есть новое фото, то удаляем старое
-            */
-            if($dto->getAvatarFileName()) {
-                $old_file_name = $user->avatar_file_name;
-                $directory_file = $this->paths['users_avatars'] . '/' . $old_file_name;
+                    /*
+                        Если есть новое фото, то удаляем старое
+                    */
+                    if($dto->getAvatarFileName()) {
+                        $old_file_name = $user->avatar_file_name;
+                        $directory_file = $this->paths['fs']['users_avatars'] . '/' . $old_file_name;
 
-                if (file_exists($directory_file) && isset($old_file_name)) {
-                    unlink($directory_file);
+                        if (file_exists($directory_file) && isset($old_file_name)) {
+                            unlink($directory_file);
+                        }
+                    }
+
+                    return true;
                 }
-            }
-
-            if ($user->update($dto->toArray())) {
-                return true;
-            } else {
-                return false;
+            } catch (\Exception $e) {
+                throw new Exception($e->getMessage());
             }
         }
     }

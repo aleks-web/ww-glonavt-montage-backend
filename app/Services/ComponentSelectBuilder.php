@@ -5,76 +5,132 @@ namespace WWCrm\Services;
 use WWCrm\ServiceContainer;
 
 final class ComponentSelectBuilder {
-    protected string $db_field_name;
-    protected string $title = '';
-    protected bool $required;
-    protected string|array|int|null $val = '';
-    protected array $items = [];
-    protected array $boofer_item = []; // Текущий item
-    protected string $default_text = '';
-    protected string $position = 'bottom';
     protected $WWCrmService;
+    protected array $settings = [];
+    protected array $boofer_item = []; // Текущий item. Очищается после сохранения в $items
+    protected array $items = []; // Все items
 
-    public function __construct(string $db_field_name, bool $required = false, array $array_settings = null) {
+    /*
+        Начальная конфигурация билдера
+    */
+    public function __construct(array $array_settings = null) {
         $this->WWCrmService = ServiceContainer::getInstance();
-        $this->db_field_name = $db_field_name;
-        $this->required = $required;
-
-        // $array_settings - массив настроек
-    }
-
-
-    /*
-        Установить name
-    */
-    public function setInputName(string $name) {
-        $this->title = $name;
+        
+        /*
+            Если проброшен массив с настройками, то конфигурируем массив
+        */
+        $this->fromArraySettings($array_settings);
     }
 
     /*
-        Вернуть name
+        Метод устанавливающий настройки из массива
     */
-    public function getInputName() : string {
-        return $this->name;
+    public function fromArraySettings(array $array_settings = null) {
+        if ($array_settings) {
+            foreach ($array_settings as $key => $val) {
+                switch ($key) {
+                    case 'db_field_name':
+                        if (isset($val)) {
+                            $this->setDbFieldName($val);
+                        }
+                        break;
+                    case 'required':
+                        if (isset($val)) {
+                            $this->setRequired($val);
+                        }
+                        break;
+                    case 'title':
+                        if (isset($val)) {
+                            $this->setTitle($val);
+                        }
+                        break;
+                    case 'val':
+                        if (isset($val)) {
+                            $this->setVal($val);
+                        }
+                        break;
+                    case 'not_selected_text':
+                        if (isset($val)) {
+                            $this->setDefaultText($val);
+                        }
+                        break;
+                    case 'position':
+                        if (isset($val)) {
+                            $this->setPosition($val);
+                        }
+                        break;
+                    case 'input_messages_position':
+                        if (isset($val)) {
+                            $this->setMessagePosition($val);
+                        }
+                        break;
+                    case 'checkbox':
+                        if (isset($val)) {
+                            $this->setCheckbox($val);
+                        }
+                        break;
+                }
+            }
+        }
     }
 
+    /*
+        Можно ли в селекте выбирать несколько позиций
+    */
+    public function setCheckbox($bool = false) : void {
+        $this->settings['checkbox'] = $bool;
+    }
+
+    /*
+        Можно ли в селекте выбирать несколько позиций. Метод возвращает bool
+    */
+    public function getCheckbox() : bool {
+        return $this->settings['checkbox'];
+    }
 
     /*
         Установить title
     */
-    public function setTitle(string $title) {
-        $this->title = $title;
+    public function setTitle(string $title) : void {
+        $this->settings['title'] = $title;
     }
 
     /*
         Вернуть title
     */
-    public function getTitle() : string {
-        return $this->title;
+    public function getTitle() : string|null {
+        return $this->settings['title'];
     }
 
     /*
-        Получает название списка списка
+        Устанавливает название списка
     */
-    public function getDbFieldName() : string {
-        return $this->db_field_name;
+    public function setDbFieldName($db_field_name) : void {
+        $this->settings['db_field_name'] = $db_field_name;
+    }
+
+    /*
+        Получает название списка
+    */
+    public function getDbFieldName() : string|null {
+        return $this->settings['db_field_name'];
     }
 
 
     /*
         Устанавливает значение value в инпут
     */
-    public function setVal(int | string | array | null $val) : void {
+    public function setVal(int|string|array|null $val) : void {
         if ($val) {
-            $this->val = $val;
+            $this->settings['val'] = $val;
         }
     }
 
     /*
         Возвращает установленное значение value
     */
-    public function getVal() : string | array | int {
-        return $this->val;
+    public function getVal() : string|array|int|null {
+        return $this->settings['val'];
     }
 
     /*
@@ -117,7 +173,10 @@ final class ComponentSelectBuilder {
         }
     }
 
-    public function getItems() : array { // Получает список элементов
+    /*
+        Получает список элементов
+    */
+    public function getItems() : array|null {
         return $this->items;
     }
 
@@ -126,58 +185,65 @@ final class ComponentSelectBuilder {
         Обязателен ли для заполнения данный селект
     */
     public function setRequired($bool = false) : void {
-        $this->required = $bool;
+        $this->settings['required'] = $bool;
     }
 
     /*
         Метод возвращает логическое значение
         Обязателен ли для заполнения данный селект
     */
-    public function getRequired() : bool {
-        return $this->required;
+    public function getRequired() : bool|null {
+        return $this->settings['required'];
     }
 
     /*
         Метод устанавливает значение дефолтного текста
     */
     public function setDefaultText(string $text) : void {
-        $this->default_text = $text;
+        $this->settings['not_selected_text'] = $text;
     }
 
     /*
         Метод возвращает значение дефолтного текста
     */
-    public function getDefaultText() : string {
-        return $this->default_text;
+    public function getDefaultText() : string|null {
+        return $this->settings['not_selected_text'];
     }
 
 
     /*
         Метод устанавливает отображение выпадающего списка. Верху или снизу
     */
-    public function setPosition($position_text) : void {
-        $this->position = $position_text;
+    public function setPosition($position = 'bottom') : void {
+        $this->settings['position'] = $position;
     }
 
     /*
         Метод возвращает отображение выпадающего списка
     */
-    public function getPosition() : string {
-        return $this->position;
+    public function getPosition() : string|null {
+        return $this->settings['position'];
+    }
+
+     /*
+        Метод устанавливает позицию (над селектом или под) информации об ошибках
+    */
+    public function setMessagePosition($position = 'bottom') : void {
+        $this->settings['input_messages_position'] = $position;
+    }
+
+    /*
+        Метод возвращает позицию (над селектом или под) информации об ошибках
+    */
+    public function getMessagePosition() : string|null {
+        return $this->settings['input_messages_position'];
     }
 
     /*
         Метод возвращает настроенный массив для компонента .select
     */
     public function toArray() {
-        $settings['required'] = $this->getRequired();
-        $settings['db_field_name'] = $this->getDbFieldName();
-        $settings['val'] = $this->getVal();
-        $settings['title'] = $this->getTitle();
-        $settings['not_selected_text'] = $this->getDefaultText() ?: null; // Устанавливаем дефолтное значение
-        $settings['position'] = $this->getPosition();
-
-        $select_array['settings'] = $settings;
+        $select_array['settings'] = $this->settings;
         $select_array['items'] = $this->getItems();
 
         return $select_array;
@@ -187,9 +253,7 @@ final class ComponentSelectBuilder {
         Возвращает отрендеренный элемент
     */
     public function toHtml() : string {
-        $settings = $this->toArray(); // Получаем массив настроек
-
-        return $html = $this->WWCrmService->get('View')->render('components/select.twig', $settings);
+        return $this->WWCrmService->get('View')->render('components/select.twig', $this->toArray());
     }
 
 }

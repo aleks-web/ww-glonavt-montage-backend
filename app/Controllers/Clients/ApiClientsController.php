@@ -324,7 +324,7 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             $response_array['client']['status_name'] = Organizations::getStatusName($response_array['client']['status']);
             
             // Start Формируем и прокидываем настроенный компонент статуса с выпадающим списком
-            $StatusSelect = new ComponentSelectBuilder('status', true);
+            $StatusSelect = new ComponentSelectBuilder(['db_field_name' => 'status', 'required' => true]);
             $StatusSelect->setVal((int) $clientOriginalObject['status']);
             foreach(Organizations::getArrayStatuses() as $status_id => $status_name) { // Добавляем выгруженные элементы селект
                 $StatusSelect->addIdItem($status_id)->addTextItem($status_name)->saveItem();
@@ -332,7 +332,7 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             $response_array['twig_components_data']['status'] = $StatusSelect->toArray();
 
 
-            $ManagersSelect = new ComponentSelectBuilder('manager_id', false);
+            $ManagersSelect = new ComponentSelectBuilder(['db_field_name' => 'manager_id', 'required' => false]);
             $ManagersSelect->setVal((int) $response_array['client']['manager']['id']);
             $ManagersSelect->setPosition('top');
             foreach(Users::all() as $manager_key => $manager) { // Добавляем выгруженные элементы селект

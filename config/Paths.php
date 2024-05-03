@@ -9,15 +9,25 @@ $users_avatars = realpath($uploads_files . '/users/avatars');
 
 return [
     'paths' => [
-        'base_path' => $base_path,
-        'public_html' => $public_html,
-        'uploads_files' => $uploads_files,
-        'users_avatars' => $users_avatars,
+        /*
+            Файловая система
+        */
+        'fs' => [
+            'base_path' => $base_path,
+            'public_html' => $public_html,
+            'uploads_files' => $uploads_files,
+            'users_avatars' => $users_avatars,
+        ],
 
+        /*
+            Для отображения на фронте
+        */
         'public_urn' => [
             'assets' => '/assets',
             'default_images' => '/assets/img/default',
             'users_avatars' => '/upload_files/users/avatars',
-        ]
+        ],
+
+
     ]
 ];

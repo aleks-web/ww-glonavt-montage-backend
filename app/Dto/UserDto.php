@@ -207,8 +207,13 @@ class UserDto {
         День рождения
     */
     public function setBirth(string $birth) : void {
-        $this->birth = $birth;
-        $this->allFields['birth'] = $this->getBirth();
+        if (!empty($birth)) {
+            $this->birth = $birth;
+            $this->allFields['birth'] = $this->getBirth();
+        } else {
+            $this->birth = null;
+            $this->allFields['birth'] = null;
+        }
     }
 
     public function getBirth() : string|null {
