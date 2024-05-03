@@ -46,6 +46,11 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
 
         $dto = new ObjectDto($params);
 
+        // Если загрузили фото объекта
+        if ($_FILES['object_photo']) {
+            $dto->setObjectPhotoRequest($_FILES['object_photo']);
+        }
+
         try {
             $object = $this->objectService->createObject($dto);
 

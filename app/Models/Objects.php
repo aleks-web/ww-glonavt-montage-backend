@@ -41,6 +41,7 @@ class Objects extends Model {
     'color',
     'year',
     'reg_doc_num',
+    'photo_file_name',
     'user_add_id'
   ];
 

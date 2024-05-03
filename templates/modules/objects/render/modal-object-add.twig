@@ -76,7 +76,7 @@
 
                 {% include 'components/photo-add.twig' with {
                     settings: {
-                        db_field_name: 'photo',
+                        db_field_name: 'object_photo',
                         btn_text: 'Добавить фото'
                     }
                 } %}
@@ -106,6 +106,7 @@
 
         $('#modal-object-add .submitter').click(() => {
             xpost_fd(API_V1_URLS.objects.create, cpns_get_formdata_by_wrapper('#modal-object-add')).then(response => {
+                xrender_main_table_objects();
                 dd(response, response.message, 'success');
                 push(response.message, 'success');
 

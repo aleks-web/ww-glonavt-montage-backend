@@ -93,8 +93,6 @@ function load_modal_object(object_id, is_open = false) {
                 }
 
                 if (response.status == "error") {
-                    wrapper.html(`<div style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">${response.message}</div>`);
-                    
                     reject(response);
                 }
             }
