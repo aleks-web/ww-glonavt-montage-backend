@@ -8,8 +8,6 @@ namespace WWCrm\Controllers\Users;
 */
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\File\FileBag;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /* 
     ComponentSelectBuilder - Билдер компонента select
