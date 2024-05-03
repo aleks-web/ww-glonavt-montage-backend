@@ -304,7 +304,7 @@
 </div>
 
 
-{# Start скрипт сохранения #}
+{# Start скрипт сохранения таба 1 #}
 <script>
     save_big_modal('modal-current-user', async () => {
         let user_id = $('#modal-current-user').data('user-id');
@@ -319,7 +319,7 @@
             dd(response, response.message, 'success');
             push(response.message, 'success');
 
-            edit_current_user(1);
+            modal_load_edit_current_user(1);
 
             return new Promise((resolve, reject) => {
                 resolve(response);
@@ -335,4 +335,37 @@
         });
     }, 1);
 </script>
-{# End скрипт сохранения #}
+{# End скрипт сохранения таба 1 #}
+
+{# Start скрипт сохранения таба 2 #}
+<script>
+    save_big_modal('modal-current-user', async () => {
+        let user_id = $('#modal-current-user').data('user-id');
+        
+        let url = API_V1_URLS.users.update;
+
+        let formData = cpns_get_formdata_by_wrapper('#modal-current-user .tabs__item[data-id="2"] .modal-current-user__data-edit');
+
+        formData.append('id', user_id);
+
+        return await xpost_fd(url, formData).then(response => {
+            dd(response, response.message, 'success');
+            push(response.message, 'success');
+
+            modal_load_edit_current_user(1);
+
+            return new Promise((resolve, reject) => {
+                resolve(response);
+            });
+
+        }).catch(response => {
+            dd(response, response.message, 'error');
+            push(response.message, 'error');
+
+            return new Promise((resolve, reject) => {
+                reject(resp);
+            });
+        });
+    }, 2);
+</script>
+{# End скрипт сохранения таба 2 #}
