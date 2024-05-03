@@ -17,6 +17,7 @@ const API_V1_URLS = {
     },
     currentuser: {
         update: "/api_v1/currentuser/update/",
+        render: "/api_v1/currentuser/render/",
     },
     users: {
         create: "/api_v1/users/create/",

@@ -126,8 +126,6 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
 
         if ($twig_element == 'main-table.twig') {
             return $this->render_main_table($twig_element, $request, $response);
-        } else if ($twig_element == 'modal-current-user.twig') {
-            return $this->render_modal_current_user($twig_element, $request, $response);
         } else if ($twig_element == 'modal-user-add.twig') {
             return $this->render_modal_user_add($twig_element, $request, $response);
         } else if ($twig_element == 'modal-user.twig') {
@@ -243,23 +241,4 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
          return $response;
     }
 
-    /*
-        Рендер модального окна "Редактирование собственной карточки пользователя"
-        Редактирование аккаунта
-    */
-    public function render_modal_current_user($twig_element, Request $request, Response $response) {
-        $response->headers->set('Content-Type', 'application/json');
-        // Получаем параметры POST и сразу записываем их в массив с ответом
-        $params = $response_array['request_params'] = $request->request->all();
-
-        $response_array['render_response_html'] = $this->view->render('modals/render/' . $twig_element, [
-            'request_params' => $params,
-            'paths' => $this->paths,
-            'user' => Users::find($params['id'])
-        ]);
-
-        $response_array['status'] = 'success';
-        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
-        return $response;
-    }
 }

@@ -12,7 +12,7 @@
         formData.append('id', {{ current_user.id }});
         formData.append('is_open', is_open);
 
-        let url = API_V1_URLS.users.render + 'modal-current-user';
+        let url = API_V1_URLS.currentuser.render + 'modal-current-user';
 
         xpost_fd(url, formData).then(response => {
             $('#modal-current-user-wrapper').html(response.render_response_html);
