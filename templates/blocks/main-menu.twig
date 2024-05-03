@@ -97,12 +97,10 @@
                 </span>
             </a>
             <ul class="menu__item-list">
-                <li><a href="/workers"><span>Все сотрудники</span><span>(20)</span></a></li>
-                <li><a href="/workers"><span>АУП</span><span>(10)</span></a></li>
-                <li><a href="/workers"><span>Бухгалтерия</span><span>(10)</span></a></li>
-                <li><a href="/workers">Коммерческий отдел</a></li>
-                <li><a href="/workers">IT-отдел</a></li>
-                <li><a href="/workers">Архив</a></li>
+                <li><a href="/workers"><span>Все сотрудники</span></a></li>
+                {% for dep in get_book_departments() %}
+                    <li><a href="/workers?department_id={{ dep.id }}"><span>{{ dep.name }}</span></a></li>
+                {% endfor %}
             </ul>
         </li>
 

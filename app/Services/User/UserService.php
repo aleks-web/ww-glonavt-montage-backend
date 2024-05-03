@@ -12,10 +12,24 @@ use WWCrm\Models\Users;
 // Dto
 use WWCrm\Dto\UserDto;
 
-// Класс исключений
-use Exception;
-
+use Illuminate\Database\Eloquent\Collection;
 final class UserService extends MainService {
+
+
+    /*
+        Получает пользователей по id департамента
+    */
+    public function getUsersByDepId($id) {
+        $dep = \WWCrm\Models\BookDepartments::find($id);
+
+        $users = new Collection();
+        foreach($dep->posts as $post) {
+            $users->append($post->users);
+        }
+
+        return $users;
+    }
+
 
     /*
         Сохранение аватарки пользователя
@@ -70,25 +84,25 @@ final class UserService extends MainService {
             Проверяем на заполненность имени
         */
         if(empty($dto->getName())) {
-            throw new Exception('Вы должны заполнить имя');
+            throw new \Exception('Вы должны заполнить имя');
         }
 
         /*
             Проверка на Email
         */
         if ($this->findUserByEmail($dto->getEmail())) {
-            throw new Exception('Пользователь с таким Email уже существует');
+            throw new \Exception('Пользователь с таким Email уже существует');
         }
 
         /*
             Валидность Email
         */
         if (!$this->utils->isValidEmail($dto->getEmail())) {
-            throw new Exception('Email введен не верно!');
+            throw new \Exception('Email введен не верно!');
         }
 
         if (empty($dto->getPassword())) {
-            throw new Exception('Вы не создали пароль для пользователя!');
+            throw new \Exception('Вы не создали пароль для пользователя!');
         }
 
         /*
@@ -108,8 +122,8 @@ final class UserService extends MainService {
             $user_array['password'] = $pass;
 
             return Users::create($user_array);
-        } catch (\Illuminate\Database\QueryException $e) {
-            throw new Exception($e->getMessage());
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
     }
 
@@ -125,28 +139,28 @@ final class UserService extends MainService {
                 Валидность Email
             */
             if (!$this->utils->isValidEmail($dto->getEmail())) {
-                throw new Exception('Email введен не верно!');
+                throw new \Exception('Email введен не верно!');
             }
 
             /*
                 Возвращаем ошибку, если юзер с таким пользователем уже есть
             */
             if($this->findUserByEmail($dto->getEmail()) && $this->findUserByEmail($dto->getEmail())['email'] != $dto->getEmail()) {
-                throw new Exception('Пользователь с таким Email уже существует');
+                throw new \Exception('Пользователь с таким Email уже существует');
             }
 
             /*
                 Проверяем валидность ФИО
             */
             if(!$this->utils->isValidFio(($dto->getName())) || !$this->utils->isValidFio($dto->getSurname()) || !$this->utils->isValidFio($dto->getPatronymic())) {
-                throw new Exception('ФИО должно содержать только буквы');
+                throw new \Exception('ФИО должно содержать только буквы');
             }
 
             /*
                 Проверяем на заполненность имени
             */
             if(empty($dto->getName())) {
-                throw new Exception('Вы должны заполнить имя');
+                throw new \Exception('Вы должны заполнить имя');
             }
 
             /*
@@ -174,7 +188,7 @@ final class UserService extends MainService {
                     return true;
                 }
             } catch (\Exception $e) {
-                throw new Exception($e->getMessage());
+                throw new \Exception($e->getMessage());
             }
         }
     }
@@ -189,7 +203,7 @@ final class UserService extends MainService {
             $user->update(['status' => $dto->getStatus()]);
             return true;
         } catch (\Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new \Exception($e->getMessage());
         }
     }
 
@@ -204,7 +218,7 @@ final class UserService extends MainService {
             $user->update(['password' => $pass_new]);
             return true;
         } catch (\Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new \Exception($e->getMessage());
         }
     }
 

@@ -3,6 +3,10 @@
     object - выгрузка из базы данных. Конкретный объект
     twig_components_data - данные для элементов
 #}
+
+{% set paths = app().paths.public %}
+{% set photo_object = paths.object_photos ~ '/' ~ object.photo_file_name %}
+
 <div id="modal-object" class="modal modal-object {% if request_params.is_open %}open{%endif%}" data-object-id="{{ object.id }}">
     <svg data-modal-close class="modal__close"><use xlink:href="#svg-close"></use></svg>
 
@@ -13,10 +17,12 @@
             <div class="modal__header-left">
                 
                 <div class="modal__info">
-                    <div class="modal__info-img">
-                        <svg>
-                            <use xlink:href="#svg-photo-default"></use> 
-                         </svg>
+                    <div class="modal__info-img" data-fancybox data-src="{{ photo_object }}">
+                        <svg class="modal__info-objectDefault"><use xlink:href="#svg-photo-default"></use></svg>
+                        
+                        {% if object.photo_file_name %}
+                            <img class="modal__info-object" src="{{ photo_object }}">
+                        {% endif %}
                     </div>
 
                     <div class="modal__info-title">

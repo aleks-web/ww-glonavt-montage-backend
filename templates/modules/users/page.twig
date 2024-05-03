@@ -1,3 +1,6 @@
+{#
+    query - параметры запроса из ссылки
+#}
 {% extends "layout.twig" %}
 
 {% block module_name %}users{% endblock module_name %}
@@ -29,11 +32,11 @@
 {# Start Подгружаем главную таблицу #}
 <script>
     $(document).ready(() => {
-        xrender_main_table_users();
+        xrender_main_table_users({{ query.department_id }});
     });
 
     $('.control .input-search input').on('input', () => {
-        xrender_main_table_users();
+        xrender_main_table_users({{ query.department_id }});
     });
 </script>
 {# End Подгружаем главную таблицу #}

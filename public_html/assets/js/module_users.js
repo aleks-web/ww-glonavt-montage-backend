@@ -9,21 +9,17 @@ $(document).ready(function (e) {
 
 
 // Start функция, которая получает html разметку главной таблицы и вставляет ее | Модуль сотрудники
-function xrender_main_table_users() {
-    // Разбиваем строку wrapper_and_element на обертку и twig элемент
+function xrender_main_table_users(department_id) {
     let wrapper = $("#region-main-table");
-    let twig_element = "main-table.twig";
-
-    twig_url = twig_element.indexOf(".");
-    twig_url = twig_element.substring(0, twig_url);
-
-    let url = API_V1_URLS.users.render + twig_url;
+    let url = API_V1_URLS.users.render + 'main-table';
 
     $.ajax({
         url: url,
         method: "POST",
         data: {
-            twig_element: twig_element,
+            query: {
+                department_id: department_id
+            },
             control_panel_condition: $('.control .input-search input').val(),
         },
         success: function (response) {
@@ -34,7 +30,7 @@ function xrender_main_table_users() {
 
                 dd_render_success(
                     response,
-                    'modules/users/render/' + twig_element,
+                    'modules/users/render/main-table.twig',
                     url
                 );
             }
@@ -107,7 +103,7 @@ function load_modal_user(user_id, is_open = false) {
 }
 
 /*
-    Блокировка пользователя
+    Изменение статуса пользователя
 */
 function chenge_user_status(user_id, status_id) {
     let url = API_V1_URLS.users.update;

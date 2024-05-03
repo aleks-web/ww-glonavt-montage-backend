@@ -14,4 +14,11 @@ class BookDepartments extends Model {
     'description'
   ];
 
+  /*
+    Получает должности в этом отделе
+  */
+  public function posts() {
+    return $this->hasMany('\WWCrm\Models\BookPosts', 'department_id', 'id');
+  }
+
 }

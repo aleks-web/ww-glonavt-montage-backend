@@ -23,6 +23,7 @@ use WWCrm\Services\ComponentSelectBuilder;
 */
 use WWCrm\Models\Users;
 use WWCrm\Models\BookPosts;
+use WWCrm\Models\BookDepartments;
 
 // Dto
 use WWCrm\Dto\UserDto;
@@ -142,8 +143,7 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
     */
     public function render_main_table($twig_element, Request $request, Response $response) {
         // Получаем параметры POST и сразу записываем их в массив с ответом
-        $response_array['request_params'] = $request->request->all();
-        $response_array['users'] = Users::all();
+        $params = $response_array['request_params'] = $request->request->all();
 
         if ($cond = $response_array['request_params']['control_panel_condition']) {
             $response_array['users'] = Users::where('name', 'like', '%' . $cond .  '%')
@@ -155,7 +155,6 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
         } else {
             $response_array['users'] = Users::all();
         }
-
 
         foreach ($response_array['users'] as $user) {
             $user->post;

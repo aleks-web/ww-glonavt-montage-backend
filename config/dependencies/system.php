@@ -15,7 +15,7 @@ return [
         $twig->addExtension($container->get('TwigExtensionUtils'));
         $twig->addExtension($container->get('TwigExtensionCurrentUser'));
         $twig->addExtension($container->get('TwigExtensionApp'));
-        $twig->addExtension($container->get('TwigExtensionOrg'));
+        $twig->addExtension($container->get('TwigExtensionBook'));
 
         return $twig;
     },
@@ -40,8 +40,8 @@ return [
         return new WWCrm\Others\Twig\Extensions\AppTwigExtension();
     }),
 
-    'TwigExtensionOrg' => \DI\Factory(function() {
-        return new WWCrm\Others\Twig\Extensions\OrgTwigExtension();
+    'TwigExtensionBook' => \DI\Factory(function() {
+        return new WWCrm\Others\Twig\Extensions\BookTwigExtension();
     }),
 
 

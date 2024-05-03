@@ -21,4 +21,11 @@ class BookPosts extends Model {
       return $this->belongsTo('\WWCrm\Models\BookDepartments', 'department_id', 'id');
   }
 
+  /*
+    Получает пользователей принадлежащих к этому объекту
+  */
+  public function users() {
+    return $this->hasMany('\WWCrm\Models\Users', 'post_id', 'id');
+  }
+
 }
