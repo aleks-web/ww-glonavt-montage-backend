@@ -7,7 +7,7 @@ return [
         'Api' => [
             'Auth' => 'WWCrm\Controllers\Auth\ApiAuthController',
             'Users' => 'WWCrm\Controllers\Users\ApiUsersController',
-            'CurrentUser' => 'WWCrm\Controllers\Users\ApiCurrentUserController',
+            'CurrentUser' => 'WWCrm\Controllers\CurrentUser\ApiCurrentUserController',
             'Clients' => 'WWCrm\Controllers\Clients\ApiClientsController',
             'Objects' => 'WWCrm\Controllers\Objects\ApiObjectsController',
             'BooksEquipments' => 'WWCrm\Controllers\Books\ApiBookEquipmentsController',

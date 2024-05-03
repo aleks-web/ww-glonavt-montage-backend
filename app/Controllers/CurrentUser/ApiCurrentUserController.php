@@ -1,6 +1,6 @@
 <?php
 
-namespace WWCrm\Controllers\Users;
+namespace WWCrm\Controllers\CurrentUser;
 
 /*
     Компоненты Symfony запрос и ответ
