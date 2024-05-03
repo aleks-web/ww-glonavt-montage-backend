@@ -36,6 +36,11 @@
                     <button class="modal__header-btn modal__header-btn-edit btn">Редактировать</button>
                     <button class="modal__header-btn modal__header-btn-save btn-good" style="display: none;">Сохранить</button>
                 </div>
+
+                <div class="modal__header-group-btns tab-outside" data-outside-id="2">
+                    <button class="modal__header-btn modal__header-btn-edit btn">Редактировать</button>
+                    <button class="modal__header-btn modal__header-btn-save btn-good" style="display: none;">Сохранить</button>
+                </div>
             </div>
             {# End Кнопки управления #}
         </div>
@@ -47,9 +52,12 @@
             <div class="tabs" data-outside="controlCU">
 
                 {# Start tabs__header #}
-                <div class="tabs__header">
+                <div class="tabs__header" style="justify-content: flex-start; gap: 30px;">
                     <div data-id="1" class="tabs__tab tabs__tab--active">
                         Информация
+                    </div>
+                    <div data-id="2" class="tabs__tab">
+                        Данные для входа
                     </div>
                 </div>
                 {# End tabs__header #}
@@ -97,7 +105,7 @@
                                     </div>
 
                                     <div class="block-info__item">
-                                        <span class="block-info__text-secondary">Email</span>
+                                        <span class="block-info__text-secondary">Email (логин)</span>
                                         <span class="block-info__text-main">{{ user.email | default('-') }}</span>
                                     </div>
                                 </div>
@@ -176,7 +184,7 @@
                                             settings: {
                                                 db_field_name: 'email',
                                                 val: user.email,
-                                                pls: 'Мой email'
+                                                pls: 'Мой email (логин)'
                                             }
                                         } %}
                                     </div>
@@ -207,6 +215,82 @@
                     </div>
                     {# End tab content 1 #}
 
+                    {# Start tab content 2 #}
+                    <div data-id="2" class="tabs__item">
+                        
+                        <div class="modal__data-view modal-current-user__data-view view">
+                            <div class="block-info">
+                                <div class="block-info__title">Логин и пароль</div>
+
+                                <div class="block-info__content">
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Email (логин)</span>
+                                        <span class="block-info__text-main">{{ user.email | default('-') }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="block-info__content">
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Пароль</span>
+                                        <span class="block-info__text-main">Скрыт</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal__data-edit modal-current-user__data-edit edit" style="display: none;">
+
+                            <div class="block-info">
+                                <div class="block-info__title">Логин и пароль</div>
+                                <p style="color: var(--clr-5);">Руководитель не задан.<br>При необходимости его можно задать во вкладке "Контактные лица".</p>
+                            
+                                <div class="block-info__content">
+
+                                    <div class="block-info__item">
+                                        {% include 'components/input-text.twig' with {
+                                            settings: {
+                                                db_field_name: 'email',
+                                                val: user.email,
+                                                pls: 'Мой email (логин)'
+                                            }
+                                        } %}
+                                    </div>
+
+                                    <div class="block-info__item">
+                                        {% include 'components/input-text.twig' with {
+                                            settings: {
+                                                db_field_name: 'password',
+                                                pls: 'Введите новый пароль'
+                                            }
+                                        } %}
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="block-info">
+                                <div class="block-info__title">Фотография</div>
+                            
+                                <div class="block-info__content">
+                                    
+                                    <div class="block-info__item">
+                                        {% include 'components/photo-add.twig' with {
+                                            settings: {
+                                                db_field_name: 'avatar',
+                                                btn_text: 'Загрузить фото профиля',
+                                                image_url: avatar
+                                            }
+                                        } %}
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    {# End tab content 2 #}
+
                 </div>
                 {# End tabs__header #}
             </div>
@@ -223,7 +307,7 @@
 {# Start скрипт сохранения #}
 <script>
     $(document).ready(() => {
-        cpns_form_validate('#modal-current-user .modal-current-user__data-edit', '.modal__header-btn-save');
+        cpns_form_validate('#modal-current-user .tabs__item[data-id="1"] .modal-current-user__data-edit', '.modal__header-btn-save');
     });
 
     save_big_modal('modal-current-user', async () => {
@@ -231,7 +315,7 @@
         
         let url = API_V1_URLS.users.update;
 
-        let formData = cpns_get_formdata_by_wrapper('#modal-current-user .modal-current-user__data-edit');
+        let formData = cpns_get_formdata_by_wrapper('#modal-current-user .tabs__item[data-id="1"] .modal-current-user__data-edit');
 
         formData.append('id', user_id);
 

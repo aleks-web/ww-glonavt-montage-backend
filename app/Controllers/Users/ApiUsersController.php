@@ -47,10 +47,9 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
         try {
             $userDto = new UserDto($params);
 
-            $file_name = $_FILES['avatar'] ? $this->userService->saveUserAvatarFromFile($_FILES['avatar']) : false;
-            
-            if ($file_name) {
-                $userDto->setAvatarFileName($file_name);
+            // Если загрузили фото
+            if ($_FILES['avatar']) {
+                $userDto->setAvatartFileRequest($_FILES['avatar']);
             }
 
             $user = $this->userService->createUser($userDto);

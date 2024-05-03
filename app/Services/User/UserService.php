@@ -95,6 +95,14 @@ final class UserService extends MainService {
         }
 
         /*
+            Сохраняем новое фото, если оно есть
+        */
+        if ($dto->getAvatartFileRequest()) {
+            $file_name = $this->saveUserAvatarFromFile($dto->getAvatartFileRequest());
+            $dto->setAvatarFileName($file_name);
+        }
+
+        /*
             Создание пользователя
         */
         try {

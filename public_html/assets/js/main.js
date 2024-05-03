@@ -121,7 +121,12 @@ $(document).ready(function (e) {
 
     Мотив создания функции - уменьшить однотипный код переключения вкладок. Он универсален всегда!
 */
-function save_big_modal(modal_id, save_function_collback) {
+function save_big_modal(modal_id, save_function_collback, tab_id = null) {
+
+    if (!tab_id) {
+        alert('Вы не задали tab_id в функции save_big_modal');
+        return false;
+    }
 
     let elements = '#' + modal_id + " .modal__header-btn-edit, " + '#' + modal_id + " .modal__header-btn-save";
 
