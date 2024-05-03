@@ -8,7 +8,8 @@ namespace WWCrm\Others\Twig\Extensions;
 class AppTwigExtension extends \Twig\Extension\AbstractExtension {
     
     public function __construct() {
-        
+        $this->WWCrmService = \WWCrm\ServiceContainer::getInstance();
+        $this->WWCurrentUser = $this->WWCrmService->get('CurrentUser');
     }
     
     public function getFunctions() {
