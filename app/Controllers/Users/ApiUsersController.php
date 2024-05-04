@@ -145,20 +145,27 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
         // Получаем параметры POST и сразу записываем их в массив с ответом
         $params = $response_array['request_params'] = $request->request->all();
 
-        if ($cond = $response_array['request_params']['control_panel_condition']) {
-            $response_array['users'] = Users::where('name', 'like', '%' . $cond .  '%')
-                                            ->orWhere('surname', 'like', '%' . $cond .  '%')
-                                            ->orWhere('patronymic', 'like', '%' . $cond .  '%')
-                                            ->orWhere('tel', 'like', '%' . $cond .  '%')
-                                            ->orWhere('email', 'like', '%' . $cond .  '%')
-                                            ->get();
+        if($dep_id = $params['query']['department_id']) {
+            $users = BookDepartments::find($params['query']['department_id'])->users;
         } else {
-            $response_array['users'] = Users::all();
+            $users = Users::all();
         }
+
+        if ($cond = $response_array['request_params']['control_panel_condition']) {
+            foreach ($users as $key => $user) {
+                if (!str_contains($user->name, $cond) && !str_contains($user->surname, $cond) && !str_contains($user->surname, $cond)) {
+                    $users->forget($key);
+                }
+            }
+        }
+
+        $response_array['users'] = $users;
 
         foreach ($response_array['users'] as $user) {
             $user->post;
         }
+
+        //$response_array['testttt'] = BookDepartments::find($params['query']['department_id'])->through('users');
 
         $response_array['render_response_html'] = $this->view->render('modules/users/render/' . $twig_element, [
             'request_params' => $response_array['request_params'],
