@@ -1,0 +1,46 @@
+<!-- Start fancybox modal | Новый договор | Модуль клиенты -->
+<div id="fmodal-new-contract" class="fmodal fmodal-new-contract" style="display: none;">
+    <div class="fmodal__title">Новый договор</div>
+
+    <div class="fmodal__content">
+
+        <div class="fmodal__vertical">
+
+            {% include 'components/input-text.twig' with {
+                settings: {
+                    db_field_name: 'doc_num',
+                    required: true,
+                    pls: 'Номер договора'
+                }
+            } %}
+
+            {% include 'components/input-date.twig' with {
+                settings: {
+                    db_field_name: 'doc_start',
+                    pls: 'Дата заключения договора'
+                }
+            } %}
+
+            {% include 'components/input-date.twig' with {
+                settings: {
+                    db_field_name: 'doc_start',
+                    pls: 'Срок действия'
+                }
+            } %}
+            
+            @@include('../components/select.html', {"name": "", "stText": "Выберите тип договора", "itemName": "Договор"})
+
+            @@include('../components/input-file.html')
+    
+            @@include('../components/select.html', {"name": "", "stText": "Выберите ответственного", "itemName": "Ответственный"})
+
+        </div>
+        
+    </div>
+
+    <div class="fmodal__control-btns">
+        <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
+        <button class="fmodal__btn btn-good disable">Сохранить</button>
+    </div>
+</div>
+<!-- End fancybox modal | Новый договор | Модуль клиенты -->

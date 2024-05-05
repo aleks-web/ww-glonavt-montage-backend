@@ -25,7 +25,7 @@ final class CreateOrganizationsTable extends AbstractMigration
 
         $sql = "CREATE TABLE IF NOT EXISTS `organizations` (
             `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-            `name` VARCHAR(255) DEFAULT NULL COMMENT 'Имя организации',
+            `name` VARCHAR(255) NOT NULL UNIQUE COMMENT 'Имя организации',
             `status` INT NOT NULL DEFAULT '{$default_status}' COMMENT 'Статус организации',
             `inn` VARCHAR(150) DEFAULT NULL COMMENT 'ИНН организации',
             `email` VARCHAR(50) DEFAULT NULL COMMENT 'Email организации',
@@ -37,7 +37,7 @@ final class CreateOrganizationsTable extends AbstractMigration
             `correspondent_bill_num` VARCHAR(100) DEFAULT NULL COMMENT 'Номер корреспондентского счета',
             `okpo` VARCHAR(100) DEFAULT NULL COMMENT 'Номер ОКПО',
             `okato` VARCHAR(100) DEFAULT NULL COMMENT 'Номер окато',
-            `manager_id` BIGINT(20) UNSIGNED DEFAULT NULL COMMENT 'Ответственный менеджер. Id пользователя в системе',
+            `manager_id` BIGINT UNSIGNED DEFAULT NULL COMMENT 'Ответственный менеджер. Id пользователя в системе',
             `created_at` timestamp NULL DEFAULT NULL,
             `updated_at` timestamp NULL DEFAULT NULL,
             PRIMARY KEY (`id`)

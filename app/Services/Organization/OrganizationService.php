@@ -25,12 +25,26 @@ final class OrganizationService extends MainService {
         }
 
         /*
+            Проверка, есть ли клиент с таким ИНН
+        */
+        if (Organizations::where('inn', '=', $dto->getInn())->where('bic', '=', $dto->getBic())->first() && !empty($dto->getInn())) {
+            throw new \Exception('Пользователь с таким ИНН уже существует!');
+        }
+
+        /*
+            Проверка, есть ли клиент с таким БИК
+        */
+        if (Organizations::where('bic', '=', $dto->getBic())->first() && !empty($dto->getBic())) {
+            throw new \Exception('Пользователь с таким БИК уже существует!');
+        }
+
+        /*
             Создание организации/клиента
         */
         try {
             return Organizations::create($dto->toArray());
         } catch (\Illuminate\Database\QueryException $e) {
-            throw new \Exception($e->getMessage());
+            throw $e;
         }
     }
 
@@ -39,6 +53,13 @@ final class OrganizationService extends MainService {
     */
     public function updateOrganization(OrganizationDto $dto) : bool {
         $client = Organizations::find($dto->getId());
+
+        /*
+            Проверка, есть ли клиент с таким ИНН
+        */
+        if (!($client->inn == $dto->getInn()) && Organizations::where('inn', '=', $dto->getInn())->where('bic', '=', $dto->getBic())->first() && !empty($dto->getInn()) && !($client->bic == $dto->getBic()) && !empty($dto->getBic())) {
+            throw new \Exception('Пользователь с таким ИНН и БИК уже существует!');
+        }
 
         /*
             Валидность Email

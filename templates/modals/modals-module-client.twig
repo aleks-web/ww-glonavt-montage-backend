@@ -89,38 +89,6 @@
 <!-- End fancybox modal | Просмотр тс | Модуль клиенты -->
 
 
-<!-- Start fancybox modal | Новый договор | Модуль клиенты -->
-<div id="fmodal-new-contract" class="fmodal fmodal-new-contract" style="display: none;">
-    <div class="fmodal__title">Новый договор</div>
-
-    <div class="fmodal__content">
-
-        <div class="fmodal__vertical">
-            
-            @@include('../components/select.html', {"name": "", "stText": "Выберите тип договора", "itemName": "Договор"})
-
-            @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Номер договора"})
-
-            @@include('../components/standart-input-date.html', {"name": "", "pls": "Дата заключеня"})
-
-            @@include('../components/standart-input-date.html', {"name": "", "pls": "Срок действия"})
-
-            @@include('../components/input-file.html')
-    
-            @@include('../components/select.html', {"name": "", "stText": "Выберите ответственного", "itemName": "Ответственный"})
-
-        </div>
-        
-    </div>
-
-    <div class="fmodal__control-btns">
-        <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
-        <button class="fmodal__btn btn-good disable">Сохранить</button>
-    </div>
-</div>
-<!-- End fancybox modal | Новый договор | Модуль клиенты -->
-
-
 <!-- Start fancybox modal | Новый счет | модалка новый счет -->
 <div id="fmodal-new-bill" class="fmodal fmodal-new-bill" style="display: none;">
     <div class="fmodal__title">Новый счет</div>
@@ -236,6 +204,10 @@
 {# Start fancybox modal | Новое контактное лицо | Модуль клиенты #}
 <div id="fmodal-contact-person-wrapper"></div>
 {# End fancybox modal | Новое контактное лицо | Модуль клиенты #}
+
+{# Start fancybox modal | Новый документ | Модуль клиенты #}
+<div id="fmodal-new-contract-wrapper"></div>
+{# End fancybox modal | Новый документ | Модуль клиенты #}
 
 <!-- Start Модалка просмотра клиента | Модуль клиенты -->
 <div id="region-modal-client"></div>

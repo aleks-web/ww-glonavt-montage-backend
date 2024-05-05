@@ -114,4 +114,11 @@ class Organizations extends Model {
   public function manager() {
     return $this->belongsTo(Users::class, 'manager_id', 'id');
   }
+
+  /*
+    Договоры
+  */
+  public function contracts() {
+    return $this->hasMany('\WWCrm\Models\OrgContracts', 'organization_id', 'id');
+  }
 }

@@ -25,6 +25,7 @@ use WWCrm\Models\Organizations;
 use WWCrm\Models\Objects;
 use WWCrm\Models\OrgContactsPersons;
 use WWCrm\Models\Users;
+use WWCrm\Models\OrgContracts;
 
 /*
     Сервисы
@@ -59,10 +60,16 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
 
             $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
             return $response;
-        } catch (\Illuminate\Database\QueryException $e) {
-            $response_array['status'] = 'error';
-            $response_array['message'] = 'Клиента создать не удалось';
-            $response_array['exception_message'] = $e->getMessage();
+        } catch (\Exception $e) {
+            if ($e instanceof \Illuminate\Database\QueryException) {
+                $response_array['status'] = 'error';
+                $response_array['message'] = 'Ошибка в базе данных';
+                $response_array['exception_message'] = $e->getMessage();
+            } else if ($e instanceof \Exception) {
+                $response_array['status'] = 'error';
+                $response_array['message'] = 'Не удалось создать клиента';
+                $response_array['exception_message'] = $e->getMessage();
+            }
 
             $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
             return $response;
@@ -191,10 +198,14 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             return $this->render_fmodal_new_contact_person($twig_element, $request, $response);
         } else if ($twig_element == 'fmodal-contact-person-update.twig') {
             return $this->render_fmodal_contact_person_update($twig_element, $request, $response);
+        } else if ($twig_element == 'fmodal-new-contract.twig') {
+            return $this->render_fmodal_new_contract($twig_element, $request, $response);
         } else if ($twig_element == 'tab-content-objects.twig') {
             return $this->render_tab_objects($twig_element, $request, $response);
         } else if ($twig_element == 'modal-client-add.twig') {
             return $this->render_modal_client_add($twig_element, $request, $response);
+        } else if($twig_element == 'tab-content-contracts.twig') {
+            return $this->render_tab_contracts($twig_element, $request, $response);
         } else {
             return 'Распределитель рендер запросов. Возврат пустого ответа';
         }
@@ -443,7 +454,37 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             // Возвращаем ответ
             return $response;
         }
+
+        /*
+            Рендер вкладки "Договоры"
+        */
+        public function render_tab_contracts($twig_element, Request $request, Response $response) {
+            $response->headers->set('Content-Type', 'application/json');
+
+            // Получаем параметры POST и сразу записываем их в массив с ответом
+            $params = $response_array['request_params'] = $request->request->all();
+            $client_id = $response_array['request_params']['client_id'];
+
+            $response_array['client'] = Organizations::find($client_id);
+
+            // Рендерим
+            $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
+                'request_params' => $response_array['request_params'],
+                'client' => $response_array['client'],
+                'contracts' => OrgContracts::where('organization_id', '=', $response_array['client']->id)->get()
+            ]);
+
+            $response_array['status'] = 'success';
+
+            // Итоговые манипуляции
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+            // Возвращаем ответ
+            return $response;
+        }
     /*--- End рендер вкладок в модалке "Просмотр клиента" */
+
+
 
 
     /*--- Start Модалка fmodal Новое контактное лицо */
@@ -510,6 +551,29 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
 
             // Возвращаем ответ
             return $response;
+        }
+
+        /*
+            Рендер модалки "Новый договор"
+        */
+        public function render_fmodal_new_contract($twig_element, Request $request, Response $response) {
+            $response->headers->set('Content-Type', 'application/json');
+
+            // Получаем параметры POST и сразу записываем их в массив с ответом
+            $params = $response_array['request_params'] = $request->request->all();
+ 
+             // Рендерим
+             $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
+                 'request_params' => $response_array['request_params']
+             ]);
+ 
+             $response_array['status'] = 'success';
+ 
+             // Итоговые манипуляции
+             $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+ 
+             // Возвращаем ответ
+             return $response;
         }
     /*--- End Модалка fmodal Новое контактное лицо */
 }

@@ -1,0 +1,45 @@
+{#
+    request_params - параметры запроса
+    client - текущий клиент
+    contracts - договоры
+#}
+
+{% if contracts | length %}
+<div class="tabs__tableContainer">
+    <div class="tabs__table">
+        <table>
+            <thead>
+                <tr>
+                    <th class="text-start">П/п №</th>
+                    <th class="text-start">Тип договора/<br>Статус</th>
+                    <th>№ договора</th>
+                    <th>Дата заключения</th>
+                    <th>Срок действия</th>
+                    <th>Ответственный</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for contract in contracts %}
+                <tr class="pointer">
+                    <td class="text-start">{{ contract.id }}</td>
+                    <td class="text-start"><span>Договор аренды</span><br><span>Действующий</span></td>
+                    <td>654321</td>
+                    <td>31.12.2022</td>
+                    <td>31.12.2022</td>
+                    <td>Петров С. И.</td>
+                    <td class="td-btn-default">
+                        <svg data-fancybox data-src="#fmodal-new-contract" class="hover"><use xlink:href="#svg-edit"></use></svg>
+                    </td>
+                    <td class="td-btn-default">
+                        <svg class="hover"><use xlink:href="#svg-del"></use></svg>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% else %}
+    Договоры отсутствуют
+{% endif %}
