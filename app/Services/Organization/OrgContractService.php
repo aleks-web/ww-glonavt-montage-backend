@@ -41,26 +41,28 @@ final class OrgContractService extends MainService {
     /*
         Сохранение файла из запроса
     */
-    public function saveContractFileFromRequest(array $file_array, OrgContractDto $dto = null) : string|false {
-        if (!$file_array) {
+    public function saveContractFileFromRequest(array $file_array, OrgContractDto $dto) : string|false {
+        if (!$file_array || !$dto) {
             return false;
         }
 
         // Путь до хранения документов
         $save_dir = $this->paths['fs']['organizations_contracts'];
 
-        if (is_dir($save_dir)) {
+        $save_dir_client = $save_dir . '/' . $dto->getOrganizationId();
+
+        if(!is_dir($save_dir_client)) {
+            mkdir($save_dir_client);
+        }
+
+        if (is_dir($save_dir_client)) {
             $old_file_path = $file_array['tmp_name'];
 
             $ext = pathinfo($file_array['name'], PATHINFO_EXTENSION);
+            
+            $file_name = 'orgid:' . $dto->getOrganizationId() . '__' . 'num:' . $dto->getContractNum() . '__timestamp:' . time() . '.' . $ext;
 
-            if (!$dto) {
-                $file_name = time() . '.' . $ext;
-            } else {
-                $file_name = 'orgid:' . $dto->getOrganizationId() . '__' . 'num:' . $dto->getContractNum() . '__timestamp:' . time() . '.' . $ext;
-            }
-
-            $new_file_path = $save_dir . '/' . $file_name;
+            $new_file_path = $save_dir_client . '/' . $file_name;
 
             if (move_uploaded_file($old_file_path, $new_file_path)) {
                 return $file_name;
