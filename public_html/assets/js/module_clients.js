@@ -190,3 +190,22 @@ $(document).ready(() => {
     // End фильтр поиска
 });
 // End пагинация и фильтр поиска | Модуль клиенты
+
+
+/*
+    Функционал удаления договора
+*/
+function delete_contract_by_id(contract_id, org_id) {
+    let url = API_V1_ROUTS.ClientsContracts.delete;
+    let formData = new FormData();
+    formData.append('id', contract_id);
+
+    xpost_fd(url, formData).then(response => {
+        load_tab_contracts(org_id, true);
+        push(response.message, 'success');
+        dd(response, response.message, 'success');
+    }).catch(response => {
+        push(response.message, 'error');
+        dd(response, response.message, 'error');
+    });
+}

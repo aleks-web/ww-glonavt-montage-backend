@@ -39,6 +39,17 @@ final class OrgContractService extends MainService {
     }
 
     /*
+        Удаление договора
+    */
+    public function deleteContract(int $id) : bool {
+        if (OrgContracts::find($id)->delete()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /*
         Сохранение файла из запроса
     */
     public function saveContractFileFromRequest(array $file_array, OrgContractDto $dto) : string|false {

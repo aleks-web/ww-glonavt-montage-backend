@@ -26,6 +26,8 @@ use WWCrm\Models\OrgContracts;
 // Dto
 use WWCrm\Dto\OrgContractDto;
 
+
+
 class ApiClientsContractsController extends \WWCrm\Controllers\MainController {
     /*
         Создание нового договора
@@ -47,10 +49,36 @@ class ApiClientsContractsController extends \WWCrm\Controllers\MainController {
             $this->orgContractService->createContract($dto);
 
             $response_array['status'] = 'success';
-            $response_array['message'] = 'Успешное создание дового договора';
+            $response_array['message'] = 'Успешное создание договора';
         } catch (\Exception $e) {
             $response_array['status'] = 'error';
-            $response_array['message'] = 'Неудачное создание дового договора';
+            $response_array['message'] = 'Неудачное создание договора';
+            $response_array['exception_message'] =  $e->getMessage();
+        }
+
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+        return $response;
+    }
+
+    /*
+        Удаление нового договора
+    */
+    public function delete(Request $request, Response $response) {
+        $response->headers->set('Content-Type', 'application/json');
+
+        // Получаем параметры
+        $params = $response_array['request_params'] = $request->request->all();
+
+        try {
+            $dto = new OrgContractDto($params);
+
+            $this->orgContractService->deleteContract($dto->getId());
+
+            $response_array['status'] = 'success';
+            $response_array['message'] = 'Успешное удаление договора';
+        } catch (\Exception $e) {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'Неудачное удаление договора';
             $response_array['exception_message'] =  $e->getMessage();
         }
 

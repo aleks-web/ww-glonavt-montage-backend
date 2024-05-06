@@ -39,4 +39,18 @@
     <link rel="stylesheet" href="/assets/css/libs/jquery.fancybox.css" />
     <link rel="stylesheet" href="/assets/css/libs/air-datepicker.css" />
     <link rel="stylesheet" href="/assets/css/libs/notyf.min.css" />
+
+    <script defer>
+        $(document).ready(function() {
+            window.API_V1_ROUTS = {
+                {% for key, methods in app().routs.api_v1 %}
+                    "{{ key }}": {
+                        {% for method_key, method in methods %}
+                            {{ method_key }}: "{{ method.route }}",
+                        {% endfor %}
+                    },
+                {% endfor %}
+            }
+        });
+    </script>
 </head>

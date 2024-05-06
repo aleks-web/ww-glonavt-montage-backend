@@ -113,7 +113,9 @@ class OrgContractDto {
         Дата начала
     */
     public function setDateStart(string $dateStart) : void {
-        $this->dateStart = $dateStart;
+        if(!empty($dateStart)) {
+            $this->dateStart = $dateStart;
+        }
         $this->allFields['contract_date_start'] = $this->getDateStart();
     }
 
@@ -125,7 +127,9 @@ class OrgContractDto {
         Дата окончания договора
     */
     public function setDateEnd(string $dateEnd) : void {
-        $this->dateEnd = $dateEnd;
+        if(!empty($dateEnd)) {
+            $this->dateEnd = $dateEnd;
+        }
         $this->allFields['contract_date_end'] = $this->getDateEnd();
     }
 
