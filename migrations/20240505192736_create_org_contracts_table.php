@@ -28,6 +28,9 @@ final class CreateOrgContractsTable extends AbstractMigration
             `contract_date_start` DATE DEFAULT NULL COMMENT 'Дата начала договора',
             `contract_date_end` DATE DEFAULT NULL COMMENT 'Дата окончания договора',
             `responsible_user_id` BIGINT UNSIGNED DEFAULT NULL COMMENT 'Ответственный',
+            `contract_file_name` VARCHAR(500) DEFAULT NULL COMMENT 'Название файла договора',
+            `created_at` TIMESTAMP NULL DEFAULT NULL,
+            `updated_at` TIMESTAMP NULL DEFAULT NULL,
             PRIMARY KEY (`id`)
           ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
 

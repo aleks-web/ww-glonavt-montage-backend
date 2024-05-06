@@ -16,8 +16,12 @@ class MainController extends Controller {
     protected $session;
     protected $paths;
     protected $imageManager;
+
     protected $objectService;
     protected $userService;
+    protected $orgContractService;
+
+
     protected $utils;
 
     public function __construct() {
@@ -30,8 +34,12 @@ class MainController extends Controller {
 
         $this->objectService = $this->WWCrmService->get('ObjectService');
         $this->organizationService = $this->WWCrmService->get('OrganizationService');
+        $this->orgContractService = $this->WWCrmService->get('OrgContractService');
         $this->userService = $this->WWCrmService->get('UserService');
+
         $this->utils = $this->WWCrmService->get('Utils');
+
+
     }
 
     public function __invoke(Request $request, Response $response) {

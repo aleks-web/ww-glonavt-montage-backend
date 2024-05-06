@@ -591,6 +591,8 @@ function load_fmodal_new_contract(client_id) {
             if (response.status == "success") {
                 $wrapper.html(response.render_response_html);
 
+                cpns_form_validate('#fmodal-new-contract', '.js-submitter');
+
                 $.fancybox.open({
                     src: '#fmodal-new-contract',
                     type: 'inline'
@@ -661,7 +663,7 @@ function load_tab_contacts_persons (client_id, is_reload = false) {
 
 {# Start функция загрузки таба объекты #}
 <script>
-function load_tab_objects (client_id, is_reload = false, condition_filtres = false) {
+function load_tab_objects(client_id, is_reload = false, condition_filtres = false) {
     $wrapper = $('#modal-client-tab-objects-content');
 
     if (!$wrapper.hasClass('loaded') && !is_reload) { // Если вкладка не загружена
@@ -713,7 +715,7 @@ function load_tab_objects (client_id, is_reload = false, condition_filtres = fal
 
 {# Start функция загрузки таба документы #}
 <script>
-function load_tab_contracts (client_id, is_reload = false) {
+function load_tab_contracts(client_id, is_reload = false) {
     $wrapper = $('#modal-client-tab-contracts-content');
 
     let url = API_V1_URLS.clients.render + 'tab-content-contracts'; // API_V1_URLS - Смотрим в main.js

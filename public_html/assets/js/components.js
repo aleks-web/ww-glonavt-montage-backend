@@ -252,7 +252,7 @@ $(document).on("change", '.input-file input[type="file"]', function (e) {
 */
 
 // Start Список компонентов с input
-const input_components = ["input-text", "select", "textarea", "input-date", "checkbox", "photo-add"];
+const input_components = ["input-text", "select", "textarea", "input-date", "checkbox", "photo-add", "input-file"];
 // End Список компонентов input
 
 // Start Функция которая формирует классы для вложенного поиска. Передается обертка в которой ищутся компоненты и формируется вложенность
@@ -279,7 +279,7 @@ function cpns_get_formdata_by_wrapper(wrapper_selector) {
             input = $(this).find("textarea");
         }
 
-        // console.log(input.attr('name'), input.val());
+        console.log(input.attr('name'), input.val());
 
         if (input.attr('type') == 'file') { // Не уверен на счет files
             if (input[0].files[0]) {
@@ -413,6 +413,7 @@ function cpns_clear_by_wrapper(wrapper_selector) {
     Работает с другими функциями
 */
 function cpns_form_validate(form_wrapper, submitter, moment = false) {
+    cpns_init();
     
     function validate() {
         let data = cpns_get_errors_by_wrapper(form_wrapper); // Функция получает ошибки компонентов внутри определенного контейнера

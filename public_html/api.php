@@ -48,6 +48,11 @@ $router->xpost(API_V1_URL . 'clients/contacts-persons/remove', $controllers['Api
 $router->xpost(API_V1_URL . 'clients/render/:string', $controllers['Api']['Clients'] . '@distributor'); // Роут для рендера
 
 /*
+    Договоры клиентов
+*/
+$router->xpost(API_V1_URL . 'clients/contracts/create', $controllers['Api']['ClientsContracts'] . '@create'); // Создание договора
+
+/*
     Роуты модуля "Объекты"
 */
 $router->xpost(API_V1_URL . 'objects/add-new-type-equipment', $controllers['Api']['Objects'] . '@add_new_equipment'); // Добавление оборудования

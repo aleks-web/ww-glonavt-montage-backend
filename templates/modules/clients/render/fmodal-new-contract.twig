@@ -1,3 +1,10 @@
+{#
+    request_params - параметры запроса
+    client - клиент
+    book_docs - справочник документов
+    book_users - пользователи, ответственные
+#}
+
 <!-- Start fancybox modal | Новый договор | Модуль клиенты -->
 <div id="fmodal-new-contract" class="fmodal fmodal-new-contract" style="display: none;">
     <div class="fmodal__title">Новый договор</div>
@@ -8,7 +15,7 @@
 
             {% include 'components/input-text.twig' with {
                 settings: {
-                    db_field_name: 'doc_num',
+                    db_field_name: 'contract_num',
                     required: true,
                     pls: 'Номер договора'
                 }
@@ -16,23 +23,35 @@
 
             {% include 'components/input-date.twig' with {
                 settings: {
-                    db_field_name: 'doc_start',
+                    db_field_name: 'contract_date_start',
                     pls: 'Дата заключения договора'
                 }
             } %}
 
             {% include 'components/input-date.twig' with {
                 settings: {
-                    db_field_name: 'doc_start',
+                    db_field_name: 'contract_date_end',
                     pls: 'Срок действия'
                 }
             } %}
             
-            @@include('../components/select.html', {"name": "", "stText": "Выберите тип договора", "itemName": "Договор"})
+            {# Start Селект выбора документа #}
+            {{ book_docs.select_html | raw }}
+            {# End Селект выбора документа #}
 
-            @@include('../components/input-file.html')
-    
-            @@include('../components/select.html', {"name": "", "stText": "Выберите ответственного", "itemName": "Ответственный"})
+            {# Start Селект выбора ответственного #}
+            {{ book_users.select_html | raw }}
+            {# End Селект выбора ответственного #}
+
+            {# Start загрузка договора #}
+            {% include 'components/input-file.twig' with {
+                settings: {
+                    db_field_name: 'contract_file',
+                    btn_text: 'Загрузите договор',
+                    required: true
+                }
+            } %}
+            {# End загрузка договора #}
 
         </div>
         
@@ -40,7 +59,25 @@
 
     <div class="fmodal__control-btns">
         <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
-        <button class="fmodal__btn btn-good disable">Сохранить</button>
+        <button class="fmodal__btn btn-good js-submitter disable" onclick="create_new_contract({{ client.id }})">Сохранить</button>
     </div>
 </div>
 <!-- End fancybox modal | Новый договор | Модуль клиенты -->
+
+{# Start отправка формы #}
+<script>
+    function create_new_contract(client_id) {
+        let url = "{{ routs().api_v1.ClientsContracts.create.route }}";
+        let formData = cpns_get_formdata_by_wrapper('#fmodal-new-contract');
+        formData.append('organization_id', client_id)
+
+        xpost_fd(url, formData).then(response => {
+            push(response.message, 'success');
+            dd(response, response.message, 'success');
+        }).catch(response => {
+            push(response.message, 'error');
+            dd(response, response.message, 'error');
+        });
+    }
+</script>
+{# End отправка формы #}

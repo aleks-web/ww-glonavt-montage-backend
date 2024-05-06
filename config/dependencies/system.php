@@ -93,5 +93,8 @@ return [
     'UserService' => function () {
         return new \WWCrm\Services\User\UserService();
     },
+    'OrgContractService' => function () {
+        return new \WWCrm\Services\Organization\OrgContractService();
+    }
 
 ];

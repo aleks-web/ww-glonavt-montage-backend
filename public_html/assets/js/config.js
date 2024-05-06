@@ -31,6 +31,9 @@ const API_V1_URLS = {
         update_contact_person: "/api_v1/clients/contacts-persons/update/",
         remove_contact_person: "/api_v1/clients/contacts-persons/remove/",
         render: "/api_v1/clients/render/",
+        contracts: {
+            create: "/api_v1/clients/contracts/create/",
+        }
     },
     objects: {
         add_new_type_equipment: "/api_v1/objects/add-new-type-equipment/",

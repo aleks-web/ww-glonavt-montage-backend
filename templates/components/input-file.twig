@@ -1,0 +1,50 @@
+{#
+    Компонент файла
+
+    * Доступные переменные:
+    
+    settings - массив с настройками
+        * db_field_name - Имя поля (если компонент записывает данные в БД, то db_field_name равно названию поля из базы данных)
+        * required - обязательный ли инпут
+        * input_messages_position - расположение сообщений об ошибках и прочее. Либо bottom (по умолчанию, но можно изменить здесь) либо top
+        * btn_text - плейсхолдер
+    
+    ------------------------------------
+#}
+{% if settings.db_field_name == false %}
+    <div style="color: red;">Параметр "db_field_name" для компонента input-file не проброшен!</div>
+{% else %}
+<div class="component-wrapper">
+
+    {# Start Сообщения об ошибках и пр #}
+    {% if settings.input_messages_position == 'top' %}
+        <div class="input-messages input-messages--top disable">
+            <span class="input-messages__icon"></span>
+            <span class="input-messages__text"></span>
+        </div>
+    {% endif %}
+    {# End Сообщения об ошибках и пр #}
+
+    <div class="input-file {% if settings.required %}required{% endif %}">
+        <span class="input-file__current disable">Файл</span>
+
+        <div class="input-file__group-btns">
+            <div class="input-file__btn btn">
+                <input type="file" name="{{ settings.db_field_name }}">
+                <span class="input-file__btn-text">{{ settings.btn_text | default('Выберите файл') }}</span>
+            </div>
+
+            <button class="input-file__remove-file input-file__remove-file--hide"></button>
+        </div>
+    </div>
+
+    {# Start Сообщения об ошибках и пр #}
+    {% if settings.input_messages_position == 'bottom' or settings.input_messages_position == false %}
+        <div class="input-messages input-messages--bottom disable">
+            <span class="input-messages__icon"></span>
+            <span class="input-messages__text"></span>
+        </div>
+    {% endif %}
+    {# End Сообщения об ошибках и пр #}
+</div>
+{% endif %}

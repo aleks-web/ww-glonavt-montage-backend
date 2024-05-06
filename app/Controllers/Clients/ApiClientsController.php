@@ -26,6 +26,7 @@ use WWCrm\Models\Objects;
 use WWCrm\Models\OrgContactsPersons;
 use WWCrm\Models\Users;
 use WWCrm\Models\OrgContracts;
+use WWCrm\Models\BookDocs;
 
 /*
     Сервисы
@@ -466,12 +467,18 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             $client_id = $response_array['request_params']['client_id'];
 
             $response_array['client'] = Organizations::find($client_id);
+            $contracts = OrgContracts::where('organization_id', '=', $response_array['client']->id)->get();
+
+            foreach ($contracts as $contract) {
+                $contract->responsibleUser = $contract->responsibleUser;
+                $contract->docType = $contract->docType;
+            }
 
             // Рендерим
             $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
                 'request_params' => $response_array['request_params'],
                 'client' => $response_array['client'],
-                'contracts' => OrgContracts::where('organization_id', '=', $response_array['client']->id)->get()
+                'contracts' => $contracts
             ]);
 
             $response_array['status'] = 'success';
@@ -561,10 +568,41 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
 
             // Получаем параметры POST и сразу записываем их в массив с ответом
             $params = $response_array['request_params'] = $request->request->all();
+            $client = Organizations::find($params['client_id']);
+
+            $response_array['book_docs_db'] = BookDocs::all();
+            $response_array['users_db'] = Users::all();
+
+            $builderDocs = new ComponentSelectBuilder([
+                'db_field_name' => 'book_doc_id',
+                'required' => true,
+                'not_selected_text' => 'Выберите тип документа'
+            ]);
+            foreach ($response_array['book_docs_db'] as $doc) {
+                $builderDocs->addIdItem($doc->id)->addTextItem($doc->name)->saveItem();
+            }
+
+            $builderUsers = new ComponentSelectBuilder([
+                'db_field_name' => 'responsible_user_id',
+                'required' => true,
+                'not_selected_text' => 'Выберите ответственного'
+            ]);
+            foreach ($response_array['users_db'] as $user) {
+                $builderUsers->addIdItem($user->id)->addTextItem($user->name)->saveItem();
+            }
  
              // Рендерим
              $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
-                 'request_params' => $response_array['request_params']
+                 'request_params' => $response_array['request_params'],
+                 'client' => $client,
+                 'book_docs' => [
+                    'select_html' => $builderDocs->toHtml(),
+                    'select_array' => $builderDocs->toArray()
+                 ],
+                 'book_users' => [
+                    'select_html' => $builderUsers->toHtml(),
+                    'select_array' => $builderUsers->toArray()
+                 ]
              ]);
  
              $response_array['status'] = 'success';

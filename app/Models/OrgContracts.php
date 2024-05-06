@@ -8,6 +8,7 @@ class OrgContracts extends Model {
 
   protected $fillable = [
     'organization_id',
+    'contract_file_name',
     'book_doc_id',
     'contract_num',
     'contract_date_start',
@@ -17,5 +18,13 @@ class OrgContracts extends Model {
 
   public static function getFillableAttributes(): array {
     return (new static)->getFillable();
+  }
+
+  public function responsibleUser() {
+    return $this->belongsTo('\WWCrm\Models\Users', 'responsible_user_id', 'id');
+  }
+
+  public function docType() {
+    return $this->belongsTo('\WWCrm\Models\BookDocs', 'book_doc_id', 'id');
   }
 }

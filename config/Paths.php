@@ -8,6 +8,8 @@ $uploads_files = realpath($public_html . '/upload_files');
 $users_avatars = realpath($uploads_files . '/users/avatars');
 $object_photos = realpath($uploads_files . '/objects/photos');
 
+$organizations_contracts = realpath($uploads_files . '/organizations/contracts');
+
 return [
     'paths' => [
         /*
@@ -18,7 +20,8 @@ return [
             'public_html' => $public_html,
             'uploads_files' => $uploads_files,
             'users_avatars' => $users_avatars,
-            'object_photos' => $object_photos
+            'object_photos' => $object_photos,
+            'organizations_contracts' => $organizations_contracts
         ],
 
         /*
