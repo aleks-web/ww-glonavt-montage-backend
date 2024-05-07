@@ -42,6 +42,7 @@ class Objects extends Model {
     'year',
     'reg_doc_num',
     'photo_file_name',
+    'book_object_id',
     'user_add_id'
   ];
 
@@ -53,5 +54,10 @@ class Objects extends Model {
   // Кто добавил
   public function userAdded() {
     return $this->belongsTo(Users::class, 'user_add_id', 'id');
+  }
+
+  // Тип объекта
+  public function objectType() {
+    return $this->belongsTo('\WWCrm\Models\BookObjects', 'book_object_id', 'id');
   }
 }

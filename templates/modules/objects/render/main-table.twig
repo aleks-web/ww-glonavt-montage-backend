@@ -22,7 +22,7 @@
                     {% for row in table_rows %}
                         <tr data-modal-object data-object-id="{{ row.id }}" class="pointer">
                             <td>{{ row.id }}</td>
-                            <td class="text-start"><span style="color: red;">Передвижная ДЭС</span></td>
+                            <td class="text-start">{{ row.book_object_id.name | default('-') }}</td>
                             <td class="text-start"><span>{{ row.brand | default('Марка: -') }}, {{ row.model | default('Модель: -') }}</span><br><span class="text-secondary">{{ row.organization.name | default('Организация: не определена') }}</span></td>
                             <td>{{ row.gnum | default('-') }}</td>
                         </tr>

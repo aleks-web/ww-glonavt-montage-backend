@@ -14,4 +14,11 @@ class BookObjects extends Model {
     'description'
   ];
 
+  /*
+    Получает объекты принадлежащих к этому справочнику
+  */
+  public function objects() {
+    return $this->hasMany('\WWCrm\Models\Objects', 'book_object_id', 'id');
+  }
+
 }

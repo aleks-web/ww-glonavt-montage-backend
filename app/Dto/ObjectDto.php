@@ -8,6 +8,7 @@ class ObjectDto {
     private array $allFields = [];
     private $id;
     private $organizationId;
+    private $bookObjectId;
     private $year;
     private $status;
     private $brand;
@@ -74,6 +75,11 @@ class ObjectDto {
                         $this->setRegDocNum($val);
                     }
                     break;
+                case 'book_object_id':
+                    if (isset($val)) {
+                        $this->setBookObjectId($val);
+                    }
+                    break;
             }
         }
     }
@@ -131,6 +137,19 @@ class ObjectDto {
 
     public function getId() : int|null {
         return $this->id;
+    }
+
+
+    /*
+        Object Id
+    */
+    public function setBookObjectId(int|string $bookObjectId) : void {
+        $this->bookObjectId = (int) $bookObjectId;
+        $this->allFields['book_object_id'] = $this->getBookObjectId();
+    }
+
+    public function getBookObjectId() : int|null {
+        return $this->bookObjectId;
     }
 
     /*
@@ -209,8 +228,10 @@ class ObjectDto {
         Год
     */
     public function setYear(int|string $year) : void {
-        $this->year = str_replace(' ', '', $year);
-        $this->allFields['year'] = $this->getYear();
+        if (!empty($year)) {
+            $this->year = str_replace(' ', '', $year);
+            $this->allFields['year'] = $this->getYear();
+        }
     }
 
     public function getYear() {

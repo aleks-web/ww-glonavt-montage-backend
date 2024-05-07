@@ -35,6 +35,7 @@ final class CreateObjectsTable extends AbstractMigration
             `color` VARCHAR(20) DEFAULT NULL COMMENT 'Цвет',
             `reg_doc_num` VARCHAR(100) DEFAULT NULL COMMENT 'Номер документа о регистрации',
             `photo_file_name` VARCHAR(255) DEFAULT NULL COMMENT 'Название файла фотографии объекта',
+            `book_object_id` BIGINT UNSIGNED DEFAULT NULL COMMENT 'id из справочника объектов. Указывает на тип справочника',
             `user_add_id` BIGINT UNSIGNED DEFAULT NULL COMMENT 'Кто добавил',
             `created_at` timestamp NULL DEFAULT NULL,
             `updated_at` timestamp NULL DEFAULT NULL,
@@ -46,8 +47,12 @@ final class CreateObjectsTable extends AbstractMigration
 
           $sql_alert = "
             ALTER TABLE `objects`
+                ADD KEY `objects_book_object_id_foreign` (`book_object_id`),
                 ADD KEY `objects_organization_id_foreign` (`organization_id`),
                 ADD KEY `objects_user_add_id_foreign` (`user_add_id`),
+
+                ADD CONSTRAINT `objects_book_object_id_foreign` FOREIGN KEY (`book_object_id`) REFERENCES `book_objects` (`id`) ON DELETE SET NULL,
+
                 ADD CONSTRAINT `objects_organization_id_foreign` FOREIGN KEY (`organization_id`) REFERENCES `organizations` (`id`) ON DELETE CASCADE,
                 ADD CONSTRAINT `objects_user_add_id_foreign` FOREIGN KEY (`user_add_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
           ";

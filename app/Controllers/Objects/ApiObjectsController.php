@@ -26,6 +26,7 @@ use WWCrm\Models\Organizations;
 use WWCrm\Models\BookEquipments;
 use WWCrm\Models\ObjEquipments;
 use WWCrm\Models\Objects;
+use WWCrm\Models\BookObjects;
 
 // DTO
 use WWCrm\Dto\ObjectDto;
@@ -252,6 +253,7 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
 
             foreach ($response_array['table_rows'] as $key => $object) {
                 $response_array['table_rows'][$key]['organization'] = Organizations::find($object['organization_id']);
+                $response_array['table_rows'][$key]['book_object_id'] = $object->objectType;
             }
             
             $response_array['render_response_html'] = $this->view->render('modules/objects/render/' . $twig_element, [
@@ -333,13 +335,21 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         $response_array['request_params'] = $request->request->all();
         $response_array['organizations'] = Organizations::all();
 
-        $componentBuilder = new ComponentSelectBuilder(['db_field_name' => 'organization_id', 'required' => true]);
-        $componentBuilder->setDefaultText('Выберите клиента');
+        $orgBuilder = new ComponentSelectBuilder(['db_field_name' => 'organization_id', 'required' => true]);
+        $orgBuilder->setDefaultText('Выберите клиента');
         foreach (Organizations::all() as $client) {
-            $componentBuilder->addIdItem($client->id)->addTextItem($client->name)->saveItem();
+            $orgBuilder->addIdItem($client->id)->addTextItem($client->name)->saveItem();
         }
-        $response_array['twig_components']['data']['clients'] = $componentBuilder->toArray();
-        $response_array['twig_components']['html']['clients'] = $componentBuilder->toHtml();
+        $response_array['twig_components']['data']['clients'] = $orgBuilder->toArray();
+        $response_array['twig_components']['html']['clients'] = $orgBuilder->toHtml();
+
+        $bookBuilder = new ComponentSelectBuilder(['db_field_name' => 'book_object_id', 'required' => true]);
+        $bookBuilder->setDefaultText('Выберите тип объекта');
+        foreach (BookObjects::all() as $bookObj) {
+            $bookBuilder->addIdItem($bookObj->id)->addTextItem($bookObj->name)->saveItem();
+        }
+        $response_array['twig_components']['data']['book_objects'] = $bookBuilder->toArray();
+        $response_array['twig_components']['html']['book_objects'] = $bookBuilder->toHtml();
 
         // Рендерим
         $response_array['render_response_html'] = $this->view->render('modules/objects/render/' . $twig_element, [
