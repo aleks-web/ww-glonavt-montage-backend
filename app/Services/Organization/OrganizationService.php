@@ -10,6 +10,8 @@ use WWCrm\Dto\OrganizationDto;
 // Model
 use WWCrm\Models\Organizations;
 
+use WWCrm\Others\Events\Organizations\Create as CreateEvent;
+
 final class OrganizationService extends MainService {
 
     /*
@@ -42,7 +44,10 @@ final class OrganizationService extends MainService {
             Создание организации/клиента
         */
         try {
-            return Organizations::create($dto->toArray());
+            $org = Organizations::create($dto->toArray());
+            $this->eventDisp->dispatch(new CreateEvent($org), CreateEvent::NAME);
+
+            return $org;
         } catch (\Illuminate\Database\QueryException $e) {
             throw $e;
         }

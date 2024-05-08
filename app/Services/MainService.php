@@ -18,6 +18,7 @@ class MainService {
     protected $paths;
     protected $currentUser;
     protected $utils;
+    protected $eventDisp;
 
     public function __construct() {
         $this->WWCrmService = ServiceContainer::getInstance(); // Получаем контейнер
@@ -26,5 +27,6 @@ class MainService {
         $this->paths = $this->WWCrmService->get('paths'); // Пути
         $this->currentUser = $this->WWCrmService->get('CurrentUser'); // Текущий пользователь
         $this->utils = $this->WWCrmService->get('Utils'); // Утильные методы
+        $this->eventDisp = $this->WWCrmService->get('EventDispatcher'); // Диспатчер событий от Symfony
     }
 }
