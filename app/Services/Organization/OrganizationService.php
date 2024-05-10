@@ -10,7 +10,9 @@ use WWCrm\Dto\OrganizationDto;
 // Model
 use WWCrm\Models\Organizations;
 
+// События
 use WWCrm\Others\Events\Organizations\Create as CreateEvent;
+use WWCrm\Others\Events\Organizations\Update as UpdateEvent;
 
 final class OrganizationService extends MainService {
 
@@ -79,6 +81,7 @@ final class OrganizationService extends MainService {
         if ($client) {
             try {
                 if ($client->update($dto->toArray())) {
+                    $this->eventDisp->dispatch(new UpdateEvent($org), UpdateEvent::NAME);
                     return true;
                 } else {
                     throw new \Exception("Не удалось обновить организацию");

@@ -11,6 +11,10 @@ use WWCrm\Models\Objects;
 // Dto
 use WWCrm\Dto\ObjectDto;
 
+// События
+use WWCrm\Others\Events\Objects\Create as CreateEvent;
+use WWCrm\Others\Events\Objects\Update as UpdateEvent;
+
 final class ObjectService extends MainService {
     /*
         Создание объекта
@@ -35,7 +39,10 @@ final class ObjectService extends MainService {
             $dto->setUserAddId($this->currentUser->getId());
 
             // Создаем объект
-            return Objects::create($dto->toArray());
+            $obj = Objects::create($dto->toArray());
+            $this->eventDisp->dispatch(new CreateEvent($obj), CreateEvent::NAME);
+
+            return $obj;
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
@@ -52,7 +59,10 @@ final class ObjectService extends MainService {
 
         // Обновляем
         try {
-            return Objects::find($dto->getId())->update($dto->toArray());
+            if ($obj = Objects::find($dto->getId())->update($dto->toArray())) {
+                $this->eventDisp->dispatch(new UpdateEvent($obj), UpdateEvent::NAME);
+                return true;
+            };
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
