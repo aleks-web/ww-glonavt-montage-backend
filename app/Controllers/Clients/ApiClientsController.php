@@ -207,6 +207,8 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             return $this->render_modal_client_add($twig_element, $request, $response);
         } else if($twig_element == 'tab-content-contracts.twig') {
             return $this->render_tab_contracts($twig_element, $request, $response);
+        } else if($twig_element == 'tab-content-bills.twig') {
+            return $this->render_tab_bills($twig_element, $request, $response);
         } else {
             return 'Распределитель рендер запросов. Возврат пустого ответа';
         }
@@ -479,6 +481,33 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
                 'request_params' => $response_array['request_params'],
                 'client' => $response_array['client'],
                 'contracts' => $contracts
+            ]);
+
+            $response_array['status'] = 'success';
+
+            // Итоговые манипуляции
+            $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+            // Возвращаем ответ
+            return $response;
+        }
+
+        /*
+            Рендер вкладки "Счета"
+        */
+        public function render_tab_bills($twig_element, Request $request, Response $response) {
+            $response->headers->set('Content-Type', 'application/json');
+
+            // Получаем параметры POST и сразу записываем их в массив с ответом
+            $params = $response_array['request_params'] = $request->request->all();
+            $client_id = $response_array['request_params']['client_id'];
+
+            $response_array['client'] = Organizations::find($client_id);
+
+            // Рендерим
+            $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
+                'request_params' => $response_array['request_params'],
+                'client' => $response_array['client']
             ]);
 
             $response_array['status'] = 'success';
