@@ -11,7 +11,12 @@
             "WWCrm\\Services\\": "app/Services",
             "WWCrm\\Others\\": "app/Others"
         },
-        "files": ["app/db.php", "app/container.php", "app/utils.php"]
+        "files": [
+            "app/env.php",
+            "app/db.php",
+            "app/container.php",
+            "app/utils.php"
+        ]
     },
     "authors": [
         {
@@ -31,6 +36,7 @@
         "symfony/http-foundation": "^5.4",
         "robmorgan/phinx": "^0.16.0",
         "intervention/image": "^3.6",
-        "symfony/event-dispatcher": "^7.0"
+        "symfony/event-dispatcher": "^7.0",
+        "symfony/dotenv": "^7.0"
     }
 }
