@@ -5,7 +5,7 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 $capsule = new Capsule;
 $capsule->addConnection([
 	"driver" => 'mysql',
-    "host" => 'localhost',
+    "host" => 'wwserver.beget.tech',
     "database" => 'wwserver_dcrm_gl',
     "username" => 'wwserver_dcrm_gl',
     "password" => '1S4l&ASd',
