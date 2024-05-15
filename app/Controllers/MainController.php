@@ -17,6 +17,7 @@ class MainController extends Controller {
     protected $paths;
     protected $imageManager;
 
+    protected $organizationService;
     protected $objectService;
     protected $userService;
     protected $orgContractService;

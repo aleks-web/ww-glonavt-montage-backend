@@ -6,6 +6,10 @@ namespace WWCrm\Others\Twig\Extensions;
     Для путей и прочей инфы приложения
 */
 class AppTwigExtension extends \Twig\Extension\AbstractExtension {
+
+    protected $WWCrmService;
+    protected $paths;
+    protected $routs;
     
     public function __construct() {
         $this->WWCrmService = \WWCrm\ServiceContainer::getInstance();

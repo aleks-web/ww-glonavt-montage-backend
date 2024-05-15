@@ -4,6 +4,9 @@ namespace WWCrm\Others\Twig\Extensions;
 
 class CurrentUserTwigExtension extends \Twig\Extension\AbstractExtension {
     
+    protected $WWCrmService;
+    protected $WWCurrentUser;
+
     public function __construct() {
         $this->WWCrmService = \WWCrm\ServiceContainer::getInstance();
         $this->WWCurrentUser = $this->WWCrmService->get('CurrentUser');

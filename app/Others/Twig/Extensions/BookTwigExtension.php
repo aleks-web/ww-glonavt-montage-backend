@@ -4,6 +4,8 @@ namespace WWCrm\Others\Twig\Extensions;
 
 class BookTwigExtension extends \Twig\Extension\AbstractExtension {
 
+    protected $WWCrmService;
+
     public function __construct() {
         $this->WWCrmService = \WWCrm\ServiceContainer::getInstance();
     }
