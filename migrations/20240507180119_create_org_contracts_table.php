@@ -23,7 +23,7 @@ final class CreateOrgContractsTable extends AbstractMigration
         $sql = "CREATE TABLE IF NOT EXISTS `org_contracts` (
             `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
             `organization_id` BIGINT UNSIGNED NOT NULL COMMENT 'Организация к которой принадлежит документ',
-            `book_doc_id` BIGINT UNSIGNED DEFAULT NULL COMMENT 'Id позиции из справочника документов',
+            `doc_type_id` BIGINT UNSIGNED DEFAULT NULL COMMENT 'Id типа документа. Типы объявлены в классе',
             `contract_num` VARCHAR(500) NOT NULL COMMENT 'Номер договора',
             `contract_date_start` DATE DEFAULT NULL COMMENT 'Дата начала договора',
             `contract_date_end` DATE DEFAULT NULL COMMENT 'Дата окончания договора',
@@ -41,17 +41,15 @@ final class CreateOrgContractsTable extends AbstractMigration
           $sql_alert = "
             ALTER TABLE `org_contracts`
                 ADD KEY `org_contracts_organization_id_foreign` (`organization_id`),
-                ADD KEY `org_contracts_book_doc_id_foreign` (`book_doc_id`),
                 ADD KEY `org_contracts_responsible_user_id_foreign` (`responsible_user_id`),
                 ADD CONSTRAINT `org_contracts_organization_id_foreign` FOREIGN KEY (`organization_id`) REFERENCES `organizations` (`id`) ON DELETE CASCADE,
-                ADD CONSTRAINT `org_contracts_book_doc_id_foreign` FOREIGN KEY (`book_doc_id`) REFERENCES `book_docs` (`id`) ON DELETE SET NULL,
                 ADD CONSTRAINT `org_contracts_responsible_user_id_foreign` FOREIGN KEY (`responsible_user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
           ";
           $this->execute($sql_alert);
 
 
 
-          $seed = "INSERT INTO `org_contracts` (`organization_id`, `book_doc_id`, `contract_num`, `responsible_user_id`) VALUES (1, 1, '23989423', 1)";
+          $seed = "INSERT INTO `org_contracts` (`organization_id`, `contract_num`, `responsible_user_id`) VALUES (1, '23989423', 1)";
 
           // Сеем тестовые данные
           $this->execute($seed);

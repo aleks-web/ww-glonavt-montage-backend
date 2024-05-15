@@ -6,7 +6,7 @@ class OrgContractDto {
     private array $allFields = [];
     private $id;
     private $organizationId;
-    private $bookDocId;
+    private $docTypeId;
     private $contractNum;
     private $dateStart;
     private $dateEnd;
@@ -33,9 +33,9 @@ class OrgContractDto {
                         $this->setUserAddId($val);
                     }
                     break;
-                case 'book_doc_id':
+                case 'doc_type_id':
                     if(isset($val)) {
-                        $this->setBookDocId($val);
+                        $this->setDocTypeId($val);
                     }
                     break;
                 case 'contract_num':
@@ -153,13 +153,13 @@ class OrgContractDto {
     /*
         Id тип договора из справочника
     */
-    public function setBookDocId(int $bookDocId) : void {
-        $this->bookDocId = $bookDocId;
-        $this->allFields['book_doc_id'] = $this->getBookDocId();
+    public function setDocTypeId(int $docTypeId) : void {
+        $this->docTypeId = $docTypeId;
+        $this->allFields['doc_type_id'] = $this->getDocTypeId();
     }
 
-    public function getBookDocId() : int|null {
-        return $this->bookDocId;
+    public function getDocTypeId() : int|null {
+        return $this->docTypeId;
     }
 
 

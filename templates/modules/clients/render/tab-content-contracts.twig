@@ -33,8 +33,9 @@
                         <td>{{ contract.contract_date_start | default('-') }}</td>
                         <td>{{ contract.contract_date_end | default('-') }}</td>
                         <td>{{ responsibleUser }}</td>
+
                         <td class="td-btn-default">
-                            <svg data-fancybox data-src="#fmodal-new-contract" class="hover"><use xlink:href="#svg-edit"></use></svg>
+                            <svg onclick="load_fmodal_contract_update({{ contract.id }}, {{ client.id }})" class="hover"><use xlink:href="#svg-edit"></use></svg>
                         </td>
                         <td class="td-btn-default">
                             <svg onclick="delete_contract_by_id({{ contract.id }}, {{ client.id }})" class="hover"><use xlink:href="#svg-del"></use></svg>

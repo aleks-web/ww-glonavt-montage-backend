@@ -201,6 +201,8 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             return $this->render_fmodal_contact_person_update($twig_element, $request, $response);
         } else if ($twig_element == 'fmodal-new-contract.twig') {
             return $this->render_fmodal_new_contract($twig_element, $request, $response);
+        } else if ($twig_element == 'fmodal-contract-update.twig') {
+            return $this->render_fmodal_contract_update($twig_element, $request, $response);
         } else if ($twig_element == 'tab-content-objects.twig') {
             return $this->render_tab_objects($twig_element, $request, $response);
         } else if ($twig_element == 'modal-client-add.twig') {
@@ -523,7 +525,7 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
 
 
 
-    /*--- Start Модалка fmodal Новое контактное лицо */
+    /*--- Start Модалка fmodal */
         /*
             Рендер модалки "Новое контактное лицо - добавление"
         */
@@ -602,13 +604,13 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             $response_array['book_docs_db'] = BookDocs::all();
             $response_array['users_db'] = Users::all();
 
-            $builderDocs = new ComponentSelectBuilder([
-                'db_field_name' => 'book_doc_id',
+            $builderContractTypes = new ComponentSelectBuilder([
+                'db_field_name' => 'doc_type_id',
                 'required' => true,
-                'not_selected_text' => 'Выберите тип документа'
+                'not_selected_text' => 'Выберите договор'
             ]);
-            foreach ($response_array['book_docs_db'] as $doc) {
-                $builderDocs->addIdItem($doc->id)->addTextItem($doc->name)->saveItem();
+            foreach (OrgContracts::BOOK_TYPES as $idType => $nameType) {
+                $builderContractTypes->addIdItem($idType)->addTextItem($nameType)->saveItem();
             }
 
             $builderUsers = new ComponentSelectBuilder([
@@ -620,19 +622,19 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
                 $builderUsers->addIdItem($user->id)->addTextItem($user->name)->saveItem();
             }
  
-             // Рендерим
-             $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
-                 'request_params' => $response_array['request_params'],
-                 'client' => $client,
-                 'book_docs' => [
-                    'select_html' => $builderDocs->toHtml(),
-                    'select_array' => $builderDocs->toArray()
-                 ],
-                 'book_users' => [
+            // Рендерим
+            $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
+                'request_params' => $response_array['request_params'],
+                'client' => $client,
+                'contract_types' => [
+                    'select_html' => $builderContractTypes->toHtml(),
+                    'select_array' => $builderContractTypes->toArray()
+                ],
+                'book_users' => [
                     'select_html' => $builderUsers->toHtml(),
                     'select_array' => $builderUsers->toArray()
-                 ]
-             ]);
+                ]
+            ]);
  
              $response_array['status'] = 'success';
  
@@ -642,5 +644,61 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
              // Возвращаем ответ
              return $response;
         }
-    /*--- End Модалка fmodal Новое контактное лицо */
+
+        /*
+            Рендер модалки "Редактирование договора"
+        */
+        public function render_fmodal_contract_update($twig_element, Request $request, Response $response) {
+            $response->headers->set('Content-Type', 'application/json');
+
+            // Получаем параметры POST и сразу записываем их в массив с ответом
+            $params = $response_array['request_params'] = $request->request->all();
+            $contract = OrgContracts::where('id', '=', $params['id'])->first();
+            $response_array['client'] = Organizations::find($contract['organization_id']);
+            $response_array['users_db'] = Users::all();
+
+            $builderContractTypes = new ComponentSelectBuilder([
+                'db_field_name' => 'doc_type_id',
+                'required' => true,
+                'val' => $contract->doc_type_id,
+                'not_selected_text' => 'Выберите договор'
+            ]);
+            foreach (OrgContracts::BOOK_TYPES as $idType => $nameType) {
+                $builderContractTypes->addIdItem($idType)->addTextItem($nameType)->saveItem();
+            }
+
+            $builderUsers = new ComponentSelectBuilder([
+                'db_field_name' => 'responsible_user_id',
+                'required' => true,
+                'val' => $contract->responsible_user_id,
+                'not_selected_text' => 'Выберите ответственного'
+            ]);
+            foreach ($response_array['users_db'] as $user) {
+                $builderUsers->addIdItem($user->id)->addTextItem($user->name)->saveItem();
+            }
+ 
+            // Рендерим
+            $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
+                'request_params' => $response_array['request_params'],
+                'client' => $response_array['client'],
+                'contract' => $contract,
+                'contract_types' => [
+                    'select_html' => $builderContractTypes->toHtml(),
+                    'select_array' => $builderContractTypes->toArray()
+                ],
+                'book_users' => [
+                    'select_html' => $builderUsers->toHtml(),
+                    'select_array' => $builderUsers->toArray()
+                ]
+            ]);
+ 
+             $response_array['status'] = 'success';
+ 
+             // Итоговые манипуляции
+             $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+ 
+             // Возвращаем ответ
+             return $response;
+        }
+    /*--- End Модалка fmodal */
 }

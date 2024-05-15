@@ -209,3 +209,31 @@ function delete_contract_by_id(contract_id, org_id) {
         dd(response, response.message, 'error');
     });
 }
+
+/*
+    Загрузка модалки fmodal на обновление договора
+*/
+function load_fmodal_contract_update(contract_id, org_id) {
+    let url = API_V1_ROUTS.Clients.render + 'fmodal-contract-update';
+    let formData = new FormData();
+    formData.append('id', contract_id);
+
+    xpost_fd(url, formData).then(response => {
+        $('#fmodal-contract-update-wrapper').html(response.render_response_html);
+
+        cpns_form_validate('#fmodal-contract-update', '.js-submitter');
+
+        load_tab_contracts(org_id, true);
+        dd_render_success(
+            response,
+            'modules/clients/render/fmodal-contract-update.twig',
+            url
+        );
+        $.fancybox.open({
+            src: '#fmodal-contract-update',
+            type: 'inline'
+        });
+    }).catch(response => {
+        dd(response, response.message, 'error');
+    });
+}

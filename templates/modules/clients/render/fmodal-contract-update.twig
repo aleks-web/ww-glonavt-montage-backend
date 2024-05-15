@@ -1,21 +1,22 @@
 {#
     request_params - параметры запроса
     client - клиент
-    book_docs - справочник документов
     book_users - пользователи, ответственные
+    contract - договор
+    contract_types - типы документов
 #}
 
 <!-- Start fancybox modal | Новый договор | Модуль клиенты -->
-<div id="fmodal-new-contract" class="fmodal fmodal-new-contract" style="display: none;">
-    <div class="fmodal__title">Новый договор</div>
+<div id="fmodal-contract-update" class="fmodal fmodal-contract-update" style="display: none;max-width: 400px;">
+    <div class="fmodal__title">Редактирование договора</div>
 
     <div class="fmodal__content">
 
         <div class="fmodal__vertical">
-
             {% include 'components/input-text.twig' with {
                 settings: {
                     db_field_name: 'contract_num',
+                    val: contract.contract_num,
                     required: true,
                     pls: 'Номер договора'
                 }
@@ -24,6 +25,7 @@
             {% include 'components/input-date.twig' with {
                 settings: {
                     db_field_name: 'contract_date_start',
+                    val: contract.contract_date_start,
                     pls: 'Дата заключения договора'
                 }
             } %}
@@ -31,10 +33,11 @@
             {% include 'components/input-date.twig' with {
                 settings: {
                     db_field_name: 'contract_date_end',
+                    val: contract.contract_date_end,
                     pls: 'Срок действия'
                 }
             } %}
-            
+
             {# Start Селект выбора типа документа #}
             {{ contract_types.select_html | raw }}
             {# End Селект выбора типа документа #}
@@ -47,12 +50,12 @@
             {% include 'components/input-file.twig' with {
                 settings: {
                     db_field_name: 'contract_file',
-                    btn_text: 'Загрузите договор',
+                    btn_text: contract.contract_file_name ? 'Заменить договор' : 'Загрузить договор',
+                    val: contract.contract_file_name,
                     required: true
                 }
             } %}
             {# End загрузка договора #}
-
         </div>
         
     </div>
@@ -64,20 +67,6 @@
 </div>
 <!-- End fancybox modal | Новый договор | Модуль клиенты -->
 
-{# Start отправка формы #}
-<script>
-    function create_new_contract(client_id) {
-        let url = "{{ routs().api_v1.ClientsContracts.create.route }}";
-        let formData = cpns_get_formdata_by_wrapper('#fmodal-new-contract');
-        formData.append('organization_id', client_id)
+{# Start отправка формы сохранения договора #}
 
-        xpost_fd(url, formData).then(response => {
-            push(response.message, 'success');
-            dd(response, response.message, 'success');
-        }).catch(response => {
-            push(response.message, 'error');
-            dd(response, response.message, 'error');
-        });
-    }
-</script>
-{# End отправка формы #}
+{# End отправка формы сохранения договора #}

@@ -26,7 +26,14 @@
     {# End Сообщения об ошибках и пр #}
 
     <div class="input-file {% if settings.required %}required{% endif %}">
-        <span class="input-file__current disable">Файл</span>
+
+        {% if settings.val %}
+            <span class="input-file__current disable">
+                <span class="input-file__link">{{ settings.val }}</span>
+            </span>
+        {% else %}
+            <span class="input-file__current disable">Файл</span>
+        {% endif %}
 
         <div class="input-file__group-btns">
             <div class="input-file__btn btn">
