@@ -89,33 +89,6 @@
 <!-- End fancybox modal | Просмотр тс | Модуль клиенты -->
 
 
-<!-- Start fancybox modal | Новый счет | модалка новый счет -->
-<div id="fmodal-new-bill" class="fmodal fmodal-new-bill" style="display: none;">
-    <div class="fmodal__title">Новый счет</div>
-
-    <div class="fmodal__content">
-
-        <div class="fmodal__vertical">
-            
-            @@include('../components/select.html', {"name": "", "stText": "Выберите договор", "itemName": "Договор"})
-
-            @@include('../components/input-file.html')
-    
-            @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Сумма счёта"})
-
-            <textarea cols="30" rows="8" placeholder="Комментарий"></textarea>
-        </div>
-        
-    </div>
-
-    <div class="fmodal__control-btns">
-        <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
-        <button class="fmodal__btn btn-good disable">Сохранить</button>
-    </div>
-</div>
-<!-- End fancybox modal | Новый счет | модалка новый счет -->
-
-
 <!-- Start fancybox modal | Новый документ | Модуль клиенты -->
 <div id="fmodal-new-document" class="fmodal fmodal-new-document" style="display: none;">
     <div class="fmodal__title">Новый документ</div>
@@ -204,6 +177,22 @@
 {# Start fancybox modal | Новое контактное лицо | Модуль клиенты #}
 <div id="fmodal-contact-person-wrapper"></div>
 {# End fancybox modal | Новое контактное лицо | Модуль клиенты #}
+
+
+{#
+    Start Модалки счетов
+#}
+{# Start fancybox modal | Новый счет | Модуль клиенты #}
+<div id="fmodal-new-bill-wrapper"></div>
+{# End fancybox modal | Новый счет | Модуль клиенты #}
+
+{# Start fancybox modal | Обновить счет | Модуль клиенты #}
+<div id="fmodal-bill-update-wrapper"></div>
+{# End fancybox modal | Обновить счет | Модуль клиенты #}
+{#
+    End Модалки счетов
+#}
+
 
 
 {#

@@ -1,0 +1,25 @@
+{#
+    request_params - параметры запроса
+#}
+
+<!-- Start fancybox modal | Обновление счета | Модуль клиенты -->
+<div id="fmodal-bill-update" class="fmodal fmodal-bill-update" style="display: none;">
+    <div class="fmodal__title">Обновление счета</div>
+
+    <div class="fmodal__content">
+
+        <div class="fmodal__vertical">
+
+            {{ dump() }}
+
+            <textarea cols="30" rows="8" placeholder="Комментарий"></textarea>
+        </div>
+        
+    </div>
+
+    <div class="fmodal__control-btns">
+        <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
+        <button class="fmodal__btn btn-good disable">Сохранить</button>
+    </div>
+</div>
+<!-- End fancybox modal | Обновление счета | Модуль клиенты -->

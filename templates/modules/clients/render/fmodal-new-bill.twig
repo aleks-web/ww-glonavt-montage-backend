@@ -1,0 +1,29 @@
+{#
+    request_params - параметры запроса
+#}
+
+<!-- Start fancybox modal | Новый счет | Модуль клиенты -->
+<div id="fmodal-new-bill" class="fmodal fmodal-new-bill" style="display: none;">
+    <div class="fmodal__title">Новый счет</div>
+
+    <div class="fmodal__content">
+
+        <div class="fmodal__vertical">
+            
+            @@include('../components/select.html', {"name": "", "stText": "Выберите договор", "itemName": "Договор"})
+
+            @@include('../components/input-file.html')
+    
+            @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Сумма счёта"})
+
+            <textarea cols="30" rows="8" placeholder="Комментарий"></textarea>
+        </div>
+        
+    </div>
+
+    <div class="fmodal__control-btns">
+        <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
+        <button class="fmodal__btn btn-good disable">Сохранить</button>
+    </div>
+</div>
+<!-- End fancybox modal | Новый счет | Модуль клиенты -->
