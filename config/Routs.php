@@ -10,6 +10,10 @@ return ['routs' => [
             'delete' => [
                 'route' => '/api_v1/clients/contracts/delete/',
                 'controller' => 'WWCrm\Controllers\Clients\Contracts\ApiClientsContractsController@delete'
+            ],
+            'update' => [
+                'route' => '/api_v1/clients/contracts/update/',
+                'controller' => 'WWCrm\Controllers\Clients\Contracts\ApiClientsContractsController@update'
             ]
         ],
 

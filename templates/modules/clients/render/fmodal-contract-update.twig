@@ -62,11 +62,26 @@
 
     <div class="fmodal__control-btns">
         <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
-        <button class="fmodal__btn btn-good js-submitter disable" onclick="create_new_contract({{ client.id }})">Сохранить</button>
+        <button class="fmodal__btn btn-good js-submitter disable" onclick="update_contract_by_id({{ contract.id }}, {{ client.id }})">Сохранить</button>
     </div>
 </div>
 <!-- End fancybox modal | Новый договор | Модуль клиенты -->
 
 {# Start отправка формы сохранения договора #}
+<script>
+function update_contract_by_id(contract_id, org_id) {
+    let url = API_V1_ROUTS.ClientsContracts.update;
+    let formData = new FormData();
+    formData.append('id', contract_id);
 
+    xpost_fd(url, formData).then(response => {
+        load_tab_contracts(org_id, true);
+        push(response.message, 'success');
+        dd(response, response.message, 'success');
+    }).catch(response => {
+        push(response.message, 'error');
+        dd(response, response.message, 'error');
+    });
+}
+</script>
 {# End отправка формы сохранения договора #}

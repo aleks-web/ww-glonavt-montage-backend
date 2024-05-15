@@ -52,6 +52,7 @@ $router->xpost(API_V1_URL . 'clients/render/:string', $controllers['Api']['Clien
 */
 $router->xpost(API_V1_URL . 'clients/contracts/create', $controllers['Api']['ClientsContracts'] . '@create'); // Создание договора
 $router->xpost(API_V1_URL . 'clients/contracts/delete', $controllers['Api']['ClientsContracts'] . '@delete'); // Удаление договора
+$router->xpost(API_V1_URL . 'clients/contracts/update', $controllers['Api']['ClientsContracts'] . '@update'); // Обновление договора
 
 /*
     Роуты модуля "Объекты"
