@@ -85,4 +85,31 @@ class ApiClientsContractsController extends \WWCrm\Controllers\MainController {
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
         return $response;
     }
+
+    /*
+        Реализовать
+        Обновление договора
+    */
+    public function update(Request $request, Response $response) {
+        $response->headers->set('Content-Type', 'application/json');
+
+        // Получаем параметры
+        $params = $response_array['request_params'] = $request->request->all();
+
+        try {
+            $dto = new OrgContractDto($params);
+
+            $this->orgContractService->deleteContract($dto->getId());
+
+            $response_array['status'] = 'success';
+            $response_array['message'] = 'Успешное удаление договорааааааа';
+        } catch (\Exception $e) {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'Неудачное удаление договора';
+            $response_array['exception_message'] =  $e->getMessage();
+        }
+
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+        return $response;
+    }
 }

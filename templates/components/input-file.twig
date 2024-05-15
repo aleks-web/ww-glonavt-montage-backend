@@ -8,6 +8,7 @@
         * required - обязательный ли инпут
         * input_messages_position - расположение сообщений об ошибках и прочее. Либо bottom (по умолчанию, но можно изменить здесь) либо top
         * btn_text - плейсхолдер
+        * val - если есть файл
     
     ------------------------------------
 #}
@@ -25,7 +26,7 @@
     {% endif %}
     {# End Сообщения об ошибках и пр #}
 
-    <div class="input-file {% if settings.required %}required{% endif %}">
+    <div class="input-file {% if settings.required %}required{% endif %} {% if settings.val %}has-val{% endif %}">
 
         {% if settings.val %}
             <span class="input-file__current disable">

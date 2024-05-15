@@ -223,6 +223,7 @@ $(document).on("change", '.input-file input[type="file"]', function (e) {
     const current_text = parent.find(".input-file__current");
     const remove_file_btn = parent.find(".input-file__remove-file");
     const file = this.files[0];
+    const input = this;
 
     let tpl = `<span class="input-file__link">${file.name}</span>`;
 
@@ -231,14 +232,20 @@ $(document).on("change", '.input-file input[type="file"]', function (e) {
 
     if (this.files.length != 0) {
         remove_file_btn.removeClass("input-file__remove-file--hide");
+        parent.addClass('has-val');
     }
 
     $(document).on("click", ".input-file .input-file__remove-file", function (remove_event) {
+        parent.removeClass('has-val');
         e.target = "";
         current_text.html("Файл");
         remove_file_btn.addClass("input-file__remove-file--hide");
         current_text.addClass("disable");
+
+        $(input).trigger('input');
     });
+
+    $(input).trigger('input');
 });
 // End input-file
 
@@ -266,6 +273,27 @@ function cpns_get_classes_by_wrapper(wrapper_selector) {
     return find_classes;
 }
 // End Функция которая формирует классы для вложенного поиска. Передается обертка в которой ищутся компоненты и формируется вложенность
+
+
+// Start Функция которая формирует инпуты для вложенного поиска.
+function cpns_get_inputs_by_wrapper(wrapper_selector) {
+    let find_classes = "";
+    input_components.forEach(function (el) {
+        find_classes = find_classes + wrapper_selector + " ." + el;
+
+        if (el == 'textarea') {
+            find_classes = find_classes + " textarea";
+        } else {
+            find_classes = find_classes + " input";
+        }
+
+        find_classes = find_classes + ", ";
+    });
+    find_classes = find_classes.slice(0, -2);
+
+    return find_classes;
+}
+// End Функция которая формирует инпуты для вложенного поиска.
 
 // Start Функция, которая получает объект formData учитывая все эти компоненты
 function cpns_get_formdata_by_wrapper(wrapper_selector) {
@@ -318,14 +346,26 @@ function cpns_get_errors_by_wrapper(wrapper_selector) {
             input = $(this).find("textarea");
         }
 
-        if (!input.val() && $(this).hasClass("required")) {
-            null_inputs[input.attr("name")] = {
-                name: input.attr("name"), // Название поля input
-                message: "Поле не заполнено", // Сообщение об ошибке
-                message_type: "error", // Тип сообщения
-                wrapper_selector: wrapper_selector, // Родительский селектор-обертка, в котором находятся все искомые компоненты
-                target: $(this), // Текущий компонент
-            };
+        if ($(el).hasClass('input-file')) {
+            if (!$(el).hasClass('has-val') && $(this).hasClass("required")) {
+                null_inputs[input.attr("name")] = {
+                    name: input.attr("name"), // Название поля input
+                    message: "Файл не выбран", // Сообщение об ошибке
+                    message_type: "error", // Тип сообщения
+                    wrapper_selector: wrapper_selector, // Родительский селектор-обертка, в котором находятся все искомые компоненты
+                    target: $(this), // Текущий компонент
+                };
+            }
+        } else {
+            if (!input.val() && $(this).hasClass("required")) {
+                null_inputs[input.attr("name")] = {
+                    name: input.attr("name"), // Название поля input
+                    message: "Поле не заполнено", // Сообщение об ошибке
+                    message_type: "error", // Тип сообщения
+                    wrapper_selector: wrapper_selector, // Родительский селектор-обертка, в котором находятся все искомые компоненты
+                    target: $(this), // Текущий компонент
+                };
+            }
         }
     });
 
@@ -434,7 +474,10 @@ function cpns_form_validate(form_wrapper, submitter, moment = false) {
         cpns_update_from_json(data, form_wrapper); // Обновление компонентов
     }
     
-    $(cpns_get_classes_by_wrapper(form_wrapper)).on("input keyup change", validate);
+    // Переработать на поиск инпутов а не родительских классов
+    $(cpns_get_inputs_by_wrapper(form_wrapper)).on("input keyup change", (e) => {
+        validate();
+    });
 
     if (moment) {
         validate();
