@@ -307,7 +307,7 @@ function cpns_get_formdata_by_wrapper(wrapper_selector) {
             input = $(this).find("textarea");
         }
 
-        console.log(input.attr('name'), input.val());
+        // console.log(input.attr('name'), input.val());
 
         if (input.attr('type') == 'file') { // Не уверен на счет files
             if (input[0].files[0]) {
@@ -475,7 +475,7 @@ function cpns_form_validate(form_wrapper, submitter, moment = false) {
     }
     
     // Переработать на поиск инпутов а не родительских классов
-    $(cpns_get_inputs_by_wrapper(form_wrapper)).on("input keyup change", (e) => {
+    $(cpns_get_classes_by_wrapper(form_wrapper)).on("input keyup change", (e) => {
         validate();
     });
 
@@ -492,12 +492,15 @@ function cpns_form_validate(form_wrapper, submitter, moment = false) {
 $(document).ready(function() {
     window.cpns_init = function () {
         // Start input-date
-        $(".input-date").each(function () {
+        $(".input-date").each(function (i, el) {
             const options = {
                 dateFormat: "yyyy-MM-dd",
                 timeFormat: "hh:mm",
                 buttons: ["clear"],
                 autoClose: true,
+                onSelect({date, fd, datepicker}) {
+                    $(el).trigger('input'); // Для того, чтобы можно было валидировать формы
+                }
             };
     
             if ($(this).hasClass("air-start-today")) {

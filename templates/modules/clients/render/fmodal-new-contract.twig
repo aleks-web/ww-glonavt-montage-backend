@@ -73,6 +73,8 @@
         formData.append('organization_id', client_id)
 
         xpost_fd(url, formData).then(response => {
+            load_tab_contracts(client_id, true);
+            $.fancybox.close();
             push(response.message, 'success');
             dd(response, response.message, 'success');
         }).catch(response => {
