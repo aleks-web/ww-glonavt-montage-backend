@@ -1,5 +1,6 @@
 {#
     request_params - параметры запроса
+    client - клиент/организация
 #}
 
 <!-- Start fancybox modal | Новый счет | Модуль клиенты -->
@@ -42,7 +43,26 @@
 
     <div class="fmodal__control-btns">
         <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
-        <button class="fmodal__btn btn-good js-submitter disable">Сохранить</button>
+        <button onclick="create_new_bill()" class="fmodal__btn btn-good js-submitter disable">Сохранить</button>
     </div>
 </div>
 <!-- End fancybox modal | Новый счет | Модуль клиенты -->
+
+{# Start отправка формы на создание счета #}
+<script>
+    function create_new_bill() {
+        let url = "{{ routs().api_v1.ClientsBills.create.route }}";
+        let formData = cpns_get_formdata_by_wrapper('#fmodal-new-bill');
+
+        xpost_fd(url, formData).then(response => {
+            load_tab_contracts({{ client.id }}, true);
+            $.fancybox.close();
+            push(response.message, 'success');
+            dd(response, response.message, 'success');
+        }).catch(response => {
+            push(response.message, 'error');
+            dd(response, response.message, 'error');
+        });
+    }
+</script>
+{# End отправка формы #}

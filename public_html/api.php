@@ -55,6 +55,13 @@ $router->xpost(API_V1_URL . 'clients/contracts/delete', $controllers['Api']['Cli
 $router->xpost(API_V1_URL . 'clients/contracts/update', $controllers['Api']['ClientsContracts'] . '@update'); // Обновление договора
 
 /*
+    Счета клиентов
+*/
+$router->xpost(API_V1_URL . 'clients/bills/create', $controllers['Api']['ClientsBills'] . '@create'); // Создание счета
+$router->xpost(API_V1_URL . 'clients/bills/delete', $controllers['Api']['ClientsBills'] . '@delete'); // Удаление счета
+$router->xpost(API_V1_URL . 'clients/bills/update', $controllers['Api']['ClientsBills'] . '@update'); // Обновление счета
+
+/*
     Роуты модуля "Объекты"
 */
 $router->xpost(API_V1_URL . 'objects/add-new-type-equipment', $controllers['Api']['Objects'] . '@add_new_equipment'); // Добавление оборудования

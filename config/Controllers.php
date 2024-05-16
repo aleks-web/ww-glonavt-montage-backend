@@ -10,6 +10,7 @@ return [
             'CurrentUser' => 'WWCrm\Controllers\CurrentUser\ApiCurrentUserController',
             'Clients' => 'WWCrm\Controllers\Clients\ApiClientsController',
             'ClientsContracts' => 'WWCrm\Controllers\Clients\Contracts\ApiClientsContractsController',
+            'ClientsBills' => 'WWCrm\Controllers\Clients\Bills\ApiClientsBillsController',
             'Objects' => 'WWCrm\Controllers\Objects\ApiObjectsController',
             'BooksEquipments' => 'WWCrm\Controllers\Books\ApiBookEquipmentsController',
             'BooksDepartments' => 'WWCrm\Controllers\Books\ApiBookDepartmentsController',

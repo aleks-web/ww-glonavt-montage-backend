@@ -9,6 +9,7 @@ $users_avatars = realpath($uploads_files . '/users/avatars');
 $object_photos = realpath($uploads_files . '/objects/photos');
 
 $organizations_contracts = realpath($uploads_files . '/organizations/contracts');
+$organizations_bills = realpath($uploads_files . '/organizations/bills');
 
 return [
     'paths' => [
@@ -21,7 +22,8 @@ return [
             'uploads_files' => $uploads_files,
             'users_avatars' => $users_avatars,
             'object_photos' => $object_photos,
-            'organizations_contracts' => $organizations_contracts
+            'organizations_contracts' => $organizations_contracts,
+            'organizations_bills' => $organizations_bills
         ],
 
         /*

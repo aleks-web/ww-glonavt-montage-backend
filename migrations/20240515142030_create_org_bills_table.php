@@ -23,8 +23,9 @@ final class CreateOrgBillsTable extends AbstractMigration
         $sql = "CREATE TABLE IF NOT EXISTS `org_bills` (
             `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
             `contract_id` BIGINT UNSIGNED DEFAULT NULL COMMENT 'id договора',
-            `sum` DECIMAL(10, 2) UNSIGNED DEFAULT NULL COMMENT 'Сумма счета',
+            `sum` DECIMAL(10, 2) UNSIGNED NOT NULL COMMENT 'Сумма счета',
             `comment` VARCHAR(500) DEFAULT NULL COMMENT 'Комментарий к счету',
+            `bill_file_name` VARCHAR(500) DEFAULT NULL COMMENT 'Название файла счета',
             `created_at` TIMESTAMP NULL DEFAULT NULL,
             `updated_at` TIMESTAMP NULL DEFAULT NULL,
             PRIMARY KEY (`id`)

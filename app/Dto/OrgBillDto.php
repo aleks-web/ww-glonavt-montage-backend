@@ -5,19 +5,45 @@ namespace WWCrm\Dto;
 class OrgBillDto {
     private array $allFields = [];
     private $id;
+    private $contractId;
     private $organizationId;
+    private $comment;
+    private $sum;
+
+    private $billFileRequest;
+    private $billFileName;
 
     public function __construct(array $values) {
         foreach ($values as $key => $val) {
             switch ($key) {
+                case 'contract_id':
+                    if (isset($val)) {
+                        $this->setContractId($val);
+                    }
+                    break;
                 case 'organization_id':
                     if (isset($val)) {
                         $this->setOrganizationId($val);
                     }
                     break;
+                case 'comment':
+                    if (isset($val)) {
+                        $this->setComment($val);
+                    }
+                    break;
+                case 'sum':
+                    if (isset($val)) {
+                        $this->setSum($val);
+                    }
+                    break;
                 case 'id':
                     if (isset($val)) {
                         $this->setId($val);
+                    }
+                    break;
+                case 'bill_file_name':
+                    if (isset($val)) {
+                        $this->setBillFileName($val);
                     }
                     break;
             }
@@ -29,6 +55,56 @@ class OrgBillDto {
     */
     public function toArray() : array {
         return $this->allFields;
+    }
+
+    /*
+        id организации
+    */
+    public function setOrganizationId(int|string $organizationId) : void {
+        $this->organizationId = (int) $organizationId;
+        $this->allFields['organization_id'] = $this->getOrganizationId();
+    }
+
+    public function getOrganizationId() : int|null {
+        return $this->organizationId;
+    }
+
+    /*
+        Название файла счета
+    */
+    public function setBillFileName(string $billFileName) : void {
+        $this->billFileName = $billFileName;
+        $this->allFields['bill_file_name'] = $this->getBillFileName();
+    }
+
+    public function getBillFileName() : string|null {
+        return $this->billFileName;
+    }
+
+    /*
+        $_FILE['file']
+    */
+    public function setBillFileRequest(array $billFileRequest) : void {
+        $this->billFileRequest = $billFileRequest;
+    }
+
+    public function getBillFileRequest() : array|null {
+        return $this->billFileRequest;
+    }
+
+    /*
+        sum
+    */
+    public function setSum(int|float|string $sum) : void {
+        $sum = trim($sum);
+        $sum = str_replace(' ', '', $sum);
+        $sum = str_replace(',', '.', $sum);
+        $this->sum = (float) $sum;
+        $this->allFields['sum'] = $this->getSum();
+    }
+
+    public function getSum() : float|null {
+        return $this->sum;
     }
 
     /*
@@ -44,15 +120,27 @@ class OrgBillDto {
     }
     
     /*
-        id организации
+        id договора
     */
-    public function setOrganizationId(int|string $organizationId) : void {
-        $this->organizationId = (int) $organizationId;
-        $this->allFields['organization_id'] = $this->getOrganizationId();
+    public function setContractId(int|string $contractId) : void {
+        $this->contractId = (int) $contractId;
+        $this->allFields['contract_id'] = $this->getContractId();
     }
 
-    public function getOrganizationId() : int|null {
-        return $this->organizationId;
+    public function getContractId() : int|null {
+        return $this->contractId;
+    }
+
+    /*
+        comment
+    */
+    public function setComment(string $comment) : void {
+        $this->comment = trim($comment);
+        $this->allFields['comment'] = $this->getComment();
+    }
+
+    public function getComment() : string|null {
+        return $this->comment;
     }
 
 }

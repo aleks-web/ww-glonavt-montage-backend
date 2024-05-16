@@ -4,6 +4,8 @@ namespace WWCrm\Models;
 
 use \Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+
 class Organizations extends Model {
 
   /*
@@ -120,5 +122,13 @@ class Organizations extends Model {
   */
   public function contracts() {
     return $this->hasMany('\WWCrm\Models\OrgContracts', 'organization_id', 'id');
+  }
+
+  /**
+   * Получить счета
+  */
+  public function bills(): HasManyThrough
+  {
+      return $this->hasManyThrough('\WWCrm\Models\OrgBills', '\WWCrm\Models\OrgContracts', 'organization_id', 'contract_id', 'id', 'id');
   }
 }

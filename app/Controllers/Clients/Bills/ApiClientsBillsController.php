@@ -19,6 +19,8 @@ use WWCrm\Services\ComponentSelectBuilder;
 // Dto
 use WWCrm\Dto\OrgBillDto;
 
+use WWCrm\Models\OrgContracts;
+
 
 
 class ApiClientsBillsController extends \WWCrm\Controllers\MainController {
@@ -34,10 +36,25 @@ class ApiClientsBillsController extends \WWCrm\Controllers\MainController {
         try {
             $dto = new OrgBillDto($params);
 
+            if ($dto->getContractId()) {
+                $contract = OrgContracts::find($dto->getContractId());
+            }
+
+            if ($_FILES['bill_file']) { // Если есть файл со счетом, то добавляем в dto
+                $dto->setBillFileRequest($_FILES['bill_file']);
+            }
+
+            if ($contract) {
+                $dto->setOrganizationId($contract->organization_id);
+            }
+
+            $this->orgBillService->createBill($dto);
+
             $response_array['status'] = 'success';
             $response_array['message'] = 'Успешное создание счета';
         } catch (\Exception $e) {
             $response_array['status'] = 'error';
+            $response_array['statusss'] = $dto->getOrganizationId();
             $response_array['message'] = 'Неудачное создание счета';
             $response_array['exception_message'] =  $e->getMessage();
         }

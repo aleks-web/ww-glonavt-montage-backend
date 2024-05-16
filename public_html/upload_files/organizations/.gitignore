@@ -1,3 +1,8 @@
-*
 !.gitignore
 !readme.txt
+
+bills/*
+!bills/.gitkeep
+
+contracts/*
+!contracts/.gitkeep

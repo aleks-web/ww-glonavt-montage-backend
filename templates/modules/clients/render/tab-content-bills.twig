@@ -1,3 +1,8 @@
+{#
+    request_params - параметры запроса
+    client - клиент
+    client.bills - счета клиента
+#}
 <div class="tabs__tableContainer">
     <div class="tabs__table">
         <table>
@@ -11,18 +16,23 @@
             </thead>
 
             <tbody>
-                <tr class="pointer">
-                    <td class="text-start">Не оплачен</td>
-                    <td class="text-start"><a href="#">№4345_от_05.10.2023.doc</a><br><span>50 000,00</span></td>
-                    <td class="text-start"><span>05.10.23 в 14:08</span><br><span>Сидоров Ю. Р.</span></td>
-                    <td class="text-start">Коментарий абсолютно любой длинный и даже в две строчки</td>
-                    <td class="td-btn-default">
-                        <svg data-fancybox data-src="#fmodal-new-bill" class="hover"><use xlink:href="#svg-edit"></use></svg>
-                    </td>
-                    <td class="td-btn-default">
-                        <svg class="hover"><use xlink:href="#svg-del"></use></svg>
-                    </td>
-                </tr>
+                {% for bill in client.bills %}
+                    <tr class="pointer">
+                        <td class="text-start" style="color: red;">Не оплачен</td>
+                        <td class="text-start">
+                            <a href="#">№4345_от_05.10.2023.doc</a><br>
+                            <span>{{ bill.sum | default('-') }}</span>
+                        </td>
+                        <td class="text-start"><span>05.10.23 в 14:08</span><br><span>Сидоров Ю. Р.</span></td>
+                        <td class="text-start">{{ bill.comment | default('-') }}</td>
+                        <td class="td-btn-default">
+                            <svg data-fancybox data-src="#fmodal-new-bill" class="hover"><use xlink:href="#svg-edit"></use></svg>
+                        </td>
+                        <td class="td-btn-default">
+                            <svg class="hover"><use xlink:href="#svg-del"></use></svg>
+                        </td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>

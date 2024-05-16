@@ -2,6 +2,20 @@
 
 return ['routs' => [
     'api_v1' => [
+        'ClientsBills' => [
+            'create' => [
+                'route' => '/api_v1/clients/bills/create/',
+                'controller' => 'WWCrm\Controllers\Clients\Bills\ApiClientsBillsController@create'
+            ],
+            'delete' => [
+                'route' => '/api_v1/clients/bills/delete/',
+                'controller' => 'WWCrm\Controllers\Clients\Bills\ApiClientsBillsController@delete'
+            ],
+            'update' => [
+                'route' => '/api_v1/clients/bills/update/',
+                'controller' => 'WWCrm\Controllers\Clients\Bills\ApiClientsBillsController@update'
+            ]
+        ],
         'ClientsContracts' => [
             'create' => [
                 'route' => '/api_v1/clients/contracts/create/',

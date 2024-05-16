@@ -95,6 +95,9 @@ return [
     },
     'OrgContractService' => function () {
         return new \WWCrm\Services\Organization\OrgContractService();
+    },
+    'OrgBillService' => function () {
+        return new \WWCrm\Services\Organization\OrgBillService();
     }
 
 ];

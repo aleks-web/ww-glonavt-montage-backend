@@ -21,6 +21,7 @@ class MainController extends Controller {
     protected $objectService;
     protected $userService;
     protected $orgContractService;
+    protected $orgBillService;
 
 
     protected $utils;
@@ -36,6 +37,7 @@ class MainController extends Controller {
         $this->objectService = $this->WWCrmService->get('ObjectService');
         $this->organizationService = $this->WWCrmService->get('OrganizationService');
         $this->orgContractService = $this->WWCrmService->get('OrgContractService');
+        $this->orgBillService = $this->WWCrmService->get('OrgBillService');
         $this->userService = $this->WWCrmService->get('UserService');
 
         $this->utils = $this->WWCrmService->get('Utils');

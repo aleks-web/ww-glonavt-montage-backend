@@ -509,6 +509,7 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             $client_id = $response_array['request_params']['client_id'];
 
             $response_array['client'] = Organizations::find($client_id);
+            $response_array['client']['bills'] = $response_array['client']->bills;
 
             // Рендерим
             $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
