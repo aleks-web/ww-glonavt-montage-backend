@@ -9,21 +9,40 @@
     <div class="fmodal__content">
 
         <div class="fmodal__vertical">
-            
-            @@include('../components/select.html', {"name": "", "stText": "Выберите договор", "itemName": "Договор"})
 
-            @@include('../components/input-file.html')
+            {{ contracts.select_html | raw }}
+
+            {# Start загрузка файла счета #}
+            {% include 'components/input-file.twig' with {
+                settings: {
+                    db_field_name: 'bill_file',
+                    btn_text: 'Загрузите счет',
+                    required: true
+                }
+            } %}
+            {# End загрузка файла счета #}
     
-            @@include('../components/input-text.html', {"name": "", "value": "", "stText": "Сумма счёта"})
+            {% include 'components/input-text.twig' with {
+                settings: {
+                    db_field_name: 'sum',
+                    required: true,
+                    pls: 'Сумма счёта'
+                }
+            } %}
 
-            <textarea cols="30" rows="8" placeholder="Комментарий"></textarea>
+            {% include 'components/textarea.twig' with {
+                settings: {
+                    db_field_name: 'comment',
+                    pls: 'Комментарий'
+                }
+            } %}
         </div>
         
     </div>
 
     <div class="fmodal__control-btns">
         <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
-        <button class="fmodal__btn btn-good disable">Сохранить</button>
+        <button class="fmodal__btn btn-good js-submitter disable">Сохранить</button>
     </div>
 </div>
 <!-- End fancybox modal | Новый счет | Модуль клиенты -->

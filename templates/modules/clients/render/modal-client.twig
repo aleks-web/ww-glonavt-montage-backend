@@ -45,7 +45,7 @@
                     <button onclick="load_fmodal_new_contract({{ client.id }})" class="modal__header-btn btn">Добавить договор</button>
                 </div>
                 <div class="modal__header-group-btns tab-outside" data-outside-id="5">
-                    <button data-fancybox data-src="#fmodal-new-bill" class="modal__header-btn btn">Добавить счет</button>
+                    <button onclick="load_fmodal_new_bill({{ client.id }})" class="modal__header-btn btn">Добавить счет</button>
                 </div>
                 <div class="modal__header-group-btns tab-outside" data-outside-id="6">
                     <button data-fancybox data-src="#fmodal-new-document" class="modal__header-btn btn">Добавить документ</button>
@@ -571,6 +571,42 @@ function load_fmodal_new_contract(client_id) {
                 });
 
                 dd(response, `Render fmodal-new-contract.twig ${url}`, 'success');
+            }
+
+            if (response.status == "error") {
+                dd(response, response.message, 'error');
+            }
+        }
+    });
+}
+</script>
+{# Start функция загрузки модалки "Новый договор" #}
+
+{# Start функция загрузки модалки "Новый договор" #}
+<script>
+function load_fmodal_new_bill(client_id) {
+    $wrapper = $('#fmodal-new-bill-wrapper');
+
+    let url = API_V1_ROUTS.Clients.render + 'fmodal-new-bill'; // API_V1_URLS - Смотрим в main.js
+
+    $.ajax({
+        url: url,
+        method: "POST",
+        data: {
+            client_id: client_id, // Передаем id клиента
+        },
+        success: function (response) {
+            if (response.status == "success") {
+                $wrapper.html(response.render_response_html);
+
+                cpns_form_validate('#fmodal-new-bill', '.js-submitter', true);
+
+                $.fancybox.open({
+                    src: '#fmodal-new-bill',
+                    type: 'inline'
+                });
+
+                dd(response, `Render fmodal-new-bill.twig ${url}`, 'success');
             }
 
             if (response.status == "error") {

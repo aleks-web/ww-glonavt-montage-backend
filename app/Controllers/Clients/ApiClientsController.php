@@ -203,7 +203,11 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             return $this->render_fmodal_new_contract($twig_element, $request, $response);
         } else if ($twig_element == 'fmodal-contract-update.twig') {
             return $this->render_fmodal_contract_update($twig_element, $request, $response);
-        } else if ($twig_element == 'tab-content-objects.twig') {
+        } else if ($twig_element == 'fmodal-new-bill.twig') {
+            return $this->render_fmodal_new_bill($twig_element, $request, $response);
+        }
+        
+        else if ($twig_element == 'tab-content-objects.twig') {
             return $this->render_tab_objects($twig_element, $request, $response);
         } else if ($twig_element == 'modal-client-add.twig') {
             return $this->render_modal_client_add($twig_element, $request, $response);
@@ -689,6 +693,47 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
                 'book_users' => [
                     'select_html' => $builderUsers->toHtml(),
                     'select_array' => $builderUsers->toArray()
+                ]
+            ]);
+ 
+             $response_array['status'] = 'success';
+ 
+             // Итоговые манипуляции
+             $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+ 
+             // Возвращаем ответ
+             return $response;
+        }
+
+         /*
+            Рендер модалки "Новый счет"
+        */
+        public function render_fmodal_new_bill($twig_element, Request $request, Response $response) {
+            $response->headers->set('Content-Type', 'application/json');
+
+            // Получаем параметры POST и сразу записываем их в массив с ответом
+            $params = $response_array['request_params'] = $request->request->all();
+            $client = Organizations::find($params['client_id']);
+
+            // OrgContracts
+            $builderContracts = new ComponentSelectBuilder([
+                'db_field_name' => 'contract_id',
+                'required' => true,
+                'not_selected_text' => 'Выберите договор для создания счета'
+            ]);
+
+            foreach(OrgContracts::where('organization_id', '=', $client->id)->get() as $contract) {
+                $builderContracts->addIdItem($contract->id)->addTextItem('Договор №: ' . $contract->contract_num)->saveItem();
+            }
+
+
+            // Рендерим
+            $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
+                'request_params' => $response_array['request_params'],
+                'client' => $client,
+                'contracts' => [
+                    'select_html' => $builderContracts->toHtml(),
+                    'select_array' => $builderContracts->toArray()
                 ]
             ]);
  

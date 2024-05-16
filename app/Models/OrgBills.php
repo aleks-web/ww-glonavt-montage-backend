@@ -13,6 +13,7 @@ class OrgBills extends Model {
     'comment'
   ];
 
+  // возвращает fillable
   public static function getFillableAttributes(): array {
     return (new static)->getFillable();
   }
