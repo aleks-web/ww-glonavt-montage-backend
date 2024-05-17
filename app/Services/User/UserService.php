@@ -222,4 +222,11 @@ final class UserService extends MainService {
         }
     }
 
+    /*
+        Получает пользователя по Id
+    */
+    public function getUserById(int $id) : Users|null {
+        return Users::find($id);
+    }
+
 }

@@ -67,12 +67,18 @@ class OrgBills extends Model {
     'bill_file_name',
     'sum',
     'status',
-    'comment'
+    'comment',
+    'user_add_id'
   ];
 
   // возвращает fillable
   public static function getFillableAttributes(): array {
     return (new static)->getFillable();
+  }
+
+  // Кто добавил. Инициатор
+  public function userAdded() {
+    return $this->belongsTo(Users::class, 'user_add_id', 'id');
   }
 
 }

@@ -27,13 +27,21 @@ final class CreateOrgBillsTable extends AbstractMigration
             `sum` DECIMAL(10, 2) UNSIGNED NOT NULL COMMENT 'Сумма счета',
             `comment` VARCHAR(500) DEFAULT NULL COMMENT 'Комментарий к счету',
             `bill_file_name` VARCHAR(500) DEFAULT NULL COMMENT 'Название файла счета',
+            `user_add_id` BIGINT UNSIGNED DEFAULT NULL COMMENT 'Кто добавил счет. Инициатор',
             `created_at` TIMESTAMP NULL DEFAULT NULL,
             `updated_at` TIMESTAMP NULL DEFAULT NULL,
             PRIMARY KEY (`id`)
           ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
 
-          // Сеем тестовые данные
+          // Создаем табличку
           $this->execute($sql);
+
+          $sql_alert = "
+            ALTER TABLE `org_bills`
+              ADD KEY `org_bills_user_add_id_foreign` (`user_add_id`),
+              ADD CONSTRAINT `org_bills_user_add_id_foreign` FOREIGN KEY (`user_add_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
+          ";
+          $this->execute($sql_alert); // Добавляем ограничения. Внешние ключи
     }
 
     // Откат

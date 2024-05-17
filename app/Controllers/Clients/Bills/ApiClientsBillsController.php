@@ -36,6 +36,8 @@ class ApiClientsBillsController extends \WWCrm\Controllers\MainController {
         try {
             $dto = new OrgBillDto($params);
 
+            $dto->setUserAddId($this->WWCurrentUser->getId());
+
             if ($dto->getContractId()) {
                 $contract = OrgContracts::find($dto->getContractId());
             }
@@ -51,7 +53,6 @@ class ApiClientsBillsController extends \WWCrm\Controllers\MainController {
             $this->orgBillService->createBill($dto);
 
             $response_array['status'] = 'success';
-            $response_array['statusss'] = $dto->toArray();
             $response_array['message'] = 'Успешное создание счета';
         } catch (\Exception $e) {
             $response_array['status'] = 'error';

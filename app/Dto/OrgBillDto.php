@@ -10,6 +10,7 @@ class OrgBillDto {
     private $comment;
     private $sum;
     private $status;
+    private $userAddId;
 
     private $billFileRequest;
     private $billFileName;
@@ -52,6 +53,11 @@ class OrgBillDto {
                         $this->setStatus($val);
                     }
                     break;
+                case 'user_add_id':
+                    if (isset($val)) {
+                        $this->setUserAddId($val);
+                    }
+                    break;
             }
         }
     }
@@ -61,6 +67,18 @@ class OrgBillDto {
     */
     public function toArray() : array {
         return $this->allFields;
+    }
+
+    /*
+        Кто добавил user_add_id в бд
+    */
+    public function setUserAddId(int|string $userAddId) : void {
+        $this->userAddId = (int) $userAddId;
+        $this->allFields['user_add_id'] = $this->getUserAddId();
+    }
+
+    public function getUserAddId() : int|null {
+        return $this->userAddId;
     }
 
     /*

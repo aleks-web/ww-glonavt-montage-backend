@@ -512,10 +512,15 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             $response_array['client'] = Organizations::find($client_id);
             $response_array['client']['bills'] = $response_array['client']->bills;
 
+            foreach($response_array['client']['bills'] as $bill) {
+                $bill->userAdded();
+            }
+
             // Рендерим
             $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
                 'request_params' => $response_array['request_params'],
-                'client' => $response_array['client']
+                'client' => $response_array['client'],
+                'bills_types' => OrgBills::getArrayStatuses()
             ]);
 
             $response_array['status'] = 'success';

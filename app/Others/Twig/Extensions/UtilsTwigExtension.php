@@ -15,6 +15,7 @@ class UtilsTwigExtension extends \Twig\Extension\AbstractExtension
             new \Twig\TwigFunction('dd', [$this, 'dd']),
             new \Twig\TwigFunction('dump', [$this, 'dump']),
             new \Twig\TwigFunction('select', [$this, 'select']),
+            new \Twig\TwigFunction('short_name', [$this, 'short_name']),
         ];
     }
 
@@ -40,5 +41,16 @@ class UtilsTwigExtension extends \Twig\Extension\AbstractExtension
         } else {
             return 'Необходимо заполнить второй аргумент функции. html или array';
         }
+    }
+
+    /*
+        Возвращает короткое имя основываясь на полученных данных
+    */
+    public function short_name(string $name = '', string $surname = '', string $patronymic = '') : string {
+        $name = trim($name);
+        $surname = trim($surname);
+        $patronymic = trim($patronymic);
+
+        return ucfirst($surname) . ' ' . mb_substr(ucfirst($name), 0, 1, 'utf-8') . '. ' . mb_substr(ucfirst($patronymic), 0, 1, 'utf-8') . '.';
     }
 }
