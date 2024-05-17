@@ -26,6 +26,7 @@ use WWCrm\Models\Objects;
 use WWCrm\Models\OrgContactsPersons;
 use WWCrm\Models\Users;
 use WWCrm\Models\OrgContracts;
+use WWCrm\Models\OrgBills;
 use WWCrm\Models\BookDocs;
 
 /*
@@ -716,6 +717,16 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             $params = $response_array['request_params'] = $request->request->all();
             $client = Organizations::find($params['client_id']);
 
+            // Статусы
+            $builderBillsTypes = new ComponentSelectBuilder([
+                'db_field_name' => 'status',
+                'required' => true,
+                'not_selected_text' => 'Статус'
+            ]);
+            foreach (OrgBills::getArrayStatuses() as $idStatus => $nameStatus) {
+                $builderBillsTypes->addIdItem($idStatus)->addTextItem($nameStatus)->saveItem();
+            }
+
             // OrgContracts
             $builderContracts = new ComponentSelectBuilder([
                 'db_field_name' => 'contract_id',
@@ -732,6 +743,10 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
                 'request_params' => $response_array['request_params'],
                 'client' => $client,
+                'statuses' => [
+                    'select_html' => $builderBillsTypes->toHtml(),
+                    'select_array' => $builderBillsTypes->toArray()
+                ],
                 'contracts' => [
                     'select_html' => $builderContracts->toHtml(),
                     'select_array' => $builderContracts->toArray()

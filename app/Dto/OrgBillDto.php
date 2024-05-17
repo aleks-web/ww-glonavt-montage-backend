@@ -9,6 +9,7 @@ class OrgBillDto {
     private $organizationId;
     private $comment;
     private $sum;
+    private $status;
 
     private $billFileRequest;
     private $billFileName;
@@ -46,6 +47,11 @@ class OrgBillDto {
                         $this->setBillFileName($val);
                     }
                     break;
+                case 'status':
+                    if (isset($val)) {
+                        $this->setStatus($val);
+                    }
+                    break;
             }
         }
     }
@@ -55,6 +61,18 @@ class OrgBillDto {
     */
     public function toArray() : array {
         return $this->allFields;
+    }
+
+    /*
+        Статус
+    */
+    public function setStatus(int $status) : void {
+        $this->status = $status;
+        $this->allFields['status'] = $this->getStatus();
+    }
+
+    public function getStatus() : int|null {
+        return $this->status;
     }
 
     /*

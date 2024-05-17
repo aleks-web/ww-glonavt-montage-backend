@@ -51,10 +51,10 @@ class ApiClientsBillsController extends \WWCrm\Controllers\MainController {
             $this->orgBillService->createBill($dto);
 
             $response_array['status'] = 'success';
+            $response_array['statusss'] = $dto->toArray();
             $response_array['message'] = 'Успешное создание счета';
         } catch (\Exception $e) {
             $response_array['status'] = 'error';
-            $response_array['statusss'] = $dto->getOrganizationId();
             $response_array['message'] = 'Неудачное создание счета';
             $response_array['exception_message'] =  $e->getMessage();
         }
@@ -74,6 +74,8 @@ class ApiClientsBillsController extends \WWCrm\Controllers\MainController {
 
         try {
             $dto = new OrgBillDto($params);
+
+            $this->orgBillService->deleteBill($dto->getId());
 
             $response_array['status'] = 'success';
             $response_array['message'] = 'Успешное удаление счета';

@@ -34,7 +34,7 @@ final class OrgBillService extends MainService {
     /*
         Удаление договора
     */
-    public function deleteContract(int $id) : bool {
+    public function deleteBill(int $id) : bool {
         if (OrgBills::find($id)->delete()) {
             return true;
         } else {

@@ -13,6 +13,8 @@
 
             {{ contracts.select_html | raw }}
 
+            {{ statuses.select_html | raw }}
+
             {# Start загрузка файла счета #}
             {% include 'components/input-file.twig' with {
                 settings: {
@@ -55,7 +57,7 @@
         let formData = cpns_get_formdata_by_wrapper('#fmodal-new-bill');
 
         xpost_fd(url, formData).then(response => {
-            load_tab_contracts({{ client.id }}, true);
+            load_tab_bills({{ client.id }}, true);
             $.fancybox.close();
             push(response.message, 'success');
             dd(response, response.message, 'success');

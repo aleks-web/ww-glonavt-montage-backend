@@ -236,3 +236,25 @@ function load_fmodal_contract_update(contract_id) {
         dd(response, response.message, 'error');
     });
 }
+
+
+
+
+
+/*
+    Функционал удаления счета
+*/
+function delete_bill_by_id(bill_id, org_id) {
+    let url = API_V1_ROUTS.ClientsBills.delete;
+    let formData = new FormData();
+    formData.append('id', bill_id);
+
+    xpost_fd(url, formData).then(response => {
+        load_tab_bills(org_id, true);
+        push(response.message, 'success');
+        dd(response, response.message, 'success');
+    }).catch(response => {
+        push(response.message, 'error');
+        dd(response, response.message, 'error');
+    });
+}

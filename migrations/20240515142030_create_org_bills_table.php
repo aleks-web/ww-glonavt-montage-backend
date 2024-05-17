@@ -19,10 +19,11 @@ final class CreateOrgBillsTable extends AbstractMigration
      */
     public function up(): void
     {
-
+        $default_status = \WWCrm\Models\OrgBills::STATUS_NOTPAID;
         $sql = "CREATE TABLE IF NOT EXISTS `org_bills` (
             `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-            `contract_id` BIGINT UNSIGNED DEFAULT NULL COMMENT 'id договора',
+            `status` BIGINT UNSIGNED NOT NULL DEFAULT {$default_status} COMMENT 'id договора',
+            `contract_id` BIGINT UNSIGNED NOT NULL COMMENT 'id договора',
             `sum` DECIMAL(10, 2) UNSIGNED NOT NULL COMMENT 'Сумма счета',
             `comment` VARCHAR(500) DEFAULT NULL COMMENT 'Комментарий к счету',
             `bill_file_name` VARCHAR(500) DEFAULT NULL COMMENT 'Название файла счета',

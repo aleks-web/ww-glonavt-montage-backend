@@ -26,10 +26,12 @@
                         <td class="text-start"><span>05.10.23 в 14:08</span><br><span>Сидоров Ю. Р.</span></td>
                         <td class="text-start">{{ bill.comment | default('-') }}</td>
                         <td class="td-btn-default">
-                            <svg data-fancybox data-src="#fmodal-new-bill" class="hover"><use xlink:href="#svg-edit"></use></svg>
+                            <svg data-fancybox data-src="#fmodal-new-bill" class="hover">
+                                <use xlink:href="#svg-edit"></use>
+                            </svg>
                         </td>
                         <td class="td-btn-default">
-                            <svg class="hover"><use xlink:href="#svg-del"></use></svg>
+                            <svg onclick="delete_bill_by_id({{ bill.id }}, {{ client.id }})" class="hover"><use xlink:href="#svg-del"></use></svg>
                         </td>
                     </tr>
                 {% endfor %}
