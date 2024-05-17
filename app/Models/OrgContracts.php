@@ -35,8 +35,4 @@ class OrgContracts extends Model {
   public function responsibleUser() {
     return $this->belongsTo('\WWCrm\Models\Users', 'responsible_user_id', 'id');
   }
-
-  public function docType() {
-    return $this->belongsTo('\WWCrm\Models\BookDocs', 'book_doc_id', 'id');
-  }
 }

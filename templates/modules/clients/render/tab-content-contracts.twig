@@ -22,12 +22,13 @@
             <tbody>
                 {% for contract in contracts %}
                     {% set responsibleUser = contract.responsibleUser.surname ~ ' ' ~ contract.responsibleUser.name %}
-                
                     <tr class="pointer">
                         <td class="text-start">{{ contract.id }}</td>
-                        <td class="text-start">
-                            <span>{{ contract.docType.name }}</span><br>
-                            <span>{% if date().timestamp > contract.contract_date_end | date().timestamp %}asd{% endif %}</span>
+                        <td class="text-start" style="max-width: 150px;">
+                            <div {% if contract.doc_type_id %}style="padding: 10px 0;"{% endif %}>
+                                <span {% if contract.doc_type_id %}style="margin-bottom: 6px; display: inline-block;"{% endif %}>{{ contract.docType[contract.doc_type_id] | default('Тип не определен') }}</span><br>
+                                <span>{% if date().timestamp > contract.contract_date_end | date().timestamp %}asd{% endif %}</span>
+                            </div>
                         </td>
                         <td>{{ contract.contract_num }}</td>
                         <td>{{ contract.contract_date_start | default('-') }}</td>

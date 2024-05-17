@@ -480,7 +480,7 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
 
             foreach ($contracts as $contract) {
                 $contract->responsibleUser = $contract->responsibleUser;
-                $contract->docType = $contract->docType;
+                $contract->docType = OrgContracts::BOOK_TYPES;
             }
 
             // Рендерим
