@@ -114,7 +114,7 @@ class Organizations extends Model {
 
   // Назначенный менеджер
   public function manager() {
-    return $this->belongsTo(Users::class, 'manager_id', 'id');
+    return $this->belongsTo('\WWCrm\Models\Users', 'manager_id', 'id');
   }
 
   /*

@@ -46,6 +46,15 @@ final class CreateOrganizationsTable extends AbstractMigration
           // Создаем таблицу
           $this->execute($sql);
 
+          $sql_alert = "
+            ALTER TABLE `organizations`
+              ADD KEY `organizations_manager_id_foreign` (`manager_id`),
+              ADD CONSTRAINT `organizations_manager_id_foreign` FOREIGN KEY (`manager_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
+          ";
+          $this->execute($sql_alert); // Добавляем ограничения. Внешние ключи
+
+
+
           $seed = "INSERT INTO `organizations` (`name`, `status`, `inn`, `email`, `legal_address`, `actual_address`, `bank_name`, `bic`, `checking_bill_num`, `correspondent_bill_num`, `okpo`, `okato`, `manager_id`, `created_at`, `updated_at`) VALUES ('Алексей IT', {$default_status}, 'Инн', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-03-25 06:03:50', '2024-03-25 06:03:50'), ('Вымпел', {$default_status}, 'Инн', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-03-25 06:03:50', '2024-03-25 06:03:50'), ('АТОЛ', {$default_status}, 'Инн', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-03-25 06:03:50', '2024-03-25 06:03:50'), ('Apple', {$default_status}, 'Инн', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-03-25 06:03:50', '2024-03-25 06:03:50'), ('Microsoft', {$default_status}, 'Инн', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-03-25 06:03:50', '2024-03-25 06:03:50')";
           
           // Сеем тестовые данные

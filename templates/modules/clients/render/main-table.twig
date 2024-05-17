@@ -23,6 +23,7 @@
 
                 <tbody>
                     {% for row in table_rows %}
+                        {{ dump(row) }}
                         <tr data-modal-client data-client-id="{{ row.id }}" class="pointer" class="pointer">
                             <td class="text-start">{{ row.id }}</td>
                             <td class="text-start">{{ row.status_name }}</td>

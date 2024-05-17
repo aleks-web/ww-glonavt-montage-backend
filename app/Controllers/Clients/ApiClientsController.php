@@ -294,7 +294,7 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             $response_array['message'] = 'Элемент успешно отрендерился';
             $response_array['table_rows'] = $queryBuild->get();
 
-            foreach ($response_aray['table_rows'] as $client) {
+            foreach ($response_aray['table_rows'] as $key => $client) {
                 $client->objects; // Получаем объекты. При обращении к свойству, каждая запись table_rows автоматически дополнится записями объектов
                 $client->status_name = Organizations::getStatusName($client->status);
             }
