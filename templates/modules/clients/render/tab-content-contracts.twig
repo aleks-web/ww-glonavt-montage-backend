@@ -30,10 +30,10 @@
                                 <span>{% if date().timestamp > contract.contract_date_end | date().timestamp %}asd{% endif %}</span>
                             </div>
                         </td>
-                        <td>{{ contract.contract_num }}</td>
-                        <td>{{ contract.contract_date_start | default('-') }}</td>
-                        <td>{{ contract.contract_date_end | default('-') }}</td>
-                        <td>{{ responsibleUser }}</td>
+                        <td>{{ contract.contract_num | default('-') }}</td>
+                        <td>{{ contract.contract_date_start | date('d.m.Y') | default('-') }}</td>
+                        <td>{{ contract.contract_date_end | date('d.m.Y') | default('-') }}</td>
+                        <td>{{ short_name(contract.responsibleUser.name, contract.responsibleUser.surname, contract.responsibleUser.patronymic) }}</td>
 
                         <td class="td-btn-default">
                             <svg onclick="load_fmodal_contract_update({{ contract.id }})" class="hover"><use xlink:href="#svg-edit"></use></svg>
