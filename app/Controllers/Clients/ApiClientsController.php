@@ -296,11 +296,11 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
 
             foreach ($response_aray['table_rows'] as $key => $client) {
                 $client->objects; // Получаем объекты. При обращении к свойству, каждая запись table_rows автоматически дополнится записями объектов
-                $client->status_name = Organizations::getStatusName($client->status);
             }
             
             $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
                 'table_rows' => $response_array['table_rows'],
+                'statuses' => Organizations::getArrayStatuses(),
                 'pagination' => $response_array['pagination'],
                 'request_params' => $response_array['request_params']
             ]);

@@ -23,14 +23,13 @@
 
                 <tbody>
                     {% for row in table_rows %}
-                        {{ dump(row) }}
                         <tr data-modal-client data-client-id="{{ row.id }}" class="pointer" class="pointer">
                             <td class="text-start">{{ row.id }}</td>
-                            <td class="text-start">{{ row.status_name }}</td>
+                            <td class="text-start">{{ statuses[row.status] | default('-') }}</td>
                             <td class="text-start">{{ row.name }}<br><span class="text-secondary">ИНН: {{ row.inn }}</span></td>
                             <td>{{ row.objects | length }}</td>
-                            <td style="color: red">натянуть</td>
-                            <td style="color: red">натянуть</td>
+                            <td style="color: red">натянуть (отсутствует модуль заявки)</td>
+                            <td>{{ short_name(row.manager.name, row.manager.surname, row.manager.patronymic) }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
