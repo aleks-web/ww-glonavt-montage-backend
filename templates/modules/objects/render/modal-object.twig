@@ -84,7 +84,7 @@
                     <div data-id="5" class="tabs__tab">
                         Истории заявок
                     </div>
-                    <div data-id="6" class="tabs__tab">
+                    <div data-id="6" class="tabs__tab" onclick="load_tab_logs({{ object.id }})">
                         История действий
                     </div>
                     <div data-id="7" class="tabs__tab">
@@ -362,29 +362,7 @@
                     <!-- End tab content 5 -->
 
                     <!-- Start tab content 6 -->
-                    <div data-id="6" class="tabs__item">
-                        <div class="tabs__tableContainer">
-                            <div class="tabs__table">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th class="text-start">Событие</th>
-                                            <th class="text-start">Информация</th>
-                                            <th class="text-start">Инициатор</th>
-                                        </tr>
-                                    </thead>
-        
-                                    <tbody>
-                                        <tr data-fancybox data-src="#fmodal-ts-object-view" class="pointer">
-                                            <td class="text-start">Смена статуса</td>
-                                            <td class="text-start">Смена статуса</td>
-                                            <td class="text-start">Лебедев Ю. И.</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                    <div data-id="6" class="tabs__item" id="modal-object-tab-logs-content"></div>
                     <!-- End tab content 6 -->
 
                     <!-- Start tab content 7 -->
@@ -521,10 +499,6 @@ function load_tab_equipments (object_id, is_reload = false) {
 
                     dd(response, `Render tab-content-equipments.twig ${url}`);
                 }
-
-                if (response.status == "error") {
-                    $wrapper.html(`<div style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">${response.message}</div>`);
-                }
             },
             beforeSend: function(s) {
                 $wrapper.addClass('loading');
@@ -534,6 +508,47 @@ function load_tab_equipments (object_id, is_reload = false) {
 }
 </script>
 {# End подгрузка таба "Оборудование" #}
+
+<script>
+function load_tab_logs(object_id, is_reload = false) {
+    $wrapper = $('#modal-object-tab-logs-content');
+
+    if (!$wrapper.hasClass('loaded') && !is_reload) { // Если вкладка не загружена
+        go_ajax();
+    }
+
+    if (is_reload) {
+        go_ajax();
+    }
+
+    function go_ajax() {
+        let url = API_V1_URLS.objects.render + 'tab-content-logs'; // API_V1_URLS - Смотрим в main.js
+
+        let data = {object_id: object_id};
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: data,
+            success: function (response) {
+                $wrapper.removeClass("loading");
+
+                if (response.status == "success") {
+                    $wrapper.removeClass('loading');
+                    $wrapper.html(response.render_response_html);
+                    $wrapper.addClass('loaded');
+                    resizeTableModal(); // Ресайзим под размеры. Костыль
+
+                    dd(response, `Render tab-content-logs.twig ${url}`);
+                }
+            },
+            beforeSend: function(s) {
+                $wrapper.addClass('loading');
+            }
+        });
+    }
+}
+</script>
 
 {# Start функционал сохранения данных #}
 <script>

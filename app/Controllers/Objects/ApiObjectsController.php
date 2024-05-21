@@ -25,6 +25,7 @@ use WWCrm\Services\ComponentSelectBuilder;
 use WWCrm\Models\Organizations;
 use WWCrm\Models\BookEquipments;
 use WWCrm\Models\ObjEquipments;
+use WWCrm\Models\ObjLogs;
 use WWCrm\Models\Objects;
 use WWCrm\Models\BookObjects;
 
@@ -204,6 +205,8 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
             return $this->render_fmodal_new_type_equipment($twig_element, $request, $response);
         } else if ($twig_element == 'tab-content-equipments.twig') {
             return $this->render_tab_content_equipments($twig_element, $request, $response);
+        } else if ($twig_element == 'tab-content-logs.twig') {
+            return $this->render_tab_content_logs($twig_element, $request, $response);
         } else if($twig_element == 'fmodal-new-device.twig') {
             return $this->render_fmodal_new_device($twig_element, $request, $response);
         } else {
@@ -438,6 +441,30 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         $response_array['status'] = 'success';
         $response_array['message'] = 'ApiObjectsController';
         $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+        // Возвращаем ответ
+        return $response;
+    }
+
+    /*
+        Рендер таба "Логи/История действий"
+    */
+    public function render_tab_content_logs($twig_element, Request $request, Response $response) {
+        // Получаем параметры POST и сразу записываем их в массив с ответом
+        $params = $response_array['request_params'] = $request->request->all();
+        $response->headers->set('Content-Type', 'application/json');
+
+        // Рендерим
+        $response_array['render_response_html'] = $this->view->render('modules/objects/render/' . $twig_element, [
+            'request_params' => $response_array['request_params'],
+            'logs' => Objects::find($params['object_id'])->logs,
+            'events_names' => ObjLogs::getArrayStatuses()
+        ]);
+
+        // Итоговые манипуляции
+        $response_array['status'] = 'success';
+        $response_array['message'] = 'Успешный рендер ' . $twig_element;
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
 
         // Возвращаем ответ

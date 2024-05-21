@@ -42,11 +42,6 @@ final class CreateObjLogsTable extends AbstractMigration
             ADD CONSTRAINT `obj_logs_user_add_id_foreign` FOREIGN KEY (`user_add_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
           ";
           $this->execute($sql_alert);
-
-          $seed = "INSERT INTO `obj_logs` (`object_id`, `event_id`, `user_add_id`) VALUES (1, 1, 1)";
-
-          // Сеем тестовые данные
-          $this->execute($seed);
     }
 
     // Откат

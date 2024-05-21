@@ -231,11 +231,13 @@ class ObjectDto {
         if (!empty($year)) {
             $this->year = str_replace(' ', '', $year);
             $this->allFields['year'] = $this->getYear();
+        } else {
+            $this->year = null;
         }
     }
 
-    public function getYear() {
-        return $this->year;
+    public function getYear() : string|int {
+        return (string) $this->year;
     }
 
     /*

@@ -26,7 +26,7 @@
                                 <td class="text-start">
                                     <span>{% if person.user_add != false %}{{ person.user_add.surname }} {{ person.user_add.name }} {{ person.user_add.patronymic }}{% else %}Инициатор не определен{% endif %}</span>
                                     <br>
-                                    <span>{{ person.created_at | date('Y.m.d') }} в {{ person.created_at | date('H:m') }}</span>
+                                    <span>{{ person.created_at | date('Y.m.d') }} в {{ person.created_at | date('H:i') }}</span>
                                 </td>
                                 <td class="td-btn-default">
                                     <svg onclick="load_fmodal_contacts_persons_update({{ person.id }})" class="hover"><use xlink:href="#svg-edit"></use></svg>

@@ -53,7 +53,7 @@ final class ObjectService extends MainService {
     */
     public function updateObject(ObjectDto $dto) : bool {
         // Проверяем валидность года
-        if (!$this->utils->isValidYear($dto->getYear())) {
+        if (!$this->utils->isValidYear($dto->getYear()) && !empty($dto->getYear())) {
             throw new \Exception("Не валидная дата");
         }
 
