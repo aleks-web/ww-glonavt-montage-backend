@@ -81,7 +81,7 @@ final class OrganizationService extends MainService {
         if ($client) {
             try {
                 if ($client->update($dto->toArray())) {
-                    $this->eventDisp->dispatch(new UpdateEvent($org), UpdateEvent::NAME);
+                    $this->eventDisp->dispatch(new UpdateEvent($client), UpdateEvent::NAME);
                     return true;
                 } else {
                     throw new \Exception("Не удалось обновить организацию");

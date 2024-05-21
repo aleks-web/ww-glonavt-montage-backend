@@ -59,7 +59,9 @@ final class ObjectService extends MainService {
 
         // Обновляем
         try {
-            if ($obj = Objects::find($dto->getId())->update($dto->toArray())) {
+            $obj = Objects::find($dto->getId());
+
+            if ($obj->update($dto->toArray())) {
                 $this->eventDisp->dispatch(new UpdateEvent($obj), UpdateEvent::NAME);
                 return true;
             };
