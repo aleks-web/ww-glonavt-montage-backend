@@ -57,6 +57,8 @@ final class ObjectService extends MainService {
             throw new \Exception("Не валидная дата");
         }
 
+        $dto->setYear(null);
+
         // Обновляем
         try {
             $obj = Objects::find($dto->getId());

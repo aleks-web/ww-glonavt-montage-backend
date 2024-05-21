@@ -31,7 +31,7 @@ final class CreateObjectsTable extends AbstractMigration
             `model` VARCHAR(255) DEFAULT NULL COMMENT 'Марка объекта',
             `gnum` VARCHAR(20) DEFAULT NULL COMMENT 'Гос.номер объекта',
             `vin` VARCHAR(100) DEFAULT NULL COMMENT 'Вин.номер',
-            `year` YEAR DEFAULT NULL COMMENT 'Год выпуска',
+            `year` VARCHAR(15) DEFAULT NULL COMMENT 'Год выпуска',
             `color` VARCHAR(20) DEFAULT NULL COMMENT 'Цвет',
             `reg_doc_num` VARCHAR(100) DEFAULT NULL COMMENT 'Номер документа о регистрации',
             `photo_file_name` VARCHAR(255) DEFAULT NULL COMMENT 'Название файла фотографии объекта',

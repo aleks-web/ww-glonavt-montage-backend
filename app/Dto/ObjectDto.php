@@ -227,17 +227,17 @@ class ObjectDto {
     /*
         Год
     */
-    public function setYear(int|string $year) : void {
+    public function setYear(int|string|null $year) : void {
         if (!empty($year)) {
-            $this->year = str_replace(' ', '', $year);
+            $this->year = str_replace(' ', '', (string) $year);
             $this->allFields['year'] = $this->getYear();
         } else {
             $this->year = null;
         }
     }
 
-    public function getYear() : string|int {
-        return (string) $this->year;
+    public function getYear() : string|null {
+        return $this->year;
     }
 
     /*

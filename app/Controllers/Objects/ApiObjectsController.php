@@ -86,7 +86,7 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
                 $response_array['object'] = $object;
                 $response_array['status'] = 'success';
                 $response_array['message'] = 'Объект обновлен';
-                $response_array['message2'] = $dto->toArray();
+                $response_array['dto'] = $dto->toArray();
             } else {
                 $response_array['status'] = 'error';
                 $response_array['message'] = 'Не удалось создать объект';
