@@ -60,4 +60,11 @@ class Objects extends Model {
   public function objectType() {
     return $this->belongsTo('\WWCrm\Models\BookObjects', 'book_object_id', 'id');
   }
+
+  /*
+    Получает все логи принадлежащие этому объекту
+  */
+  public function logs() {
+    return $this->hasMany('\WWCrm\Models\ObjLogs', 'object_id', 'id');
+  }
 }
