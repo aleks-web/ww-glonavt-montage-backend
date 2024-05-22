@@ -254,6 +254,7 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
     public function render_main_table($twig_element, Request $request, Response $response) {
         // Получаем параметры POST и сразу записываем их в массив с ответом
         $response_array['request_params'] = $request->request->all();
+        $response->headers->set('Content-Type', 'application/json');
 
         if (!empty($twig_element)) { // Если есть рендер элемент
 
@@ -310,8 +311,6 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             $response_array['message'] = 'Twig элемент не найден в POST запросе. Проверьте отправляемые данные';
         }
 
-
-        $response->headers->set('Content-Type', 'application/json');
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
 
         return $response;

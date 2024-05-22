@@ -71,10 +71,11 @@
 <script>
 function update_contract_by_id(contract_id, org_id) {
     let url = API_V1_ROUTS.ClientsContracts.update;
-    let formData = new FormData();
+    let formData = cpns_get_formdata_by_wrapper("#fmodal-contract-update");
     formData.append('id', contract_id);
 
     xpost_fd(url, formData).then(response => {
+        $.fancybox.close();
         load_tab_contracts(org_id, true);
         push(response.message, 'success');
         dd(response, response.message, 'success');

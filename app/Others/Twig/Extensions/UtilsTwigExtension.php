@@ -46,10 +46,22 @@ class UtilsTwigExtension extends \Twig\Extension\AbstractExtension
     /*
         Возвращает короткое имя основываясь на полученных данных
     */
-    public function short_name(string $name = '', string $surname = '', string $patronymic = '') : string {
-        $name = trim($name);
-        $surname = trim($surname);
-        $patronymic = trim($patronymic);
+    public function short_name($name = '', $surname = '', $patronymic = '') : string {
+        $name = trim((string) $name);
+        $surname = trim((string) $surname);
+        $patronymic = trim((string) $patronymic);
+
+        if (empty($surname) && !empty($patronymic)) {
+            return ucfirst($name) . ' ' . mb_substr(ucfirst($patronymic), 0, 1, 'utf-8') . '.';
+        }
+
+        if (empty($patronymic) && !empty($surname)) {
+            return ucfirst($name) . ' ' . mb_substr(ucfirst($surname), 0, 1, 'utf-8') . '.';
+        }
+
+        if (empty($patronymic) && empty($surname)) {
+            return ucfirst($name);
+        }
 
         return ucfirst($surname) . ' ' . mb_substr(ucfirst($name), 0, 1, 'utf-8') . '. ' . mb_substr(ucfirst($patronymic), 0, 1, 'utf-8') . '.';
     }

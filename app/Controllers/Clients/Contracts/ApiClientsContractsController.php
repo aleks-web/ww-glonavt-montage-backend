@@ -96,16 +96,22 @@ class ApiClientsContractsController extends \WWCrm\Controllers\MainController {
         // Получаем параметры
         $params = $response_array['request_params'] = $request->request->all();
 
+        $response_array['file'] = $_FILES['contract_file'];
+
         try {
             $dto = new OrgContractDto($params);
 
-            $this->orgContractService->deleteContract($dto->getId());
+            if ($_FILES['contract_file']) {
+                $dto->setContractFileRequest($_FILES['contract_file']);
+            }
+
+            $this->orgContractService->updateContract($dto);
 
             $response_array['status'] = 'success';
-            $response_array['message'] = 'Успешное удаление договорааааааа';
+            $response_array['message'] = 'Успешное обновление договора';
         } catch (\Exception $e) {
             $response_array['status'] = 'error';
-            $response_array['message'] = 'Неудачное удаление договора';
+            $response_array['message'] = 'Неудачное обновление договора';
             $response_array['exception_message'] =  $e->getMessage();
         }
 

@@ -35,4 +35,8 @@ class OrgContracts extends Model {
   public function responsibleUser() {
     return $this->belongsTo('\WWCrm\Models\Users', 'responsible_user_id', 'id');
   }
+
+  public function organization() {
+    return $this->belongsTo('\WWCrm\Models\Organizations', 'organization_id', 'id');
+  }
 }

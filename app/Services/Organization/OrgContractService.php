@@ -50,6 +50,44 @@ final class OrgContractService extends MainService {
     }
 
     /*
+        Обновление договора
+    */
+    public function updateContract(OrgContractDto $dto) : bool {
+        $contract = OrgContracts::find($dto->getId());
+        $dto->setOrganizationId($contract->organization->id);
+
+        if(empty($dto->getContractNum())) {
+            throw new \Exception('Номер договора не заполнен!');
+        }
+
+        /*
+            Если загружается новый файл
+        */
+        if(!empty($dto->getContractFileRequest())) {
+            $file_name = $this->saveContractFileFromRequest($dto->getContractFileRequest(), $dto);
+            $dto->setContractFileName($file_name);
+        }
+
+        /*
+            Если есть новый файл, удаляем старый
+        */
+        if($dto->getContractFileName()) {
+            $old_file_name = $contract->contract_file_name;
+            $directory_file = $this->paths['fs']['organizations_contracts'] . '/' . $dto->getOrganizationId() . '/' .  $old_file_name;
+
+            if (file_exists($directory_file) && isset($old_file_name)) {
+                unlink($directory_file);
+            }
+        }
+
+        if ($contract->update($dto->toArray())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /*
         Сохранение файла из запроса
     */
     public function saveContractFileFromRequest(array $file_array, OrgContractDto $dto) : string|false {
@@ -71,7 +109,7 @@ final class OrgContractService extends MainService {
 
             $ext = pathinfo($file_array['name'], PATHINFO_EXTENSION);
             
-            $file_name = 'orgid:' . $dto->getOrganizationId() . '__' . 'num:' . $dto->getContractNum() . '__timestamp:' . time() . '.' . $ext;
+            $file_name = 'orgid-' . $dto->getOrganizationId() . '__' . 'num-' . $dto->getContractNum() . '__timestamp-' . time() . '.' . $ext;
 
             $new_file_path = $save_dir_client . '/' . $file_name;
 
