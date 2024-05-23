@@ -8,7 +8,8 @@ use WWCrm\Others\Events\Organizations\Update as OrganizationUpdate;
 // Объекты
 use WWCrm\Others\EventListeners\ObjectsListener;
 use WWCrm\Others\Events\Objects\Create as ObjectCreate;
-use WWCrm\Others\Events\Objects\Update as ObjectUpdate;
+use WWCrm\Others\Events\Objects\AfterUpdate as AfterObjectUpdate;
+use WWCrm\Others\Events\Objects\BeforeUpdate as BeforeObjectUpdate;
 
 /*
     EventDispatcher
@@ -23,7 +24,8 @@ return [
 
         // Добавляем слушателей для объектов
         $dispatcher->addListener(ObjectCreate::NAME, [new ObjectsListener(), 'create']);
-        $dispatcher->addListener(ObjectUpdate::NAME, [new ObjectsListener(), 'update']);
+        $dispatcher->addListener(AfterObjectUpdate::NAME, [new ObjectsListener(), 'afterUpdate']);
+        $dispatcher->addListener(BeforeObjectUpdate::NAME, [new ObjectsListener(), 'beforeUpdate']);
 
         return $dispatcher; // Возвращаем экзэмпляр EventDispatcher
     }

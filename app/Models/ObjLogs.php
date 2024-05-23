@@ -17,6 +17,11 @@ class ObjLogs extends Model {
     const EVENT_UPDATE = 20;
 
     /*
+        ID события. Смена гос.номера
+    */
+    const EVENT_GNUM = 30;
+
+    /*
         Возвращаем статус по его id
     */
     public static function getStatusName($status_id = false) {
@@ -24,6 +29,8 @@ class ObjLogs extends Model {
             return 'Создание объекта';
         } elseif ($status_id === self::EVENT_UPDATE) {
             return 'Обновление объекта';
+        } elseif ($status_id === self::EVENT_GNUM) {
+            return 'Смена гос.номера';
         } else {
             return false;
         }
@@ -37,6 +44,8 @@ class ObjLogs extends Model {
             return self::EVENT_CREATE;
         } elseif ($status_name === 'EVENT_UPDATE') {
             return self::EVENT_UPDATE;
+        } elseif ($status_name === 'EVENT_GNUM') {
+            return self::EVENT_GNUM;
         } else {
             return false;
         }
@@ -49,6 +58,7 @@ class ObjLogs extends Model {
         return [
             self::EVENT_CREATE => self::getStatusName(self::EVENT_CREATE),
             self::EVENT_UPDATE => self::getStatusName(self::EVENT_UPDATE),
+            self::EVENT_GNUM => self::getStatusName(self::EVENT_GNUM),
         ];
     }
 
@@ -59,6 +69,7 @@ class ObjLogs extends Model {
         return [
             'EVENT_CREATE' => self::getStatusId('EVENT_CREATE'),
             'EVENT_UPDATE' => self::getStatusId('EVENT_UPDATE'),
+            'EVENT_GNUM' => self::getStatusId('EVENT_GNUM'),
         ];
     }
 

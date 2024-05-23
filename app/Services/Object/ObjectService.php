@@ -13,7 +13,8 @@ use WWCrm\Dto\ObjectDto;
 
 // События
 use WWCrm\Others\Events\Objects\Create as CreateEvent;
-use WWCrm\Others\Events\Objects\Update as UpdateEvent;
+use WWCrm\Others\Events\Objects\AfterUpdate as AfterUpdateEvent; // До после сохранения объекта
+use WWCrm\Others\Events\Objects\BeforeUpdate as BeforeUpdateEvent; // До того как сохранить объект
 
 final class ObjectService extends MainService {
     /*
@@ -63,8 +64,12 @@ final class ObjectService extends MainService {
         try {
             $obj = Objects::find($dto->getId());
 
+            // Говорим, что нужно запустить событие "До обновления объекта"
+            $this->eventDisp->dispatch(new BeforeUpdateEvent($obj, $dto), BeforeUpdateEvent::NAME);
+
             if ($obj->update($dto->toArray())) {
-                $this->eventDisp->dispatch(new UpdateEvent($obj), UpdateEvent::NAME);
+                // Говорим, что нужно запустить событие "После обновления объекта"
+                $this->eventDisp->dispatch(new AfterUpdateEvent($obj, $dto), AfterUpdateEvent::NAME);
                 return true;
             };
         } catch (\Exception $e) {
