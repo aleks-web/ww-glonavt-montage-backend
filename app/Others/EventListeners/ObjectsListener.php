@@ -40,8 +40,6 @@ class ObjectsListener {
         $obj = $event->getObject();
         $dto = $event->getDto();
 
-        mail('dok.go@yandex.ru', 'My Subject', $dto->getGnum() . '<- Новое : Старое ->' . $obj->gnum);
-
         if (!empty($obj->gnum) && !empty($dto->getGnum())) {
             if (trim($obj->gnum) != trim($dto->getGnum())) { // Если старое значение из $obj не равно новому, то пишем в лог, что гос.номер сменился
                 // Пишем в лог
