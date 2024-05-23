@@ -202,15 +202,13 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             return $this->render_fmodal_contact_person_update($twig_element, $request, $response);
         } else if ($twig_element == 'fmodal-new-contract.twig') {
             return $this->render_fmodal_new_contract($twig_element, $request, $response);
-        } else if('fmodal-bill-update.twig') {
+        } else if($twig_element == 'fmodal-bill-update.twig') {
             return $this->render_fmodal_bill_update($twig_element, $request, $response);
         } else if ($twig_element == 'fmodal-contract-update.twig') {
             return $this->render_fmodal_contract_update($twig_element, $request, $response);
         } else if ($twig_element == 'fmodal-new-bill.twig') {
             return $this->render_fmodal_new_bill($twig_element, $request, $response);
-        }
-        
-        else if ($twig_element == 'tab-content-objects.twig') {
+        } else if ($twig_element == 'tab-content-objects.twig') {
             return $this->render_tab_objects($twig_element, $request, $response);
         } else if ($twig_element == 'modal-client-add.twig') {
             return $this->render_modal_client_add($twig_element, $request, $response);
@@ -477,9 +475,9 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             $client_id = $response_array['request_params']['client_id'];
 
             $response_array['client'] = Organizations::find($client_id);
-            $contracts = OrgContracts::where('organization_id', '=', $response_array['client']->id)->get();
+            $contracts = OrgContracts::where('organization_id', '=', $client_id)->get();
 
-            foreach ($contracts as $contract) {
+            foreach ($contracts as $key => $contract) {
                 $contract->responsibleUser = $contract->responsibleUser;
                 $contract->docType = OrgContracts::BOOK_TYPES;
             }
@@ -488,7 +486,7 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
                 'request_params' => $response_array['request_params'],
                 'client' => $response_array['client'],
-                'contracts' => $contracts
+                'contracts' => $contracts,
             ]);
 
             $response_array['status'] = 'success';
