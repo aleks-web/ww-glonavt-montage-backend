@@ -202,6 +202,8 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             return $this->render_fmodal_contact_person_update($twig_element, $request, $response);
         } else if ($twig_element == 'fmodal-new-contract.twig') {
             return $this->render_fmodal_new_contract($twig_element, $request, $response);
+        } else if('fmodal-bill-update.twig') {
+            return $this->render_fmodal_bill_update($twig_element, $request, $response);
         } else if ($twig_element == 'fmodal-contract-update.twig') {
             return $this->render_fmodal_contract_update($twig_element, $request, $response);
         } else if ($twig_element == 'fmodal-new-bill.twig') {
@@ -711,7 +713,7 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
              return $response;
         }
 
-         /*
+        /*
             Рендер модалки "Новый счет"
         */
         public function render_fmodal_new_bill($twig_element, Request $request, Response $response) {
@@ -747,6 +749,65 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
             $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
                 'request_params' => $response_array['request_params'],
                 'client' => $client,
+                'statuses' => [
+                    'select_html' => $builderBillsTypes->toHtml(),
+                    'select_array' => $builderBillsTypes->toArray()
+                ],
+                'contracts' => [
+                    'select_html' => $builderContracts->toHtml(),
+                    'select_array' => $builderContracts->toArray()
+                ]
+            ]);
+ 
+             $response_array['status'] = 'success';
+ 
+             // Итоговые манипуляции
+             $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+ 
+             // Возвращаем ответ
+             return $response;
+        }
+
+        /*
+            Рендер модалки "Редактирование счета"
+        */
+        public function render_fmodal_bill_update($twig_element, Request $request, Response $response) {
+            $response->headers->set('Content-Type', 'application/json');
+
+            // Получаем параметры POST и сразу записываем их в массив с ответом
+            $params = $response_array['request_params'] = $request->request->all();
+            $client = Organizations::find($params['client_id']);
+            $bill = OrgBills::find($params['id']);
+
+
+            // Статусы
+            $builderBillsTypes = new ComponentSelectBuilder([
+                'db_field_name' => 'status',
+                'required' => true,
+                'val' => $bill->status,
+                'not_selected_text' => 'Статус'
+            ]);
+            foreach (OrgBills::getArrayStatuses() as $idStatus => $nameStatus) {
+                $builderBillsTypes->addIdItem($idStatus)->addTextItem($nameStatus)->saveItem();
+            }
+
+            // OrgContracts
+            $builderContracts = new ComponentSelectBuilder([
+                'db_field_name' => 'contract_id',
+                'required' => true,
+                'val' => $bill->contract_id,
+                'not_selected_text' => 'Выберите договор для создания счета'
+            ]);
+            foreach(OrgContracts::where('organization_id', '=', $client->id)->get() as $contract) {
+                $builderContracts->addIdItem($contract->id)->addTextItem('Договор №: ' . $contract->contract_num)->saveItem();
+            }
+
+
+            // Рендерим
+            $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
+                'request_params' => $response_array['request_params'],
+                'client' => $client,
+                'bill' => $bill,
                 'statuses' => [
                     'select_html' => $builderBillsTypes->toHtml(),
                     'select_array' => $builderBillsTypes->toArray()

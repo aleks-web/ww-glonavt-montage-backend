@@ -237,9 +237,33 @@ function load_fmodal_contract_update(contract_id) {
     });
 }
 
+/*
+    Загрузка модалки fmodal на обновление счета
+*/
+function load_fmodal_bill_update(bill_id, client_id) {
+    let url = API_V1_ROUTS.Clients.render + 'fmodal-bill-update';
+    let formData = new FormData();
+    formData.append('id', bill_id);
+    formData.append('client_id', client_id);
 
+    xpost_fd(url, formData).then(response => {
+        $('#fmodal-bill-update-wrapper').html(response.render_response_html);
 
+        cpns_form_validate('#fmodal-bill-update', '.js-submitter');
 
+        dd_render_success(
+            response,
+            'modules/clients/render/fmodal-bill-update.twig',
+            url
+        );
+        $.fancybox.open({
+            src: '#fmodal-bill-update',
+            type: 'inline'
+        });
+    }).catch(response => {
+        dd(response, response.message, 'error');
+    });
+}
 
 /*
     Функционал удаления счета

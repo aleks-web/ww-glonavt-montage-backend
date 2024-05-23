@@ -37,7 +37,7 @@
                                 <td class="text-start">{{ bill.comment | default('-') }}</td>
 
                                 <td class="td-btn-default">
-                                    <svg data-fancybox data-src="#fmodal-new-bill" class="hover">
+                                    <svg onclick="load_fmodal_bill_update({{ bill.id }}, {{ client.id }})" class="hover">
                                         <use xlink:href="#svg-edit"></use>
                                     </svg>
                                 </td>

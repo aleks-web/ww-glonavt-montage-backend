@@ -1,5 +1,7 @@
 {#
     request_params - параметры запроса
+    client - клиент/организация
+    bill - текущий счет
 #}
 
 <!-- Start fancybox modal | Обновление счета | Модуль клиенты -->
@@ -10,16 +12,69 @@
 
         <div class="fmodal__vertical">
 
-            {{ dump() }}
+            {# Start селект с договором #}
+            {{ contracts.select_html | raw }}
+            {# End селект с договором #}
 
-            <textarea cols="30" rows="8" placeholder="Комментарий"></textarea>
+            {# Start селект со статусом #}
+            {{ statuses.select_html | raw }}
+            {# End селект со статусом #}
+
+            {# Start загрузка файла счета #}
+            {% include 'components/input-file.twig' with {
+                settings: {
+                    db_field_name: 'bill_file',
+                    btn_text: 'Загрузите счет',
+                    val: bill.bill_file_name,
+                    required: true
+                }
+            } %}
+            {# End загрузка файла счета #}
+
+            {% include 'components/input-text.twig' with {
+                settings: {
+                    db_field_name: 'sum',
+                    required: true,
+                    val: bill.sum,
+                    pls: 'Сумма счёта'
+                }
+            } %}
+
+            {% include 'components/textarea.twig' with {
+                settings: {
+                    db_field_name: 'comment',
+                    val: bill.comment,
+                    pls: 'Комментарий'
+                }
+            } %}
+
         </div>
         
     </div>
 
     <div class="fmodal__control-btns">
         <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
-        <button class="fmodal__btn btn-good js-submitter disable">Сохранить</button>
+        <button class="fmodal__btn btn-good js-submitter disable" onclick="update_bill_by_id({{ bill.id }}, {{ client.id }})">Сохранить</button>
     </div>
 </div>
 <!-- End fancybox modal | Обновление счета | Модуль клиенты -->
+
+{# Start отправка формы сохранения договора #}
+<script>
+function update_bill_by_id(bill_id, org_id) {
+    let url = API_V1_ROUTS.ClientsBills.update;
+    let formData = cpns_get_formdata_by_wrapper("#fmodal-bill-update");
+    formData.append('id', bill_id);
+
+    xpost_fd(url, formData).then(response => {
+        $.fancybox.close();
+        load_tab_bills(org_id, true);
+        push(response.message, 'success');
+        dd(response, response.message, 'success');
+    }).catch(response => {
+        push(response.message, 'error');
+        dd(response, response.message, 'error');
+    });
+}
+</script>
+{# End отправка формы сохранения договора #}

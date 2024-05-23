@@ -12,7 +12,7 @@ use WWCrm\Models\OrgBills;
 
 final class OrgBillService extends MainService {
     /*
-        Создание нового договора
+        Создание нового счета
     */
     public function createBill(OrgBillDto $dto) : OrgBills {
 
@@ -32,10 +32,46 @@ final class OrgBillService extends MainService {
     }
 
     /*
-        Удаление договора
+        Удаление счета
     */
     public function deleteBill(int $id) : bool {
         if (OrgBills::find($id)->delete()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /*
+        Обновление счёта
+    */
+    public function updateBill(OrgBillDto $dto) : bool {
+        $bill = OrgBills::find($dto->getId());
+
+        /* 
+            Если загружается файл со счетом
+        */
+        if(!empty($dto->getBillFileRequest())) {
+            if($file_name = $this->saveBillFileFromRequest($dto->getBillFileRequest(), $dto)) {
+                $dto->setBillFileName($file_name);
+            } else {
+                throw \Exception("Не удалось обновить файл счёта");
+            }
+        }
+
+        /*
+            Если есть новый файл, удаляем старый
+        */
+        if($dto->getBillFileName()) {
+            $old_file_name = $bill->bill_file_name;
+            $directory_file = $this->paths['fs']['organizations_bills'] . '/' . $dto->getOrganizationId() . '/' .  $old_file_name;
+
+            if (file_exists($directory_file) && isset($old_file_name)) {
+                unlink($directory_file);
+            }
+        }
+
+        if ($bill->update($dto->toArray())) {
             return true;
         } else {
             return false;

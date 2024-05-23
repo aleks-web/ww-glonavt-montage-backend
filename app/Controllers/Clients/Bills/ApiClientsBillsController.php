@@ -102,6 +102,20 @@ class ApiClientsBillsController extends \WWCrm\Controllers\MainController {
         try {
             $dto = new OrgBillDto($params);
 
+            if ($dto->getContractId()) {
+                $contract = OrgContracts::find($dto->getContractId());
+            }
+
+            if ($_FILES['bill_file']) { // Если есть файл со счетом, то добавляем в dto
+                $dto->setBillFileRequest($_FILES['bill_file']);
+            }
+
+            if ($contract) {
+                $dto->setOrganizationId($contract->organization_id);
+            }
+
+            $this->orgBillService->updateBill($dto);
+
             $response_array['status'] = 'success';
             $response_array['message'] = 'Успешное удаление счета';
         } catch (\Exception $e) {
