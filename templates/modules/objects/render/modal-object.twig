@@ -78,7 +78,7 @@
                     <div data-id="3" class="tabs__tab" style="color: red;">
                         Акты
                     </div>
-                    <div data-id="4" class="tabs__tab" style="color: red;">
+                    <div data-id="4" class="tabs__tab" onclick="load_tab_objdocs({{ object.id }})">
                         Документы
                     </div>
                     <div data-id="5" class="tabs__tab" style="color: red;">
@@ -303,30 +303,7 @@
                     <!-- End tab content 3 -->
 
                     <!-- Start tab content 4 -->
-                    <div data-id="4" class="tabs__item">
-                        <div class="tabs__tableContainer">
-                            <div class="tabs__table">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th class="text-start">Имя</th>
-                                            <th class="text-start">Прикрепил</th>
-                                        </tr>
-                                    </thead>
-        
-                                    <tbody>
-                                        <tr data-fancybox data-src="#fmodal-ts-object-view" class="pointer">
-                                            <td class="text-start"><a href="#">Анкета.xlsx (123123123 байт)</a></td>
-                                            <td class="text-start">Лебедев Ю. И.</td>
-                                            <td class="td-btn-default text-end">
-                                                <svg><use xlink:href="#svg-del"></use></svg>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                    <div data-id="4" class="tabs__item" id="modal-object-tab-docs-content"></div>
                     <!-- End tab content 4 -->
 
                     <!-- Start tab content 5 -->
@@ -488,6 +465,48 @@ function load_tab_equipments (object_id, is_reload = false) {
 }
 </script>
 {# End подгрузка таба "Оборудование" #}
+
+<script>
+function load_tab_objdocs(object_id, is_reload = false) {
+    $wrapper = $('#modal-object-tab-docs-content');
+
+    if (!$wrapper.hasClass('loaded') && !is_reload) { // Если вкладка не загружена
+        go_ajax();
+    }
+
+    if (is_reload) {
+        go_ajax();
+    }
+
+    function go_ajax() {
+        let url = API_V1_URLS.objects.render + 'tab-content-docs'; // API_V1_URLS - Смотрим в main.js
+
+        let data = {object_id: object_id};
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: data,
+            success: function (response) {
+                $wrapper.removeClass("loading");
+
+                if (response.status == "success") {
+                    $wrapper.removeClass('loading');
+                    $wrapper.html(response.render_response_html);
+                    $wrapper.addClass('loaded');
+                    resizeTableModal(); // Ресайзим под размеры. Костыль
+
+                    dd(response, `Render tab-content-docs.twig ${url}`);
+                }
+            },
+            beforeSend: function(s) {
+                $wrapper.addClass('loading');
+            }
+        });
+    }
+}
+</script>
+
 
 <script>
 function load_tab_logs(object_id, is_reload = false) {

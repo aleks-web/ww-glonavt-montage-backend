@@ -67,4 +67,11 @@ class Objects extends Model {
   public function logs() {
     return $this->hasMany('\WWCrm\Models\ObjLogs', 'object_id', 'id');
   }
+
+  /*
+    Получает все документы принадлежащие этому объекту
+  */
+  public function docs() {
+    return $this->hasMany('\WWCrm\Models\ObjDocs', 'object_id', 'id');
+  }
 }

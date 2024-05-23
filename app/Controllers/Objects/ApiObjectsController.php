@@ -26,6 +26,7 @@ use WWCrm\Models\Organizations;
 use WWCrm\Models\BookEquipments;
 use WWCrm\Models\ObjEquipments;
 use WWCrm\Models\ObjLogs;
+use WWCrm\Models\ObjDocs;
 use WWCrm\Models\Objects;
 use WWCrm\Models\BookObjects;
 
@@ -209,6 +210,8 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
             return $this->render_tab_content_logs($twig_element, $request, $response);
         } else if ($twig_element == 'tab-content-gnum.twig') {
             return $this->render_tab_content_gnum($twig_element, $request, $response);
+        } else if ($twig_element == 'tab-content-docs.twig') {
+            return $this->render_tab_content_docs($twig_element, $request, $response);
         } else if($twig_element == 'fmodal-new-device.twig') {
             return $this->render_fmodal_new_device($twig_element, $request, $response);
         } else {
@@ -517,6 +520,29 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
 
         // Итоговые манипуляции
         $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+        // Возвращаем ответ
+        return $response;
+    }
+
+    /*
+        Рендер таба "Документы"
+    */
+    public function render_tab_content_docs($twig_element, Request $request, Response $response) {
+        // Получаем параметры POST и сразу записываем их в массив с ответом
+        $params = $response_array['request_params'] = $request->request->all();
+        $response->headers->set('Content-Type', 'application/json');
+
+        // Рендерим
+        $response_array['render_response_html'] = $this->view->render('modules/objects/render/' . $twig_element, [
+            'request_params' => $response_array['request_params'],
+            'docs' => Objects::find($params['object_id'])->docs
+        ]);
+
+        // Итоговые манипуляции
+        $response_array['status'] = 'success';
+        $response_array['message'] = 'Успешный рендер ' . $twig_element;
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
 
         // Возвращаем ответ
