@@ -63,12 +63,17 @@ final class ObjectService extends MainService {
         // Обновляем
         try {
             $obj = Objects::find($dto->getId());
-
-            // Говорим, что нужно запустить событие "До обновления объекта"
-            $this->eventDisp->dispatch(new BeforeUpdateEvent($obj, $dto), BeforeUpdateEvent::NAME);
+            $oldObj = $obj;
 
             if ($obj->update($dto->toArray())) {
+                // Говорим, что нужно запустить событие "До обновления объекта"
+                // Тут, по факту прошел апдейт уже. Но мы пробрасываем старый экземпляр $oldObj
+                // Так мы устраняем лишние записи логов, если вдруг обновление не прошло. В этом блоке кода гарантированно проходит обновление объекта
+                // Пока так
+                $this->eventDisp->dispatch(new BeforeUpdateEvent($oldObj, $dto), BeforeUpdateEvent::NAME);
+
                 // Говорим, что нужно запустить событие "После обновления объекта"
+                // Тут уже пробрасываем экземпляр, с которого обновляли $obj
                 $this->eventDisp->dispatch(new AfterUpdateEvent($obj, $dto), AfterUpdateEvent::NAME);
                 return true;
             };
