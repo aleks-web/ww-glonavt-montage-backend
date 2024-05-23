@@ -48,7 +48,11 @@ class ObjectsListener {
                 ObjLogs::create([
                     'object_id' => $obj->id, // Указываем, что лог предназначен для такого-то объекта
                     'event_id' => ObjLogs::EVENT_GNUM, // ID события. В данном случае - смена гос.номера
-                    'user_add_id' => $this->currentUser->getId() // ID текущего юзера (кто обновил объект)
+                    'user_add_id' => $this->currentUser->getId(), // ID текущего юзера (кто обновил объект)
+                    'log_data' => [
+                        'old_value' => $obj->gnum,
+                        'new_value' => $dto->getGnum()
+                    ]
                 ]);
             }
         }

@@ -25,6 +25,7 @@ final class CreateObjLogsTable extends AbstractMigration
             `object_id` BIGINT UNSIGNED NOT NULL COMMENT 'Объект на котором прошел лог',
             `event_id` BIGINT UNSIGNED NOT NULL COMMENT 'id события',
             `user_add_id` BIGINT UNSIGNED DEFAULT NULL COMMENT 'Кто добавил',
+            `log_data` JSON DEFAULT NULL COMMENT 'Доп.инф для лога',
             `created_at` timestamp NULL DEFAULT NULL,
             `updated_at` timestamp NULL DEFAULT NULL,
             PRIMARY KEY (`id`)

@@ -63,7 +63,7 @@ final class ObjectService extends MainService {
         // Обновляем
         try {
             $obj = Objects::find($dto->getId());
-            $oldObj = $obj;
+            $oldObj = Objects::find($dto->getId());
 
             if ($obj->update($dto->toArray())) {
                 // Говорим, что нужно запустить событие "До обновления объекта"

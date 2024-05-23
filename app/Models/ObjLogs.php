@@ -84,6 +84,11 @@ class ObjLogs extends Model {
         'object_id',
         'event_id',
         'user_add_id',
+        'log_data'
+    ];
+
+    protected $casts = [
+        'log_data' => 'array'
     ];
 
     // Объект
