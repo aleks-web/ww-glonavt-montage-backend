@@ -9,7 +9,13 @@
         <div class="d-flex justify-content-between gap-5">
             <div class="fmodal__vertical">
 
-                {{ dump(request_params) }}
+                {% include 'components/input-text.twig' with {
+                    settings: {
+                        db_field_name: 'file_anchor',
+                        required: true,
+                        pls: 'Имя файла'
+                    }
+                } %}
 
             </div>
         </div>
