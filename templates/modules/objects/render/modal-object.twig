@@ -47,7 +47,7 @@
                     <button onclick="load_fmodal_new_type_equipment({{ object.id }})" class="modal__header-btn btn">Добавить оборудование</button>
                 </div>
                 <div class="modal__header-group-btns tab-outside" data-outside-id="4">
-                    <button class="modal__header-btn btn">Загрузить</button>
+                    <button onclick="load_fmodal_new_objdoc({{ object.id }})" class="modal__header-btn btn">Загрузить</button>
                 </div>
                 <div class="modal__header-group-btns tab-outside" data-outside-id="5">
                     <button class="modal__header-btn btn">Печать</button>
@@ -361,6 +361,9 @@
 <div id="fmodal-new-type-equipment-wrapper"></div>
 {# End регион подгрузки fmodal нового типа оборудования #}
 
+{# Start регион подгрузки fmodal нового документа для объекта #}
+<div id="fmodal-new-objdoc-wrapper"></div>
+{# End регион подгрузки fmodal нового документа для объекта #}
 
 
 
@@ -390,7 +393,6 @@
 {# Start добавление нового типа оборудования #}
 <script>
 function load_fmodal_new_type_equipment(object_id) {
-
     $region_wrapper = $('#fmodal-new-type-equipment-wrapper');
 
     let url = API_V1_URLS.objects.render + 'fmodal-new-type-equipment'; // API_V1_URLS - Смотрим в main.js
@@ -421,6 +423,37 @@ function load_fmodal_new_type_equipment(object_id) {
 }
 </script>
 {# End добавление нового типа оборудования #}
+
+<script>
+    function load_fmodal_new_objdoc(object_id) {
+        $region_wrapper = $('#fmodal-new-objdoc-wrapper');
+        let url = API_V1_URLS.objects.render + 'fmodal-new-objdoc'; // API_V1_URLS - Смотрим в main.js
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: {
+                object_id: object_id, // Передаем id объекта
+            },
+            success: function (response) {
+                if (response.status == "success") {
+                    $region_wrapper.html(response.render_response_html);
+
+                    $.fancybox.open({
+                        src: '#fmodal-new-objdoc',
+                        type: 'inline'
+                    });
+
+                    dd(response, `Render fmodal-new-objdoc.twig ${url}`);
+                }
+
+                if (response.status == "error") {
+                    console.log(response);
+                }
+            }
+        });
+    }
+</script>
 
 
 {# Start подгрузка таба "Оборудование" #}
