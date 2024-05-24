@@ -12,6 +12,9 @@ class ObjDocs extends Model {
     // Разрешенные для записи поля
     protected $fillable = [
         'object_id',
+        'comment',
+        'name',
+        'doc_file_name',
         'user_add_id',
     ];
 

@@ -12,16 +12,21 @@ class MainController extends Controller {
 
     protected $WWCrmService;
     protected $WWCurrentUser;
-    protected $view;
-    protected $session;
-    protected $paths;
-    protected $imageManager;
+    protected $view; // Twig
+    protected $session; // Сессии
+    protected $paths; // Пути
+    protected $imageManager; // Для работы с изображениями
 
-    protected $organizationService;
-    protected $objectService;
     protected $userService;
+
+    // Сервисы клиентов
+    protected $organizationService;
     protected $orgContractService;
     protected $orgBillService;
+
+    // Сервисы объектов
+    protected $objectService;
+    protected $objDocService;
 
 
     protected $utils;
@@ -39,10 +44,9 @@ class MainController extends Controller {
         $this->orgContractService = $this->WWCrmService->get('OrgContractService');
         $this->orgBillService = $this->WWCrmService->get('OrgBillService');
         $this->userService = $this->WWCrmService->get('UserService');
+        $this->objDocService = $this->WWCrmService->get('ObjDocService');
 
         $this->utils = $this->WWCrmService->get('Utils');
-
-
     }
 
     public function __invoke(Request $request, Response $response) {

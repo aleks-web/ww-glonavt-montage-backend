@@ -20,6 +20,11 @@ class ObjDocDto {
                         $this->setId($val);
                     }
                     break;
+                case 'name':
+                    if (isset($val)) {
+                        $this->setName($val);
+                    }
+                    break;
                 case 'object_id':
                     if (isset($val)) {
                         $this->setObjectId($val);
@@ -120,6 +125,18 @@ class ObjDocDto {
 
     public function getComment() : string|null {
         return $this->comment;
+    }
+
+    /*
+        Имя файла
+    */
+    public function setName(string $name) : void {
+        $this->name = trim($name);
+        $this->allFields['name'] = $this->getName();
+    }
+
+    public function getName() : string|null {
+        return $this->name;
     }
 
 }

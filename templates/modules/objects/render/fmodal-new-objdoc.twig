@@ -8,12 +8,28 @@
     <div class="fmodal__content">
         <div class="d-flex justify-content-between gap-5">
             <div class="fmodal__vertical">
-
                 {% include 'components/input-text.twig' with {
                     settings: {
-                        db_field_name: 'file_anchor',
+                        db_field_name: 'name',
                         required: true,
                         pls: 'Имя файла'
+                    }
+                } %}
+
+                {# Start загрузка файла документа #}
+                {% include 'components/input-file.twig' with {
+                    settings: {
+                        db_field_name: 'obj_file',
+                        btn_text: 'Загрузите документ',
+                        required: true
+                    }
+                } %}
+                {# End загрузка файла документа #}
+
+                {% include 'components/textarea.twig' with {
+                    settings: {
+                        db_field_name: 'comment',
+                        pls: 'Комментарий'
                     }
                 } %}
 
@@ -23,17 +39,17 @@
 
     <div class="fmodal__control-btns">
         <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
-        <button class="fmodal__btn btn-good disable js-submitter">Сохранить</button>
+        <button class="fmodal__btn btn-good js-submitter">Сохранить</button>
     </div>
 </div>
 
 {# Start добавление документа #}
 <script>
-    cpns_form_validate("#fmodal-new-objdoc", '.js-submitter'); // Валидируем модалку
+    // cpns_form_validate("#fmodal-new-objdoc", '.js-submitter'); // Валидируем модалку
 
     $('#fmodal-new-objdoc .js-submitter').on('click', function(e) {
         let url = API_V1_ROUTS.ObjectsDocs.create;
-        let formData = new FormData();
+        let formData = cpns_get_formdata_by_wrapper('#fmodal-new-objdoc');
         formData.append('object_id', {{ request_params.object_id }});
 
         xpost_fd(url, formData).then(response => {

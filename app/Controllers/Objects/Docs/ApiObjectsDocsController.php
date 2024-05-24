@@ -42,9 +42,17 @@ class ApiObjectsDocsController extends \WWCrm\Controllers\MainController {
 
         $dto = new ObjDocDto($params);
 
+        if ($_FILES['obj_file']) {
+            $dto->setDocFileRequest($_FILES['obj_file']);
+        }
+
         try {
+            $this->objDocService->createDoc($dto);
+
             $response_array['status'] = 'success';
             $response_array['message'] = 'Документ создан';
+
+            $response_array['message'] = $dto->toArray();
         } catch (\Exception $e) {
             $response_array['status'] = 'error';
             $response_array['message'] = 'Документ создать не удалось';

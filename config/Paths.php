@@ -7,6 +7,7 @@ $public_html = realpath($base_path . '/public_html');
 $uploads_files = realpath($public_html . '/upload_files');
 $users_avatars = realpath($uploads_files . '/users/avatars');
 $object_photos = realpath($uploads_files . '/objects/photos');
+$object_docs = realpath($uploads_files . '/objects/docs');
 
 $organizations_contracts = realpath($uploads_files . '/organizations/contracts');
 $organizations_bills = realpath($uploads_files . '/organizations/bills');
@@ -22,6 +23,7 @@ return [
             'uploads_files' => $uploads_files,
             'users_avatars' => $users_avatars,
             'object_photos' => $object_photos,
+            'object_docs' => $object_docs,
             'organizations_contracts' => $organizations_contracts,
             'organizations_bills' => $organizations_bills
         ],

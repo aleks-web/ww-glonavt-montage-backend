@@ -98,6 +98,9 @@ return [
     },
     'OrgBillService' => function () {
         return new \WWCrm\Services\Organization\OrgBillService();
+    },
+    'ObjDocService' => function () {
+        return new \WWCrm\Services\Object\ObjDocService();
     }
 
 ];

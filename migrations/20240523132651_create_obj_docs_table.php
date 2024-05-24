@@ -22,6 +22,9 @@ final class CreateObjDocsTable extends AbstractMigration
         $sql = "CREATE TABLE IF NOT EXISTS `obj_docs` (
             `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
             `object_id` BIGINT UNSIGNED NOT NULL COMMENT 'Объект на котором прошел лог',
+            `comment` VARCHAR(500) DEFAULT NULL COMMENT 'Комментарий к документу',
+            `name` VARCHAR(50) DEFAULT NULL COMMENT 'Название файла',
+            `doc_file_name` VARCHAR(500) DEFAULT NULL COMMENT 'Название файла документа',
             `user_add_id` BIGINT UNSIGNED DEFAULT NULL COMMENT 'Кто добавил',
             `created_at` timestamp NULL DEFAULT NULL,
             `updated_at` timestamp NULL DEFAULT NULL,
