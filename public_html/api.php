@@ -11,6 +11,7 @@ const API_V1_URL = '/api_v1/';
 
 // Start Инициализируем проутер через сервис контейнер
 $router = $WWAppContainer->get('Router'); // Сервис роутинга
+$routs = $WWAppContainer->get('routs')['api_v1'];
 $controllers = $WWAppContainer->get('Controllers'); // Хранилище неймспейсов контрполлеров
 // End Инициализируем проутер через сервис контейнер
 
@@ -61,6 +62,8 @@ $router->xpost(API_V1_URL . 'clients/bills/create', $controllers['Api']['Clients
 $router->xpost(API_V1_URL . 'clients/bills/delete', $controllers['Api']['ClientsBills'] . '@delete'); // Удаление счета
 $router->xpost(API_V1_URL . 'clients/bills/update', $controllers['Api']['ClientsBills'] . '@update'); // Обновление счета
 
+
+
 /*
     Роуты модуля "Объекты"
 */
@@ -69,6 +72,13 @@ $router->xpost(API_V1_URL . 'objects/add-new-device', $controllers['Api']['Objec
 $router->xpost(API_V1_URL . 'objects/create', $controllers['Api']['Objects'] . '@create'); // Создание объекта
 $router->xpost(API_V1_URL . 'objects/update', $controllers['Api']['Objects'] . '@update'); // Обновление объекта
 $router->xpost(API_V1_URL . 'objects/render/:string', $controllers['Api']['Objects'] . '@distributor'); // Роут для рендера
+
+
+/*
+    Роуты для создания документа для Объекта
+*/
+$router->xpost($routs['ObjectsDocs']['create']['route'], $routs['ObjectsDocs']['create']['controller']); // Создание объекта
+
 
 /*
     Роуты модуля "Сотрудники"

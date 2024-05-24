@@ -26,3 +26,25 @@
         <button class="fmodal__btn btn-good disable js-submitter">Сохранить</button>
     </div>
 </div>
+
+{# Start добавление документа #}
+<script>
+    cpns_form_validate("#fmodal-new-objdoc", '.js-submitter'); // Валидируем модалку
+
+    $('#fmodal-new-objdoc .js-submitter').on('click', function(e) {
+        let url = API_V1_ROUTS.ObjectsDocs.create;
+        let formData = new FormData();
+        formData.append('object_id', {{ request_params.object_id }});
+
+        xpost_fd(url, formData).then(response => {
+            load_tab_objdocs({{ request_params.object_id }}, true);
+            push(response.message, 'success');
+            dd(response, 'Добавление нового документа к объекту ' + url);
+            $.fancybox.close();
+        }, response => {
+            push(response.message, 'error');
+            dd(response, 'Неудачное добавление нового документа к объекту ' + url);
+        });
+    });
+</script>
+{# End добавление документа #}

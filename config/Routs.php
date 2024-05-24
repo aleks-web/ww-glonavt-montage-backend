@@ -1,5 +1,8 @@
 <?php
 
+
+// В роутах index.php и api.php нужно брать отсюда. Новая версия
+
 return ['routs' => [
     'api_v1' => [
         'ClientsBills' => [
@@ -30,7 +33,6 @@ return ['routs' => [
                 'controller' => 'WWCrm\Controllers\Clients\Contracts\ApiClientsContractsController@update'
             ]
         ],
-
         'Clients' => [
             'create' => [
                 'route' => '/api_v1/clients/create/',
@@ -55,6 +57,12 @@ return ['routs' => [
             'render' => [
                 'route' => '/api_v1/clients/render/',
                 'controller' => 'WWCrm\Controllers\Clients\ApiClientsController@distributor'
+            ]
+        ],
+        'ObjectsDocs' => [
+            'create' => [
+                'route' => '/api_v1/objects/docs/create/',
+                'controller' => 'WWCrm\Controllers\Objects\Docs\ApiObjectsDocsController@create'
             ]
         ]
     ]

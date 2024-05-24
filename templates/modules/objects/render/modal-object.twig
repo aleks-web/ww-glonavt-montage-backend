@@ -458,7 +458,7 @@ function load_fmodal_new_type_equipment(object_id) {
 
 {# Start подгрузка таба "Оборудование" #}
 <script>
-function load_tab_equipments (object_id, is_reload = false) {
+function load_tab_equipments(object_id, is_reload = false) {
     $wrapper = $('#modal-object-tab-equipment-content');
 
     if (!$wrapper.hasClass('loaded') && !is_reload) { // Если вкладка не загружена
@@ -527,7 +527,6 @@ function load_tab_objdocs(object_id, is_reload = false) {
                     $wrapper.removeClass('loading');
                     $wrapper.html(response.render_response_html);
                     $wrapper.addClass('loaded');
-                    resizeTableModal(); // Ресайзим под размеры. Костыль
 
                     dd(response, `Render tab-content-docs.twig ${url}`);
                 }
