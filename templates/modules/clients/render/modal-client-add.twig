@@ -125,26 +125,7 @@
                         </div>
 
                         <div style="display: flex;flex-direction: column; gap: 20px;">
-                            {% include 'components/select.twig' with
-                                {
-                                    settings: {
-                                        db_field_name: 'manager_id',
-                                        not_selected_text: 'Менеджер не выбран'
-                                    },
-                                    items: [
-                                        {
-                                            'id': '1',
-                                            'text': 'Валерий',
-                                            'current_text': 'Валерий куррент'
-                                        },
-                                        {
-                                            'id': '1',
-                                            'text': 'Валерий',
-                                            'current_text': 'Валерий куррент'
-                                        }
-                                    ]
-                                }
-                            %}
+                            {{ manager_select_html | raw }}
                         </div>
                     </div>
                 </div>

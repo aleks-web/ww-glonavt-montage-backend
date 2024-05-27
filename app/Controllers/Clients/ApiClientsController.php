@@ -232,8 +232,16 @@ class ApiClientsController extends \WWCrm\Controllers\MainController {
         $params = $response_array['request_params'] = $request->request->all();
 
         if (!empty($twig_element)) { // Если есть рендер элемент
+
+            $managerSelect = new ComponentSelectBuilder(['db_field_name' => 'manager_id', 'required' => true]);
+            $managerSelect->setDefaultText('Ответственный менеджер');
+            foreach(Users::all() as $user) { // Добавляем выгруженные элементы селект
+                $managerSelect->addIdItem($user->id)->addTextItem($user->name)->saveItem();
+            }
+            
             $response_array['render_response_html'] = $this->view->render('modules/clients/render/' . $twig_element, [
-                'request_params' => $response_array['request_params']
+                'request_params' => $response_array['request_params'],
+                'manager_select_html' => $managerSelect->toHtml(),
             ]);
 
             $response_array['status'] = 'success';
