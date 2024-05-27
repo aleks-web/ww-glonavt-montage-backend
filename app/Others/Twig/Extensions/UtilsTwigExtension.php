@@ -16,6 +16,7 @@ class UtilsTwigExtension extends \Twig\Extension\AbstractExtension
             new \Twig\TwigFunction('dump', [$this, 'dump']),
             new \Twig\TwigFunction('select', [$this, 'select']),
             new \Twig\TwigFunction('short_name', [$this, 'short_name']),
+            new \Twig\TwigFunction('pathinfo_ext', [$this, 'pathinfo_ext']),
         ];
     }
 
@@ -64,5 +65,12 @@ class UtilsTwigExtension extends \Twig\Extension\AbstractExtension
         }
 
         return ucfirst($surname) . ' ' . mb_substr(ucfirst($name), 0, 1, 'utf-8') . '. ' . mb_substr(ucfirst($patronymic), 0, 1, 'utf-8') . '.';
+    }
+
+    /*
+        Возвращает расширение из строки
+    */
+    public function pathinfo_ext(string $p) {
+        return pathinfo($p, PATHINFO_EXTENSION);
     }
 }

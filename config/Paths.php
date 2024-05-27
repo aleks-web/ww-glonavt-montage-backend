@@ -36,6 +36,7 @@ return [
             'default_images' => '/assets/img/default',
             'users_avatars' => '/upload_files/users/avatars',
             'object_photos' => '/upload_files/objects/photos',
+            'object_docs' => '/upload_files/objects/docs',
             'organizations_contracts' => '/upload_files/organizations/contracts',
             'organizations_bills' => '/upload_files/organizations/bills',
         ],

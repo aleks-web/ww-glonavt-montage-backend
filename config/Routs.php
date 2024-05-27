@@ -63,6 +63,10 @@ return ['routs' => [
             'create' => [
                 'route' => '/api_v1/objects/docs/create/',
                 'controller' => 'WWCrm\Controllers\Objects\Docs\ApiObjectsDocsController@create'
+            ],
+            'delete' => [
+                'route' => '/api_v1/objects/docs/delete/',
+                'controller' => 'WWCrm\Controllers\Objects\Docs\ApiObjectsDocsController@delete'
             ]
         ]
     ]

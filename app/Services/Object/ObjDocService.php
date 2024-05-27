@@ -24,6 +24,16 @@ final class ObjDocService extends MainService {
             $dto->setDocFileName($file_name);
         }
 
+        // Если не задан name, задаем ему текущий timestamp
+        if(empty($dto->getName())) {
+            $dto->setName('doc_' . time());
+        }
+
+        // Если добавляемый юзер не задан, делаем текущего пользователя
+        if(empty($dto->getUserAddId())) {
+            $dto->setUserAddId($this->currentUser->getId());
+        }
+
         try {
             return ObjDocs::create($dto->toArray());
         } catch (\Exception $e) {
@@ -32,12 +42,32 @@ final class ObjDocService extends MainService {
     }
 
     /*
-        Обновляем документа объект
+        Обновляем документ объекта
     */
     public function updateDoc(ObjDocDto $dto) : bool {
         // Обновляем
         try {
             
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    /*
+        Удаляем документ объекта
+    */
+    public function deleteDoc(ObjDocDto $dto) : bool {
+        if (empty($dto->getId())) {
+            throw new \Exception("Id документа не задан. Невозможно определить удаляемый документ!");
+        }
+
+        // Удаляем
+        try {
+            if (ObjDocs::find($dto->getId())->delete()) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }

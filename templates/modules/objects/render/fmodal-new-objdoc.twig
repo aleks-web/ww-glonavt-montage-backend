@@ -45,7 +45,7 @@
 
 {# Start добавление документа #}
 <script>
-    // cpns_form_validate("#fmodal-new-objdoc", '.js-submitter'); // Валидируем модалку
+    cpns_form_validate("#fmodal-new-objdoc", '.js-submitter'); // Валидируем модалку
 
     $('#fmodal-new-objdoc .js-submitter').on('click', function(e) {
         let url = API_V1_ROUTS.ObjectsDocs.create;

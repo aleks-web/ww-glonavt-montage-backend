@@ -51,11 +51,36 @@ class ApiObjectsDocsController extends \WWCrm\Controllers\MainController {
 
             $response_array['status'] = 'success';
             $response_array['message'] = 'Документ создан';
-
-            $response_array['message'] = $dto->toArray();
         } catch (\Exception $e) {
             $response_array['status'] = 'error';
             $response_array['message'] = 'Документ создать не удалось';
+            $response_array['exception_message'] = $e->getMessage();
+        }
+
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+        return $response;
+    }
+
+    /*
+        Удаление документа у объекта
+    */
+    public function delete(Request $request, Response $response) {
+        $response->headers->set('Content-Type', 'application/json');
+
+        // Получаем параметры
+        $params = $response_array['request_params'] = $request->request->all();
+
+        $dto = new ObjDocDto($params);
+
+        try {
+            $this->objDocService->deleteDoc($dto);
+
+            $response_array['status'] = 'success';
+            $response_array['message'] = 'Документ удален';
+        } catch (\Exception $e) {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'Документ удалить не удалось';
             $response_array['exception_message'] = $e->getMessage();
         }
 
