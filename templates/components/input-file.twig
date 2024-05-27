@@ -9,6 +9,7 @@
         * input_messages_position - расположение сообщений об ошибках и прочее. Либо bottom (по умолчанию, но можно изменить здесь) либо top
         * btn_text - плейсхолдер
         * val - если есть файл
+        * accept - список расширений через запятую, разрешенных к загрузке. Например: .xlsx, .xls, .doc, .docx, .ppt, .pptx, .pdf
     
     ------------------------------------
 #}
@@ -38,7 +39,7 @@
 
         <div class="input-file__group-btns">
             <div class="input-file__btn btn">
-                <input type="file" name="{{ settings.db_field_name }}">
+                <input type="file" name="{{ settings.db_field_name }}" {% if settings.accept %}accept="{{ settings.accept }}"{% endif %}>
                 <span class="input-file__btn-text">{{ settings.btn_text | default('Выберите файл') }}</span>
             </div>
 

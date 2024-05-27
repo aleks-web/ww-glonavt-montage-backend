@@ -3,6 +3,7 @@
 
     settings - массив с настройками
         * db_field_name - Имя поля (если компонент записывает данные в БД, то db_field_name равно названию поля из базы данных)
+        * accept - список расширений через запятую, разрешенных к загрузке. Например: .xlsx, .xls, .doc, .docx, .ppt, .pptx, .pdf
 #}
 
 {% if settings.db_field_name == false %}
@@ -10,7 +11,7 @@
 {% else %}
     <div class="component-wrapper">
         <div class="files-add">
-            <input class="files-add__input" name="{{ settings.db_field_name }}" type="file" multiple accept=".xlsx, .xls, .doc, .docx, .ppt, .pptx, .pdf">
+            <input class="files-add__input" name="{{ settings.db_field_name }}" type="file" multiple {% if settings.accept %}accept="{{ settings.accept }}"{% endif %}>
 
             <span class="files-add__info">Перетащите файлы сюда или нажмите на +</span>
 

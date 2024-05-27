@@ -96,7 +96,7 @@ final class ObjDocService extends MainService {
 
             $ext = pathinfo($file_array['name'], PATHINFO_EXTENSION);
             
-            $file_name = 'objId-' . $dto->getObjectId() . '__timestamp-' . time() . '.' . $ext;
+            $file_name = 'objId-' . $dto->getObjectId() . '__timestamp-' . time() . '__rand-' . rand(1, 1000) . '.' . $ext;
 
             $new_file_path = $save_dir_object_doc . '/' . $file_name;
 
@@ -108,5 +108,22 @@ final class ObjDocService extends MainService {
         }
 
         return false;
+    }
+
+    /*
+        Сохранение по массиву $_FILES['file']
+    */
+    public function createDocsFromArraysRequest(array $files_array, int $obj_id) {
+        if (!$obj_id && !$files_array) {
+            return false;
+        }
+
+        foreach ($files_array as $file_key => $file_array) {
+            $dto = new ObjDocDto();
+            $dto->setObjectId($obj_id);
+            $dto->setDocFileRequest($file_array);
+
+            $this->createDoc($dto);
+        }
     }
 }

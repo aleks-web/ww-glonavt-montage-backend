@@ -85,7 +85,8 @@
 
                 {% include 'components/files-add.twig' with {
                     settings: {
-                        db_field_name: 'documents_files'
+                        db_field_name: 'doc_file',
+                        accept: '.xlsx, .xls, .doc, .docx, .ppt, .pptx, .pdf'
                     }
                 } %}
 

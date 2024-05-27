@@ -12,39 +12,41 @@ class ObjDocDto {
     private $docFileRequest; // Из запроса $_FILES['какой-то файл']
     private $docFileName; // Название сохраненного файла из docFileRequest
 
-    public function __construct(array $values) {
-        foreach ($values as $key => $val) {
-            switch ($key) {
-                case 'id':
-                    if (isset($val)) {
-                        $this->setId($val);
-                    }
-                    break;
-                case 'name':
-                    if (isset($val)) {
-                        $this->setName($val);
-                    }
-                    break;
-                case 'object_id':
-                    if (isset($val)) {
-                        $this->setObjectId($val);
-                    }
-                    break;
-                case 'comment':
-                    if (isset($val)) {
-                        $this->setComment($val);
-                    }
-                    break;
-                case 'doc_file_name':
-                    if (isset($val)) {
-                        $this->setDocFileName($val);
-                    }
-                    break;
-                case 'user_add_id':
-                    if (isset($val)) {
-                        $this->setUserAddId($val);
-                    }
-                    break;
+    public function __construct(array $values = null) {
+        if ($values) {
+            foreach ($values as $key => $val) {
+                switch ($key) {
+                    case 'id':
+                        if (isset($val)) {
+                            $this->setId($val);
+                        }
+                        break;
+                    case 'name':
+                        if (isset($val)) {
+                            $this->setName($val);
+                        }
+                        break;
+                    case 'object_id':
+                        if (isset($val)) {
+                            $this->setObjectId($val);
+                        }
+                        break;
+                    case 'comment':
+                        if (isset($val)) {
+                            $this->setComment($val);
+                        }
+                        break;
+                    case 'doc_file_name':
+                        if (isset($val)) {
+                            $this->setDocFileName($val);
+                        }
+                        break;
+                    case 'user_add_id':
+                        if (isset($val)) {
+                            $this->setUserAddId($val);
+                        }
+                        break;
+                }
             }
         }
     }

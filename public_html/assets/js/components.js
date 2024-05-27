@@ -259,7 +259,7 @@ $(document).on("change", '.input-file input[type="file"]', function (e) {
 */
 
 // Start Список компонентов с input
-const input_components = ["input-text", "select", "textarea", "input-date", "checkbox", "photo-add", "input-file"];
+const input_components = ["input-text", "select", "textarea", "input-date", "checkbox", "photo-add", "input-file", "files-add"];
 // End Список компонентов input
 
 // Start Функция которая формирует классы для вложенного поиска. Передается обертка в которой ищутся компоненты и формируется вложенность
@@ -310,12 +310,13 @@ function cpns_get_formdata_by_wrapper(wrapper_selector) {
         // console.log(input.attr('name'), input.val());
 
         if (input.attr('type') == 'file') { // Не уверен на счет files
-            if (input[0].files[0]) {
+            // Если 1 файл
+            if (input[0].files.length > 1) {
+                Array.from(input[0].files).forEach(function(file, file_index) {
+                    formData.append(input.attr("name") + '_' + file_index, file);
+                });
+            } else if (input[0].files.length = 1) {
                 formData.append(input.attr("name"), input[0].files[0]);
-            }
-        } else if (input.attr('type') == 'files') { // Не уверен на счет files - проверить и переписать!!!!
-            if (input[0].files[0]) {
-                formData.append(input.attr("name"), input[0].files[0]); // Тут циклом нужно будет, если появятся компоненты с несколькими загрузками файлов
             }
         } else { // Во всех остальных случаях
             if (input.val()) {

@@ -57,9 +57,21 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         try {
             $object = $this->objectService->createObject($dto);
 
+            if ($object && $_FILES['doc_file_0']) { // Тут надо отсортировать массив $_FILES
+                $files_array = [];
+                $file_index = 0;
+                while (!empty($_FILES['doc_file_' . $file_index])) {
+                    $files_array[$file_index] = $_FILES['doc_file_' . $file_index];
+                    $file_index = $file_index + 1;
+                }
+
+                $this->objDocService->createDocsFromArraysRequest($files_array, $object->id);
+            }
+
             $response_array['object'] = $object;
             $response_array['status'] = 'success';
             $response_array['message'] = 'Объект создан';
+            $response_array['_FILES'] = $_FILES;
         } catch (Exception $e) {
             $response_array['status'] = 'error';
             $response_array['message'] = 'Объект не удалось создать';
