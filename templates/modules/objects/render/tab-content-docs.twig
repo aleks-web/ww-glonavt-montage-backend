@@ -19,9 +19,13 @@
                 {% for doc in docs %}
                     <tr class="pointer">
                         <td class="text-start">
-                            <a target="_blank" href="{{ app().paths.public.object_docs ~ '/' ~ doc.object_id ~ '/' ~ doc.doc_file_name }}">
-                                {{ doc.name ~ '.' ~ pathinfo_ext(doc.doc_file_name) | default(doc.doc_file_name) }}
-                            </a>
+                            {% if(doc.name) %}
+                                {{ doc.name ~ '.' ~ pathinfo_ext(doc.doc_file_name) }}
+                            {% else %}
+                                <a target="_blank" href="{{ app().paths.public.object_docs ~ '/' ~ doc.object_id ~ '/' ~ doc.doc_file_name }}">
+                                    {{ doc.doc_file_name }}
+                                </a>
+                            {% endif %}
                         </td>
                         <td class="text-start">
                             {% if doc.userAdded.name %}
@@ -31,7 +35,10 @@
                             {% endif %}
                         </td>
                         <td class="text-start">{{ doc.comment }}</td>
-                        <td class="td-btn-default text-end">
+                        <td class="td-btn-default">
+                            <svg onclick="load_fmodal_objdoc_update({{ doc.id }})"><use xlink:href="#svg-edit"></use></svg>
+                        </td>
+                        <td class="td-btn-default text-end" onclick="delete_objdoc_by_id({{ doc.id }}, {{ doc.object_id }})">
                             <svg onclick="delete_objdoc_by_id({{ doc.id }}, {{ doc.object_id }})"><use xlink:href="#svg-del"></use></svg>
                         </td>
                     </tr>
@@ -53,6 +60,29 @@
         }).catch(response => {
             push(response.message, 'error');
             dd(response, response.message ? response.message : 'Не удалось удалить документ объекта', 'error');
+        });
+    }
+</script>
+
+
+<script>// Загрузка модалки обновления
+    function load_fmodal_objdoc_update(objdoc_id) {
+        let url = API_V1_ROUTS.Objects.render + 'fmodal-objdoc-update';
+        let formData = new FormData();
+        formData.append('id', objdoc_id);
+        let $wrapper = $('#fmodal-objdoc-update-wrapper');
+
+        xpost_fd(url, formData).then(response => {
+            $wrapper.html(response.render_response_html);
+
+            $.fancybox.open({
+                src: '#fmodal-objdoc-update',
+                type: 'inline'
+            });
+
+            dd(response, response.message, 'success');
+        }).catch(response => {
+            dd(response, response.message, 'error');
         });
     }
 </script>

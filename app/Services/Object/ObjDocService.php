@@ -42,12 +42,21 @@ final class ObjDocService extends MainService {
     }
 
     /*
-        Обновляем документ объекта
+        Обновление документа объекта
     */
-    public function updateDoc(ObjDocDto $dto) : bool {
-        // Обновляем
+    public function updateDoc(ObjDocDto $dto) {
+        $doc = ObjDocs::find($dto->getId());
+
+        $dto->setObjectId($doc->object_id);
+
+        if (!empty($dto->getDocFileRequest())) {
+            $file_name = $this->saveDocFileFromRequest($dto);
+            $dto->setDocFileName($file_name);
+            $this->deleteDocFileByDocId((int) $doc->id);
+        }
+
         try {
-            
+            $doc->update($dto->toArray());
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
@@ -56,20 +65,30 @@ final class ObjDocService extends MainService {
     /*
         Удаляем документ объекта
     */
-    public function deleteDoc(ObjDocDto $dto) : bool {
+    public function deleteDoc(ObjDocDto $dto) : void {
         if (empty($dto->getId())) {
             throw new \Exception("Id документа не задан. Невозможно определить удаляемый документ!");
         }
 
         // Удаляем
         try {
-            if (ObjDocs::find($dto->getId())->delete()) {
-                return true;
-            } else {
-                return false;
-            }
+            $this->deleteDocFileByDocId($dto->getId());
+            ObjDocs::find($dto->getId())->delete();
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
+        }
+    }
+
+    /*
+        Удаление файла документа по id записи
+    */
+    public function deleteDocFileByDocId(int $id) : void {
+        $doc = ObjDocs::find($id);
+
+        $directory_file = $this->paths['fs']['object_docs'] . '/' . $doc->object_id . '/' .  $doc->doc_file_name;
+
+        if (file_exists($directory_file)) {
+            unlink($directory_file);
         }
     }
 

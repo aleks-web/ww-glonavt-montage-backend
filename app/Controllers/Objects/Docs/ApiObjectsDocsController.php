@@ -63,6 +63,37 @@ class ApiObjectsDocsController extends \WWCrm\Controllers\MainController {
     }
 
     /*
+        Обновление документа для объекта
+    */
+    public function update(Request $request, Response $response) {
+        $response->headers->set('Content-Type', 'application/json');
+
+        // Получаем параметры
+        $params = $response_array['request_params'] = $request->request->all();
+
+        $dto = new ObjDocDto($params);
+
+        if ($_FILES['obj_file']) {
+            $dto->setDocFileRequest($_FILES['obj_file']);
+        }
+
+        try {
+            $this->objDocService->updateDoc($dto);
+
+            $response_array['status'] = 'success';
+            $response_array['message'] = 'Документ обновлен';
+        } catch (\Exception $e) {
+            $response_array['status'] = 'error';
+            $response_array['message'] = 'Документ обновить не удалось';
+            $response_array['exception_message'] = $e->getMessage();
+        }
+
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+        return $response;
+    }
+
+    /*
         Удаление документа у объекта
     */
     public function delete(Request $request, Response $response) {

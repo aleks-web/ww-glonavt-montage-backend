@@ -78,6 +78,7 @@ $router->xpost(API_V1_URL . 'objects/render/:string', $controllers['Api']['Objec
     Роуты для создания документа для Объекта
 */
 $router->xpost($routs['ObjectsDocs']['create']['route'], $routs['ObjectsDocs']['create']['controller']); // Создание документа у объекта
+$router->xpost($routs['ObjectsDocs']['update']['route'], $routs['ObjectsDocs']['update']['controller']); // Редактирование документа у объекта
 $router->xpost($routs['ObjectsDocs']['delete']['route'], $routs['ObjectsDocs']['delete']['controller']); // Удаление документа у объекта
 
 

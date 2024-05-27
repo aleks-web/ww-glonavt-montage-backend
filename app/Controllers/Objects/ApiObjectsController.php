@@ -218,6 +218,8 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
             return $this->render_fmodal_new_type_equipment($twig_element, $request, $response);
         } else if ($twig_element == 'fmodal-new-objdoc.twig') {
             return $this->render_fmodal_new_objdoc($twig_element, $request, $response);
+        } else if ($twig_element == 'fmodal-objdoc-update.twig') {
+            return $this->render_fmodal_objdoc_update($twig_element, $request, $response);
         } else if ($twig_element == 'tab-content-equipments.twig') {
             return $this->render_tab_content_equipments($twig_element, $request, $response);
         } else if ($twig_element == 'tab-content-logs.twig') {
@@ -555,6 +557,31 @@ class ApiObjectsController extends \WWCrm\Controllers\MainController {
         ]);
 
         $response_array['status'] = 'success';
+
+        // Итоговые манипуляции
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+        // Возвращаем ответ
+        return $response;
+    }
+
+    /*
+        Рендер модального окна "Редактирование документа"
+    */
+    public function render_fmodal_objdoc_update($twig_element, Request $request, Response $response) {
+        $response->headers->set('Content-Type', 'application/json');
+
+        // Получаем параметры POST и сразу записываем их в массив с ответом
+        $params = $response_array['request_params'] = $request->request->all();
+
+        // Рендерим
+        $response_array['render_response_html'] = $this->view->render('modules/objects/render/' . $twig_element, [
+            'request_params' => $response_array['request_params'],
+            'doc' => ObjDocs::find($params['id'])
+        ]);
+
+        $response_array['status'] = 'success';
+        $response_array['message'] = 'Успешный рендер ' . $twig_element;
 
         // Итоговые манипуляции
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));

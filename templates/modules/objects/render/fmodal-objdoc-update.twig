@@ -1,0 +1,70 @@
+{#
+    request_params - параметры запроса
+    doc - документ
+#}
+
+<div id="fmodal-objdoc-update" class="fmodal fmodal-objdoc-update" style="display: none;">
+    <div class="fmodal__title">Новый документ</div>
+
+    <div class="fmodal__content">
+        <div class="d-flex justify-content-between gap-5">
+            <div class="fmodal__vertical">
+                {% include 'components/input-text.twig' with {
+                    settings: {
+                        db_field_name: 'name',
+                        required: true,
+                        val: doc.name,
+                        pls: 'Имя файла'
+                    }
+                } %}
+
+                {# Start загрузка файла документа #}
+                {% include 'components/input-file.twig' with {
+                    settings: {
+                        db_field_name: 'obj_file',
+                        btn_text: 'Загрузите документ',
+                        val: doc.doc_file_name,
+                        required: true
+                    }
+                } %}
+                {# End загрузка файла документа #}
+
+                {% include 'components/textarea.twig' with {
+                    settings: {
+                        db_field_name: 'comment',
+                        val: doc.comment,
+                        pls: 'Комментарий'
+                    }
+                } %}
+
+            </div>
+        </div>
+    </div>
+
+    <div class="fmodal__control-btns">
+        <button data-fancybox-close class="fmodal__btn btn-bad">Отменить</button>
+        <button class="fmodal__btn btn-good js-submitter">Сохранить</button>
+    </div>
+</div>
+
+{# Start добавление документа #}
+<script>
+    cpns_form_validate("#fmodal-objdoc-update", '.js-submitter'); // Валидируем модалку
+
+    $('#fmodal-objdoc-update .js-submitter').on('click', function(e) {
+        let formData = cpns_get_formdata_by_wrapper('#fmodal-objdoc-update');
+        formData.append('id', {{ doc.id }});
+        let url = API_V1_ROUTS.ObjectsDocs.update;
+
+        xpost_fd(url, formData).then(response => {
+            load_tab_objdocs({{ doc.object_id }}, true);
+            $.fancybox.close();
+            dd(response, response.message, 'success');
+            push(response.message, 'success');
+        }).catch(response => {
+            dd(response, response.message, 'error');
+            push(response.message, 'error');
+        });
+    });
+</script>
+{# End добавление документа #}

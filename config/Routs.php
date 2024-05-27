@@ -59,10 +59,20 @@ return ['routs' => [
                 'controller' => 'WWCrm\Controllers\Clients\ApiClientsController@distributor'
             ]
         ],
+        'Objects' => [
+            'render' => [
+                'route' => '/api_v1/objects/render/',
+                'controller' => 'WWCrm\Controllers\Objects\ApiObjectsController@render'
+            ],
+        ],
         'ObjectsDocs' => [
             'create' => [
                 'route' => '/api_v1/objects/docs/create/',
                 'controller' => 'WWCrm\Controllers\Objects\Docs\ApiObjectsDocsController@create'
+            ],
+            'update' => [
+                'route' => '/api_v1/objects/docs/update/',
+                'controller' => 'WWCrm\Controllers\Objects\Docs\ApiObjectsDocsController@update'
             ],
             'delete' => [
                 'route' => '/api_v1/objects/docs/delete/',
