@@ -310,12 +310,12 @@ function cpns_get_formdata_by_wrapper(wrapper_selector) {
         // console.log(input.attr('name'), input.val());
 
         if (input.attr('type') == 'file') { // Не уверен на счет files
-            // Если 1 файл
-            if (input[0].files.length > 1) {
+            // Если это мультизагрузка файлов
+            if (input[0].files.length > 0 && $(input).attr('multiple')) {
                 Array.from(input[0].files).forEach(function(file, file_index) {
                     formData.append(input.attr("name") + '_' + file_index, file);
                 });
-            } else if (input[0].files.length = 1) {
+            } else if (input[0].files.length = 1) { // Если это один файл
                 formData.append(input.attr("name"), input[0].files[0]);
             }
         } else { // Во всех остальных случаях
