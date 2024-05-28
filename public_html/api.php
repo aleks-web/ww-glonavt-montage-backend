@@ -82,6 +82,8 @@ $router->xpost($routs['ObjectsDocs']['update']['route'], $routs['ObjectsDocs']['
 $router->xpost($routs['ObjectsDocs']['delete']['route'], $routs['ObjectsDocs']['delete']['controller']); // Удаление документа у объекта
 
 
+
+
 /*
     Роуты модуля "Сотрудники"
 */
@@ -115,6 +117,14 @@ $router->xpost(API_V1_URL . 'book-objects/delete', $controllers['Api']['BooksObj
 $router->xpost(API_V1_URL . 'book-objects/create', $controllers['Api']['BooksObjects'] . '@create'); // Создание типов объектов
 $router->xpost(API_V1_URL . 'book-objects/update', $controllers['Api']['BooksObjects'] . '@update'); // Обновление типов объектов
 $router->xpost(API_V1_URL . 'book-objects/render/:string', $controllers['Api']['BooksObjects'] . '@distributor'); // Рендер типов объектов
+
+
+/*
+    DaData
+*/
+$router->xpost($routs['DaData']['check_org_by_inn']['route'], $routs['DaData']['check_org_by_inn']['controller']);
+$router->xpost($routs['DaData']['check_bank_by_bic']['route'], $routs['DaData']['check_bank_by_bic']['controller']);
+
 
 $router->notFound(function(Request $request, Response $response) {
     header('Location: ' . $request->server->get('REQUEST_SCHEME') . '://' . $request->server->get('HTTP_HOST') . '/404');

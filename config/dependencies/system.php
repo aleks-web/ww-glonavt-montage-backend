@@ -50,7 +50,9 @@ return [
     /*
         Others
     */
-
+    'DaData' => function(\Psr\Container\ContainerInterface $container) {
+        return new \Dadata\DadataClient($_ENV['DADATA_TOCKEN'], $_ENV['DADATA_SECRET']);
+    },
     'Router' => function (\Psr\Container\ContainerInterface $container) {
         return new \Buki\Router\Router([
             'paths' => [

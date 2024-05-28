@@ -78,6 +78,16 @@ return ['routs' => [
                 'route' => '/api_v1/objects/docs/delete/',
                 'controller' => 'WWCrm\Controllers\Objects\Docs\ApiObjectsDocsController@delete'
             ]
-        ]
-    ]
+        ],
+        'DaData' => [
+            'check_org_by_inn' => [
+                'route' => '/api_v1/dadata/check_org_by_inn/',
+                'controller' => 'WWCrm\Controllers\DaData\ApiDaDataController@check_org_by_inn'
+            ],
+            'check_bank_by_bic' => [
+                'route' => '/api_v1/dadata/check_bank_by_bic/',
+                'controller' => 'WWCrm\Controllers\DaData\ApiDaDataController@check_bank_by_bic'
+            ],
+        ],
+    ],
 ]];

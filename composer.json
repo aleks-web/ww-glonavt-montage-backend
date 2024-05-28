@@ -37,6 +37,7 @@
         "robmorgan/phinx": "^0.16.0",
         "intervention/image": "^3.6",
         "symfony/event-dispatcher": "^7.0",
-        "symfony/dotenv": "^7.0"
+        "symfony/dotenv": "^7.0",
+        "hflabs/dadata": "^24.4"
     }
 }

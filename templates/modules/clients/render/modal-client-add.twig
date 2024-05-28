@@ -132,7 +132,7 @@
             </div>
 
             <div class="d-flex flex-column justify-content-between">
-                <button class="btn disable" style="font-weight: 700;">Проверить</button>
+                <button class="btn" onclick="dadata_check_org_by_inn()">Проверить</button>
                 <button class="btn js-submitter" style="font-weight: 700; width: max-content;">Сохранить</button>
             </div>
         </div>
@@ -140,6 +140,46 @@
     </div>
 </div>
 <!-- End модалка добавление клиента | Модуль клиенты -->
+
+
+<script>
+    function dadata_check_org_by_inn() {
+        if ($('#modal-client-add input[name="inn"]').val()) {
+            let url = API_V1_ROUTS.DaData.check_org_by_inn;
+            let formData = new FormData();
+
+            formData.append('inn', $('#modal-client-add input[name="inn"]').val());
+
+            xpost_fd(url, formData).then(r => {
+                let company_name = r.dadata_output.value;
+                let okpo = r.dadata_output.data.okpo;
+                let okato = r.dadata_output.data.okato;
+                let director = r.dadata_output.data.management.name;
+                let address = r.dadata_output.data.address.value;
+
+                $('#modal-client-add input[name="okpo"]').val(okpo);
+                $('#modal-client-add input[name="okato"]').val(okato);
+                $('#modal-client-add input[name="name"]').val(company_name);
+                $('#modal-client-add input[name="director_fio"]').val(director);
+                $('#modal-client-add textarea[name="actual_address"]').val(address);
+            });
+        }
+
+        if ($('#modal-client-add input[name="bic"]').val()) {
+            let url2 = API_V1_ROUTS.DaData.check_bank_by_bic;
+            let formData2 = new FormData();
+            formData2.append('bic', $('#modal-client-add input[name="bic"]').val());
+            xpost_fd(url2, formData2).then(r => {
+                let bank_name = r.dadata_output.value;
+                let correspondent_bill_num = r.dadata_output.data.correspondent_account;
+
+                $('#modal-client-add input[name="bank_name"]').val(bank_name);
+                $('#modal-client-add input[name="correspondent_bill_num"]').val(correspondent_bill_num);
+            });
+        }
+    }
+</script>
+
 
 {# Start Добаввление клиента в базу данных | Модалка добавления нового пользователя #}
 <script>
