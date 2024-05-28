@@ -39,6 +39,12 @@ class ApiCurrentUserController extends \WWCrm\Controllers\MainController {
         $params = $response_array['request_params'] = $request->request->all();
         $response->headers->set('Content-Type', 'application/json');
 
+        // Если это не массив, убиваем
+        // Издержки компонентов и js. Костылек можно сказать)
+        if (gettype($params['avatar']) != 'array') {
+            unset($params['avatar']);
+        }
+
         $userDto = new UserDto($params);
 
         try {
@@ -46,9 +52,9 @@ class ApiCurrentUserController extends \WWCrm\Controllers\MainController {
                 $user = $this->userService->chengePasswordUser($userDto);
                 $response_array['message'] = 'Ваш пароль успешно изменен';
             } else {
-                // Если загрузили фото
-                if ($_FILES['avatar']) {
-                    $userDto->setAvatartFileRequest($_FILES['avatar']);
+                // Если загрузили фото, кидаем в dto
+                if (!empty($_FILES['avatar'])) {
+                    $userDto->setAvatarFileRequest($_FILES['avatar']);
                 }
 
                 $user = $this->userService->updateUser($userDto);

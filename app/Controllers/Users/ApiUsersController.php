@@ -48,7 +48,7 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
 
             // Если загрузили фото
             if ($_FILES['avatar']) {
-                $userDto->setAvatartFileRequest($_FILES['avatar']);
+                $userDto->setAvatarFileRequest($_FILES['avatar']);
             }
 
             $user = $this->userService->createUser($userDto);
@@ -95,7 +95,7 @@ class ApiUsersController extends \WWCrm\Controllers\MainController {
         
         // Если загрузили фото
         if ($_FILES['avatar']) {
-            $userDto->setAvatartFileRequest($_FILES['avatar']);
+            $userDto->setAvatarFileRequest($_FILES['avatar']);
         }
 
         try {

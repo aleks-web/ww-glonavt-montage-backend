@@ -78,7 +78,7 @@ class UserDto {
                     break;
                 case 'avatar':
                     if (isset($val)) {
-                        $this->setAvatartFileRequest($val);
+                        $this->setAvatarFileRequest($val);
                     }
                     break;
             }
@@ -155,7 +155,7 @@ class UserDto {
     /*
         Массив с аватаркой $_FILES['аватарка']
     */
-    public function setAvatartFileRequest(array $avatartFileRequest) : void {
+    public function setAvatarFileRequest(array $avatartFileRequest) : void {
         $this->avatartFileRequest = $avatartFileRequest;
     }
 
