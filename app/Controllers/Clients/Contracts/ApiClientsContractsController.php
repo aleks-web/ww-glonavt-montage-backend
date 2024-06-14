@@ -61,7 +61,7 @@ class ApiClientsContractsController extends \WWCrm\Controllers\MainController {
     }
 
     /*
-        Удаление нового договора
+        Удаление договора
     */
     public function delete(Request $request, Response $response) {
         $response->headers->set('Content-Type', 'application/json');

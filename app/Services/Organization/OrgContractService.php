@@ -42,7 +42,16 @@ final class OrgContractService extends MainService {
         Удаление договора
     */
     public function deleteContract(int $id) : bool {
-        if (OrgContracts::find($id)->delete()) {
+        $contract = OrgContracts::find($id);
+        $file_path = $this->paths['fs']['organizations_contracts'] . '/' . $contract->organization_id . '/' . $contract->contract_file_name;
+
+        if (file_exists($file_path)) {
+            if (!unlink($file_path)) {
+                throw new \Exception('Не удалось удалить файл договора!');
+            }
+        }
+
+        if ($contract->delete()) {
             return true;
         } else {
             return false;
