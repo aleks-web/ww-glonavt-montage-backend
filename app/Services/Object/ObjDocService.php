@@ -72,8 +72,13 @@ final class ObjDocService extends MainService {
 
         // Удаляем
         try {
-            $this->deleteDocFileByDocId($dto->getId());
-            ObjDocs::find($dto->getId())->delete();
+            if ($this->deleteDocFileByDocId($dto->getId())) {
+                if (!ObjDocs::find($dto->getId())->delete()) {
+                    throw new \Exception('Не удалось удалить запись из БД');
+                }
+            } else {
+                throw new \Exception('Не удалось удалить файл');
+            }
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
@@ -82,13 +87,19 @@ final class ObjDocService extends MainService {
     /*
         Удаление файла документа по id записи
     */
-    public function deleteDocFileByDocId(int $id) : void {
+    public function deleteDocFileByDocId(int $id) : bool {
         $doc = ObjDocs::find($id);
 
         $directory_file = $this->paths['fs']['object_docs'] . '/' . $doc->object_id . '/' .  $doc->doc_file_name;
 
         if (file_exists($directory_file)) {
-            unlink($directory_file);
+            if (unlink($directory_file)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
         }
     }
 
