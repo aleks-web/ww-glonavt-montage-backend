@@ -81,4 +81,9 @@ class OrgBills extends Model {
     return $this->belongsTo(Users::class, 'user_add_id', 'id');
   }
 
+  // Договор, для которого создан счет
+  public function contract() {
+    return $this->belongsTo('\WWCrm\Models\OrgContracts', 'contract_id', 'id');
+  }
+
 }

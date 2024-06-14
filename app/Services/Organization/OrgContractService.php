@@ -48,13 +48,15 @@ final class OrgContractService extends MainService {
         if (file_exists($file_path)) {
             if (!unlink($file_path)) {
                 throw new \Exception('Не удалось удалить файл договора!');
+            } else {
+                if ($contract->delete()) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
-        }
-
-        if ($contract->delete()) {
-            return true;
         } else {
-            return false;
+            throw new \Exception('Такого файла нет!');
         }
     }
 

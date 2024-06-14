@@ -35,10 +35,21 @@ final class OrgBillService extends MainService {
         Удаление счета
     */
     public function deleteBill(int $id) : bool {
-        if (OrgBills::find($id)->delete()) {
-            return true;
+        $bill = OrgBills::find($id);
+        $file_path = $this->paths['fs']['organizations_bills'] . '/' . $bill->contract->organization_id . '/' . $bill->bill_file_name;
+
+        if (file_exists($file_path)) {
+            if (!unlink($file_path)) {
+                throw new \Exception('Не удалось удалить файл договора!');
+            } else {
+                if ($bill->delete()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         } else {
-            return false;
+            throw new \Exception('Такого файла нет!');
         }
     }
 
