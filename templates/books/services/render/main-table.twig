@@ -1,0 +1,112 @@
+{#
+    request_params - параметры запроса
+    services - услуги
+#}
+
+<div class="content-table">
+    <div class="content-table__container">
+
+        {% if services | length > 0 %}
+            <table>
+                <thead>
+                    <tr>
+                        <th class="text-center" width="10%">№ п/п</th>
+                        <th class="text-start" style="margin-left: 10px">Название услуги</th>
+                        <th class="text-start" style="margin-left: 10px">Описание</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for service in services %}
+                        <tr>
+                            <td class="text-center">{{ service.id }}</td>
+                            <td class="text-start">{{ service.name }}</td>
+                            <td class="text-start">{{ service.description | default('-') }}</td>
+                            
+                            <td class="td-btn-default">
+                                <svg class="hover" onclick="edit_service({{ service.id }})"><use xlink:href="#svg-edit"></use></svg>
+                            </td>
+
+                            <td class="td-btn-default">
+                                <svg  class="hover" onclick="delete_service({{ service.id }})"><use xlink:href="#svg-del"></use></svg>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div style="display: flex; gap: 10px; align-items: center; flex-direction: column; justify-content: center; height: 100%;font-size: 2rem;">
+                <span style="font-size: 3rem;">🙁</span>
+                {% if request_params.control_panel_condition != '' %}
+                    <span>Таких типов услуг не нашлось</span>
+                {% else %}
+                    <span>Типов услуг нет!</span>
+                {% endif %}
+                <button data-fancybox data-src="#fmodal-book-new-post" class="btn">Добавить тип услуги</button>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+
+
+{# Start удаление услуги #}
+<script>
+    function delete_service(id) {
+        let formData = new FormData();
+        let url = API_V1_ROUTS.BookServices.delete;
+
+        alert(url);
+
+        formData.append('id', id);
+
+        xpost_fd(url, formData).then(response => {
+            let mes = response.message ? response.message : 'Успешное удаление услуги (' + url + ')';
+            
+            dd(response, mes, 'success');
+            push(mes, 'success');
+            xrender_main_table_book_posts();
+        }).catch(response => {
+            let mes = response.message ? response.message : 'Неудачное удаление услуги (' + url + ')';
+            
+            dd(response, mes, 'error');
+            push(mes, 'error');
+        });
+    }
+</script>
+{# End удаление услуги #}
+
+{# Start обновление услуги | подгрузка модалки #}
+<script>
+    function edit_service(id) {
+        let url = API_V1_ROUTS.BookServices.render + 'fmodal-book-service-update';
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: {
+                id: id,
+                twig_element: 'fmodal-book-service-update.twig',
+            },
+            success: function (response) {
+                if (response.status == "success") {
+
+                    $('#fmodal-book-service-update-wrapper').html(response.render_response_html);
+
+                    $.fancybox.open({
+                        src: '#fmodal-book-service-update',
+                        type: 'inline'
+                    });
+
+
+                    dd_render_success(
+                        response,
+                        'books/posts/render/fmodal-book-service-update.twig',
+                        url
+                    );
+                }
+            }
+        });
+    }
+</script>
+{# End обновление услуги | подгрузка модалки  #}

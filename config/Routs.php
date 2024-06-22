@@ -5,7 +5,7 @@
 
 return ['routs' => [
     'api_v1' => [
-        'ClientsBills' => [
+        'ClientsBills' => [ // Счета клиентов
             'create' => [
                 'route' => '/api_v1/clients/bills/create/',
                 'controller' => 'WWCrm\Controllers\Clients\Bills\ApiClientsBillsController@create'
@@ -19,7 +19,7 @@ return ['routs' => [
                 'controller' => 'WWCrm\Controllers\Clients\Bills\ApiClientsBillsController@update'
             ]
         ],
-        'ClientsContracts' => [
+        'ClientsContracts' => [ // Договоры клиентов
             'create' => [
                 'route' => '/api_v1/clients/contracts/create/',
                 'controller' => 'WWCrm\Controllers\Clients\Contracts\ApiClientsContractsController@create'
@@ -33,7 +33,7 @@ return ['routs' => [
                 'controller' => 'WWCrm\Controllers\Clients\Contracts\ApiClientsContractsController@update'
             ]
         ],
-        'Clients' => [
+        'Clients' => [ // Клиенты
             'create' => [
                 'route' => '/api_v1/clients/create/',
                 'controller' => 'WWCrm\Controllers\Clients\ApiClientsController@create'
@@ -59,13 +59,13 @@ return ['routs' => [
                 'controller' => 'WWCrm\Controllers\Clients\ApiClientsController@distributor'
             ]
         ],
-        'Objects' => [
+        'Objects' => [ // Объекты
             'render' => [
                 'route' => '/api_v1/objects/render/',
                 'controller' => 'WWCrm\Controllers\Objects\ApiObjectsController@render'
             ],
         ],
-        'ObjectsDocs' => [
+        'ObjectsDocs' => [ // Документы объектов
             'create' => [
                 'route' => '/api_v1/objects/docs/create/',
                 'controller' => 'WWCrm\Controllers\Objects\Docs\ApiObjectsDocsController@create'
@@ -79,7 +79,35 @@ return ['routs' => [
                 'controller' => 'WWCrm\Controllers\Objects\Docs\ApiObjectsDocsController@delete'
             ]
         ],
-        'DaData' => [
+        'Applications' => [ // Заявки
+            'create' => [
+                'route' => '/api_v1/applications/create/',
+                'controller' => 'WWCrm\Controllers\Applications\ApiApplicationsController@create'
+            ],
+            'render' => [
+                'route' => '/api_v1/applications/render/',
+                'controller' => 'WWCrm\Controllers\Applications\ApiApplicationsController@distributor'
+            ],
+        ],
+        'BookServices' => [
+            'create' => [
+                'route' => '/api_v1/book-services/create/',
+                'controller' => 'WWCrm\Controllers\Books\ApiBookServicesController@create'
+            ],
+            'update' => [
+                'route' => '/api_v1/book-services/update/',
+                'controller' => 'WWCrm\Controllers\Books\ApiBookServicesController@update'
+            ],
+            'delete' => [
+                'route' => '/api_v1/book-services/delete/',
+                'controller' => 'WWCrm\Controllers\Books\ApiBookServicesController@delete'
+            ],
+            'render' => [
+                'route' => '/api_v1/book-services/render/',
+                'controller' => 'WWCrm\Controllers\Books\ApiBookServicesController@distributor'
+            ],
+        ],
+        'DaData' => [ // Сервис DaData
             'check_org_by_inn' => [
                 'route' => '/api_v1/dadata/check_org_by_inn/',
                 'controller' => 'WWCrm\Controllers\DaData\ApiDaDataController@check_org_by_inn'

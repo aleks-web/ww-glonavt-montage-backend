@@ -29,7 +29,8 @@ return [
             'BooksDepartments' => 'WWCrm\Controllers\Books\BookDepartmentsController',
             'BooksPosts' => 'WWCrm\Controllers\Books\BookPostsController',
             'BooksDocs' => 'WWCrm\Controllers\Books\BookDocsController',
-            'BooksObjects' => 'WWCrm\Controllers\Books\BookObjectsController'
+            'BooksObjects' => 'WWCrm\Controllers\Books\BookObjectsController',
+            'BooksServices' => 'WWCrm\Controllers\Books\BookServicesController'
         ]
     ]
 ];

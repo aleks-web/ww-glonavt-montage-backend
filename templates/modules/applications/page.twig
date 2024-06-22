@@ -1,0 +1,32 @@
+{% extends "layout.twig" %}
+
+{% block control %}
+<div class="control">
+    <div class="control__container">
+        <div class="control__left">
+
+            <div class="control__search input-search" style="max-width: 375px;">
+                <input type="text" class="input-search__input" placeholder="Поиск по номеру заявки или клиенту">
+            </div>
+
+        </div>
+
+        <div class="control__right">
+            <button data-modal-application-add class="control__btn btn">Добавить</button>
+        </div>
+    </div>
+</div>
+{% endblock control %}
+
+{% block content %}
+{% endblock content %}
+
+{% block scripts %}
+{# Start Подгружаем главную таблицу #}
+<script>
+    $(document).ready(function() {
+        xrender_main_table_apl({{ query.page | default(1) }});
+    });
+</script>
+{# End Подгружаем главную таблицу #}
+{% endblock scripts %}

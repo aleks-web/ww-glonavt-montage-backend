@@ -29,6 +29,7 @@ $router->get('/book-departments', $controllers['Default']['BooksDepartments'], [
 $router->get('/book-posts', $controllers['Default']['BooksPosts'], ['before' => 'MainMiddleware']); // Должности
 $router->get('/book-docs', $controllers['Default']['BooksDocs'], ['before' => 'MainMiddleware']); // Документы
 $router->get('/book-objects', $controllers['Default']['BooksObjects'], ['before' => 'MainMiddleware']); // Объекты
+$router->get('/book-services', $controllers['Default']['BooksServices'], ['before' => 'MainMiddleware']); // Услуги
 
 // Страница не найдена
 $router->notFound(function(Request $request, Response $response) {

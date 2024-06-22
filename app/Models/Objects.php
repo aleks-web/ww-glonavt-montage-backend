@@ -61,6 +61,11 @@ class Objects extends Model {
     return $this->belongsTo('\WWCrm\Models\BookObjects', 'book_object_id', 'id');
   }
 
+  // Клиент
+  public function organization() {
+    return $this->belongsTo('\WWCrm\Models\Organizations', 'organization_id', 'id');
+  }
+
   /*
     Получает все логи принадлежащие этому объекту
   */

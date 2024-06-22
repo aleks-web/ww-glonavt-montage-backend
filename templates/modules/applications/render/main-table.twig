@@ -1,0 +1,66 @@
+{#
+    request_params - параметры запроса
+    applications - все заявки
+#}
+
+<div class="content-table content-table--control">
+    <div class="content-table__container">
+
+        {% if applications | length > 0 %}
+            <table>
+                <thead>
+                    <tr>
+                        <th class="text-start">№ Заявки</th>
+                        <th class="text-start">Клиент/ИНН</th>
+                        <th class="text-start">Тип заявки</th>
+                        <th class="text-start">Нас. пункт</th>
+                        <th class="text-start">Гос№/<br>Марка/модель</th>
+                        <th class="text-start">Инициатор</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for app in applications %}
+                        <tr data-modal-application data-application-id="1" class="pointer">
+                            <td class="text-start">{{ app.id }}</td>
+                            <td class="text-start">
+                                <span>{{ app.object.organization.name | default('-') }}</span><br>
+                                <span class="text-secondary">ИНН: {{ app.object.organization.inn | default('-') }}</span>
+                            </td>
+                            <td class="text-start">Монтаж</td>
+                            <td class="text-start">Новосибирск</td>
+                            <td class="text-start">
+                                <span>{{ app.object.gnum | default('-') }}</span><br>
+                                <span>{{ app.object.brand | default('-') }} / {{ app.object.model | default('-') }}</span>
+                            </td>
+                            <td class="text-start">
+                                <span> {{ short_name(app.userAdded.name, app.userAdded.surname, app.userAdded.patronymic) }}</span>
+                            </td>
+                            <td class="td-btn-favorite">
+                                <button>
+                                    <svg class="hover"><use xlink:href="#svg-star-hover"></use></svg>
+                                    <svg class="default active"><use xlink:href="#svg-star"></use></svg>
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <tr data-modal-application data-application-id="1" class="pointer favorite">
+                        <td class="text-start">12677</td>
+                        <td class="text-start"><span>ООО Альянс</span><br><span class="text-secondary">ИНН: 123456789</span></td>
+                        <td class="text-start">Монтаж</td>
+                        <td class="text-start">Новосибирск</td>
+                        <td class="text-start"><span>Х117УМ72</span><br><span>LADA 4x4, 212140</span></td>
+                        <td class="text-start"><span>Петров С. И.</span><br><span>89224862623</span></td>
+                        <td class="td-btn-favorite">
+                            <button>
+                                <svg class="hover active"><use xlink:href="#svg-star-hover"></use></svg>
+                                <svg class="default"><use xlink:href="#svg-star"></use></svg>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        {% endif %}
+
+    </div>
+</div>

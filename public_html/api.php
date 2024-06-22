@@ -73,6 +73,11 @@ $router->xpost(API_V1_URL . 'objects/create', $controllers['Api']['Objects'] . '
 $router->xpost(API_V1_URL . 'objects/update', $controllers['Api']['Objects'] . '@update'); // Обновление объекта
 $router->xpost(API_V1_URL . 'objects/render/:string', $controllers['Api']['Objects'] . '@distributor'); // Роут для рендера
 
+/*
+    Роуты модуля "Заявки"
+*/
+$router->xpost($routs['Applications']['create']['route'], $routs['Applications']['create']['controller']); // Создание заявки
+$router->xpost($routs['Applications']['render']['route'] . ':string', $routs['Applications']['render']['controller']); // Роут для рендера заявок
 
 /*
     Роуты для создания документа для Объекта
@@ -117,6 +122,12 @@ $router->xpost(API_V1_URL . 'book-objects/delete', $controllers['Api']['BooksObj
 $router->xpost(API_V1_URL . 'book-objects/create', $controllers['Api']['BooksObjects'] . '@create'); // Создание типов объектов
 $router->xpost(API_V1_URL . 'book-objects/update', $controllers['Api']['BooksObjects'] . '@update'); // Обновление типов объектов
 $router->xpost(API_V1_URL . 'book-objects/render/:string', $controllers['Api']['BooksObjects'] . '@distributor'); // Рендер типов объектов
+
+// Book services
+$router->xpost($routs['BookServices']['create']['route'], $routs['BookServices']['create']['controller']); // Создание услуги в справочнике
+$router->xpost($routs['BookServices']['update']['route'], $routs['BookServices']['update']['controller']); // Обновление услуги в справочнике
+$router->xpost($routs['BookServices']['delete']['route'], $routs['BookServices']['delete']['controller']); // Удаление услуги в справочнике
+$router->xpost($routs['BookServices']['render']['route'] . ':string', $routs['BookServices']['render']['controller']); // Рендер типов услуг
 
 
 /*
