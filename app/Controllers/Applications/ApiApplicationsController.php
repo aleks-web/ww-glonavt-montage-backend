@@ -14,14 +14,14 @@ use Symfony\Component\HttpFoundation\Response;
     Формирует массив с данными, который нужно прокинуть
     ООП обертка
 */
-// use WWCrm\Services\ComponentSelectBuilder;
+use WWCrm\Services\ComponentSelectBuilder;
 
 
 /*
     Модели - 1 модель работает с 1 таблицей в БД
     Расширяют класс Model от Laravel
 */
-
+use \WWCrm\Models\BookServices;
 
 // Dto
 
@@ -47,9 +47,39 @@ class ApiApplicationsController extends \WWCrm\Controllers\MainController {
 
         if ($twig_element == 'main-table.twig') {
             return $this->render_main_table($twig_element, $request, $response);
+        } else if ($twig_element == 'modal-application-add.twig') {
+            return $this->render_modal_application_add($twig_element, $request, $response);
         } else {
             return 'Распределитель рендер запросов. Возврат пустого ответа';
         }
+    }
+
+    /*
+        TWIG: modules/aplications/render/modal-application-add.twig
+        Desc: Рендер модалки добавления заявки
+    */
+
+    public function render_modal_application_add($twig_element, Request $request, Response $response) {
+        $response->headers->set('Content-Type', 'application/json');
+        // Получаем параметры POST и сразу записываем их в массив с ответом
+        $params = $response_array['request_params'] = $request->request->all();
+
+        $servicesBuilder = new ComponentSelectBuilder(['db_field_name' => 'service_id', 'required' => true]);
+        $servicesBuilder->setDefaultText('Выберите тип услуги'); // Дефолтный текст
+
+        foreach(BookServices::all() as $appKey => $app) { // Добавляем выгруженные элементы селект
+            $servicesBuilder->addIdItem($app->id)->addTextItem($app->name)->saveItem();
+        }
+
+        $response_array['render_response_html'] = $this->view->render('modules/applications/render/' . $twig_element, [
+            'request_params' => $response_array['request_params'],
+            'services_select' => $servicesBuilder->toHtml()
+        ]);
+
+        $response_array['status'] = 'success';
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+        return $response;
     }
 
     /*

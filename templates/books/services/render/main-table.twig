@@ -42,7 +42,7 @@
                 {% else %}
                     <span>Типов услуг нет!</span>
                 {% endif %}
-                <button data-fancybox data-src="#fmodal-book-new-post" class="btn">Добавить тип услуги</button>
+                <button data-fancybox data-src="#fmodal-book-new-service" class="btn">Добавить тип услуги</button>
             </div>
         {% endif %}
 
@@ -56,8 +56,6 @@
         let formData = new FormData();
         let url = API_V1_ROUTS.BookServices.delete;
 
-        alert(url);
-
         formData.append('id', id);
 
         xpost_fd(url, formData).then(response => {
@@ -65,7 +63,7 @@
             
             dd(response, mes, 'success');
             push(mes, 'success');
-            xrender_main_table_book_posts();
+            xrender_main_table_book_services();
         }).catch(response => {
             let mes = response.message ? response.message : 'Неудачное удаление услуги (' + url + ')';
             

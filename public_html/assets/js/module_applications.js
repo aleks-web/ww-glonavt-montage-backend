@@ -53,3 +53,27 @@ function xrender_main_table_apl(current_page = 1, control_panel_condition = null
     });
 }
 // Start функция, которая получает html разметку главной таблицы и вставляет ее | Модуль объекты
+
+
+// Start Функция рендерит и вставляет модалкку добавления заявки
+function load_modal_application_add() {
+    let url = API_V1_ROUTS.Applications.render + 'modal-application-add';
+    
+    xpost_fd(url).then(response => {
+        $('#modal-application-add-wrapper').html(response.render_response_html);
+
+        cpns_form_validate('#modal-application-add', '.submitter', true);
+
+        dd_render_success(
+            response,
+            'modules/clients/render/modal-application-add.twig',
+            url
+        );
+    }).catch(response => {
+        dd(response, response.message ? response.message : 'Не удалось отрендерить modal-application-add.twig', 'error');
+    });
+}
+$(document).ready(function (e) {
+    load_modal_application_add();
+});
+// End Функция рендерит и вставляет модалкку добавления заявки

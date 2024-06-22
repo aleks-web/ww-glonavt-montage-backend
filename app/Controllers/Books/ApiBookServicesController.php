@@ -26,7 +26,7 @@ class ApiBookServicesController extends \WWCrm\Controllers\MainController {
         BookServices::create($params);
 
         $response_array['status'] = 'success';
-        $response_array['message'] = 'Успешное создание типа объекта';
+        $response_array['message'] = 'Успешное создание нового типа услуги';
 
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
         return $response;
@@ -44,7 +44,7 @@ class ApiBookServicesController extends \WWCrm\Controllers\MainController {
         BookServices::find($params['id'])->update($params);
 
         $response_array['status'] = 'success';
-        $response_array['message'] = 'Успешное обновление типа объекта';
+        $response_array['message'] = 'Успешное обновление типа услуги';
 
         $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
         return $response;
@@ -98,7 +98,6 @@ class ApiBookServicesController extends \WWCrm\Controllers\MainController {
     */
     public function render_main_table($twig_element, Request $request, Response $response) {
         $response->headers->set('Content-Type', 'application/json');
-
         // Получаем параметры POST и сразу записываем их в массив с ответом
         $params = $response_array['request_params'] = $request->request->all();
 
@@ -120,7 +119,7 @@ class ApiBookServicesController extends \WWCrm\Controllers\MainController {
     }
 
     /*
-        Рендер fmodal-book-new-type-object.twig
+        Рендер fmodal-book-service-update.twig
     */
     public function render_fmodal_book_service_update($twig_element, Request $request, Response $response) {
         $response->headers->set('Content-Type', 'application/json');
@@ -128,7 +127,8 @@ class ApiBookServicesController extends \WWCrm\Controllers\MainController {
         $params = $response_array['request_params'] = $request->request->all();
 
         $response_array['render_response_html'] = $this->view->render('books/services/render/' . $twig_element, [
-            'request_params' => $response_array['request_params']
+            'request_params' => $response_array['request_params'],
+            'service' => $response_array['service'] = BookServices::find($params['id'])
         ]);
 
         $response_array['status'] = 'success';
@@ -138,7 +138,7 @@ class ApiBookServicesController extends \WWCrm\Controllers\MainController {
     }
 
     /*
-        Рендер fmodal-book-type-object-update.twig
+        Рендер fmodal-book-new-service.twig
     */
     public function render_fmodal_book_new_service($twig_element, Request $request, Response $response) {
         $response->headers->set('Content-Type', 'application/json');
