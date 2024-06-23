@@ -61,7 +61,6 @@ function load_modal_application(application_id, is_open = false) {
 
 
 
-
 // Start функция, которая получает html разметку главной таблицы и вставляет ее | Модуль объекты
 function xrender_main_table_apl(current_page = 1, control_panel_condition = null) {
 

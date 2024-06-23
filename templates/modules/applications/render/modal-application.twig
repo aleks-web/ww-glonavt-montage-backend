@@ -32,7 +32,7 @@
                     <button onclick="load_fmodal_new_objdoc({{ application.object.id }})" class="modal__header-btn btn">Загрузить</button>
                 </div>
                 <div class="modal__header-group-btns tab-outside" data-outside-id="3">
-                    <button data-fancybox data-src="#fmodal-new-bill" class="modal__header-btn btn">Создать счёт</button>
+                    <button onclick="load_fmodal_new_bill({{ application.object.organization.id }})" class="modal__header-btn btn">Добавить счет</button>
                 </div>
             </div>
         </div>
@@ -51,7 +51,7 @@
                     <div data-id="2" class="tabs__tab" onclick="load_tab_objdocs({{ application.object.id }})">
                         Документы объекта
                     </div>
-                    <div data-id="3" class="tabs__tab">
+                    <div data-id="3" class="tabs__tab" onclick="load_tab_bills({{ application.object.organization.id }})">
                         Счета компании
                     </div>
                     <div data-id="4" class="tabs__tab">
@@ -319,7 +319,7 @@
                     <!-- End tab content 2 | Документы объекта  -->
 
                     <!-- Start tab content 3 | Счета компании -->
-                    <div data-id="3" class="tabs__item"></div>
+                    <div data-id="3" class="tabs__item" id="modal-client-tab-bills-content"></div>
                     <!-- End tab content 3 | Счета компании -->
 
                     <!-- Start tab content 4 -->

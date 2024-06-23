@@ -398,7 +398,7 @@
                     <!-- End tab content 4 -->
 
                     <!-- Start tab content 5 -->
-                    <div data-id="5" id="modal-client-tab-bills" class="tabs__item">
+                    <div data-id="5" id="modal-client-tab-bills-content" class="tabs__item">
 
                         
 
@@ -581,42 +581,6 @@ function load_fmodal_new_contract(client_id) {
 }
 </script>
 {# Start функция загрузки модалки "Новый договор" #}
-
-{# Start функция загрузки модалки "Новый договор" #}
-<script>
-function load_fmodal_new_bill(client_id) {
-    $wrapper = $('#fmodal-new-bill-wrapper');
-
-    let url = API_V1_ROUTS.Clients.render + 'fmodal-new-bill'; // API_V1_URLS - Смотрим в main.js
-
-    $.ajax({
-        url: url,
-        method: "POST",
-        data: {
-            client_id: client_id, // Передаем id клиента
-        },
-        success: function (response) {
-            if (response.status == "success") {
-                $wrapper.html(response.render_response_html);
-
-                cpns_form_validate('#fmodal-new-bill', '.js-submitter', true);
-
-                $.fancybox.open({
-                    src: '#fmodal-new-bill',
-                    type: 'inline'
-                });
-
-                dd(response, `Render fmodal-new-bill.twig ${url}`, 'success');
-            }
-
-            if (response.status == "error") {
-                dd(response, response.message, 'error');
-            }
-        }
-    });
-}
-</script>
-{# Start функция загрузки модалки "Новый договор" #}
 {# End модалки #}
 
 
@@ -761,49 +725,6 @@ function load_tab_contracts(client_id, is_reload = false) {
 }
 </script>
 {# End функция загрузки таба документы #}
-
-{# Start функция загрузки таба счета #}
-<script>
-function load_tab_bills(client_id, is_reload = false) {
-    $wrapper = $('#modal-client-tab-bills');
-
-    let url = API_V1_URLS.clients.render + 'tab-content-bills'; // API_V1_URLS - Смотрим в main.js
-
-    if (!$wrapper.hasClass('loaded') && !is_reload) { // Если вкладка не загружена
-        go_ajax();
-    }
-
-    if (is_reload) {
-        go_ajax();
-    }
-
-    function go_ajax() {
-        $.ajax({
-            url: url,
-            method: "POST",
-            data: {
-                client_id: client_id, // Передаем id клиента
-            },
-            success: function (response) {
-                $wrapper.removeClass("loading");
-
-                if (response.status == "success") {
-                    $wrapper.removeClass('loading');
-                    $wrapper.html(response.render_response_html);
-                    $wrapper.addClass('loaded');
-                    resizeTableModal(); // Ресайзим под размеры. Костыль
-
-                    dd_render_success(response, 'tab-content-bills.twig', url);
-                }
-            },
-            beforeSend: function(s) {
-                $wrapper.addClass('loading');
-            }
-        });
-    }
-}
-</script>
-{# End функция загрузки таба счета #}
 {# End ТАБЫ #}
 
 
