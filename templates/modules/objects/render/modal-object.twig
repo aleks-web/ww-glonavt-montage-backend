@@ -420,37 +420,6 @@ function load_fmodal_new_type_equipment(object_id) {
 </script>
 {# End добавление нового типа оборудования #}
 
-<script>
-    function load_fmodal_new_objdoc(object_id) {
-        $region_wrapper = $('#fmodal-new-objdoc-wrapper');
-        let url = API_V1_URLS.objects.render + 'fmodal-new-objdoc'; // API_V1_URLS - Смотрим в main.js
-
-        $.ajax({
-            url: url,
-            method: "POST",
-            data: {
-                object_id: object_id, // Передаем id объекта
-            },
-            success: function (response) {
-                if (response.status == "success") {
-                    $region_wrapper.html(response.render_response_html);
-
-                    $.fancybox.open({
-                        src: '#fmodal-new-objdoc',
-                        type: 'inline'
-                    });
-
-                    dd(response, `Render fmodal-new-objdoc.twig ${url}`);
-                }
-
-                if (response.status == "error") {
-                    console.log(response);
-                }
-            }
-        });
-    }
-</script>
-
 
 {# Start подгрузка таба "Оборудование" #}
 <script>
@@ -494,46 +463,6 @@ function load_tab_equipments(object_id, is_reload = false) {
 }
 </script>
 {# End подгрузка таба "Оборудование" #}
-
-<script>
-function load_tab_objdocs(object_id, is_reload = false) {
-    $wrapper = $('#modal-object-tab-docs-content');
-
-    if (!$wrapper.hasClass('loaded') && !is_reload) { // Если вкладка не загружена
-        go_ajax();
-    }
-
-    if (is_reload) {
-        go_ajax();
-    }
-
-    function go_ajax() {
-        let url = API_V1_URLS.objects.render + 'tab-content-docs'; // API_V1_URLS - Смотрим в main.js
-
-        let data = {object_id: object_id};
-
-        $.ajax({
-            url: url,
-            method: "POST",
-            data: data,
-            success: function (response) {
-                $wrapper.removeClass("loading");
-
-                if (response.status == "success") {
-                    $wrapper.removeClass('loading');
-                    $wrapper.html(response.render_response_html);
-                    $wrapper.addClass('loaded');
-
-                    dd(response, `Render tab-content-docs.twig ${url}`);
-                }
-            },
-            beforeSend: function(s) {
-                $wrapper.addClass('loading');
-            }
-        });
-    }
-}
-</script>
 
 
 <script>

@@ -28,6 +28,9 @@
                     <button class="modal__header-btn modal__header-btn-edit btn">Редактировать</button>
                     <button class="modal__header-btn modal__header-btn-save btn-good" style="display: none;">Сохранить</button>
                 </div>
+                <div class="modal__header-group-btns tab-outside" data-outside-id="2">
+                    <button onclick="load_fmodal_new_objdoc({{ application.object.id }})" class="modal__header-btn btn">Загрузить</button>
+                </div>
                 <div class="modal__header-group-btns tab-outside" data-outside-id="3">
                     <button data-fancybox data-src="#fmodal-new-bill" class="modal__header-btn btn">Создать счёт</button>
                 </div>
@@ -45,7 +48,7 @@
                     <div data-id="1" class="tabs__tab tabs__tab--active">
                         Информация
                     </div>
-                    <div data-id="2" class="tabs__tab">
+                    <div data-id="2" class="tabs__tab" onclick="load_tab_objdocs({{ application.object.id }})">
                         Документы объекта
                     </div>
                     <div data-id="3" class="tabs__tab">
@@ -63,7 +66,7 @@
                 <!-- Start tabs__content -->
                 <div class="tabs__content">
                     
-                    <!-- Start tab content 1 -->
+                    <!-- Start tab content 1 | Редактирование заявки-->
                     <div data-id="1" class="tabs__item tabs__item--active">
                         
                         <div class="modal__data-view modal-application__data-view view">
@@ -309,70 +312,15 @@
                         </div>
 
                     </div>
-                    <!-- End tab content 1 -->
+                    <!-- End tab content 1 | Редактирование заявки -->
 
-                    <!-- Start tab content 2 -->
-                    <div data-id="2" class="tabs__item">
+                    <!-- Start tab content 2 | Документы объекта -->
+                    <div data-id="2" class="tabs__item" id="modal-object-tab-docs-content"></div>
+                    <!-- End tab content 2 | Документы объекта  -->
 
-                        <div class="tabs__tableContainer">
-                            <div class="tabs__table">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th class="text-start">Имя</th>
-                                            <th class="text-start">Прикрепил</th>
-                                        </tr>
-                                    </thead>
-        
-                                    <tbody>
-                                        <tr class="pointer">
-                                            <td class="text-start"><a href="#">Анкета.xlsx (123123123 байт)</a></td>
-                                            <td class="text-start">Лебедев Ю. И.</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End tab content 2 -->
-
-                    <!-- Start tab content 3 -->
-                    <div data-id="3" class="tabs__item">
-
-                        <div class="tabs__tableContainer">
-                            <div class="tabs__table">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th class="text-start">Статус</th>
-                                            <th class="text-start">Счёт/Сумма, руб</th>
-                                            <th class="text-start" width="15%">Комментарий</th>
-                                            <th class="text-start">Номер договора</th>
-                                            <th class="text-start">Инициатор/<br>Дата/Время</th>
-                                        </tr>
-                                    </thead>
-        
-                                    <tbody>
-                                        <tr class="pointer">
-                                            <td class="text-start">Частично оплачен</td>
-                                            <td class="text-start"><span><a href="#">№_УТ-4295_от_04.10.2023.pdf</a></span><br><span>26 010,00</span></td>
-                                            <td class="text-start">комментарий длинный и на две строчки</td>
-                                            <td class="text-start">121212323</td>
-                                            <td class="text-start"><span>Лебедев Ю. И.</span><br><span>04.10.23 в 13:25</span></td>
-                                            <td class="td-btn-default">
-                                                <svg data-fancybox data-src="#fmodal-new-bill" class="hover"><use xlink:href="#svg-edit"></use></svg>
-                                            </td>
-                                            <td class="td-btn-default">
-                                                <svg><use xlink:href="#svg-del"></use></svg>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- End tab content 3 -->
+                    <!-- Start tab content 3 | Счета компании -->
+                    <div data-id="3" class="tabs__item"></div>
+                    <!-- End tab content 3 | Счета компании -->
 
                     <!-- Start tab content 4 -->
                     <div data-id="4" class="tabs__item">
