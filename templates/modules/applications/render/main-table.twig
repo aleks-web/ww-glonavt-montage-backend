@@ -21,7 +21,7 @@
 
                 <tbody>
                     {% for app in applications %}
-                        <tr data-modal-application data-application-id="1" class="pointer">
+                        <tr data-modal-application data-application-id="{{ app.id }}" class="pointer">
                             <td class="text-start">{{ app.id }}</td>
                             <td class="text-start">
                                 <span>{{ app.object.organization.name | default('-') }}</span><br>

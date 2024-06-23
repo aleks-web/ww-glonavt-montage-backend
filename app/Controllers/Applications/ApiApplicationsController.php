@@ -22,6 +22,7 @@ use WWCrm\Services\ComponentSelectBuilder;
     Расширяют класс Model от Laravel
 */
 use \WWCrm\Models\BookServices;
+use \WWCrm\Models\Applications;
 
 // Dto
 
@@ -39,6 +40,19 @@ class ApiApplicationsController extends \WWCrm\Controllers\MainController {
         return $response;
     }
 
+    /*
+        Обновление заявки
+    */
+    public function update(Request $request, Response $response) {
+        $response_array['request_params'] = $request->request->all();
+        $response->headers->set('Content-Type', 'application/json');
+
+        $response_array['status'] = "success";
+        $response_array['message'] = "Данные заявки успешно обновлены";
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+        return $response;
+    }
+
 
 
     // Выступает в качестве распределителя
@@ -49,16 +63,39 @@ class ApiApplicationsController extends \WWCrm\Controllers\MainController {
             return $this->render_main_table($twig_element, $request, $response);
         } else if ($twig_element == 'modal-application-add.twig') {
             return $this->render_modal_application_add($twig_element, $request, $response);
+        } else if ($twig_element == 'modal-application.twig') {
+            return $this->render_modal_application($twig_element, $request, $response);
         } else {
             return 'Распределитель рендер запросов. Возврат пустого ответа';
         }
     }
 
+
+    /*
+        TWIG: modules/aplications/render/modal-application.twig
+        Desc: Рендер модалки добавления заявки
+    */
+    public function render_modal_application($twig_element, Request $request, Response $response) {
+        $response->headers->set('Content-Type', 'application/json');
+        // Получаем параметры POST и сразу записываем их в массив с ответом
+        $params = $response_array['request_params'] = $request->request->all();
+
+        $response_array['render_response_html'] = $this->view->render('modules/applications/render/' . $twig_element, [
+            'request_params' => $response_array['request_params'],
+            'application' => Applications::find($params['application_id'])
+        ]);
+
+        $response_array['status'] = 'success';
+        $response->setContent(json_encode($response_array, JSON_UNESCAPED_UNICODE));
+
+        return $response;
+    }
+
+
     /*
         TWIG: modules/aplications/render/modal-application-add.twig
         Desc: Рендер модалки добавления заявки
     */
-
     public function render_modal_application_add($twig_element, Request $request, Response $response) {
         $response->headers->set('Content-Type', 'application/json');
         // Получаем параметры POST и сразу записываем их в массив с ответом

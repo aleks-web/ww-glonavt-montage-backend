@@ -84,6 +84,10 @@ return ['routs' => [
                 'route' => '/api_v1/applications/create/',
                 'controller' => 'WWCrm\Controllers\Applications\ApiApplicationsController@create'
             ],
+            'update' => [
+                'route' => '/api_v1/applications/update/',
+                'controller' => 'WWCrm\Controllers\Applications\ApiApplicationsController@update'
+            ],
             'render' => [
                 'route' => '/api_v1/applications/render/',
                 'controller' => 'WWCrm\Controllers\Applications\ApiApplicationsController@distributor'

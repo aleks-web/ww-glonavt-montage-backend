@@ -77,6 +77,7 @@ $router->xpost(API_V1_URL . 'objects/render/:string', $controllers['Api']['Objec
     Роуты модуля "Заявки"
 */
 $router->xpost($routs['Applications']['create']['route'], $routs['Applications']['create']['controller']); // Создание заявки
+$router->xpost($routs['Applications']['update']['route'], $routs['Applications']['update']['controller']); // Обновление заявки
 $router->xpost($routs['Applications']['render']['route'] . ':string', $routs['Applications']['render']['controller']); // Роут для рендера заявок
 
 /*

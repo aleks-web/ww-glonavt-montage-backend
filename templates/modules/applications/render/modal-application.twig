@@ -1,0 +1,530 @@
+{#
+    request_params - параметры запроса
+    application - объект заявки
+#}
+
+<!-- Start Модалка просмотра заявки -->
+<div id="modal-application" class="modal modal-application {% if request_params.is_open %}open{% endif %}" data-application-id="{{ application.id }}">
+    <svg data-modal-close class="modal__close"><use xlink:href="#svg-close"></use></svg>
+
+    <div class="modal__container">
+
+        <!-- Start Шапка модалки -->
+        <div class="modal__header">
+            <div class="modal__header-left">
+                
+                <div class="modal__info">
+                    <div class="modal__info-title">
+                        <span class="modal__info-title-h1">Заявка №{{ application.id }}</span>
+                        <span class="modal__info-title-h2">{{ application.object.brand }}, {{ application.object.model }}</span>
+                        <span class="modal__info-title-h1">{{ application.object.gnum }}</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal__header-right tabs-outside-application-control">
+                <div class="modal__header-group-btns tab-outside tab-outside--active" data-outside-id="1">
+                    <button class="modal__header-btn modal__header-btn-edit btn">Редактировать</button>
+                    <button class="modal__header-btn modal__header-btn-save btn-good" style="display: none;">Сохранить</button>
+                </div>
+                <div class="modal__header-group-btns tab-outside" data-outside-id="3">
+                    <button data-fancybox data-src="#fmodal-new-bill" class="modal__header-btn btn">Создать счёт</button>
+                </div>
+            </div>
+        </div>
+        <!-- End Шапка модалки -->
+
+        <!-- Start Основное содержимое модалки -->
+        <div class="modal__main">
+
+            <div class="tabs" data-outside="application-control">
+
+                <!-- Start tabs__header -->
+                <div class="tabs__header">
+                    <div data-id="1" class="tabs__tab tabs__tab--active">
+                        Информация
+                    </div>
+                    <div data-id="2" class="tabs__tab">
+                        Документы объекта
+                    </div>
+                    <div data-id="3" class="tabs__tab">
+                        Счета компании
+                    </div>
+                    <div data-id="4" class="tabs__tab">
+                        Лог событий
+                    </div>
+                    <div data-id="5" class="tabs__tab">
+                        Акты
+                    </div>
+                </div>
+                <!-- End tabs__header -->
+
+                <!-- Start tabs__content -->
+                <div class="tabs__content">
+                    
+                    <!-- Start tab content 1 -->
+                    <div data-id="1" class="tabs__item tabs__item--active">
+                        
+                        <div class="modal__data-view modal-application__data-view view">
+                            <div class="block-info">
+                                <div class="block-info__title">О заявке</div>
+
+                                <div class="block-info__content">
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Статус</span>
+                                        <span class="block-info__text-main">В работе</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Тип заяки</span>
+                                        <span class="block-info__text-main">Монтаж</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Клиент</span>
+                                        <span class="block-info__text-main">ООО Альянс</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Договор</span>
+                                        <span class="block-info__text-main">123456</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Контактное лицо</span>
+                                        <span class="block-info__text-main">Петров С. И. 89224862623</span>
+                                        <span class="block-info__text-main">Петров С. И. 89224862623</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Нас. пункт</span>
+                                        <span class="block-info__text-main">Новосибирск</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Наименование объекта</span>
+                                        <span class="block-info__text-main">LADA 4x4, 212140</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Исполнители</span>
+                                        <span class="block-info__text-main">Иванов И. И.</span>
+                                        <span class="block-info__text-main">Семенов С. С.</span>
+                                    </div>
+                                    <div class="block-info__item">
+                                        <span class="block-info__text-secondary">Срок выполнения</span>
+                                        <span class="block-info__text-main">23.10.2023</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+
+                        </div>
+
+                        <div class="modal__data-edit modal-application__data-edit edit">
+                            <div class="block-info">
+                                <div class="block-info__title">О заявке</div>
+                            
+                                    <div class="block-info__content">
+
+                                        <div class="block-info__item">
+                                            <div class="select">
+                                                <span class="select__name">Статус</span>
+                                                <input class="select__input" type="hidden" value="1">
+                
+                                                <div class="select__current">
+                                                    <span class="select__current-text">Тест 1</span>
+                                                </div>
+                
+                                                <div class="select__list">
+                                                    <div data-id="1" data-text="Тест 1" class="select__item select__item-1 select__item--active">Тест 1</div>
+                                                    <div data-id="2" data-text="Тест 2" class="select__item select__item-2">Тест 2</div>
+                                                    <div data-id="3" data-text="Тест 3" class="select__item select__item-3">Тест 3</div>
+                                                    <div data-id="4" data-text="Тест 4" class="select__item select__item-4">Тест 4</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            <div class="select">
+                                                <span class="select__name">Тип заявки</span>
+                                                <input class="select__input" type="hidden" value="1">
+                
+                                                <div class="select__current">
+                                                    <span class="select__current-text">Тест 1</span>
+                                                </div>
+                
+                                                <div class="select__list">
+                                                    <div data-id="1" data-text="Тест 1" class="select__item select__item-1 select__item--active">Тест 1</div>
+                                                    <div data-id="2" data-text="Тест 2" class="select__item select__item-2">Тест 2</div>
+                                                    <div data-id="3" data-text="Тест 3" class="select__item select__item-3">Тест 3</div>
+                                                    <div data-id="4" data-text="Тест 4" class="select__item select__item-4">Тест 4</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            <div class="select">
+                                                <span class="select__name">Клиент</span>
+                                                <input class="select__input" type="hidden" value="1">
+                
+                                                <div class="select__current">
+                                                    <span class="select__current-text">Тест 1</span>
+                                                </div>
+                
+                                                <div class="select__list">
+                                                    <div data-id="1" data-text="Тест 1" class="select__item select__item-1 select__item--active">Тест 1</div>
+                                                    <div data-id="2" data-text="Тест 2" class="select__item select__item-2">Тест 2</div>
+                                                    <div data-id="3" data-text="Тест 3" class="select__item select__item-3">Тест 3</div>
+                                                    <div data-id="4" data-text="Тест 4" class="select__item select__item-4">Тест 4</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            <div class="select">
+                                                <span class="select__name">Договор</span>
+                                                <input class="select__input" type="hidden" value="1">
+                
+                                                <div class="select__current">
+                                                    <span class="select__current-text">Тест 1</span>
+                                                </div>
+                
+                                                <div class="select__list">
+                                                    <div data-id="1" data-text="Тест 1" class="select__item select__item-1 select__item--active">Тест 1</div>
+                                                    <div data-id="2" data-text="Тест 2" class="select__item select__item-2">Тест 2</div>
+                                                    <div data-id="3" data-text="Тест 3" class="select__item select__item-3">Тест 3</div>
+                                                    <div data-id="4" data-text="Тест 4" class="select__item select__item-4">Тест 4</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            <div class="select">
+                                                <span class="select__name">Контактное лицо</span>
+                                                <input class="select__input" type="hidden" value="1">
+                
+                                                <div class="select__current">
+                                                    <span class="select__current-text">Тест 1</span>
+                                                </div>
+                
+                                                <div class="select__list">
+                                                    <div data-id="1" data-text="Тест 1" class="select__item select__item-1 select__item--active">Тест 1</div>
+                                                    <div data-id="2" data-text="Тест 2" class="select__item select__item-2">Тест 2</div>
+                                                    <div data-id="3" data-text="Тест 3" class="select__item select__item-3">Тест 3</div>
+                                                    <div data-id="4" data-text="Тест 4" class="select__item select__item-4">Тест 4</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            <div class="select">
+                                                <span class="select__name">Нас. пункт</span>
+                                                <input class="select__input" type="hidden" value="1">
+                
+                                                <div class="select__current">
+                                                    <span class="select__current-text">Тест 1</span>
+                                                </div>
+                
+                                                <div class="select__list">
+                                                    <div data-id="1" data-text="Тест 1" class="select__item select__item-1 select__item--active">Тест 1</div>
+                                                    <div data-id="2" data-text="Тест 2" class="select__item select__item-2">Тест 2</div>
+                                                    <div data-id="3" data-text="Тест 3" class="select__item select__item-3">Тест 3</div>
+                                                    <div data-id="4" data-text="Тест 4" class="select__item select__item-4">Тест 4</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            <div class="select">
+                                                <span class="select__name">Наименование объекта</span>
+                                                <input class="select__input" type="hidden" value="1">
+                
+                                                <div class="select__current">
+                                                    <span class="select__current-text">Тест 1</span>
+                                                </div>
+                
+                                                <div class="select__list">
+                                                    <div data-id="1" data-text="Тест 1" class="select__item select__item-1 select__item--active">Тест 1</div>
+                                                    <div data-id="2" data-text="Тест 2" class="select__item select__item-2">Тест 2</div>
+                                                    <div data-id="3" data-text="Тест 3" class="select__item select__item-3">Тест 3</div>
+                                                    <div data-id="4" data-text="Тест 4" class="select__item select__item-4">Тест 4</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="block-info__item">
+                                            <div class="select">
+                                                <span class="select__name">Исполнители</span>
+                                                <input class="select__input" type="hidden" value="1">
+                
+                                                <div class="select__current">
+                                                    <span class="select__current-text">Тест 1</span>
+                                                </div>
+                
+                                                <div class="select__list">
+                                                    <div data-id="1" data-text="Тест 1" class="select__item select__item-1 select__item--active">Тест 1</div>
+                                                    <div data-id="2" data-text="Тест 2" class="select__item select__item-2">Тест 2</div>
+                                                    <div data-id="3" data-text="Тест 3" class="select__item select__item-3">Тест 3</div>
+                                                    <div data-id="4" data-text="Тест 4" class="select__item select__item-4">Тест 4</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="standart-input-date">
+                                            <span class="standart-input-date__name">Срок выполнения</span>
+                                            <input type="date">
+                                        </div>
+
+                                    </div>
+                            </div>
+
+                        </div>
+
+                        <div class="comments">
+                            <div class="comments__title">Комментарии</div>
+
+                            <div class="comments__form">
+                                <div class="comments__avatar"><svg><use xlink:href="#svg-user"></use></svg></div>
+                                <textarea rows="1" placeholder="Комментарий"></textarea>
+                                <svg class="comments__send"><use xlink:href="#svg-send"></use></svg>
+                            </div>
+
+                            <div class="comments__body">
+                                <div class="comments__comment">
+                                    <div class="comments__comment-user">
+                                        <svg class="comments__comment-avatar"><use xlink:href="#svg-user"></use></svg>
+
+                                        <div class="comments__comment-info">
+                                            <span>Лебедев Ю. И.</span>
+                                            <span>Менеджер</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="comments__comment-content">
+                                        Нужен монтаж тахогрофа
+                                    </div>
+
+                                    <div class="comments__comment-date">
+                                        <span>20.10.2023</span>
+                                        <span>11:38</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- End tab content 1 -->
+
+                    <!-- Start tab content 2 -->
+                    <div data-id="2" class="tabs__item">
+
+                        <div class="tabs__tableContainer">
+                            <div class="tabs__table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="text-start">Имя</th>
+                                            <th class="text-start">Прикрепил</th>
+                                        </tr>
+                                    </thead>
+        
+                                    <tbody>
+                                        <tr class="pointer">
+                                            <td class="text-start"><a href="#">Анкета.xlsx (123123123 байт)</a></td>
+                                            <td class="text-start">Лебедев Ю. И.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End tab content 2 -->
+
+                    <!-- Start tab content 3 -->
+                    <div data-id="3" class="tabs__item">
+
+                        <div class="tabs__tableContainer">
+                            <div class="tabs__table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="text-start">Статус</th>
+                                            <th class="text-start">Счёт/Сумма, руб</th>
+                                            <th class="text-start" width="15%">Комментарий</th>
+                                            <th class="text-start">Номер договора</th>
+                                            <th class="text-start">Инициатор/<br>Дата/Время</th>
+                                        </tr>
+                                    </thead>
+        
+                                    <tbody>
+                                        <tr class="pointer">
+                                            <td class="text-start">Частично оплачен</td>
+                                            <td class="text-start"><span><a href="#">№_УТ-4295_от_04.10.2023.pdf</a></span><br><span>26 010,00</span></td>
+                                            <td class="text-start">комментарий длинный и на две строчки</td>
+                                            <td class="text-start">121212323</td>
+                                            <td class="text-start"><span>Лебедев Ю. И.</span><br><span>04.10.23 в 13:25</span></td>
+                                            <td class="td-btn-default">
+                                                <svg data-fancybox data-src="#fmodal-new-bill" class="hover"><use xlink:href="#svg-edit"></use></svg>
+                                            </td>
+                                            <td class="td-btn-default">
+                                                <svg><use xlink:href="#svg-del"></use></svg>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- End tab content 3 -->
+
+                    <!-- Start tab content 4 -->
+                    <div data-id="4" class="tabs__item">
+
+                        <div class="tabs__tableContainer">
+                            <div class="tabs__table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="text-start" width="33%">Тип действия</th>
+                                            <th class="text-start" width="33%">Номер договора</th>
+                                            <th class="text-start">Инициатор/<br>Дата/Время</th>
+                                        </tr>
+                                    </thead>
+        
+                                    <tbody>
+                                        <tr class="pointer">
+                                            <td class="text-start">Создание</td>
+                                            <td class="text-start">Статус - Новая</td>
+                                            <td class="text-start"><span>Лебедев Ю. И.</span><br><span>04.10.23 в 13:25</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End tab content 4 -->
+
+                    <!-- Start tab content 5 -->
+                    <div data-id="5" class="tabs__item">
+
+                        <div class="tabs__tableContainer">
+                            <div class="tabs__table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="text-start">№ п/п</th>
+                                            <th class="text-start">Дата</th>
+                                            <th class="text-start">Инициатор</th>
+                                            <th class="text-start">Тип акта</th>
+                                            <th class="text-center">Фотографии</th>
+                                            <th class="text-center">Просмотр акта</th>
+                                        </tr>
+                                    </thead>
+        
+                                    <tbody>
+                                        <tr class="pointer">
+                                            <td class="text-start">1</td>
+                                            <td class="text-start">20.10.2023</td>
+                                            <td class="text-start">Иванов И. И.</td>
+                                            <td class="text-start">Монтаж тахографа</td>
+                                            <td class="td-photos">
+                                                <div data-fancybox="" data-src="/assets/img/default/photo-1.jpg" style="background-image: url('/assets/img/default/photo-1.jpg');"></div>
+                                                <div data-fancybox="" data-src="/assets/img/default/photo-1.jpg" style="background-image: url('/assets/img/default/photo-1.jpg');"></div>
+                                                <div data-fancybox="" data-src="/assets/img/default/photo-1.jpg" style="background-image: url('/assets/img/default/photo-1.jpg');"></div>
+                                                <div data-fancybox="" data-src="/assets/img/default/photo-1.jpg" style="background-image: url('/assets/img/default/photo-1.jpg');"></div>
+                                                <div data-fancybox="" data-src="/assets/img/default/photo-1.jpg" style="background-image: url('/assets/img/default/photo-1.jpg');"></div>
+                                            </td>
+                                            <td class="text-center"><div class="d-flex justify-content-center"><button data-fancybox data-src="#fmodal-moduleApplications-actView" class="btn">Открыть</button></div></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End tab content 5 -->
+
+                    <!-- Start tab content 6 -->
+                    <div data-id="6" class="tabs__item">
+                        <!-- Start table -->
+                        <div class="table table--modal">
+                            <div class="table__header">
+                                <div class="table__header-item table__item table__item-1 justify-content-start">Событие</div>
+                                <div class="table__header-item table__item table__item-2 justify-content-start">Информация</div>
+                                <div class="table__header-item table__item table__item-3 justify-content-start">Инициатор</div>
+                            </div>
+                    
+                            <div class="table__body table__body--overflow">
+                                <div class="table__row table__row-1">
+                                    <div class="table__item table__item-1 justify-content-start">Смена статуса</div>
+                                    <div class="table__item table__item-2 justify-content-start">Смена статуса</div>
+                                    <div class="table__item table__item-3 justify-content-start">Лебедев Ю. И.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End table -->
+                    </div>
+                    <!-- End tab content 6 -->
+
+                    <!-- Start tab content 7 -->
+                    <div data-id="7" class="tabs__item">
+                        <!-- Start table -->
+                        <div class="table table--modal table--pointer">
+                            <div class="table__header">
+                                <div class="table__header-item table__item table__item-1 justify-content-start">Дата смены</div>
+                                <div class="table__header-item table__item table__item-2 justify-content-start">Гос№</div>
+                            </div>
+                    
+                            <div class="table__body table__body--overflow">
+                                <div data-fancybox data-src="#fmodal-request-view" class="table__row table__row-1">
+                                    <div class="table__item table__item-1 justify-content-start">20.10.2023</div>
+                                    <div class="table__item table__item-2 justify-content-start">Х117УМ72</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End table -->
+                    </div>
+                    <!-- End tab content 7 -->
+
+                </div>
+                <!-- End tabs__content -->
+            </div>
+
+        </div>
+        <!-- End Основное содержимое модалки -->
+
+
+
+    </div>
+</div>
+<!-- End Модалка просмотра заявки -->
+
+{# Start функционал сохранения данных заявки #}
+<script>
+    save_big_modal('modal-application', async () => {
+        let application_id = $('#modal-application').data('application-id');
+        
+        let url = API_V1_ROUTS.Applications.update;
+
+        let formData = cpns_get_formdata_by_wrapper('#modal-application .tabs__item[data-id="1"] .modal-application__data-edit');
+
+        formData.append('id', application_id);
+
+        return await xpost_fd(url, formData).then(response => {
+            dd(response, response.message, 'success');
+            push(response.message, 'success');
+
+            load_modal_application(application_id, true); // Обновляем
+            xrender_main_table_apl(1);
+
+            return new Promise((resolve, reject) => {
+                resolve(response);
+            });
+
+        }).catch(response => {
+            dd(response, response.message, 'error');
+            push(response.message, 'error');
+
+            return new Promise((resolve, reject) => {
+                reject(resp);
+            });
+        });
+    }, 1);
+</script>
+{# End функционал сохранения данных заявки #}
